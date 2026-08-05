@@ -5,7 +5,7 @@
       {% for block in section.blocks %}
         <details {{ block.shopify_attributes }}>
           <summary>{{ block.settings.question }}</summary>
-          <p>{{ block.settings.answer }}</p>
+          {{ block.settings.answer }}
         </details>
       {% endfor %}
     </div>
@@ -32,11 +32,11 @@
     {
       "name": "FAQ",
       "blocks": [
-        { "type": "faq_item", "settings": { "question": "What is a DTF transfer?", "answer": "A direct-to-film transfer is printed art on a film that's heat-applied to fabric, offering vivid color and strong durability." } },
-        { "type": "faq_item", "settings": { "question": "Is there a minimum order?", "answer": "No — order exactly the size and quantity you need." } },
-        { "type": "faq_item", "settings": { "question": "What equipment do I need?", "answer": "A heat press, household iron, or Cricut EasyPress will all work." } },
-        { "type": "faq_item", "settings": { "question": "How long do transfers last?", "answer": "Properly pressed transfers are built to withstand repeated washing without cracking or fading." } },
-        { "type": "faq_item", "settings": { "question": "How fast is production?", "answer": "Most orders are printed and shipped within 1–2 business days." } }
+        { "type": "faq_item", "settings": { "question": "What is a DTF transfer?", "answer": "<p>A direct-to-film transfer is printed art on a film that's heat-applied to fabric, offering vivid color and strong durability.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Is there a minimum order?", "answer": "<p>No — order exactly the size and quantity you need.</p>" } },
+        { "type": "faq_item", "settings": { "question": "What equipment do I need?", "answer": "<p>A heat press, household iron, or Cricut EasyPress will all work.</p>" } },
+        { "type": "faq_item", "settings": { "question": "How long do transfers last?", "answer": "<p>Properly pressed transfers are built to withstand repeated washing without cracking or fading.</p>" } },
+        { "type": "faq_item", "settings": { "question": "How fast is production?", "answer": "<p>Most orders are printed and shipped within 1–2 business days.</p>" } }
       ]
     }
   ]

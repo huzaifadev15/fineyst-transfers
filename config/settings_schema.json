@@ -3,7 +3,9 @@
     "name": "theme_info",
     "theme_name": "Fineyst Transfers",
     "theme_version": "1.0.0",
-    "theme_author": "Fineyst Transfers"
+    "theme_author": "Fineyst Transfers",
+    "theme_support_email": "muhammadhuzaifa.dev@gmail.com",
+    "theme_documentation_url": "https://github.com/huzaifadev15/fineyst-transfers"
   },
   {
     "name": "Colors",
