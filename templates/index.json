@@ -1,11 +1,59 @@
 {
   "sections": {
     "hero": { "type": "hero", "settings": {} },
-    "features": { "type": "features", "settings": {} },
-    "product-options": { "type": "product-options", "settings": {} },
-    "process": { "type": "process", "settings": {} },
-    "reviews": { "type": "reviews", "settings": {} },
-    "faq": { "type": "faq", "settings": {} }
+    "features": {
+      "type": "features",
+      "blocks": {
+        "f1": { "type": "feature", "settings": { "title": "No Minimum Orders", "text": "Order a single transfer or ten thousand — pricing scales with size, not quantity." } },
+        "f2": { "type": "feature", "settings": { "title": "Quick Turnaround", "text": "Most orders print and ship within 1–2 business days." } },
+        "f3": { "type": "feature", "settings": { "title": "Rich, Durable Color", "text": "Sharp detail and long-lasting color that holds up wash after wash." } },
+        "f4": { "type": "feature", "settings": { "title": "Press, Iron, or Cricut", "text": "Apply with the equipment you already have — no special tools required." } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": {}
+    },
+    "product-options": {
+      "type": "product-options",
+      "blocks": {
+        "o1": { "type": "option", "settings": { "badge": "Most Popular", "title": "Transfers by Size", "price_note": "From $0.02 / sq in", "text": "Pick your size, upload your art, done.", "link": "/collections/transfers-by-size", "cta": "Order now" } },
+        "o2": { "type": "option", "settings": { "badge": "Design Online", "title": "Gang Sheet Builder", "price_note": "From $0.02 / sq in", "text": "Arrange multiple designs on one sheet to save on shipping.", "link": "/pages/gang-sheet-builder", "cta": "Start building" } },
+        "o3": { "type": "option", "settings": { "badge": "For Pros", "title": "Upload Print-Ready Files", "price_note": "From $0.02 / sq in", "text": "Send us a finished gang sheet file and we'll print it as-is.", "link": "/pages/upload-gang-sheet", "cta": "Upload file" } }
+      },
+      "block_order": ["o1", "o2", "o3"],
+      "settings": {}
+    },
+    "process": {
+      "type": "process",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "title": "Upload Your Design", "text": "Send us your artwork in any common format — we'll flag anything that needs adjusting." } },
+        "s2": { "type": "step", "settings": { "title": "We Print & Ship", "text": "Your transfer is printed, cured, and on its way, usually within 1–2 business days." } },
+        "s3": { "type": "step", "settings": { "title": "Press & Peel", "text": "Heat press at the recommended settings, peel, and you're done." } }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {}
+    },
+    "reviews": {
+      "type": "reviews",
+      "blocks": {
+        "r1": { "type": "review", "settings": { "quote": "Colors came out sharper than I expected and the ordering process was painless.", "name": "Sample Customer" } },
+        "r2": { "type": "review", "settings": { "quote": "Great for small batch orders since there's no minimum. Will reorder.", "name": "Sample Customer" } },
+        "r3": { "type": "review", "settings": { "quote": "Shipping was quick and the transfers pressed cleanly onto cotton and blends.", "name": "Sample Customer" } }
+      },
+      "block_order": ["r1", "r2", "r3"],
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": { "type": "faq_item", "settings": { "question": "What is a DTF transfer?", "answer": "<p>A direct-to-film transfer is printed art on a film that's heat-applied to fabric, offering vivid color and strong durability.</p>" } },
+        "q2": { "type": "faq_item", "settings": { "question": "Is there a minimum order?", "answer": "<p>No — order exactly the size and quantity you need.</p>" } },
+        "q3": { "type": "faq_item", "settings": { "question": "What equipment do I need?", "answer": "<p>A heat press, household iron, or Cricut EasyPress will all work.</p>" } },
+        "q4": { "type": "faq_item", "settings": { "question": "How long do transfers last?", "answer": "<p>Properly pressed transfers are built to withstand repeated washing without cracking or fading.</p>" } },
+        "q5": { "type": "faq_item", "settings": { "question": "How fast is production?", "answer": "<p>Most orders are printed and shipped within 1–2 business days.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5"],
+      "settings": {}
+    }
   },
   "order": ["hero", "features", "product-options", "process", "reviews", "faq"]
 }
