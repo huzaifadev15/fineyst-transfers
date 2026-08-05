@@ -10,17 +10,47 @@
   {
     "name": "Colors",
     "settings": [
-      { "type": "color", "id": "color_primary", "label": "Primary", "default": "#1F2A44" },
-      { "type": "color", "id": "color_accent", "label": "Accent", "default": "#FF6A3D" },
-      { "type": "color", "id": "color_background", "label": "Background", "default": "#FAF9F6" },
-      { "type": "color", "id": "color_text", "label": "Text", "default": "#1A1A1A" }
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary",
+        "default": "#1F2A44"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent",
+        "default": "#FF6A3D"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#FAF9F6"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text",
+        "default": "#1A1A1A"
+      }
     ]
   },
   {
     "name": "Typography",
     "settings": [
-      { "type": "font_picker", "id": "font_heading", "label": "Heading font", "default": "poppins_n7" },
-      { "type": "font_picker", "id": "font_body", "label": "Body font", "default": "inter_n4" }
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "poppins_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "inter_n4"
+      }
     ]
   }
 ]
