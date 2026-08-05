@@ -1,0 +1,40 @@
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow">★★★★★ {{ section.settings.rating | default: "4.9" }} rating from thousands of happy customers</p>
+      <h1>{{ section.settings.heading | default: "Custom DTF Transfers, Pressed to Perfection" }}</h1>
+      <p class="lead">{{ section.settings.subheading | default: "Vibrant, durable direct-to-film transfers for shirts, hoodies, and more. No minimums, no setup fees, fast turnaround." }}</p>
+      <div class="hero-ctas">
+        <a href="{{ section.settings.primary_link | default: '/collections/transfers-by-size' }}" class="btn btn-accent">Order Transfers by Size</a>
+        <a href="{{ section.settings.secondary_link | default: '/pages/gang-sheet-builder' }}" class="btn btn-outline">Build a Gang Sheet</a>
+      </div>
+      <ul class="hero-badges">
+        <li>No Minimum Orders</li>
+        <li>Fast, Reliable Shipping</li>
+        <li>Quality Guaranteed</li>
+      </ul>
+    </div>
+    <div class="hero-media">
+      {% if section.settings.image %}
+        {{ section.settings.image | image_url: width: 900 | image_tag }}
+      {% else %}
+        <div class="hero-media-placeholder"></div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading" },
+    { "type": "text", "id": "rating", "label": "Rating text" },
+    { "type": "url", "id": "primary_link", "label": "Primary button link" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary button link" },
+    { "type": "image_picker", "id": "image", "label": "Hero image" }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

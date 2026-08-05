@@ -1,0 +1,43 @@
+<section class="features">
+  <div class="container">
+    <h2 class="section-heading">{{ section.settings.heading | default: "Why Print Shops Choose Fineyst" }}</h2>
+    <div class="features-grid">
+      {% for block in section.blocks %}
+        <div class="feature-card" {{ block.shopify_attributes }}>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Features",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Features",
+      "blocks": [
+        { "type": "feature", "settings": { "title": "No Minimum Orders", "text": "Order a single transfer or ten thousand — pricing scales with size, not quantity." } },
+        { "type": "feature", "settings": { "title": "Quick Turnaround", "text": "Most orders print and ship within 1–2 business days." } },
+        { "type": "feature", "settings": { "title": "Rich, Durable Color", "text": "Sharp detail and long-lasting color that holds up wash after wash." } },
+        { "type": "feature", "settings": { "title": "Press, Iron, or Cricut", "text": "Apply with the equipment you already have — no special tools required." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

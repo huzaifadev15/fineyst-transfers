@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "hero": { "type": "hero", "settings": {} },
+    "features": { "type": "features", "settings": {} },
+    "product-options": { "type": "product-options", "settings": {} },
+    "process": { "type": "process", "settings": {} },
+    "reviews": { "type": "reviews", "settings": {} },
+    "faq": { "type": "faq", "settings": {} }
+  },
+  "order": ["hero", "features", "product-options", "process", "reviews", "faq"]
+}

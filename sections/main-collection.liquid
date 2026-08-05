@@ -1,0 +1,18 @@
+<section class="main-collection">
+  <div class="container">
+    <h1 class="section-heading">{{ collection.title }}</h1>
+    <div class="options-grid">
+      {% for product in collection.products %}
+        <a class="option-card" href="{{ product.url }}">
+          {% if product.featured_image %}{{ product.featured_image | image_url: width: 400 | image_tag }}{% endif %}
+          <h3>{{ product.title }}</h3>
+          <p class="price-note">{{ product.price | money }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Main collection", "settings": [] }
+{% endschema %}

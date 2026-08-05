@@ -1,0 +1,11 @@
+{
+  "current": {
+    "color_primary": "#1F2A44",
+    "color_accent": "#FF6A3D",
+    "color_background": "#FAF9F6",
+    "color_text": "#1A1A1A",
+    "font_heading": "poppins_n7",
+    "font_body": "inter_n4"
+  },
+  "presets": {}
+}

@@ -1,0 +1,27 @@
+<section class="main-cart">
+  <div class="container" style="padding: 48px 24px;">
+    <h1>Your Cart</h1>
+    {% if cart.item_count > 0 %}
+      <table style="width:100%; border-collapse: collapse;">
+        <thead><tr><th style="text-align:left;">Item</th><th>Qty</th><th>Price</th></tr></thead>
+        <tbody>
+        {% for item in cart.items %}
+          <tr>
+            <td>{{ item.product.title }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.final_line_price | money }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <p><strong>Total: {{ cart.total_price | money }}</strong></p>
+      <a href="/checkout" class="btn btn-accent">Checkout</a>
+    {% else %}
+      <p>Your cart is empty.</p>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Main cart", "settings": [] }
+{% endschema %}

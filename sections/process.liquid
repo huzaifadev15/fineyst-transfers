@@ -1,0 +1,43 @@
+<section class="process">
+  <div class="container">
+    <h2 class="section-heading">{{ section.settings.heading | default: "From Upload to Press in Three Steps" }}</h2>
+    <ol class="process-steps">
+      {% for block in section.blocks %}
+        <li {{ block.shopify_attributes }}>
+          <span class="step-number">{{ forloop.index }}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Process",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Process",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Upload Your Design", "text": "Send us your artwork in any common format — we'll flag anything that needs adjusting." } },
+        { "type": "step", "settings": { "title": "We Print & Ship", "text": "Your transfer is printed, cured, and on its way, usually within 1–2 business days." } },
+        { "type": "step", "settings": { "title": "Press & Peel", "text": "Heat press at the recommended settings, peel, and you're done." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

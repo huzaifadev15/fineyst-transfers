@@ -1,0 +1,49 @@
+<section class="product-options">
+  <div class="container">
+    <h2 class="section-heading">{{ section.settings.heading | default: "Choose How You Order" }}</h2>
+    <div class="options-grid">
+      {% for block in section.blocks %}
+        <a class="option-card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+          {% if block.settings.badge %}<span class="badge">{{ block.settings.badge }}</span>{% endif %}
+          <h3>{{ block.settings.title }}</h3>
+          <p class="price-note">{{ block.settings.price_note }}</p>
+          <p>{{ block.settings.text }}</p>
+          <span class="cta">{{ block.settings.cta | default: "Shop now" }} &rarr;</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product options",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" }
+  ],
+  "blocks": [
+    {
+      "type": "option",
+      "name": "Option",
+      "settings": [
+        { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "price_note", "label": "Price note" },
+        { "type": "textarea", "id": "text", "label": "Description" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "cta", "label": "Button text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product options",
+      "blocks": [
+        { "type": "option", "settings": { "badge": "Most Popular", "title": "Transfers by Size", "price_note": "From $0.02 / sq in", "text": "Pick your size, upload your art, done.", "link": "/collections/transfers-by-size", "cta": "Order now" } },
+        { "type": "option", "settings": { "badge": "Design Online", "title": "Gang Sheet Builder", "price_note": "From $0.02 / sq in", "text": "Arrange multiple designs on one sheet to save on shipping.", "link": "/pages/gang-sheet-builder", "cta": "Start building" } },
+        { "type": "option", "settings": { "badge": "For Pros", "title": "Upload Print-Ready Files", "price_note": "From $0.02 / sq in", "text": "Send us a finished gang sheet file and we'll print it as-is.", "link": "/pages/upload-gang-sheet", "cta": "Upload file" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,43 @@
+<section class="reviews">
+  <div class="container">
+    <h2 class="section-heading">{{ section.settings.heading | default: "What Customers Are Saying" }}</h2>
+    <div class="reviews-grid">
+      {% for block in section.blocks %}
+        <blockquote class="review-card" {{ block.shopify_attributes }}>
+          <p class="stars">★★★★★</p>
+          <p>&ldquo;{{ block.settings.quote }}&rdquo;</p>
+          <cite>{{ block.settings.name }}</cite>
+        </blockquote>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reviews",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote" },
+        { "type": "text", "id": "name", "label": "Customer name" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews",
+      "blocks": [
+        { "type": "review", "settings": { "quote": "Colors came out sharper than I expected and the ordering process was painless.", "name": "Sample Customer" } },
+        { "type": "review", "settings": { "quote": "Great for small batch orders since there's no minimum. Will reorder.", "name": "Sample Customer" } },
+        { "type": "review", "settings": { "quote": "Shipping was quick and the transfers pressed cleanly onto cotton and blends.", "name": "Sample Customer" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

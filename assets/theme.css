@@ -1,0 +1,77 @@
+:root {
+  --color-primary: #1F2A44;
+  --color-accent: #FF6A3D;
+  --color-bg: #FAF9F6;
+  --color-text: #1A1A1A;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.5;
+}
+h1, h2, h3 { font-family: 'Poppins', system-ui, sans-serif; margin: 0 0 0.5em; }
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+.site-header { border-bottom: 1px solid #eee; background: #fff; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; }
+.logo { font-weight: 700; font-size: 1.3rem; }
+.logo span { color: var(--color-accent); }
+.main-nav { display: flex; gap: 24px; }
+.header-actions { display: flex; gap: 16px; }
+
+.hero { padding: 64px 0; background: linear-gradient(135deg, #fff 0%, #f2eee7 100%); }
+.hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.eyebrow { color: var(--color-accent); font-weight: 600; margin-bottom: 8px; }
+.hero h1 { font-size: 2.75rem; }
+.lead { font-size: 1.1rem; color: #444; }
+.hero-ctas { display: flex; gap: 16px; margin: 24px 0; }
+.btn { padding: 14px 28px; border-radius: var(--radius); font-weight: 600; display: inline-block; }
+.btn-accent { background: var(--color-accent); color: #fff; }
+.btn-outline { border: 2px solid var(--color-primary); color: var(--color-primary); }
+.hero-badges { list-style: none; padding: 0; display: flex; gap: 16px; flex-wrap: wrap; color: #555; font-size: 0.9rem; }
+.hero-media-placeholder { aspect-ratio: 1; background: #e5e0d8; border-radius: var(--radius); }
+
+.section-heading { text-align: center; font-size: 2rem; margin-bottom: 40px; }
+
+.features { padding: 64px 0; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+.feature-card { padding: 24px; background: #fff; border-radius: var(--radius); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+
+.product-options { padding: 64px 0; background: #fff; }
+.options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.option-card { position: relative; padding: 28px; border: 1px solid #eee; border-radius: var(--radius); display: block; }
+.badge { position: absolute; top: -10px; left: 20px; background: var(--color-accent); color: #fff; font-size: 0.75rem; padding: 4px 10px; border-radius: 999px; }
+.price-note { color: var(--color-accent); font-weight: 600; }
+.cta { display: inline-block; margin-top: 12px; font-weight: 600; color: var(--color-primary); }
+
+.process { padding: 64px 0; }
+.process-steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+.step-number { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--color-primary); color: #fff; font-weight: 700; margin-bottom: 12px; }
+
+.reviews { padding: 64px 0; background: #fff; }
+.reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.review-card { padding: 24px; background: var(--color-bg); border-radius: var(--radius); }
+.stars { color: var(--color-accent); margin: 0 0 8px; }
+.review-card cite { display: block; margin-top: 12px; font-style: normal; font-weight: 600; }
+
+.faq { padding: 64px 0; max-width: 800px; margin: 0 auto; }
+.faq-list details { border-bottom: 1px solid #eee; padding: 16px 0; }
+.faq-list summary { cursor: pointer; font-weight: 600; }
+
+.site-footer { background: var(--color-primary); color: #fff; padding: 48px 0 16px; }
+.footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 32px; }
+.footer-links { display: flex; gap: 48px; flex-wrap: wrap; }
+.footer-links h4 { margin-bottom: 12px; }
+.footer-links a { display: block; opacity: 0.8; margin-bottom: 8px; }
+.footer-bottom { margin-top: 32px; opacity: 0.6; font-size: 0.85rem; }
+
+@media (max-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .main-nav { display: none; }
+}

@@ -1,0 +1,23 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">Fineyst<span>Transfers</span></a>
+    <nav class="main-nav">
+      <a href="/collections/transfers-by-size">Transfers by Size</a>
+      <a href="/pages/gang-sheet-builder">Gang Sheet Builder</a>
+      <a href="/collections/blanks">Blanks</a>
+      <a href="/pages/how-it-works">How It Works</a>
+      <a href="/pages/faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a href="/account" aria-label="Account">Account</a>
+      <a href="/cart" aria-label="Cart">Cart ({{ cart.item_count }})</a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": []
+}
+{% endschema %}
