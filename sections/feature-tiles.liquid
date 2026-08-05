@@ -1,0 +1,65 @@
+<section class="feature-tiles">
+  <div class="container">
+    <div class="tiles-head">
+      <h2>{{ section.settings.heading }}</h2>
+      {% if section.settings.subheading != blank %}
+        <p>{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+
+    <div class="tiles-grid">
+      {% for block in section.blocks %}
+        <div class="tile" {{ block.shopify_attributes }}>
+          {% if block.settings.video %}
+            {{ block.settings.video | video_tag: image_size: '700x', autoplay: true, loop: true, muted: true, controls: false }}
+          {% elsif block.settings.image %}
+            {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: block.settings.caption }}
+          {% else %}
+            <span class="tile-placeholder"></span>
+          {% endif %}
+          <span class="tile-caption">{{ block.settings.caption }}</span>
+          {% if block.settings.link != blank %}
+            <a class="tile-link" href="{{ block.settings.link }}" aria-label="{{ block.settings.caption }}"></a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Feature tiles",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Features of our DTF Transfers" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "No more second guessing your artwork, style, or colors. Our premium DTF transfers are brighter, sharper, stretchier, and more durable." }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Video", "info": "Plays muted on loop. Takes priority over the image." },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Used when no video is set. Also worth setting as the video's fallback." },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "url", "id": "link", "label": "Link (optional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature tiles",
+      "blocks": [
+        { "type": "tile", "settings": { "caption": "Incredible Image Quality" } },
+        { "type": "tile", "settings": { "caption": "Super Fine Details" } },
+        { "type": "tile", "settings": { "caption": "Works on All Fabrics" } },
+        { "type": "tile", "settings": { "caption": "Any Design on Any Color" } },
+        { "type": "tile", "settings": { "caption": "No Borders Necessary" } },
+        { "type": "tile", "settings": { "caption": "Crisp Bright Whites" } },
+        { "type": "tile", "settings": { "caption": "100+ Wash Durability" } },
+        { "type": "tile", "settings": { "caption": "9 Color Printing" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

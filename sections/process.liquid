@@ -1,10 +1,24 @@
 <section class="process">
   <div class="container">
-    <h2 class="section-heading">{{ section.settings.heading | default: "From Upload to Press in Three Steps" }}</h2>
+    <div class="process-head">
+      <h2>{{ section.settings.heading | default: "The Fineyst DTF Process" }}</h2>
+      {% if section.settings.tagline != blank %}
+        <p class="process-tagline">{{ section.settings.tagline }}</p>
+      {% endif %}
+    </div>
+
     <ol class="process-steps">
       {% for block in section.blocks %}
-        <li {{ block.shopify_attributes }}>
-          <span class="step-number">{{ forloop.index }}</span>
+        <li class="process-step" {{ block.shopify_attributes }}>
+          <div class="process-media">
+            {% if block.settings.video %}
+              {{ block.settings.video | video_tag: image_size: '800x', autoplay: true, loop: true, muted: true, controls: false }}
+            {% elsif block.settings.image %}
+              {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {% else %}
+              <div class="process-media-placeholder"></div>
+            {% endif %}
+          </div>
           <h3>{{ block.settings.title }}</h3>
           <p>{{ block.settings.text }}</p>
         </li>
@@ -17,13 +31,16 @@
 {
   "name": "Process",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading" }
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Fineyst DTF Process" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Faster. Simpler. Satisfaction Guaranteed." }
   ],
   "blocks": [
     {
       "type": "step",
       "name": "Step",
       "settings": [
+        { "type": "video", "id": "video", "label": "Video", "info": "Plays muted on loop. Takes priority over the image." },
+        { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "text", "id": "title", "label": "Title" },
         { "type": "textarea", "id": "text", "label": "Text" }
       ]
@@ -33,9 +50,9 @@
     {
       "name": "Process",
       "blocks": [
-        { "type": "step", "settings": { "title": "Upload Your Design", "text": "Send us your artwork in any common format — we'll flag anything that needs adjusting." } },
-        { "type": "step", "settings": { "title": "We Print & Ship", "text": "Your transfer is printed, cured, and on its way, usually within 1–2 business days." } },
-        { "type": "step", "settings": { "title": "Press & Peel", "text": "Heat press at the recommended settings, peel, and you're done." } }
+        { "type": "step", "settings": { "title": "Upload Your Design & Order Online", "text": "From simple graphics to high-detail artwork, upload any design with unlimited colors. We convert it into a high-quality DTF transfer, ready to press." } },
+        { "type": "step", "settings": { "title": "Printed & Shipped in 24–48 Hours", "text": "We produce your transfer for sharp detail, vibrant color, and consistent, professional-grade results." } },
+        { "type": "step", "settings": { "title": "Heat Press or Iron when Ready", "text": "Press at 310°F / 155°C with medium pressure for 12–15 seconds. Repress for 5 seconds for maximum durability. Unused transfers store long-term without loss of quality." } }
       ]
     }
   ]

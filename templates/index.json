@@ -11,43 +11,103 @@
     "features": {
       "type": "features",
       "blocks": {
-        "f1": { "type": "feature", "settings": { "title": "No Minimum Orders", "text": "Order a single transfer or ten thousand — pricing scales with size, not quantity." } },
-        "f2": { "type": "feature", "settings": { "title": "Quick Turnaround", "text": "Most orders print and ship within 1–2 business days." } },
-        "f3": { "type": "feature", "settings": { "title": "Rich, Durable Color", "text": "Sharp detail and long-lasting color that holds up wash after wash." } },
-        "f4": { "type": "feature", "settings": { "title": "Press, Iron, or Cricut", "text": "Apply with the equipment you already have — no special tools required." } }
+        "f1": { "type": "feature", "settings": { "icon": "quality", "title": "100% Quality Guaranteed", "text": "We stand behind our DTF transfers. Perfect prints, free art review, and zero hidden fees." } },
+        "f2": { "type": "feature", "settings": { "icon": "minimums", "title": "No Minimums", "text": "Order exactly what you need with no minimum quantity required for any purchase." } },
+        "f3": { "type": "feature", "settings": { "icon": "shipping", "title": "Super Fast Shipping", "text": "Lightning-fast production and reliable delivery mean your DTF transfers can arrive as soon as next day." } },
+        "f4": { "type": "feature", "settings": { "icon": "color", "title": "Unmatched Color & Detail", "text": "Our DTF transfers produce up to 16.7 million colors with stunning detail and vibrancy." } },
+        "f5": { "type": "feature", "settings": { "icon": "heat", "title": "Works with a Heatpress, Iron, or Cricut", "text": "Achieve smooth, professional results with our easy press-and-peel application process." } },
+        "f6": { "type": "feature", "settings": { "icon": "durability", "title": "Lab-Tested Durability", "text": "Our DTF transfers are tested to last 100+ washes without fading, cracking, or peeling." } }
       },
-      "block_order": ["f1", "f2", "f3", "f4"],
-      "settings": {}
+      "block_order": ["f1", "f2", "f3", "f4", "f5", "f6"],
+      "settings": { "heading": "The Leader in Custom DTF Transfers" }
+    },
+    "what-is-dtf": {
+      "type": "what-is-dtf",
+      "settings": {
+        "heading": "What is DTF?",
+        "text": "<p>Direct to Film (DTF) Transfers are incredibly vivid, high quality transfers that can be applied to almost any product, material, and color with just a heat press, Cricut, or iron. Millions trust DTF Transfers for their events, team merch, crafts, gifts, and more — DTF saves you money and time, and lets you customize products the way you want.</p>"
+      }
+    },
+    "pressing": {
+      "type": "media-split",
+      "settings": {
+        "heading": "Pressing DTF Transfers Has Never Been Easier",
+        "text": "<p>With our proprietary fast-peel process, our DTF Transfers give you professional results in just 13 seconds. Now you can press on anything!</p>",
+        "cta_label": "See Pressing Instructions",
+        "cta_link": "/pages/pressing-instructions",
+        "media_position": "right"
+      }
     },
     "product-options": {
       "type": "product-options",
       "blocks": {
-        "o1": { "type": "option", "settings": { "badge": "Most Popular", "title": "Transfers by Size", "price_note": "From $0.02 / sq in", "text": "Pick your size, upload your art, done.", "link": "/collections/transfers-by-size", "cta": "Order now" } },
-        "o2": { "type": "option", "settings": { "badge": "Design Online", "title": "Gang Sheet Builder", "price_note": "From $0.02 / sq in", "text": "Arrange multiple designs on one sheet to save on shipping.", "link": "/pages/gang-sheet-builder", "cta": "Start building" } },
-        "o3": { "type": "option", "settings": { "badge": "For Pros", "title": "Upload Print-Ready Files", "price_note": "From $0.02 / sq in", "text": "Send us a finished gang sheet file and we'll print it as-is.", "link": "/pages/upload-gang-sheet", "cta": "Upload file" } }
+        "o1": { "type": "option", "settings": { "badge": "Most Popular", "title": "DTF Transfers By Size", "price_note": "As low as $0.02 per sq. inch", "text": "Print any design on any garment, material, or color with incredible durability. By Size makes ordering simple.", "link": "/products/dtf-transfers", "cta": "Upload Designs" } },
+        "o2": { "type": "option", "settings": { "badge": "Easily Design & Build Online", "title": "Build a DTF Gang Sheet", "price_note": "As low as $0.02 per sq. inch", "text": "Create custom DTF gang sheets with our easy-to-use Gang Sheet Builder.", "link": "/pages/gang-sheet-builder", "cta": "Build a DTF Gang Sheet" } },
+        "o3": { "type": "option", "settings": { "badge": "For Pros - Print Ready Files", "title": "Upload a DTF Gang Sheet", "price_note": "As low as $0.02 per sq. inch", "text": "Upload your ready-to-print template (AI, PNG, PDF) to create vibrant and durable DTF Gang Sheets.", "link": "/pages/upload-gang-sheet", "cta": "Upload DTF Gang Sheet" } }
       },
       "block_order": ["o1", "o2", "o3"],
-      "settings": {}
+      "settings": { "heading": "Select the DTF Product That Works Best for You" }
+    },
+    "feature-tiles": {
+      "type": "feature-tiles",
+      "blocks": {
+        "t1": { "type": "tile", "settings": { "caption": "Incredible Image Quality" } },
+        "t2": { "type": "tile", "settings": { "caption": "Super Fine Details" } },
+        "t3": { "type": "tile", "settings": { "caption": "Works on All Fabrics" } },
+        "t4": { "type": "tile", "settings": { "caption": "Any Design on Any Color" } },
+        "t5": { "type": "tile", "settings": { "caption": "No Borders Necessary" } },
+        "t6": { "type": "tile", "settings": { "caption": "Crisp Bright Whites" } },
+        "t7": { "type": "tile", "settings": { "caption": "100+ Wash Durability" } },
+        "t8": { "type": "tile", "settings": { "caption": "9 Color Printing" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8"],
+      "settings": {
+        "heading": "Features of our DTF Transfers",
+        "subheading": "No more second guessing your artwork, style, or colors. Our premium DTF transfers are brighter, sharper, stretchier, and more durable."
+      }
     },
     "process": {
       "type": "process",
       "blocks": {
-        "s1": { "type": "step", "settings": { "title": "Upload Your Design", "text": "Send us your artwork in any common format — we'll flag anything that needs adjusting." } },
-        "s2": { "type": "step", "settings": { "title": "We Print & Ship", "text": "Your transfer is printed, cured, and on its way, usually within 1–2 business days." } },
-        "s3": { "type": "step", "settings": { "title": "Press & Peel", "text": "Heat press at the recommended settings, peel, and you're done." } }
+        "s1": { "type": "step", "settings": { "title": "Upload Your Design & Order Online", "text": "From simple graphics to high-detail artwork, upload any design with unlimited colors. We convert it into a high-quality DTF transfer, ready to press." } },
+        "s2": { "type": "step", "settings": { "title": "Printed & Shipped in 24–48 Hours", "text": "We produce your transfer for sharp detail, vibrant color, and consistent, professional-grade results." } },
+        "s3": { "type": "step", "settings": { "title": "Heat Press or Iron when Ready", "text": "Press at 310°F / 155°C with medium pressure for 12–15 seconds. Repress for 5 seconds for maximum durability. Unused transfers store long-term without loss of quality." } }
       },
       "block_order": ["s1", "s2", "s3"],
-      "settings": {}
+      "settings": {
+        "heading": "The Fineyst DTF Process",
+        "tagline": "Faster. Simpler. Satisfaction Guaranteed."
+      }
+    },
+    "fleet-banner": {
+      "type": "media-banner",
+      "settings": {
+        "eyebrow": "We Understand Consistency, Quality, and Speed Matter Most",
+        "heading": "The Largest Linearized Fleet of 100+ DTF Printers",
+        "subtext": "G7 Color Standardized",
+        "overlay": 45,
+        "height": 380
+      }
     },
     "reviews": {
       "type": "reviews",
       "blocks": {
-        "r1": { "type": "review", "settings": { "quote": "Colors came out sharper than I expected and the ordering process was painless.", "name": "Sample Customer" } },
-        "r2": { "type": "review", "settings": { "quote": "Great for small batch orders since there's no minimum. Will reorder.", "name": "Sample Customer" } },
-        "r3": { "type": "review", "settings": { "quote": "Shipping was quick and the transfers pressed cleanly onto cotton and blends.", "name": "Sample Customer" } }
+        "r1": { "type": "review", "settings": { "quote": "Colors came out sharper than I expected and the ordering process was painless.", "name": "Sample Customer", "rating": 5 } },
+        "r2": { "type": "review", "settings": { "quote": "Great for small batch orders since there's no minimum. Will reorder.", "name": "Sample Customer", "rating": 5 } },
+        "r3": { "type": "review", "settings": { "quote": "Shipping was quick and the transfers pressed cleanly onto cotton and blends.", "name": "Sample Customer", "rating": 5 } },
+        "r4": { "type": "review", "settings": { "quote": "Placeholder review — replace with a real verified customer quote.", "name": "Sample Customer", "rating": 5 } },
+        "r5": { "type": "review", "settings": { "quote": "Placeholder review — replace with a real verified customer quote.", "name": "Sample Customer", "rating": 4 } },
+        "r6": { "type": "review", "settings": { "quote": "Placeholder review — replace with a real verified customer quote.", "name": "Sample Customer", "rating": 5 } },
+        "r7": { "type": "review", "settings": { "quote": "Placeholder review — replace with a real verified customer quote.", "name": "Sample Customer", "rating": 5 } },
+        "r8": { "type": "review", "settings": { "quote": "Placeholder review — replace with a real verified customer quote.", "name": "Sample Customer", "rating": 5 } }
       },
-      "block_order": ["r1", "r2", "r3"],
-      "settings": {}
+      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8"],
+      "settings": {
+        "eyebrow": "VERIFIED REVIEWS",
+        "heading": "Thousands of 5 Star DTF Transfer Reviews",
+        "subheading": "Verified Feedback from Authentic Customers",
+        "speed": 60
+      }
     },
     "faq": {
       "type": "faq",
@@ -62,5 +122,5 @@
       "settings": {}
     }
   },
-  "order": ["hero", "features", "product-options", "process", "reviews", "faq"]
+  "order": ["hero", "features", "what-is-dtf", "process", "pressing", "product-options", "feature-tiles", "fleet-banner", "reviews", "faq"]
 }

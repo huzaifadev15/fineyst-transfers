@@ -1,0 +1,48 @@
+<section class="media-split media-split--{{ section.settings.media_position }}">
+  <div class="container media-split-inner">
+    <div class="media-split-copy">
+      <h2>{{ section.settings.heading }}</h2>
+      {% if section.settings.text != blank %}
+        <div class="media-split-text">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.settings.cta_label != blank %}
+        <a class="btn-blue" href="{{ section.settings.cta_link | default: '#' }}">{{ section.settings.cta_label }}</a>
+      {% endif %}
+    </div>
+
+    <div class="media-split-media">
+      {% if section.settings.video %}
+        {{ section.settings.video | video_tag: image_size: '1200x', autoplay: true, loop: true, muted: true, controls: false }}
+      {% elsif section.settings.image %}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: section.settings.heading }}
+      {% else %}
+        <div class="media-split-placeholder"></div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Media split",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pressing DTF Transfers Has Never Been Easier" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>With our proprietary fast-peel process, our DTF Transfers give you professional results in just 13 seconds. Now you can press on anything!</p>" },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "See Pressing Instructions" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "video", "id": "video", "label": "Video", "info": "Plays muted on loop. Takes priority over the image." },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Media position",
+      "default": "right",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Media split" }]
+}
+{% endschema %}

@@ -1,6 +1,26 @@
 {
   "sections": {
-    "main": { "type": "main-product-dtf-transfer", "settings": {} }
+    "main": {
+      "type": "main-product-dtf-transfer",
+      "blocks": {
+        "mockup-1": { "type": "mockup", "settings": { "label": "T-Shirt", "width_in": 11, "art_width": 45, "art_top": 30 } },
+        "mockup-2": { "type": "mockup", "settings": { "label": "Cap", "width_in": 5, "art_width": 34, "art_top": 38 } },
+        "mockup-3": { "type": "mockup", "settings": { "label": "Polo", "width_in": 3.5, "art_width": 22, "art_top": 30 } },
+        "mockup-4": { "type": "mockup", "settings": { "label": "Tote", "width_in": 7, "art_width": 40, "art_top": 36 } },
+        "mockup-5": { "type": "mockup", "settings": { "label": "Hoodie", "width_in": 11, "art_width": 45, "art_top": 34 } },
+        "mockup-6": { "type": "mockup", "settings": { "label": "Apron", "width_in": 5, "art_width": 30, "art_top": 40 } },
+        "tier-0": { "type": "tier", "settings": { "min_qty": 1, "max_qty": 14, "pct": 0, "price": "$1.09", "discount": "—" } },
+        "tier-1": { "type": "tier", "settings": { "min_qty": 15, "max_qty": 49, "pct": 20, "price": "$0.88", "discount": "20% off" } },
+        "tier-2": { "type": "tier", "settings": { "min_qty": 50, "max_qty": 99, "pct": 30, "price": "$0.77", "discount": "30% off" } },
+        "tier-3": { "type": "tier", "settings": { "min_qty": 100, "max_qty": 249, "pct": 40, "price": "$0.66", "discount": "40% off" } },
+        "tier-4": { "type": "tier", "settings": { "min_qty": 250, "max_qty": 0, "pct": 50, "price": "$0.55", "discount": "50% off" } }
+      },
+      "block_order": [
+        "mockup-1", "mockup-2", "mockup-3", "mockup-4", "mockup-5", "mockup-6",
+        "tier-0", "tier-1", "tier-2", "tier-3", "tier-4"
+      ],
+      "settings": {}
+    }
   },
   "order": ["main"]
 }

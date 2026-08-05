@@ -1,0 +1,42 @@
+<section class="media-banner" style="--banner-height: {{ section.settings.height }}px; --banner-overlay: {{ section.settings.overlay }};">
+  <div class="media-banner-bg">
+    {% if section.settings.video %}
+      {{ section.settings.video | video_tag: image_size: '1920x', autoplay: true, loop: true, muted: true, controls: false }}
+    {% elsif section.settings.image %}
+      {{ section.settings.image | image_url: width: 1920 | image_tag: loading: 'lazy', alt: section.settings.heading }}
+    {% else %}
+      <div class="media-banner-placeholder"></div>
+    {% endif %}
+  </div>
+
+  <div class="container media-banner-inner">
+    {% if section.settings.eyebrow != blank %}
+      <p class="media-banner-eyebrow">{{ section.settings.eyebrow }}</p>
+    {% endif %}
+    <h2>{{ section.settings.heading }}</h2>
+    {% if section.settings.subtext != blank %}
+      <p class="media-banner-sub">{{ section.settings.subtext }}</p>
+    {% endif %}
+    {% if section.settings.cta_label != blank %}
+      <a class="btn-blue" href="{{ section.settings.cta_link | default: '#' }}">{{ section.settings.cta_label }}</a>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Media banner",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "We Understand Consistency, Quality, and Speed Matter Most" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Largest Linearized Fleet of 100+ DTF Printers" },
+    { "type": "text", "id": "subtext", "label": "Subtext", "default": "G7 Color Standardized" },
+    { "type": "text", "id": "cta_label", "label": "Button label" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "video", "id": "video", "label": "Background video", "info": "Plays muted on loop. Takes priority over the image." },
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "range", "id": "overlay", "label": "Overlay darkness (%)", "min": 0, "max": 80, "step": 5, "default": 45 },
+    { "type": "range", "id": "height", "label": "Height (px)", "min": 240, "max": 640, "step": 20, "default": 380 }
+  ],
+  "presets": [{ "name": "Media banner" }]
+}
+{% endschema %}

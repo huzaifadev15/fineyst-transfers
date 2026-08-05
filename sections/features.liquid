@@ -3,9 +3,27 @@
     <h2 class="section-heading">{{ section.settings.heading | default: "Why Print Shops Choose Fineyst" }}</h2>
     <div class="features-grid">
       {% for block in section.blocks %}
-        <div class="feature-card" {{ block.shopify_attributes }}>
-          <h3>{{ block.settings.title }}</h3>
-          <p>{{ block.settings.text }}</p>
+        <div class="feature-item" {{ block.shopify_attributes }}>
+          <span class="feature-icon">
+            {% case block.settings.icon %}
+              {% when 'minimums' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="12" height="12" rx="2"/><path d="M15 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2"/></svg>
+              {% when 'shipping' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4.5 13.5H11l-1 8.5 8.5-11.5H12z"/></svg>
+              {% when 'color' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+              {% when 'heat' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21c-1.5-2 .5-3.5 0-5.5S6.5 12 8 10s.5-4-.5-6"/><path d="M13 21c-1.5-2 .5-3.5 0-5.5S11.5 12 13 10s.5-4-.5-6"/><path d="M18 21c-1.5-2 .5-3.5 0-5.5S16.5 12 18 10s.5-4-.5-6"/></svg>
+              {% when 'durability' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/></svg>
+              {% else %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.2 1.6 2.7-.2.9 2.6 2.2 1.6-1 2.5 1 2.5-2.2 1.6-.9 2.6-2.7-.2-2.2 1.6-2.2-1.6-2.7.2-.9-2.6L4 14.6l1-2.5-1-2.5 2.2-1.6.9-2.6 2.7.2z"/><path d="M9.5 12l1.8 1.8 3.2-3.6"/></svg>
+            {% endcase %}
+          </span>
+          <div class="feature-copy">
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
         </div>
       {% endfor %}
     </div>
@@ -23,6 +41,20 @@
       "type": "feature",
       "name": "Feature",
       "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "quality",
+          "options": [
+            { "value": "quality", "label": "Quality badge" },
+            { "value": "minimums", "label": "No minimums" },
+            { "value": "shipping", "label": "Fast shipping" },
+            { "value": "color", "label": "Color & detail" },
+            { "value": "heat", "label": "Heat press" },
+            { "value": "durability", "label": "Durability shield" }
+          ]
+        },
         { "type": "text", "id": "title", "label": "Title" },
         { "type": "textarea", "id": "text", "label": "Text" }
       ]
@@ -32,10 +64,12 @@
     {
       "name": "Features",
       "blocks": [
-        { "type": "feature", "settings": { "title": "No Minimum Orders", "text": "Order a single transfer or ten thousand — pricing scales with size, not quantity." } },
-        { "type": "feature", "settings": { "title": "Quick Turnaround", "text": "Most orders print and ship within 1–2 business days." } },
-        { "type": "feature", "settings": { "title": "Rich, Durable Color", "text": "Sharp detail and long-lasting color that holds up wash after wash." } },
-        { "type": "feature", "settings": { "title": "Press, Iron, or Cricut", "text": "Apply with the equipment you already have — no special tools required." } }
+        { "type": "feature", "settings": { "icon": "quality", "title": "100% Quality Guaranteed", "text": "We stand behind our DTF transfers. Perfect prints, free art review, and zero hidden fees." } },
+        { "type": "feature", "settings": { "icon": "minimums", "title": "No Minimums", "text": "Order exactly what you need with no minimum quantity required for any purchase." } },
+        { "type": "feature", "settings": { "icon": "shipping", "title": "Super Fast Shipping", "text": "Lightning-fast production and reliable delivery mean your DTF transfers can arrive as soon as next day." } },
+        { "type": "feature", "settings": { "icon": "color", "title": "Unmatched Color & Detail", "text": "Our DTF transfers produce up to 16.7 million colors with stunning detail and vibrancy." } },
+        { "type": "feature", "settings": { "icon": "heat", "title": "Works with a Heatpress, Iron, or Cricut", "text": "Achieve smooth, professional results with our easy press-and-peel application process." } },
+        { "type": "feature", "settings": { "icon": "durability", "title": "Lab-Tested Durability", "text": "Our DTF transfers are tested to last 100+ washes without fading, cracking, or peeling." } }
       ]
     }
   ]

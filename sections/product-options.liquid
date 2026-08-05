@@ -1,15 +1,27 @@
 <section class="product-options">
   <div class="container">
-    <h2 class="section-heading">{{ section.settings.heading | default: "Choose How You Order" }}</h2>
+    <h2 class="options-heading">{{ section.settings.heading | default: "Select the DTF Product That Works Best for You" }}</h2>
     <div class="options-grid">
       {% for block in section.blocks %}
-        <a class="option-card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
-          {% if block.settings.badge %}<span class="badge">{{ block.settings.badge }}</span>{% endif %}
-          <h3>{{ block.settings.title }}</h3>
-          <p class="price-note">{{ block.settings.price_note }}</p>
-          <p>{{ block.settings.text }}</p>
-          <span class="cta">{{ block.settings.cta | default: "Shop now" }} &rarr;</span>
-        </a>
+        <div class="option-card" {{ block.shopify_attributes }}>
+          <a class="option-media" href="{{ block.settings.link | default: '#' }}">
+            {% if block.settings.image %}
+              {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {% else %}
+              <div class="option-media-placeholder"></div>
+            {% endif %}
+            {% if block.settings.badge != blank %}
+              <span class="option-badge">{{ block.settings.badge }}</span>
+            {% endif %}
+          </a>
+
+          <h3><a href="{{ block.settings.link | default: '#' }}">{{ block.settings.title }}</a></h3>
+          {% if block.settings.price_note != blank %}
+            <p class="option-price">{{ block.settings.price_note }}</p>
+          {% endif %}
+          <p class="option-text">{{ block.settings.text }}</p>
+          <a class="btn-blue" href="{{ block.settings.link | default: '#' }}">{{ block.settings.cta | default: "Shop now" }}</a>
+        </div>
       {% endfor %}
     </div>
   </div>
@@ -19,13 +31,14 @@
 {
   "name": "Product options",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading" }
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Select the DTF Product That Works Best for You" }
   ],
   "blocks": [
     {
       "type": "option",
       "name": "Option",
       "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "text", "id": "badge", "label": "Badge" },
         { "type": "text", "id": "title", "label": "Title" },
         { "type": "text", "id": "price_note", "label": "Price note" },
@@ -39,9 +52,9 @@
     {
       "name": "Product options",
       "blocks": [
-        { "type": "option", "settings": { "badge": "Most Popular", "title": "Transfers by Size", "price_note": "From $0.02 / sq in", "text": "Pick your size, upload your art, done.", "link": "/collections/transfers-by-size", "cta": "Order now" } },
-        { "type": "option", "settings": { "badge": "Design Online", "title": "Gang Sheet Builder", "price_note": "From $0.02 / sq in", "text": "Arrange multiple designs on one sheet to save on shipping.", "link": "/pages/gang-sheet-builder", "cta": "Start building" } },
-        { "type": "option", "settings": { "badge": "For Pros", "title": "Upload Print-Ready Files", "price_note": "From $0.02 / sq in", "text": "Send us a finished gang sheet file and we'll print it as-is.", "link": "/pages/upload-gang-sheet", "cta": "Upload file" } }
+        { "type": "option", "settings": { "badge": "Most Popular", "title": "DTF Transfers By Size", "price_note": "As low as $0.02 per sq. inch", "text": "Print any design on any garment, material, or color with incredible durability. By Size makes ordering simple.", "link": "/products/dtf-transfers", "cta": "Upload Designs" } },
+        { "type": "option", "settings": { "badge": "Easily Design & Build Online", "title": "Build a DTF Gang Sheet", "price_note": "As low as $0.02 per sq. inch", "text": "Create custom DTF gang sheets with our easy-to-use Gang Sheet Builder.", "link": "/pages/gang-sheet-builder", "cta": "Build a DTF Gang Sheet" } },
+        { "type": "option", "settings": { "badge": "For Pros - Print Ready Files", "title": "Upload a DTF Gang Sheet", "price_note": "As low as $0.02 per sq. inch", "text": "Upload your ready-to-print template (AI, PNG, PDF) to create vibrant and durable DTF Gang Sheets.", "link": "/pages/upload-gang-sheet", "cta": "Upload DTF Gang Sheet" } }
       ]
     }
   ]

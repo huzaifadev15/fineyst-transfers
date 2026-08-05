@@ -1,31 +1,75 @@
-<section class="reviews">
-  <div class="container">
-    <h2 class="section-heading">{{ section.settings.heading | default: "What Customers Are Saying" }}</h2>
-    <div class="reviews-grid">
-      {% for block in section.blocks %}
-        <blockquote class="review-card" {{ block.shopify_attributes }}>
-          <p class="stars">★★★★★</p>
-          <p>&ldquo;{{ block.settings.quote }}&rdquo;</p>
-          <cite>{{ block.settings.name }}</cite>
-        </blockquote>
-      {% endfor %}
-    </div>
+<section class="reviews" style="--marquee-speed: {{ section.settings.speed }}s;">
+  <div class="container reviews-head">
+    {% if section.settings.eyebrow != blank %}
+      <p class="reviews-eyebrow">{{ section.settings.eyebrow }}</p>
+    {% endif %}
+    <h2>{{ section.settings.heading | default: "What Customers Are Saying" }}</h2>
+    {% if section.settings.subheading != blank %}
+      <p class="reviews-sub">{{ section.settings.subheading }}</p>
+    {% endif %}
   </div>
+
+  {% assign half = section.blocks.size | plus: 1 | divided_by: 2 %}
+  {% for row in (1..2) %}
+    <div class="marquee {% if row == 2 %}marquee--reverse{% endif %}">
+      <div class="marquee-track">
+        {% comment %}
+          Two identical halves so translateX(-50%) wraps seamlessly, each half
+          repeated so the track stays wider than the viewport on few reviews.
+        {% endcomment %}
+        {% for pass in (1..2) %}
+          {% for rep in (1..2) %}
+          {% for block in section.blocks %}
+            {% if row == 1 and forloop.index > half %}{% continue %}{% endif %}
+            {% if row == 2 and forloop.index <= half %}{% continue %}{% endif %}
+            <article class="review-card" {% if pass == 2 %}aria-hidden="true"{% endif %} {{ block.shopify_attributes }}>
+              <header class="review-head">
+                <span class="review-avatar">
+                  {% if block.settings.avatar %}
+                    {{ block.settings.avatar | image_url: width: 120 | image_tag: loading: 'lazy', alt: block.settings.name }}
+                  {% else %}
+                    <span class="review-avatar-fallback">{{ block.settings.name | slice: 0 }}</span>
+                  {% endif %}
+                </span>
+                <span class="review-who">
+                  <strong>{{ block.settings.name }}</strong>
+                  {% if block.settings.role != blank %}<small>{{ block.settings.role }}</small>{% endif %}
+                </span>
+              </header>
+              <p class="review-quote">{{ block.settings.quote }}</p>
+              <p class="stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+                {% for i in (1..5) %}
+                  <span class="star {% if i <= block.settings.rating %}is-on{% endif %}">★</span>
+                {% endfor %}
+              </p>
+            </article>
+          {% endfor %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
 </section>
 
 {% schema %}
 {
   "name": "Reviews",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading" }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "VERIFIED REVIEWS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Thousands of 5 Star DTF Transfer Reviews" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Verified Feedback from Authentic Customers" },
+    { "type": "range", "id": "speed", "label": "Scroll duration (seconds)", "min": 20, "max": 120, "step": 5, "default": 60 }
   ],
   "blocks": [
     {
       "type": "review",
       "name": "Review",
       "settings": [
+        { "type": "image_picker", "id": "avatar", "label": "Avatar" },
+        { "type": "text", "id": "name", "label": "Customer name" },
+        { "type": "text", "id": "role", "label": "Role or company" },
         { "type": "textarea", "id": "quote", "label": "Quote" },
-        { "type": "text", "id": "name", "label": "Customer name" }
+        { "type": "range", "id": "rating", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 }
       ]
     }
   ],
@@ -33,9 +77,10 @@
     {
       "name": "Reviews",
       "blocks": [
-        { "type": "review", "settings": { "quote": "Colors came out sharper than I expected and the ordering process was painless.", "name": "Sample Customer" } },
-        { "type": "review", "settings": { "quote": "Great for small batch orders since there's no minimum. Will reorder.", "name": "Sample Customer" } },
-        { "type": "review", "settings": { "quote": "Shipping was quick and the transfers pressed cleanly onto cotton and blends.", "name": "Sample Customer" } }
+        { "type": "review", "settings": { "quote": "Colors came out sharper than I expected and the ordering process was painless.", "name": "Sample Customer", "rating": 5 } },
+        { "type": "review", "settings": { "quote": "Great for small batch orders since there's no minimum. Will reorder.", "name": "Sample Customer", "rating": 5 } },
+        { "type": "review", "settings": { "quote": "Shipping was quick and the transfers pressed cleanly onto cotton and blends.", "name": "Sample Customer", "rating": 5 } },
+        { "type": "review", "settings": { "quote": "Placeholder review — replace with a real verified customer quote.", "name": "Sample Customer", "rating": 5 } }
       ]
     }
   ]

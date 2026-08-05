@@ -1,0 +1,22 @@
+<section class="explainer">
+  <div class="container explainer-inner">
+    <h2>{{ section.settings.heading }}</h2>
+    <div class="explainer-body">{{ section.settings.text }}</div>
+    {% if section.settings.cta_label != blank %}
+      <a class="btn btn-accent" href="{{ section.settings.cta_link | default: '#' }}">{{ section.settings.cta_label }}</a>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Explainer",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What is DTF?" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Direct to Film (DTF) Transfers are incredibly vivid, high quality transfers that can be applied to almost any product, material, and color with just a heat press, Cricut, or iron. Millions trust DTF Transfers for their events, team merch, crafts, gifts, and more — DTF saves you money and time, and lets you customize products the way you want.</p>" },
+    { "type": "text", "id": "cta_label", "label": "Button label" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Explainer" }]
+}
+{% endschema %}
