@@ -1,18 +1,221 @@
 <header class="site-header">
-  <div class="container header-inner">
-    <a href="/" class="logo">Fineyst<span>Transfers</span></a>
-    <nav class="main-nav">
-      <a href="/collections/transfers-by-size">Transfers by Size</a>
-      <a href="/pages/gang-sheet-builder">Gang Sheet Builder</a>
-      <a href="/collections/blanks">Blanks</a>
+  <div class="container header-top">
+    <a href="/" class="logo">
+      <span class="logo-mark">FT</span>
+      <span class="logo-text">Fineyst<br>Transfers</span>
+    </a>
+    <div class="header-search">
+      <input type="search" placeholder="Search products">
+    </div>
+    <div class="header-bell" aria-label="Notifications">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9a6 6 0 0 1 12 0v4l2 4H4l2-4Z"/><path d="M9 20a3 3 0 0 0 6 0"/></svg>
+      <span class="bell-count">3</span>
+    </div>
+
+    <div class="header-perks">
+      <a href="/pages/rewards" class="header-perks-trigger">
+        <span class="perk-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </span>
+        <span>Fineyst Perks<br><strong>Sign up and earn</strong></span>
+      </a>
+      <div class="perks-hovercard">
+        <h3>Earn points. Redeem for savings.</h3>
+        <p>Join Fineyst Perks and earn points on every order, plus early access to promotions and member-only pricing.</p>
+        <a href="/pages/rewards" class="btn btn-accent btn-small">Start Earning</a>
+      </div>
+    </div>
+
+    <a href="tel:" class="header-contact">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5c0 8 7 15 15 15l2-4-5-2-2 2c-2-1-4-3-5-5l2-2-2-5Z"/></svg>
+      <span>Talk to our team<br><strong>Support Line</strong></span>
+    </a>
+
+    <div class="header-account">
+      <a href="/account" class="header-account-trigger">
+        <span class="hdr-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <span class="login-cta">Sign In</span>
+      </a>
+      <div class="account-dropdown">
+        <a href="/account" class="account-dropdown-item">My Account</a>
+        <a href="/account#orders" class="account-dropdown-item">My Orders</a>
+        <a href="/pages/rewards" class="account-dropdown-item">Fineyst Perks</a>
+        <div class="account-dropdown-divider"></div>
+        <a href="/account/logout" class="account-dropdown-item account-dropdown-item--danger">Log Out</a>
+      </div>
+    </div>
+
+    <a href="/cart" class="cart-icon" aria-label="Cart">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L21 8H6"/></svg>
+      <span class="cart-count">{{ cart.item_count }}</span>
+    </a>
+  </div>
+  <nav class="main-nav">
+    <div class="container">
+
+      <div class="mega-item">
+        <a href="/products/dtf-transfers">DTF Transfers <span class="nb-arr">▾</span></a>
+        <div class="mega-panel mega-panel--narrow">
+          <div class="mega-panel-inner">
+            <div class="mega-cards mega-cards--stack">
+              <a href="/products/dtf-transfers" class="mega-card mega-card--row">
+                <div class="mega-card-thumb"></div>
+                <div class="mega-card-body">
+                  <span class="mega-card-badge mega-card-badge--blue">Most Popular</span>
+                  <span class="mega-card-title">Transfers by Size</span>
+                  <p>Upload any design, press on any material</p>
+                </div>
+              </a>
+              <a href="/products/build-your-own-gang-sheet" class="mega-card mega-card--row">
+                <div class="mega-card-thumb"></div>
+                <div class="mega-card-body">
+                  <span class="mega-card-badge mega-card-badge--green">For All Skill Levels</span>
+                  <span class="mega-card-title">Build a Gang Sheet</span>
+                  <p>Design and arrange online</p>
+                </div>
+              </a>
+              <a href="/products/premium-dtf-gang-sheets" class="mega-card mega-card--row">
+                <div class="mega-card-thumb"></div>
+                <div class="mega-card-body">
+                  <span class="mega-card-badge mega-card-badge--orange">For Pros</span>
+                  <span class="mega-card-title">Upload a Gang Sheet</span>
+                  <p>Upload a print-ready file</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mega-item">
+        <a href="/collections/blank-apparel">Blank Apparel <span class="nb-arr">▾</span></a>
+        <div class="mega-panel mega-panel--wide">
+          <div class="mega-panel-inner">
+            <div class="mega-cols">
+              <div class="mega-col">
+                <div class="mega-col-hd">T-Shirts</div>
+                <ul>
+                  <li><a href="/collections/short-sleeve">Short Sleeve</a></li>
+                  <li><a href="/collections/long-sleeve">Long Sleeve</a></li>
+                  <li><a href="/collections/tank-tops">Tank Tops</a></li>
+                  <li><a href="/collections/tie-dye">Tie-Dye</a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <div class="mega-col-hd">Hoodies</div>
+                <ul>
+                  <li><a href="/collections/crewnecks">Crewnecks</a></li>
+                  <li><a href="/collections/pullover-hoodies">Pullover Hoodies</a></li>
+                  <li><a href="/collections/full-zip-hoodies">Full-Zip Hoodies</a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <div class="mega-col-hd">Hats</div>
+                <ul>
+                  <li><a href="/collections/baseball-caps">Baseball Caps</a></li>
+                  <li><a href="/collections/beanies">Beanies</a></li>
+                  <li><a href="/collections/trucker-hats">Trucker Hats</a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <div class="mega-col-hd">Categories</div>
+                <ul>
+                  <li><a href="/collections/accessories">Accessories</a></li>
+                  <li><a href="/collections/bags">Bags</a></li>
+                  <li><a href="/collections/kids">Kids</a></li>
+                  <li><a href="/collections/women">Women</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="mega-foot">
+              <span>Free shipping on blank apparel orders $59+</span>
+              <a href="/collections/blank-apparel" class="mega-foot-cta">Shop All Blank Apparel →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mega-item">
+        <a href="#">Supplies <span class="nb-arr">▾</span></a>
+        <div class="mega-panel mega-panel--wide">
+          <div class="mega-panel-inner">
+            <div class="mega-tabs">
+              <button class="mega-tab-btn is-active" data-mega-tab="popular">Popular Supplies</button>
+              <button class="mega-tab-btn" data-mega-tab="presses">Heat Presses</button>
+              <button class="mega-tab-btn" data-mega-tab="consumables">Consumables</button>
+            </div>
+            <div class="mega-tab-panel is-active" data-mega-panel="popular">
+              <div class="mega-cards mega-cards--grid">
+                <a href="/products/placement-guide" class="mega-card mega-card--small"><div class="mega-card-thumb"></div><span class="mega-card-title">Placement Guide</span></a>
+                <a href="/products/pressing-sheet" class="mega-card mega-card--small"><div class="mega-card-thumb"></div><span class="mega-card-title">Pressing Sheet</span></a>
+                <a href="/products/heat-tape" class="mega-card mega-card--small"><div class="mega-card-thumb"></div><span class="mega-card-title">Heat Tape</span></a>
+                <a href="/products/transfer-folders" class="mega-card mega-card--small"><div class="mega-card-thumb"></div><span class="mega-card-title">Transfer Folders</span></a>
+              </div>
+            </div>
+            <div class="mega-tab-panel" data-mega-panel="presses">
+              <div class="mega-cards mega-cards--grid">
+                <a href="/products/heat-press-15x15" class="mega-card mega-card--small"><div class="mega-card-thumb"></div><span class="mega-card-title">15x15 Heat Press</span></a>
+                <a href="/products/cap-press" class="mega-card mega-card--small"><div class="mega-card-thumb"></div><span class="mega-card-title">Cap Press</span></a>
+              </div>
+            </div>
+            <div class="mega-tab-panel" data-mega-panel="consumables">
+              <div class="mega-cards mega-cards--grid">
+                <a href="/products/dtf-film" class="mega-card mega-card--small"><div class="mega-card-thumb"></div><span class="mega-card-title">DTF Film Rolls</span></a>
+                <a href="/products/tpu-powder" class="mega-card mega-card--small"><div class="mega-card-thumb"></div><span class="mega-card-title">TPU Powder</span></a>
+              </div>
+            </div>
+            <div class="mega-foot">
+              <span>Buy 3 supplies, get 10% off</span>
+              <a href="/collections/supplies" class="mega-foot-cta">Shop All Supplies →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <a href="/pages/how-it-works">How It Works</a>
       <a href="/pages/faq">FAQ</a>
-    </nav>
-    <div class="header-actions">
-      <a href="/account" aria-label="Account">Account</a>
-      <a href="/cart" aria-label="Cart">Cart ({{ cart.item_count }})</a>
+
+      <div class="mega-item">
+        <a href="#">Support &amp; Tools <span class="nb-arr">▾</span></a>
+        <div class="mega-panel mega-panel--wide">
+          <div class="mega-panel-inner">
+            <div class="mega-cols">
+              <div class="mega-col">
+                <div class="mega-col-hd">Help</div>
+                <ul>
+                  <li><a href="/pages/contact">Contact Us</a></li>
+                  <li><a href="/pages/order-issue">Submit an Order Issue</a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <div class="mega-col-hd">Learn</div>
+                <ul>
+                  <li><a href="/pages/how-it-works">Pressing Instructions</a></li>
+                  <li><a href="/pages/faq">FAQ</a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <div class="mega-col-hd">Design Tools</div>
+                <ul>
+                  <li><a href="/pages/gang-sheet-builder">Gang Sheet Builder</a></li>
+                  <li><a href="/pages/design-library">Design Library</a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <div class="mega-col-hd">Explore</div>
+                <ul>
+                  <li><a href="/pages/rewards">Fineyst Perks</a></li>
+                  <li><a href="/pages/about">About Us</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="/pages/free-sample" class="nav-promo">Free Sample Pack</a>
     </div>
-  </div>
+  </nav>
 </header>
 
 {% schema %}

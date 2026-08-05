@@ -1,6 +1,13 @@
 {
   "sections": {
-    "hero": { "type": "hero", "settings": {} },
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "heading_pre": "DTF Transfers Built for",
+        "heading_accent": "Every Print Shop",
+        "subheading": "Vibrant, durable direct-to-film transfers for shirts, hoodies, and more. No minimums, no setup fees, fast turnaround."
+      }
+    },
     "features": {
       "type": "features",
       "blocks": {

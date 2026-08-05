@@ -1,8 +1,8 @@
-<section class="hero">
+<section class="hero hero-dark">
   <div class="container hero-inner">
     <div class="hero-copy">
       <p class="eyebrow">★★★★★ {{ section.settings.rating | default: "4.9" }} rating from thousands of happy customers</p>
-      <h1>{{ section.settings.heading | default: "Custom DTF Transfers, Pressed to Perfection" }}</h1>
+      <h1>{{ section.settings.heading_pre | default: "DTF Transfers Built for" }} <span class="accent-text">{{ section.settings.heading_accent | default: "Every Print Shop" }}</span></h1>
       <p class="lead">{{ section.settings.subheading | default: "Vibrant, durable direct-to-film transfers for shirts, hoodies, and more. No minimums, no setup fees, fast turnaround." }}</p>
       <div class="hero-ctas">
         <a href="{{ section.settings.primary_link | default: '/collections/transfers-by-size' }}" class="btn btn-accent">Order Transfers by Size</a>
@@ -14,12 +14,10 @@
         <li>Quality Guaranteed</li>
       </ul>
     </div>
-    <div class="hero-media">
-      {% if section.settings.image %}
-        {{ section.settings.image | image_url: width: 900 | image_tag }}
-      {% else %}
-        <div class="hero-media-placeholder"></div>
-      {% endif %}
+    <div class="hero-grid">
+      {% for i in (1..6) %}
+        <div class="hero-grid-tile hero-grid-tile-{{ i }}"></div>
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -28,7 +26,8 @@
 {
   "name": "Hero",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "text", "id": "heading_pre", "label": "Heading (start)" },
+    { "type": "text", "id": "heading_accent", "label": "Heading (accent word)" },
     { "type": "textarea", "id": "subheading", "label": "Subheading" },
     { "type": "text", "id": "rating", "label": "Rating text" },
     { "type": "url", "id": "primary_link", "label": "Primary button link" },

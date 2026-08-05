@@ -1,0 +1,37 @@
+<section class="main-product main-product-dtf-transfer">
+  <div class="container product-inner">
+    <div class="product-media">
+      {% if product.featured_image %}
+        {{ product.featured_image | image_url: width: 800 | image_tag }}
+      {% else %}
+        <div class="hero-media-placeholder"></div>
+      {% endif %}
+    </div>
+    <div class="product-info">
+      <h1>{{ product.title }}</h1>
+      <p class="price-note">{{ product.price | money }}</p>
+      <div class="product-description">{{ product.description }}</div>
+      {% form 'product', product %}
+        {% unless product.has_only_default_variant %}
+          {% for option in product.options_with_values %}
+            <label>{{ option.name }}
+              <select name="options[{{ option.name }}]">
+                {% for value in option.values %}
+                  <option value="{{ value }}">{{ value }}</option>
+                {% endfor %}
+              </select>
+            </label>
+          {% endfor %}
+        {% endunless %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <button type="submit" class="btn btn-accent" {% unless product.available %}disabled{% endunless %}>
+          {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
+        </button>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "DTF Product", "settings": [] }
+{% endschema %}
