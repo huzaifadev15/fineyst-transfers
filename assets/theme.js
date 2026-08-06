@@ -478,10 +478,13 @@ document.addEventListener('DOMContentLoaded', function () {
       var wasHidden = header.classList.contains('header-hidden');
       if (wasHidden) header.classList.remove('header-hidden');
 
-      var navBottom = navbar.getBoundingClientRect().bottom + window.scrollY;
+      // The header is position:fixed, so these rects are already viewport
+      // relative and constant. Adding scrollY here would inflate the offset by
+      // however far the page happened to be scrolled when measure() re-ran.
+      var navBottom = navbar.getBoundingClientRect().bottom;
       var capsule = header.querySelector('.capsule-tabs-wrap');
       var bottom = capsule
-        ? capsule.getBoundingClientRect().bottom + window.scrollY
+        ? capsule.getBoundingClientRect().bottom
         : navBottom;
 
       var root = document.documentElement;
