@@ -1,0 +1,29 @@
+{%- comment -%}
+  Partner Banner — a full-width dark strip with a partner mark and line of text,
+  sitting between page content and the footer. Mirrors the Ninja Transfers
+  "Official Partner" strip.
+{%- endcomment -%}
+
+<section class="partner-banner"{% if section.settings.static_bg != blank %} style="background-image: linear-gradient(rgba(4,20,44,0.86), rgba(4,20,44,0.86)), url('{{ section.settings.static_bg | strip | asset_url }}');"{% endif %}>
+  <div class="partner-banner-inner">
+    {%- if section.settings.logo != blank -%}
+      <img class="partner-banner-logo" src="{{ section.settings.logo | image_url: width: 160 }}" alt="{{ section.settings.text | escape }}" loading="lazy" width="72" height="72">
+    {%- elsif section.settings.static_logo != blank -%}
+      <img class="partner-banner-logo" src="{{ section.settings.static_logo | strip | asset_url }}" alt="{{ section.settings.text | escape }}" loading="lazy" width="72" height="72">
+    {%- endif -%}
+    <p class="partner-banner-text">{{ section.settings.text | default: 'Official Printing Partner of the Sandy Creek Athletics Program' }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Partner Banner",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Text", "default": "Official Printing Partner of the Sandy Creek Athletics Program" },
+    { "type": "image_picker", "id": "logo", "label": "Partner logo" },
+    { "type": "text", "id": "static_logo", "label": "Static logo file", "info": "Filename in /assets, used when no logo is picked." },
+    { "type": "text", "id": "static_bg", "label": "Background image file", "info": "Optional filename in /assets." }
+  ],
+  "presets": [{ "name": "Partner Banner" }]
+}
+{% endschema %}

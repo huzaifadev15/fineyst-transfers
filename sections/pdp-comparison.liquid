@@ -1,0 +1,105 @@
+{%- comment -%}
+  PDP Comparison — "The Next Generation of DTF Transfers": centred heading and
+  intro, two side-by-side sample images, then a two-column comparison table
+  with tick / cross rows. Mirrors the Ninja Transfers PDP block.
+{%- endcomment -%}
+
+<section class="pdp-nextgen">
+  <div class="pdp-nextgen-inner">
+
+    <header class="pdp-nextgen-head">
+      <h2>{{ section.settings.heading | default: 'The Next Generation of DTF Transfers' }}</h2>
+      <p>{{ section.settings.intro | default: 'VIVID+ is the Fineyst standard - upgrading prints from the industry-standard 5-color DTF to 9-color for brighter colors, smoother gradients, and truer matches at no extra cost. Same prices, same settings, same durability - just better prints.' }}</p>
+    </header>
+
+    <div class="pdp-nextgen-media">
+      {%- assign shots = 'ours,mine|theirs,theirs' | split: '|' -%}
+      {%- for shot in shots -%}
+        {%- assign s = shot | split: ',' -%}
+        {%- if forloop.first -%}
+          {%- assign shot_file = section.settings.image_ours | default: 'dtf-2.jpg' -%}
+          {%- assign shot_tag = section.settings.label_ours | default: 'VIVID+ 9-Color DTF' -%}
+          {%- assign shot_mod = 'ours' -%}
+        {%- else -%}
+          {%- assign shot_file = section.settings.image_theirs | default: 'dtf-3.jpg' -%}
+          {%- assign shot_tag = section.settings.label_theirs | default: 'Industry Standard 5-Color DTF' -%}
+          {%- assign shot_mod = 'theirs' -%}
+        {%- endif -%}
+        <figure class="pdp-nextgen-shot pdp-nextgen-shot--{{ shot_mod }}">
+          <span class="pdp-nextgen-tag">{{ shot_tag }}</span>
+          <img src="{{ shot_file | strip | asset_url }}" alt="{{ shot_tag | escape }}" loading="lazy" width="640" height="432">
+        </figure>
+      {%- endfor -%}
+    </div>
+
+    <div class="pdp-compare">
+      <div class="pdp-compare-head">
+        <div class="pdp-compare-col pdp-compare-col--ours">
+          <strong>{{ section.settings.ours_title | default: 'Fineyst Standard DTF' }}</strong>
+          <span>{{ section.settings.ours_sub | default: 'VIVID+, 9-Color Printing' }}</span>
+        </div>
+        <div class="pdp-compare-col pdp-compare-col--theirs">
+          <strong>{{ section.settings.theirs_title | default: "Competitor's Standard DTF" }}</strong>
+          <span>{{ section.settings.theirs_sub | default: 'Basic, 5-Color Printing' }}</span>
+        </div>
+      </div>
+
+      {%- for block in section.blocks -%}
+        <div class="pdp-compare-row" {{ block.shopify_attributes }}>
+          <div class="pdp-compare-cell pdp-compare-cell--yes">
+            <span class="pdp-compare-icon pdp-compare-icon--yes" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            <span>{{ block.settings.ours }}</span>
+          </div>
+          <div class="pdp-compare-cell pdp-compare-cell--no">
+            <span class="pdp-compare-icon pdp-compare-icon--no" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </span>
+            <span>{{ block.settings.theirs }}</span>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PDP Comparison",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Next Generation of DTF Transfers" },
+    { "type": "textarea", "id": "intro", "label": "Intro" },
+    { "type": "text", "id": "image_ours", "label": "Our sample file", "default": "dtf-2.jpg" },
+    { "type": "text", "id": "label_ours", "label": "Our sample label", "default": "VIVID+ 9-Color DTF" },
+    { "type": "text", "id": "image_theirs", "label": "Competitor sample file", "default": "dtf-3.jpg" },
+    { "type": "text", "id": "label_theirs", "label": "Competitor sample label", "default": "Industry Standard 5-Color DTF" },
+    { "type": "text", "id": "ours_title", "label": "Our column title", "default": "Fineyst Standard DTF" },
+    { "type": "text", "id": "ours_sub", "label": "Our column subtitle", "default": "VIVID+, 9-Color Printing" },
+    { "type": "text", "id": "theirs_title", "label": "Competitor column title", "default": "Competitor's Standard DTF" },
+    { "type": "text", "id": "theirs_sub", "label": "Competitor column subtitle", "default": "Basic, 5-Color Printing" }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Comparison row",
+      "settings": [
+        { "type": "text", "id": "ours", "label": "Ours" },
+        { "type": "text", "id": "theirs", "label": "Theirs" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Comparison",
+      "blocks": [
+        { "type": "row", "settings": { "ours": "9-Color Printing (CMYK + RGBO + White)", "theirs": "5-Color Printing (CMYK)" } },
+        { "type": "row", "settings": { "ours": "16.7 Million Colors", "theirs": "~20,000 Colors" } },
+        { "type": "row", "settings": { "ours": "Noticeably Brighter & More Saturated Prints", "theirs": "Muted / Dull Prints" } },
+        { "type": "row", "settings": { "ours": "Near Perfect Pantone Matching", "theirs": "Inconsistent / Washed Out" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

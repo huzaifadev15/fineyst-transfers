@@ -3,24 +3,558 @@
     "main": {
       "type": "main-product-dtf-transfer",
       "blocks": {
-        "mockup-1": { "type": "mockup", "settings": { "label": "T-Shirt", "width_in": 11, "art_width": 45, "art_top": 30 } },
-        "mockup-2": { "type": "mockup", "settings": { "label": "Cap", "width_in": 5, "art_width": 34, "art_top": 38 } },
-        "mockup-3": { "type": "mockup", "settings": { "label": "Polo", "width_in": 3.5, "art_width": 22, "art_top": 30 } },
-        "mockup-4": { "type": "mockup", "settings": { "label": "Tote", "width_in": 7, "art_width": 40, "art_top": 36 } },
-        "mockup-5": { "type": "mockup", "settings": { "label": "Hoodie", "width_in": 11, "art_width": 45, "art_top": 34 } },
-        "mockup-6": { "type": "mockup", "settings": { "label": "Apron", "width_in": 5, "art_width": 30, "art_top": 40 } },
-        "tier-0": { "type": "tier", "settings": { "min_qty": 1, "max_qty": 14, "pct": 0, "price": "$1.09", "discount": "—" } },
-        "tier-1": { "type": "tier", "settings": { "min_qty": 15, "max_qty": 49, "pct": 20, "price": "$0.88", "discount": "20% off" } },
-        "tier-2": { "type": "tier", "settings": { "min_qty": 50, "max_qty": 99, "pct": 30, "price": "$0.77", "discount": "30% off" } },
-        "tier-3": { "type": "tier", "settings": { "min_qty": 100, "max_qty": 249, "pct": 40, "price": "$0.66", "discount": "40% off" } },
-        "tier-4": { "type": "tier", "settings": { "min_qty": 250, "max_qty": 0, "pct": 50, "price": "$0.55", "discount": "50% off" } }
+        "mockup-1": {
+          "type": "mockup",
+          "settings": {
+            "label": "T-Shirt",
+            "width_in": 11,
+            "art_width": 45,
+            "art_top": 30
+          }
+        },
+        "mockup-2": {
+          "type": "mockup",
+          "settings": {
+            "label": "Cap",
+            "width_in": 5,
+            "art_width": 34,
+            "art_top": 38
+          }
+        },
+        "mockup-3": {
+          "type": "mockup",
+          "settings": {
+            "label": "Polo",
+            "width_in": 3.5,
+            "art_width": 22,
+            "art_top": 30
+          }
+        },
+        "mockup-4": {
+          "type": "mockup",
+          "settings": {
+            "label": "Tote",
+            "width_in": 7,
+            "art_width": 40,
+            "art_top": 36
+          }
+        },
+        "mockup-5": {
+          "type": "mockup",
+          "settings": {
+            "label": "Hoodie",
+            "width_in": 11,
+            "art_width": 45,
+            "art_top": 34
+          }
+        },
+        "mockup-6": {
+          "type": "mockup",
+          "settings": {
+            "label": "Apron",
+            "width_in": 5,
+            "art_width": 30,
+            "art_top": 40
+          }
+        },
+        "tier-0": {
+          "type": "tier",
+          "settings": {
+            "min_qty": 1,
+            "max_qty": 14,
+            "pct": 0,
+            "price": "$1.09",
+            "discount": "—"
+          }
+        },
+        "tier-1": {
+          "type": "tier",
+          "settings": {
+            "min_qty": 15,
+            "max_qty": 49,
+            "pct": 20,
+            "price": "$0.88",
+            "discount": "20% off"
+          }
+        },
+        "tier-2": {
+          "type": "tier",
+          "settings": {
+            "min_qty": 50,
+            "max_qty": 99,
+            "pct": 30,
+            "price": "$0.77",
+            "discount": "30% off"
+          }
+        },
+        "tier-3": {
+          "type": "tier",
+          "settings": {
+            "min_qty": 100,
+            "max_qty": 249,
+            "pct": 40,
+            "price": "$0.66",
+            "discount": "40% off"
+          }
+        },
+        "tier-4": {
+          "type": "tier",
+          "settings": {
+            "min_qty": 250,
+            "max_qty": 0,
+            "pct": 50,
+            "price": "$0.55",
+            "discount": "50% off"
+          }
+        }
       },
       "block_order": [
-        "mockup-1", "mockup-2", "mockup-3", "mockup-4", "mockup-5", "mockup-6",
-        "tier-0", "tier-1", "tier-2", "tier-3", "tier-4"
+        "mockup-1",
+        "mockup-2",
+        "mockup-3",
+        "mockup-4",
+        "mockup-5",
+        "mockup-6",
+        "tier-0",
+        "tier-1",
+        "tier-2",
+        "tier-3",
+        "tier-4"
       ],
       "settings": {}
+    },
+    "pdp-details": {
+      "type": "pdp-details",
+      "blocks": {
+        "d1": {
+          "type": "row",
+          "settings": {
+            "label": "Price Calculator",
+            "body": "<p>Pricing is calculated per square inch, so you only pay for the space your design uses. Volume discounts apply automatically at 15, 50, 100 and 250 pieces - up to 50% off.</p>"
+          }
+        },
+        "d2": {
+          "type": "row",
+          "settings": {
+            "label": "Features",
+            "body": "<p>9-color VIVID+ printing, 16.7 million colors, near-perfect Pantone matching, bright opaque whites, 100+ wash durability, and fine detail down to 3 pixels. Works on cotton, polyester, blends, canvas, denim and nylon.</p>"
+          }
+        },
+        "d3": {
+          "type": "row",
+          "settings": {
+            "label": "Specialty DTF Styles",
+            "body": "<p>Beyond standard DTF we print puff, glitter, glow-in-the-dark, reflective, metallic foil and UV DTF. Each specialty style ships press-ready with its own pressing card.</p>"
+          }
+        },
+        "d4": {
+          "type": "row",
+          "settings": {
+            "label": "Satisfaction Guarantee",
+            "body": "<p>If a transfer does not press correctly or arrives with a print defect, we reprint it free. No return shipping, no restocking fee, no argument.</p>"
+          }
+        },
+        "d5": {
+          "type": "row",
+          "settings": {
+            "label": "Pressing Instructions",
+            "body": "<p>Press at 300-320°F for 10-15 seconds with medium pressure, then peel. Peel temperature depends on the transfer type and is printed on the card that ships with every order.</p>"
+          }
+        },
+        "d6": {
+          "type": "row",
+          "settings": {
+            "label": "Shipping & Returns",
+            "body": "<p>Most orders are printed and shipped within 24 hours. Free shipping on qualifying US orders. Because every transfer is made to order we cannot accept returns, but our reprint guarantee covers any defect.</p>"
+          }
+        },
+        "d7": {
+          "type": "row",
+          "settings": {
+            "label": "Art Upload Recommendations",
+            "body": "<p>Upload PNG with a transparent background at 300 DPI for best results. We also accept PDF, AI, SVG, TIFF and JPG. Our art team reviews every file free and will flag anything that will not print cleanly.</p>"
+          }
+        },
+        "d8": {
+          "type": "row",
+          "settings": {
+            "label": "Names & Numbers",
+            "body": "<p>Building team apparel? Use the Gang Sheet Builder to lay out names and numbers on a single sheet, then press them one at a time. No per-name setup fee.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "d1",
+        "d2",
+        "d3",
+        "d4",
+        "d5",
+        "d6",
+        "d7",
+        "d8"
+      ],
+      "settings": {}
+    },
+    "pdp-comparison": {
+      "type": "pdp-comparison",
+      "blocks": {
+        "c1": {
+          "type": "row",
+          "settings": {
+            "ours": "9-Color Printing (CMYK + RGBO + White)",
+            "theirs": "5-Color Printing (CMYK)"
+          }
+        },
+        "c2": {
+          "type": "row",
+          "settings": {
+            "ours": "16.7 Million Colors",
+            "theirs": "~20,000 Colors"
+          }
+        },
+        "c3": {
+          "type": "row",
+          "settings": {
+            "ours": "Noticeably Brighter & More Saturated Prints",
+            "theirs": "Muted / Dull Prints"
+          }
+        },
+        "c4": {
+          "type": "row",
+          "settings": {
+            "ours": "Near Perfect Pantone Matching",
+            "theirs": "Inconsistent / Washed Out"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {}
+    },
+    "pdp-benefits": {
+      "type": "feature-tiles",
+      "blocks": {
+        "b1": {
+          "type": "tile",
+          "settings": {
+            "static_image": "dtf-1.jpg",
+            "caption": "Works on Any Fabric or Color"
+          }
+        },
+        "b2": {
+          "type": "tile",
+          "settings": {
+            "static_video": "dtf-video-1.mp4",
+            "caption": "Unrivaled Color Spectrum & Brighter Whites"
+          }
+        },
+        "b3": {
+          "type": "tile",
+          "settings": {
+            "static_image": "dtf-2.jpg",
+            "caption": "Stretchability Means Durability"
+          }
+        },
+        "b4": {
+          "type": "tile",
+          "settings": {
+            "static_image": "dtf-3.jpg",
+            "caption": "Sharper Details & Cleaner Edges"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "heading": "Fineyst Delivers Vivid Prints & Higher Profits",
+        "subheading": "Every print you press should boost your bottom line - and with Fineyst, it does. Our vivid DTF transfers combine sharper colors, stronger durability, and cleaner detail that sells."
+      }
+    },
+    "pdp-pressing": {
+      "type": "media-split",
+      "settings": {
+        "heading": "Easily Applies in Seconds",
+        "text": "<p>Thanks to our proprietary Fineyst Peel Technology, our DTF transfers deliver professional results in just 13 seconds - making it easier than ever to press on anything!</p>",
+        "cta_label": "View DTF Pressing Guide",
+        "cta_link": "/pages/pressing-instructions",
+        "media_position": "left",
+        "static_video": "dtf-video-6.mp4"
+      }
+    },
+    "pdp-ugc": {
+      "type": "pdp-ugc",
+      "settings": {
+        "heading": "Fineyst Transfers Customer Feedback"
+      }
+    },
+    "pdp-related": {
+      "type": "pdp-related",
+      "blocks": {
+        "p1": {
+          "type": "item",
+          "settings": {
+            "handle": "glitter-transfers",
+            "static_image": "dtf-1.jpg",
+            "title": "Glitter DTF",
+            "text": "Glitter DTF creates bold, sparkling designs that instantly stand out",
+            "price": "As low as $0.03 per sq. inch",
+            "ships": "Ships as fast as 1 business day",
+            "cta": "Shop Glitter DTF"
+          }
+        },
+        "p2": {
+          "type": "item",
+          "settings": {
+            "handle": "puff-transfers",
+            "static_image": "dtf-2.jpg",
+            "title": "3D Puff Transfers",
+            "text": "Puff transfers deliver raised, textured designs without any weeding",
+            "price": "As low as $0.02 per sq. inch",
+            "ships": "Ships in 3 business days",
+            "cta": "Shop Puff Transfers"
+          }
+        },
+        "p3": {
+          "type": "item",
+          "settings": {
+            "handle": "spangle-transfers",
+            "static_image": "dtf-3.jpg",
+            "title": "Spangle Transfers",
+            "text": "Durable, holographic Spangle Transfers make any design instantly pop",
+            "price": "As low as $0.04 per sq. inch",
+            "ships": "Ships in 6 business days",
+            "cta": "Shop Spangles"
+          }
+        },
+        "p4": {
+          "type": "item",
+          "settings": {
+            "handle": "gold-foil-dtf",
+            "static_image": "dtf-4.jpg",
+            "title": "Gold Foil DTF",
+            "text": "Durable Gold Foil DTF adds premium metallic accents effortlessly",
+            "price": "As low as $0.03 per sq. inch",
+            "ships": "Ships as fast as 1 business day",
+            "cta": "Shop Gold Foil"
+          }
+        },
+        "p5": {
+          "type": "item",
+          "settings": {
+            "handle": "silver-foil-dtf",
+            "static_image": "dtf-5.avif",
+            "title": "Silver Foil DTF",
+            "text": "Silver Foil DTF brings crisp, reflective metallic detail effortlessly",
+            "price": "As low as $0.03 per sq. inch",
+            "ships": "Ships as fast as 1 business day",
+            "cta": "Shop Silver Foil"
+          }
+        },
+        "p6": {
+          "type": "item",
+          "settings": {
+            "handle": "glow-in-the-dark-dtf",
+            "static_image": "dtf-6.avif",
+            "title": "Glow in the Dark DTF",
+            "text": "Glow coatings create bold, high-contrast designs that shine brilliantly",
+            "price": "As low as $0.03 per sq. inch",
+            "ships": "Ships as fast as 1 business day",
+            "cta": "Shop Glow in the Dark"
+          }
+        },
+        "p7": {
+          "type": "item",
+          "settings": {
+            "handle": "glitter-puff-transfers",
+            "static_image": "dtf-8.avif",
+            "title": "3D Glitter Puff Transfers",
+            "text": "Glitter Puff transfers deliver vibrant, raised sparkle effects beautifully",
+            "price": "As low as $0.02 per sq. inch",
+            "ships": "Ships in 3 business days",
+            "cta": "Shop 3D Glitter Puff"
+          }
+        },
+        "p8": {
+          "type": "item",
+          "settings": {
+            "handle": "names-numbers-gang-sheet",
+            "static_image": "hero-3.jpg",
+            "title": "Names & Numbers Gang Sheet",
+            "text": "Easily create a Names & Numbers DTF gang sheet with our Gang Sheet Builder",
+            "price": "As low as $0.02 per sq. inch",
+            "ships": "Ships as fast as 1 business day",
+            "cta": "Create a Gang Sheet"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8"
+      ],
+      "settings": {}
+    },
+    "pdp-reviews": {
+      "type": "pdp-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "name": "Sound L.",
+            "title": "The best",
+            "body": "I am thoroughly satisfied with this product and highly recommend it. It has a visually appealing design that enhances the appearance of my T-shirts. I intend to purchase additional DTF transfer materials. The process of applying the transfer to the T-shirts was straightforward and efficient.",
+            "date": "07/31/26",
+            "rating": 5,
+            "helpful": "1",
+            "unhelpful": "0"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "name": "Carol M.",
+            "title": "DTF Perfection",
+            "body": "I recently ordered DTFs, UV DTFs and blanks. I'm impressed with how easy it is to upload the images and resize if needed. They have sample sizes for different blanks that are helpful if ordering the same DTF for different purposes. I received the DTFs in the time frame promised.",
+            "date": "07/15/26",
+            "rating": 5,
+            "helpful": "0",
+            "unhelpful": "0"
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "name": "Bradley M.",
+            "title": "Beautiful transfers",
+            "body": "More than a few orders down and the DTF transfers have been beautiful and perfect every single time! The colors are bright and look great. Easy to use and fast, safe shipping. Our club members love them! The upload process is easy and quick.",
+            "date": "07/21/26",
+            "rating": 5,
+            "helpful": "0",
+            "unhelpful": "0"
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "name": "Kenneth K.",
+            "title": "Great iron on results",
+            "body": "Total novice using a 30 year old hand iron with great results. Screen grab of a cruise itinerary printed beautifully. Really glad to have the little sample transfers to practice on, and then I put one on the sleeve of my shirt so I know which one is mine. Will definitely order again.",
+            "date": "07/22/26",
+            "rating": 5,
+            "helpful": "1",
+            "unhelpful": "1"
+          }
+        },
+        "r5": {
+          "type": "review",
+          "settings": {
+            "name": "Takeya M.",
+            "title": "Great turnout",
+            "body": "The turn around was in good timing and the results were really good. I've been getting compliments, and the elasticity is really good. The material doesn't feel extra bulky or like a block of plastic. The design feels just as natural as the shirt. I can't wait to order more designs!",
+            "date": "07/24/26",
+            "rating": 4,
+            "helpful": "0",
+            "unhelpful": "0"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ],
+      "settings": {}
+    },
+    "pdp-qa": {
+      "type": "pdp-qa",
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "name": "Yennys",
+            "question": "I need DTF patches",
+            "answer": "We print DTF patch sheets too - upload your artwork and choose the patch size at checkout.",
+            "date": "07/23/26"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "name": "Rosemarie",
+            "question": "Can you help me design a decal for tumblers?",
+            "answer": "We do not create designs from scratch, but our art team will clean up and resize any file you send. For tumblers, UV DTF is the transfer you want.",
+            "date": "07/14/26"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "name": "Charlotte",
+            "question": "What size do you recommend for a left-chest pocket design on a t-shirt?",
+            "answer": "For pocket-size designs we recommend around 3\" wide.",
+            "date": "07/08/26"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "name": "Joycelyn",
+            "question": "Do you make UV DTF stickers as small as 1.5 x 2 inches?",
+            "answer": "Absolutely - there is no minimum size, and small designs price out at just a few cents each.",
+            "date": "07/08/26"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "name": "Stacy",
+            "question": "I'm starting a business making tea towels with sarcastic sayings. Is this something you would print?",
+            "answer": "Yes. Upload your designs, choose the size and quantity, and we will ship you press-ready transfers for your towels.",
+            "date": "06/30/26"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ],
+      "settings": {}
+    },
+    "partner-banner": {
+      "type": "partner-banner",
+      "settings": {
+        "text": "Official Printing Partner of the Sandy Creek Athletics Program"
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main",
+    "pdp-details",
+    "pdp-comparison",
+    "pdp-benefits",
+    "pdp-pressing",
+    "pdp-ugc",
+    "pdp-related",
+    "pdp-reviews",
+    "pdp-qa",
+    "partner-banner"
+  ]
 }

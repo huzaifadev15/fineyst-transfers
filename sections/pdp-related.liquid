@@ -1,0 +1,78 @@
+{%- comment -%}
+  PDP Related — "Shop More Popular Products": a 4-up grid of specialty transfer
+  cards, each with an image, title, one-line description, price and ship note,
+  and a full-width blue CTA. Mirrors the Ninja Transfers PDP block.
+{%- endcomment -%}
+
+<section class="pdp-related">
+  <div class="pdp-related-inner">
+    <h2 class="pdp-related-title">{{ section.settings.heading | default: 'Shop More Popular Products' }}</h2>
+
+    <div class="pdp-related-grid">
+      {%- for block in section.blocks -%}
+        {%- assign rel_product = all_products[block.settings.handle] -%}
+        {%- assign rel_image = rel_product.featured_image | default: rel_product.images.first -%}
+        {%- if rel_product != blank -%}
+          {%- assign rel_url = rel_product.url -%}
+        {%- else -%}
+          {%- assign rel_url = block.settings.handle | prepend: '/products/' -%}
+        {%- endif -%}
+        <article class="pdp-related-card" {{ block.shopify_attributes }}>
+          <a class="pdp-related-media" href="{{ rel_url }}" aria-label="{{ block.settings.title }}">
+            {%- if rel_image != blank -%}
+              {{ rel_image | image_url: width: 600, height: 600, crop: 'center' | image_tag: loading: 'lazy', alt: block.settings.title, width: 300, height: 300 }}
+            {%- else -%}
+              <img src="{{ block.settings.static_image | strip | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="300" height="300">
+            {%- endif -%}
+          </a>
+          <div class="pdp-related-body">
+            <h3 class="pdp-related-name"><a href="{{ rel_url }}">{{ block.settings.title }}</a></h3>
+            <p class="pdp-related-desc">{{ block.settings.text }}</p>
+            <p class="pdp-related-price">{{ block.settings.price }}</p>
+            <p class="pdp-related-ships">{{ block.settings.ships }}</p>
+            <a class="pdp-related-btn" href="{{ rel_url }}">{{ block.settings.cta | default: 'Shop Now' }}</a>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PDP Related Products",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop More Popular Products" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Product",
+      "settings": [
+        { "type": "text", "id": "handle", "label": "Product handle" },
+        { "type": "text", "id": "static_image", "label": "Fallback image file", "info": "Filename in /assets, used until the product has an image." },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "text", "label": "Description" },
+        { "type": "text", "id": "price", "label": "Price line" },
+        { "type": "text", "id": "ships", "label": "Ship note" },
+        { "type": "text", "id": "cta", "label": "Button label" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Related Products",
+      "blocks": [
+        { "type": "item", "settings": { "handle": "glitter-transfers", "static_image": "dtf-1.jpg", "title": "Glitter DTF", "text": "Glitter DTF creates bold, sparkling designs that instantly stand out", "price": "As low as $0.03 per sq. inch", "ships": "Ships as fast as 1 business day", "cta": "Shop Glitter DTF" } },
+        { "type": "item", "settings": { "handle": "puff-transfers", "static_image": "dtf-2.jpg", "title": "3D Puff Transfers", "text": "Puff transfers deliver raised, textured designs without any weeding", "price": "As low as $0.02 per sq. inch", "ships": "Ships in 3 business days", "cta": "Shop Puff Transfers" } },
+        { "type": "item", "settings": { "handle": "spangle-transfers", "static_image": "dtf-3.jpg", "title": "Spangle Transfers", "text": "Durable, holographic Spangle Transfers make any design instantly pop", "price": "As low as $0.04 per sq. inch", "ships": "Ships in 6 business days", "cta": "Shop Spangles" } },
+        { "type": "item", "settings": { "handle": "gold-foil-dtf", "static_image": "dtf-4.jpg", "title": "Gold Foil DTF", "text": "Durable Gold Foil DTF adds premium metallic accents effortlessly", "price": "As low as $0.03 per sq. inch", "ships": "Ships as fast as 1 business day", "cta": "Shop Gold Foil" } },
+        { "type": "item", "settings": { "handle": "silver-foil-dtf", "static_image": "dtf-5.avif", "title": "Silver Foil DTF", "text": "Silver Foil DTF brings crisp, reflective metallic detail effortlessly", "price": "As low as $0.03 per sq. inch", "ships": "Ships as fast as 1 business day", "cta": "Shop Silver Foil" } },
+        { "type": "item", "settings": { "handle": "glow-in-the-dark-dtf", "static_image": "dtf-6.avif", "title": "Glow in the Dark DTF", "text": "Glow coatings create bold, high-contrast designs that shine brilliantly", "price": "As low as $0.03 per sq. inch", "ships": "Ships as fast as 1 business day", "cta": "Shop Glow in the Dark" } },
+        { "type": "item", "settings": { "handle": "glitter-puff-transfers", "static_image": "dtf-8.avif", "title": "3D Glitter Puff Transfers", "text": "Glitter Puff transfers deliver vibrant, raised sparkle effects beautifully", "price": "As low as $0.02 per sq. inch", "ships": "Ships in 3 business days", "cta": "Shop 3D Glitter Puff" } },
+        { "type": "item", "settings": { "handle": "names-numbers-gang-sheet", "static_image": "hero-3.jpg", "title": "Names & Numbers Gang Sheet", "text": "Easily create a Names & Numbers DTF gang sheet with our Gang Sheet Builder", "price": "As low as $0.02 per sq. inch", "ships": "Ships as fast as 1 business day", "cta": "Create a Gang Sheet" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

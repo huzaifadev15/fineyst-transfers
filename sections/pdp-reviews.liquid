@@ -1,0 +1,147 @@
+{%- comment -%}
+  PDP Customer Reviews — rating summary with a star breakdown, an AI-summary
+  card, popular topic chips, the review list with verified badges and helpful
+  votes, and pagination. Mirrors the Ninja Transfers PDP review block.
+{%- endcomment -%}
+
+{%- capture star_on -%}<svg class="rv-star is-on" width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>{%- endcapture -%}
+{%- capture star_off -%}<svg class="rv-star" width="16" height="16" viewBox="0 0 24 24" fill="#D6DAE0" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>{%- endcapture -%}
+
+{%- assign total = section.settings.total_reviews | default: 22860 -%}
+
+<section class="pdp-reviews">
+  <div class="pdp-reviews-inner">
+    <h2 class="pdp-reviews-title">{{ section.settings.heading | default: 'Customer Reviews' }}</h2>
+
+    <!-- Summary -->
+    <div class="rv-summary">
+      <div class="rv-score">
+        <div class="rv-score-num">{{ section.settings.average | default: '4.9' }}</div>
+        <div class="rv-score-stars">{{ star_on }}{{ star_on }}{{ star_on }}{{ star_on }}{{ star_on }}</div>
+        <p class="rv-score-count">Based on {{ total }} reviews</p>
+      </div>
+
+      <div class="rv-bars">
+        {%- assign counts = section.settings.breakdown | default: '21792,752,139,72,106' | split: ',' -%}
+        {%- for i in (1..5) -%}
+          {%- assign idx = 5 | minus: i -%}
+          {%- assign stars = 5 | minus: forloop.index0 -%}
+          {%- assign count = counts[forloop.index0] | plus: 0 -%}
+          {%- assign pct = 0 -%}
+          {%- if total > 0 -%}{%- assign pct = count | times: 100 | divided_by: total -%}{%- endif -%}
+          <div class="rv-bar-row">
+            <span class="rv-bar-label">{{ stars }}</span>
+            <span class="rv-bar-track"><span class="rv-bar-fill" style="width: {{ pct }}%"></span></span>
+            <span class="rv-bar-count">{{ count }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- AI summary -->
+    <div class="rv-says">
+      <h3>Customers say</h3>
+      <p class="rv-says-meta">AI-generated from customer reviews.</p>
+      <p class="rv-says-body">{{ section.settings.summary | default: 'DTF Transfers by Size, printed in-house and shipped fast from the USA, has received positive feedback for its customer service, look, price, print quality, order process, shipping speed, and colors. Customers appreciate the fast and reliable service, the great look and quality of the prints, the fast shipping, and the vibrant colors.' }}</p>
+
+      <div class="rv-topics">
+        {%- assign topics = section.settings.topics | default: 'quality,colors,look,transfers,design,size,results,service' | split: ',' -%}
+        {%- for topic in topics -%}
+          <span class="rv-topic">{{ topic | strip }}</span>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- Review list -->
+    <div class="rv-list">
+      {%- for block in section.blocks -%}
+        {%- assign rating = block.settings.rating | default: 5 -%}
+        <article class="rv-item" {{ block.shopify_attributes }}>
+          <div class="rv-item-who">
+            <p class="rv-item-name">{{ block.settings.name }}</p>
+            <span class="rv-item-verified">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Verified Buyer
+            </span>
+          </div>
+
+          <div class="rv-item-main">
+            <div class="rv-item-head">
+              <div class="rv-item-stars" aria-label="{{ rating }} out of 5 stars">
+                {%- for i in (1..5) -%}{%- if i <= rating -%}{{ star_on }}{%- else -%}{{ star_off }}{%- endif -%}{%- endfor -%}
+              </div>
+              <p class="rv-item-title">{{ block.settings.title }}</p>
+              <span class="rv-item-date">{{ block.settings.date }}</span>
+            </div>
+            <p class="rv-item-body">{{ block.settings.body }}</p>
+            <div class="rv-item-foot">
+              <span>Was this review helpful?</span>
+              <span class="rv-vote">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>
+                {{ block.settings.helpful | default: 0 }}
+              </span>
+              <span class="rv-vote">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg>
+                {{ block.settings.unhelpful | default: 0 }}
+              </span>
+            </div>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+
+    <nav class="rv-pager" aria-label="Reviews pagination">
+      <button class="rv-page rv-page--arrow" aria-label="Previous page" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      {%- for n in (1..5) -%}
+        <button class="rv-page{% if forloop.first %} is-active{% endif %}">{{ n }}</button>
+      {%- endfor -%}
+      <button class="rv-page rv-page--arrow" aria-label="Next page">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </nav>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PDP Customer Reviews",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Customer Reviews" },
+    { "type": "text", "id": "average", "label": "Average rating", "default": "4.9" },
+    { "type": "text", "id": "total_reviews", "label": "Total reviews", "default": "22860" },
+    { "type": "text", "id": "breakdown", "label": "Star breakdown", "info": "Counts for 5,4,3,2,1 stars.", "default": "21792,752,139,72,106" },
+    { "type": "textarea", "id": "summary", "label": "AI summary" },
+    { "type": "text", "id": "topics", "label": "Popular topics", "info": "Comma separated.", "default": "quality,colors,look,transfers,design,size,results,service" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name" },
+        { "type": "text", "id": "title", "label": "Review title" },
+        { "type": "textarea", "id": "body", "label": "Review body" },
+        { "type": "text", "id": "date", "label": "Date" },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "helpful", "label": "Helpful votes", "default": "0" },
+        { "type": "text", "id": "unhelpful", "label": "Unhelpful votes", "default": "0" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Customer Reviews",
+      "blocks": [
+        { "type": "review", "settings": { "name": "Sound L.", "title": "The best", "body": "I am thoroughly satisfied with this product and highly recommend it. It has a visually appealing design that enhances the appearance of my T-shirts. I intend to purchase additional DTF transfer materials. The process of applying the transfer to the T-shirts was straightforward and efficient.", "date": "07/31/26", "rating": 5, "helpful": "1", "unhelpful": "0" } },
+        { "type": "review", "settings": { "name": "Carol M.", "title": "DTF Perfection", "body": "I recently ordered DTFs, UV DTFs and blanks. I'm impressed with how easy it is to upload the images and resize if needed. They have sample sizes for different blanks that are helpful if ordering the same DTF for different purposes. I received the DTFs in the time frame promised.", "date": "07/15/26", "rating": 5, "helpful": "0", "unhelpful": "0" } },
+        { "type": "review", "settings": { "name": "Bradley M.", "title": "Beautiful transfers", "body": "More than a few orders down and the DTF transfers have been beautiful and perfect every single time! The colors are bright and look great. Easy to use and fast, safe shipping. Our club members love them! The upload process is easy and quick.", "date": "07/21/26", "rating": 5, "helpful": "0", "unhelpful": "0" } },
+        { "type": "review", "settings": { "name": "Kenneth K.", "title": "Great iron on results", "body": "Total novice using a 30 year old hand iron with great results. Screen grab of a cruise itinerary printed beautifully. Really glad to have the little sample transfers to practice on, and then I put one on the sleeve of my shirt so I know which one is mine. Will definitely order again.", "date": "07/22/26", "rating": 5, "helpful": "1", "unhelpful": "1" } },
+        { "type": "review", "settings": { "name": "Takeya M.", "title": "Great turnout", "body": "The turn around was in good timing and the results were really good. I've been getting compliments, and the elasticity is really good. The material doesn't feel extra bulky or like a block of plastic. The design feels just as natural as the shirt. I can't wait to order more designs!", "date": "07/24/26", "rating": 4, "helpful": "0", "unhelpful": "0" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
