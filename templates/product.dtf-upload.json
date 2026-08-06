@@ -3,40 +3,27 @@
     "main": {
       "type": "main-product-dtf-upload",
       "blocks": {
-        "size-1ft":  { "type": "sheet_size", "settings": { "label": "1 Foot",   "price": "$16.99",  "compare_price": "",       "discount_pct": "",   "variant_id": "" } },
-        "size-2ft":  { "type": "sheet_size", "settings": { "label": "2 Feet",   "price": "$19.99",  "compare_price": "$33.88", "discount_pct": "41", "variant_id": "" } },
-        "size-5ft":  { "type": "sheet_size", "settings": { "label": "5 Feet",   "price": "$49.99",  "compare_price": "$84.70", "discount_pct": "41", "variant_id": "" } },
-        "size-7ft":  { "type": "sheet_size", "settings": { "label": "7 Feet",   "price": "$69.99",  "compare_price": "$118.58","discount_pct": "41", "variant_id": "" } },
-        "size-10ft": { "type": "sheet_size", "settings": { "label": "10 Feet",  "price": "$89.99",  "compare_price": "$169.40","discount_pct": "47", "variant_id": "" } },
-        "size-15ft": { "type": "sheet_size", "settings": { "label": "15 Feet",  "price": "$109.99", "compare_price": "$254.10","discount_pct": "57", "variant_id": "" } },
-        "size-20ft": { "type": "sheet_size", "settings": { "label": "20 Feet",  "price": "$129.99", "compare_price": "$338.80","discount_pct": "62", "variant_id": "" } },
-        "size-30ft": { "type": "sheet_size", "settings": { "label": "30 Feet",  "price": "$179.99", "compare_price": "$508.20","discount_pct": "65", "variant_id": "" } },
-        "size-40ft": { "type": "sheet_size", "settings": { "label": "40 Feet",  "price": "$210.99", "compare_price": "$677.60","discount_pct": "68", "variant_id": "" } },
-        "film-vivid":   { "type": "film_style", "settings": { "label": "VIVID AF",         "option_value": "vivid-af",       "swatch_css": "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)", "badge": "FREE UPGRADE" } },
-        "film-glitter": { "type": "film_style", "settings": { "label": "Glitter",          "option_value": "glitter",        "swatch_css": "radial-gradient(circle, #fffde7 30%, #f5c518 100%)",           "badge": "" } },
-        "film-glow":    { "type": "film_style", "settings": { "label": "Glow in the Dark", "option_value": "glow-in-dark",   "swatch_css": "#8bc34a",                                                       "badge": "" } },
-        "film-gold":    { "type": "film_style", "settings": { "label": "Gold Foil",        "option_value": "gold-foil",      "swatch_css": "linear-gradient(135deg,#c9a84c,#f5e07a,#c9a84c)",               "badge": "" } },
-        "film-silver":  { "type": "film_style", "settings": { "label": "Silver Foil",      "option_value": "silver-foil",    "swatch_css": "linear-gradient(135deg,#9e9e9e,#e0e0e0,#9e9e9e)",               "badge": "" } }
+        "size-1ft":     { "type": "sheet_size", "settings": { "label": "1 Foot",   "price": "$16.99",  "compare_price": "",        "discount_pct": "",   "variant_id": "" } },
+        "size-2ft":     { "type": "sheet_size", "settings": { "label": "2 Feet",   "price": "$19.99",  "compare_price": "$33.88",  "discount_pct": "41", "variant_id": "" } },
+        "size-5ft":     { "type": "sheet_size", "settings": { "label": "5 Feet",   "price": "$49.99",  "compare_price": "$84.70",  "discount_pct": "41", "variant_id": "" } },
+        "size-7ft":     { "type": "sheet_size", "settings": { "label": "7 Feet",   "price": "$69.99",  "compare_price": "$118.58", "discount_pct": "41", "variant_id": "" } },
+        "size-10ft":    { "type": "sheet_size", "settings": { "label": "10 Feet",  "price": "$89.99",  "compare_price": "$169.40", "discount_pct": "47", "variant_id": "" } },
+        "size-15ft":    { "type": "sheet_size", "settings": { "label": "15 Feet",  "price": "$109.99", "compare_price": "$254.10", "discount_pct": "57", "variant_id": "" } },
+        "size-20ft":    { "type": "sheet_size", "settings": { "label": "20 Feet",  "price": "$129.99", "compare_price": "$338.80", "discount_pct": "62", "variant_id": "" } },
+        "size-30ft":    { "type": "sheet_size", "settings": { "label": "30 Feet",  "price": "$179.99", "compare_price": "$508.20", "discount_pct": "65", "variant_id": "" } },
+        "size-40ft":    { "type": "sheet_size", "settings": { "label": "40 Feet",  "price": "$210.99", "compare_price": "$677.60", "discount_pct": "68", "variant_id": "" } },
+        "film-vivid":   { "type": "film_style", "settings": { "label": "VIVID AF",         "option_value": "vivid-af",     "swatch_css": "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)", "badge": "FREE UPGRADE" } },
+        "film-glitter": { "type": "film_style", "settings": { "label": "Glitter",          "option_value": "glitter",      "swatch_css": "radial-gradient(circle, #fffde7 30%, #f5c518 100%)",          "badge": "" } },
+        "film-glow":    { "type": "film_style", "settings": { "label": "Glow in the Dark", "option_value": "glow-in-dark", "swatch_css": "#8bc34a",                                                      "badge": "" } },
+        "film-gold":    { "type": "film_style", "settings": { "label": "Gold Foil",        "option_value": "gold-foil",    "swatch_css": "linear-gradient(135deg,#c9a84c,#f5e07a,#c9a84c)",              "badge": "" } },
+        "film-silver":  { "type": "film_style", "settings": { "label": "Silver Foil",      "option_value": "silver-foil",  "swatch_css": "linear-gradient(135deg,#9e9e9e,#e0e0e0,#9e9e9e)",              "badge": "" } }
       },
       "block_order": [
         "size-1ft", "size-2ft", "size-5ft", "size-7ft", "size-10ft",
         "size-15ft", "size-20ft", "size-30ft", "size-40ft",
         "film-vivid", "film-glitter", "film-glow", "film-gold", "film-silver"
       ],
-      "settings": {
-        "badge_text": "FREE Upgrade to VIVID AF",
-        "unit_price": "$0.02/sq in",
-        "fulfillment_note": "Printed by Ninja. Ships from 🇺🇸",
-        "rating_count": "22,861",
-        "wash_count": "100",
-        "volume_text": "Buy More & Save Up To 67%",
-        "cutoff_hour": 17,
-        "sheet_width": "22",
-        "builder_cta": "BUILD YOUR OWN GANG SHEET",
-        "rewards_label": "NINJA REWARDS CASHBACK",
-        "rewards_pct": "10",
-        "rewards_cashback": "Earn up to $2.00 back on this item"
-      }
+      "settings": {}
     }
   },
   "order": ["main"]
