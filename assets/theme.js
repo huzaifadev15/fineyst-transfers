@@ -466,6 +466,37 @@ document.addEventListener('DOMContentLoaded', function () {
 /* ================= HEADER BEHAVIOURS (ported from Fineyst Patches) ================= */
 document.addEventListener('DOMContentLoaded', function () {
 
+  /* --- Measure the fixed header so content clears it ---
+     The announcement bar wraps to two lines on narrow screens, so the offset
+     can't be a fixed number. Publishes --header-offset and --nav-bottom. */
+  (function () {
+    var header = document.querySelector('.site-header');
+    var navbar = document.querySelector('.navbar-bg');
+    if (!header || !navbar) return;
+
+    function measure() {
+      var wasHidden = header.classList.contains('header-hidden');
+      if (wasHidden) header.classList.remove('header-hidden');
+
+      var navBottom = navbar.getBoundingClientRect().bottom + window.scrollY;
+      var capsule = header.querySelector('.capsule-tabs-wrap');
+      var bottom = capsule
+        ? capsule.getBoundingClientRect().bottom + window.scrollY
+        : navBottom;
+
+      var root = document.documentElement;
+      root.style.setProperty('--nav-bottom', Math.round(navBottom) + 'px');
+      root.style.setProperty('--header-offset', Math.round(bottom + 8) + 'px');
+
+      if (wasHidden) header.classList.add('header-hidden');
+    }
+
+    measure();
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  })();
+
   /* --- Mobile sidebar --- */
   var sidebar = document.getElementById('mobileSidebar');
   var overlay = document.getElementById('sidebarOverlay');

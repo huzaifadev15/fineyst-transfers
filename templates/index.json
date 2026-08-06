@@ -3,9 +3,19 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "heading_pre": "DTF Transfers Built for",
-        "heading_accent": "Every Print Shop",
-        "subheading": "Vibrant, durable direct-to-film transfers for shirts, hoodies, and more. No minimums, no setup fees, fast turnaround."
+        "title": "DTF TRANSFERS",
+        "subtitle": "No Minimums, Ready to Press, Shipped in 24 Hours",
+        "description": "Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time.",
+        "rating": "4.9",
+        "rating_note": "from thousands of happy customers",
+        "badges": "No Minimum Orders,Printed & Shipped in 24 Hours,100+ Wash Durability",
+        "primary_label": "Order Transfers by Size",
+        "primary_link": "/products/dtf-transfers",
+        "secondary_label": "Build a Gang Sheet",
+        "secondary_link": "/pages/gang-sheet-builder",
+        "column_1": "hero-1.jpg,hero-4.jpg,hero-7.jpg",
+        "column_2": "hero-2.jpg,hero-5.jpg,hero-1.jpg",
+        "column_3": "hero-3.jpg,hero-6.jpg,hero-4.jpg"
       }
     },
     "features": {

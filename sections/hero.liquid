@@ -1,37 +1,106 @@
-<section class="hero hero-dark">
-  <div class="container hero-inner">
-    <div class="hero-copy">
-      <p class="eyebrow">★★★★★ {{ section.settings.rating | default: "4.9" }} rating from thousands of happy customers</p>
-      <h1>{{ section.settings.heading_pre | default: "DTF Transfers Built for" }} <span class="accent-text">{{ section.settings.heading_accent | default: "Every Print Shop" }}</span></h1>
-      <p class="lead">{{ section.settings.subheading | default: "Vibrant, durable direct-to-film transfers for shirts, hoodies, and more. No minimums, no setup fees, fast turnaround." }}</p>
-      <div class="hero-ctas">
-        <a href="{{ section.settings.primary_link | default: '/products/dtf-transfers' }}" class="btn btn-accent">{{ section.settings.primary_label | default: "Order Transfers by Size" }}</a>
-        <a href="{{ section.settings.secondary_link | default: '/pages/gang-sheet-builder' }}" class="btn btn-outline">{{ section.settings.secondary_label | default: "Build a Gang Sheet" }}</a>
+{%- comment -%}
+  Hero — left copy block follows the Fineyst Patches composition (gradient
+  display title, bold subtitle, lead line, pill CTAs, check badges).
+  Right side is the Fineyst Neon Signs / Ninja Transfers scrolling image wall:
+  three columns that drift vertically at different speeds. Each column's list
+  is rendered twice so the -50% translate loops seamlessly.
+{%- endcomment -%}
+
+{%- assign col1 = section.settings.column_1 | default: 'hero-1.jpg,hero-4.jpg,hero-7.jpg' | split: ',' -%}
+{%- assign col2 = section.settings.column_2 | default: 'hero-2.jpg,hero-5.jpg,hero-1.jpg' | split: ',' -%}
+{%- assign col3 = section.settings.column_3 | default: 'hero-3.jpg,hero-6.jpg,hero-4.jpg' | split: ',' -%}
+
+<section class="hero-section" aria-labelledby="hero-heading" role="banner">
+  <div class="hero-bg-wrap">
+    <div class="hero-inner-wrap">
+
+      <!-- Left: copy -->
+      <div class="hero-left">
+        <div class="hero-inner">
+          <div class="hero-rating">
+            <span class="hero-rating-stars" aria-hidden="true">★★★★★</span>
+            <strong>{{ section.settings.rating | default: '4.9' }}</strong>
+            <span>{{ section.settings.rating_note | default: 'from thousands of happy customers' }}</span>
+          </div>
+
+          <header>
+            <h1 id="hero-heading" class="hero-heading">
+              <span class="hero-title-main">{{ section.settings.title | default: 'DTF TRANSFERS' }}</span>
+              <span class="hero-subtitle">{{ section.settings.subtitle | default: 'No Minimums, Ready to Press, Shipped in 24 Hours' }}</span>
+            </h1>
+          </header>
+
+          <p class="hero-desc">{{ section.settings.description | default: 'Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time.' }}</p>
+
+          <nav class="hero-btns" aria-label="Primary actions">
+            <a href="{{ section.settings.primary_link | default: '/products/dtf-transfers' }}" class="hero-btn hero-btn--primary">
+              {{ section.settings.primary_label | default: 'Order Transfers by Size' }}
+            </a>
+            <a href="{{ section.settings.secondary_link | default: '/pages/gang-sheet-builder' }}" class="hero-btn hero-btn--secondary">
+              <span class="hero-btn-inner">{{ section.settings.secondary_label | default: 'Build a Gang Sheet' }}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hero-btn-arrow" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </span>
+            </a>
+          </nav>
+
+          <div class="hero-badges">
+            {%- assign badges = section.settings.badges | default: 'No Minimum Orders,Printed & Shipped in 24 Hours,100+ Wash Durability' | split: ',' -%}
+            {%- for badge in badges -%}
+              <span class="badge">
+                <span class="badge-icon" aria-hidden="true">
+                  <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                </span>
+                {{ badge | strip }}
+              </span>
+            {%- endfor -%}
+          </div>
+        </div>
       </div>
-      <ul class="hero-badges">
-        <li>No Minimum Orders</li>
-        <li>Printed &amp; Shipped in 24 Hours</li>
-        <li>100+ Wash Durability</li>
-      </ul>
+
+      <!-- Right: scrolling image wall (desktop) -->
+      <div class="hero-right" aria-hidden="true">
+        <div class="hero-cols-inner">
+          {%- assign columns = 'up-40,down-35,up-45' | split: ',' -%}
+          {%- for speed in columns -%}
+            {%- if forloop.index0 == 0 -%}{%- assign files = col1 -%}
+            {%- elsif forloop.index0 == 1 -%}{%- assign files = col2 -%}
+            {%- else -%}{%- assign files = col3 -%}{%- endif -%}
+            <div class="hero-col hero-col--{{ speed }}">
+              {%- for pass in (1..2) -%}
+                {%- for file in files -%}
+                  <div class="hero-img-wrap">
+                    <img src="{{ file | strip | asset_url }}"
+                         alt=""
+                         loading="{% if pass == 1 and forloop.first %}eager{% else %}lazy{% endif %}"
+                         width="220" height="295">
+                  </div>
+                {%- endfor -%}
+              {%- endfor -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
     </div>
 
-    <div class="hero-grid">
-      {%- comment -%}
-        Static placeholders from /assets for the initial build. Swap each tile
-        for a picked image later, or point static_media_N at another filename.
-      {%- endcomment -%}
-      {%- assign default_media = "dtf-1.jpg,dtf-2.jpg,dtf-video-1.mp4,dtf-3.jpg,dtf-4.jpg" | split: "," -%}
-      {%- for i in (1..5) -%}
-        {%- assign key = 'static_media_' | append: i -%}
-        {%- assign file = section.settings[key] | default: default_media[forloop.index0] -%}
-        <div class="hero-grid-tile hero-grid-tile-{{ i }}">
-          {%- if file contains '.mp4' -%}
-            <video src="{{ file | asset_url }}" autoplay loop muted playsinline></video>
-          {%- else -%}
-            <img src="{{ file | asset_url }}" alt="DTF transfer sample {{ i }}" loading="{% if i > 2 %}lazy{% else %}eager{% endif %}">
-          {%- endif -%}
-        </div>
-      {%- endfor -%}
+    <!-- Mobile: horizontal marquee rows -->
+    <div class="hero-mobile-media" aria-hidden="true">
+      {%- assign m_row1 = col1 | concat: col2 -%}
+      {%- assign m_row2 = col3 | concat: col2 -%}
+      <div class="hero-mobile-track hero-mobile-track--left">
+        {%- for pass in (1..2) -%}
+          {%- for file in m_row1 -%}
+            <div class="hero-mobile-tile"><img src="{{ file | strip | asset_url }}" alt="" loading="lazy" width="114" height="153"></div>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+      <div class="hero-mobile-track hero-mobile-track--right">
+        {%- for pass in (1..2) -%}
+          {%- for file in m_row2 -%}
+            <div class="hero-mobile-tile"><img src="{{ file | strip | asset_url }}" alt="" loading="lazy" width="114" height="153"></div>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
     </div>
   </div>
 </section>
@@ -40,20 +109,20 @@
 {
   "name": "Hero",
   "settings": [
-    { "type": "text", "id": "heading_pre", "label": "Heading (start)" },
-    { "type": "text", "id": "heading_accent", "label": "Heading (accent word)" },
-    { "type": "textarea", "id": "subheading", "label": "Subheading" },
-    { "type": "text", "id": "rating", "label": "Rating text" },
-    { "type": "text", "id": "primary_label", "label": "Primary button label" },
+    { "type": "text", "id": "title", "label": "Display title", "default": "DTF TRANSFERS" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "No Minimums, Ready to Press, Shipped in 24 Hours" },
+    { "type": "textarea", "id": "description", "label": "Description" },
+    { "type": "text", "id": "rating", "label": "Rating", "default": "4.9" },
+    { "type": "text", "id": "rating_note", "label": "Rating note", "default": "from thousands of happy customers" },
+    { "type": "text", "id": "badges", "label": "Badges", "info": "Comma separated.", "default": "No Minimum Orders,Printed & Shipped in 24 Hours,100+ Wash Durability" },
+    { "type": "text", "id": "primary_label", "label": "Primary button label", "default": "Order Transfers by Size" },
     { "type": "url", "id": "primary_link", "label": "Primary button link" },
-    { "type": "text", "id": "secondary_label", "label": "Secondary button label" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "Build a Gang Sheet" },
     { "type": "url", "id": "secondary_link", "label": "Secondary button link" },
-    { "type": "header", "content": "Collage tiles" },
-    { "type": "text", "id": "static_media_1", "label": "Tile 1 file", "info": "Filename in /assets. .mp4 renders as a looping video." },
-    { "type": "text", "id": "static_media_2", "label": "Tile 2 file" },
-    { "type": "text", "id": "static_media_3", "label": "Tile 3 file (tall)" },
-    { "type": "text", "id": "static_media_4", "label": "Tile 4 file" },
-    { "type": "text", "id": "static_media_5", "label": "Tile 5 file" }
+    { "type": "header", "content": "Scrolling image columns" },
+    { "type": "text", "id": "column_1", "label": "Column 1 files", "info": "Comma-separated filenames from /assets. Scrolls up.", "default": "hero-1.jpg,hero-4.jpg,hero-7.jpg" },
+    { "type": "text", "id": "column_2", "label": "Column 2 files", "info": "Scrolls down.", "default": "hero-2.jpg,hero-5.jpg,hero-1.jpg" },
+    { "type": "text", "id": "column_3", "label": "Column 3 files", "info": "Scrolls up, slower.", "default": "hero-3.jpg,hero-6.jpg,hero-4.jpg" }
   ],
   "presets": [{ "name": "Hero" }]
 }
