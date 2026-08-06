@@ -1,0 +1,81 @@
+{%- comment -%}
+  Things to Know — structure ported from the Patches "Things to Know" section:
+  a column of overlapping, slightly rotated image cards on the left and a
+  divider-separated Q&A list on the right, each row carrying a small category
+  label beside the question. Block-driven so rows stay editable.
+{%- endcomment -%}
+
+{%- assign img_top = section.settings.image_top_file | default: 'hero-1.jpg' -%}
+{%- assign img_mid = section.settings.image_middle_file | default: 'hero-4.jpg' -%}
+{%- assign img_bot = section.settings.image_bottom_file | default: 'hero-7.jpg' -%}
+
+<section class="things-know">
+  <div class="things-know__shell">
+
+    <div class="things-know__media" aria-hidden="true">
+      {%- assign media = img_top | append: ',top|' | append: img_mid | append: ',middle|' | append: img_bot | append: ',bottom' | split: '|' -%}
+      {%- for item in media -%}
+        {%- assign m = item | split: ',' -%}
+        <div class="things-know__media-card things-know__media-card--{{ m[1] }}">
+          <img src="{{ m[0] | strip | asset_url }}" alt="" loading="lazy" width="520" height="520">
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="things-know__content">
+      <div class="things-know__header">
+        <p class="things-know__eyebrow">{{ section.settings.eyebrow | default: 'Things to Know' }}</p>
+      </div>
+
+      <div class="things-know__list">
+        {%- for block in section.blocks -%}
+          <article class="things-know__item" {{ block.shopify_attributes }}>
+            <div class="things-know__question">
+              <span class="things-know__question-meta">{{ block.settings.label }}</span>
+              <span class="things-know__question-text">{{ block.settings.question }}</span>
+            </div>
+            <div class="things-know__answer">
+              <div class="things-know__answer-inner">{{ block.settings.answer }}</div>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Things to Know",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Things to Know" },
+    { "type": "text", "id": "image_top_file", "label": "Top image file", "default": "hero-1.jpg" },
+    { "type": "text", "id": "image_middle_file", "label": "Middle image file", "default": "hero-4.jpg" },
+    { "type": "text", "id": "image_bottom_file", "label": "Bottom image file", "default": "hero-7.jpg" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Row",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Category label" },
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "textarea", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Things to Know",
+      "blocks": [
+        { "type": "item", "settings": { "label": "Print Process", "question": "How do DTF transfers work?", "answer": "Your artwork is printed onto a PET film with pigment ink, backed with a hot-melt adhesive powder, and cured. You lay the film on your garment, press it, and peel. No weeding, no cutting, no screens - the design bonds straight into the fabric with a soft, flexible finish." } },
+        { "type": "item", "settings": { "label": "Types", "question": "What types of transfers can I order?", "answer": "Standard DTF for everyday apparel, gang sheets to fit many designs on one sheet, UV DTF for mugs and hard surfaces, puff for a raised 3D effect, glitter and metallic foil for decorative accents, reflective for high-visibility workwear, and sublimation for a dye-in-the-fabric hand feel on polyester." } },
+        { "type": "item", "settings": { "label": "Uses", "question": "What are DTF transfers used for?", "answer": "Team and event merch, company uniforms and workwear, small-batch clothing brands, school and club apparel, promotional giveaways, and craft or Etsy shops. Because they press onto almost anything, one order can cover tees, hoodies, hats, tote bags, and aprons at once." } },
+        { "type": "item", "settings": { "label": "Materials", "question": "What fabrics do DTF transfers work on?", "answer": "Cotton, polyester, cotton-poly blends, tri-blends, canvas, denim, nylon, leather, and most performance fabrics. Light or dark garments both work because every transfer is printed with a white ink underbase, so colors stay accurate on black just as they do on white." } },
+        { "type": "item", "settings": { "label": "Pressing", "question": "What settings should I press at?", "answer": "Most transfers press at 300-320°F for 10-15 seconds with medium pressure, then peel. Whether you peel hot or cold depends on the transfer type - the exact setting ships with every order, and full guidance lives on our pressing instructions page." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

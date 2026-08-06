@@ -1,0 +1,99 @@
+{%- comment -%}
+  Affordable Transfers — component structure mirrors the Fineyst Patches
+  "Affordable Custom Patches" section: centred header, a collapsible tinted
+  info panel behind a gradient toggle bar, then a 4-up product type grid with
+  corner badge, price line and quote button. Content and palette are Transfers.
+{%- endcomment -%}
+
+<section class="affordable-section">
+  <div class="affordable-container">
+    <div class="affordable-header">
+      <h2 class="affordable-title">{{ section.settings.heading | default: 'Affordable Custom DTF Transfers' }}</h2>
+      <p class="affordable-subtitle">{{ section.settings.subheading | default: 'No Minimums, No Setup Fees, Free Shipping' }}</p>
+
+      <div class="collapse-wrap">
+        <details class="collapse-details">
+          <summary class="collapse-btn" aria-label="Toggle additional information">
+            <span class="collapse-bar"></span>
+            <span class="collapse-chevron">
+              <svg width="20" height="20" fill="none" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="M6 8l4 4 4-4" stroke="#019AFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </summary>
+
+          <div class="collapse-body">
+            <p class="collapse-text">Looking for the best place to order custom DTF transfers that are vibrant, durable, and delivered fast? You have found it. At Fineyst Transfers, we are your go-to source for press-ready transfers with no order minimums, expert support, and no setup fees.</p>
+            <p class="collapse-heading">HERE'S WHAT YOU SHOULD KNOW RIGHT AWAY:</p>
+            <ul class="collapse-list">
+              <li><strong>TURNAROUND TIME:</strong> Most orders are printed and shipped within 24 hours, with same-day options available.</li>
+              <li><strong>TRANSFER TYPES WE PRINT:</strong> Choose from <a href="/products/dtf-transfers">DTF by size</a>, <a href="/pages/gang-sheet-builder">gang sheets</a>, <a href="/collections/uv-dtf">UV DTF</a>, <a href="/collections/puff-transfers">puff</a>, <a href="/collections/glitter-transfers">glitter</a>, and <a href="/collections/reflective-transfers">reflective transfers</a> - all press-ready.</li>
+              <li><strong>COMMON USES:</strong> Perfect for t-shirts, hoodies, hats, tote bags, team merch, uniforms, event apparel, and more.</li>
+              <li><strong>WHAT FABRICS WORK?</strong> Cotton, polyester, blends, canvas, denim, nylon, and more - light or dark, no special prep needed.</li>
+              <li><strong>DESIGN HELP &amp; FILE PREP:</strong> Send a PNG, PDF, or AI file and we will handle the rest. Not print-ready? Our team will clean it up free.</li>
+              <li><strong>ARE DTF TRANSFERS EXPENSIVE? NOT HERE.</strong> You get wholesale pricing, volume discounts, free shipping, and no hidden fees.</li>
+            </ul>
+            <p class="collapse-ready">Ready to Get Started?</p>
+            <p>Upload your artwork today - it is fast, free to quote, and fully supported by real humans who care about print quality.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <h2 class="shop-heading">{{ section.settings.grid_heading | default: 'Shop Transfer Types - DTF, UV DTF, Puff, Glitter &amp; More' }}</h2>
+
+    <div class="patch-grid">
+      {%- assign transfer_types = "DTF TRANSFERS BY SIZE,dtf-transfers,$0.02 per sq. in.,Press any design on any garment or color.,dtf-1.jpg|DTF GANG SHEETS,premium-dtf-gang-sheets,$0.02 per sq. in.,Fit more designs per sheet and save.,dtf-2.jpg|UV DTF TRANSFERS,uv-dtf-transfers,$0.06 per sq. in.,For mugs and hard surfaces - no heat needed.,dtf-3.jpg|PUFF TRANSFERS,puff-transfers,$0.09 per sq. in.,Raised 3D texture with a premium finish.,dtf-4.jpg|GLITTER TRANSFERS,glitter-transfers,$0.07 per sq. in.,Sparkle finish that survives the wash.,dtf-5.avif|REFLECTIVE TRANSFERS,reflective-transfers,$0.11 per sq. in.,High-visibility shine under direct light.,dtf-6.avif|METALLIC FOIL TRANSFERS,metallic-foil-transfers,$0.10 per sq. in.,Mirror-bright gold and silver accents.,dtf-8.avif|SUBLIMATION TRANSFERS,sublimation-transfers,$0.05 per sq. in.,Soft hand feel that dyes into the fabric.,hero-3.jpg" | split: "|" -%}
+
+      {%- for item in transfer_types -%}
+        {%- assign parts = item | split: "," -%}
+        {%- assign transfer_product = all_products[parts[1]] -%}
+        {%- assign transfer_image = transfer_product.featured_image | default: transfer_product.images.first -%}
+        {%- if transfer_product != blank -%}
+          {%- assign transfer_url = transfer_product.url -%}
+        {%- else -%}
+          {%- assign transfer_url = parts[1] | prepend: '/products/' -%}
+        {%- endif -%}
+        <article class="patch-card">
+          <a href="{{ transfer_url }}" class="patch-card-link" aria-label="View {{ parts[0] }}">
+            <figure class="patch-card-fig">
+              <span class="patch-badge">{{ section.settings.badge | default: 'No minimum' }}</span>
+              {%- if transfer_image != blank -%}
+                <img
+                  src="{{ transfer_image | image_url: width: 700, height: 700, crop: 'center' }}"
+                  alt="{{ transfer_image.alt | default: parts[0] | escape }}"
+                  width="225" height="225" loading="lazy">
+              {%- else -%}
+                <img src="{{ parts[4] | strip | asset_url }}"
+                     alt="{{ parts[0] | escape }}"
+                     width="225" height="225" loading="lazy">
+              {%- endif -%}
+            </figure>
+            <div class="patch-card-body">
+              <p class="patch-card-name">{{ parts[0] }}</p>
+              <p class="patch-card-price">As low as {{ parts[2] }}</p>
+              <p class="patch-card-desc">{{ parts[3] }}</p>
+              <div class="patch-card-cta">
+                <span class="patch-card-btn">{{ section.settings.cta_label | default: 'Get a Quote' }}</span>
+              </div>
+            </div>
+          </a>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Affordable Transfers",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Affordable Custom DTF Transfers" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "No Minimums, No Setup Fees, Free Shipping" },
+    { "type": "text", "id": "grid_heading", "label": "Grid heading", "default": "Shop Transfer Types - DTF, UV DTF, Puff, Glitter & More" },
+    { "type": "text", "id": "badge", "label": "Card badge", "default": "No minimum" },
+    { "type": "text", "id": "cta_label", "label": "Card button label", "default": "Get a Quote" }
+  ],
+  "presets": [{ "name": "Affordable Transfers" }]
+}
+{% endschema %}

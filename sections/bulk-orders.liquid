@@ -1,0 +1,51 @@
+{%- comment -%}
+  Bulk Orders — structure ported from the Patches "Bulk Orders" banner:
+  full-bleed photo with a dark scrim, then pill badge, heading, description,
+  trust badge and CTA stacked in a left-aligned column.
+{%- endcomment -%}
+
+{%- assign bulk_bg = section.settings.static_image | default: 'dtf-4.jpg' -%}
+
+<section class="bulk-orders-section"
+  style="{% if section.settings.bg_image != blank %}background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('{{ section.settings.bg_image | image_url: width: 2000 }}');{% else %}background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('{{ bulk_bg | strip | asset_url }}');{% endif %}">
+  <div class="bulk-container">
+    <div class="bulk-content">
+
+      <div class="bulk-badge">
+        <p><span class="bulk-badge-highlight">Free</span> Art Review &amp; <span class="bulk-badge-highlight">Unlimited</span> Reprints</p>
+      </div>
+
+      <h2 class="bulk-heading">{{ section.settings.heading | default: 'DTF Transfers — Single Prints &amp; Bulk Gang Sheets, Any Quantity' }}</h2>
+
+      <p class="bulk-desc">{{ section.settings.description | default: 'Our production floor runs a fleet of industry-leading DTF printers, so we handle orders of any size with 24-hour turnaround. From a one-off tee to thousands of gang sheets, every transfer comes off the line with the same color accuracy and wash durability.' }}</p>
+
+      <div class="bulk-trust">
+        <div class="bulk-trust-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
+          <span>{{ section.settings.trust_text | default: '25,000+ Trusted Customers' }}</span>
+        </div>
+      </div>
+
+      <a href="{{ section.settings.cta_url | default: '/products/dtf-transfers' }}" class="bulk-cta">
+        {{ section.settings.cta_text | default: 'Get Started' }}
+      </a>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bulk Orders",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "DTF Transfers — Single Prints & Bulk Gang Sheets, Any Quantity" },
+    { "type": "textarea", "id": "description", "label": "Description" },
+    { "type": "text", "id": "trust_text", "label": "Trust badge text", "default": "25,000+ Trusted Customers" },
+    { "type": "text", "id": "cta_text", "label": "Button text", "default": "Get Started" },
+    { "type": "url", "id": "cta_url", "label": "Button URL" },
+    { "type": "image_picker", "id": "bg_image", "label": "Background image" },
+    { "type": "text", "id": "static_image", "label": "Static background file", "info": "Filename in /assets, used when no image is picked.", "default": "dtf-4.jpg" }
+  ],
+  "presets": [{ "name": "Bulk Orders" }]
+}
+{% endschema %}
