@@ -1,0 +1,77 @@
+{%- comment -%}
+  PDP Questions & Answers — answered-question count, an "Ask a question" CTA,
+  and a list of Q/A pairs each attributed to the store with a date.
+  Mirrors the Ninja Transfers PDP Q&A block.
+{%- endcomment -%}
+
+<section class="pdp-qa">
+  <div class="pdp-qa-inner">
+
+    <header class="pdp-qa-head">
+      <h2>{{ section.settings.heading | default: 'Questions & Answers' }}</h2>
+      <p class="pdp-qa-count">{{ section.blocks.size }} answered questions</p>
+      <a class="pdp-qa-ask" href="{{ section.settings.ask_link | default: '/pages/contact-us' }}">{{ section.settings.ask_label | default: 'Ask a question' }}</a>
+    </header>
+
+    <div class="pdp-qa-list">
+      {%- for block in section.blocks -%}
+        <article class="pdp-qa-item" {{ block.shopify_attributes }}>
+          <div class="pdp-qa-who">
+            <p class="pdp-qa-name">{{ block.settings.name }}</p>
+            <span class="pdp-qa-verified">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Verified User
+            </span>
+          </div>
+
+          <div class="pdp-qa-main">
+            <p class="pdp-qa-q"><span class="pdp-qa-marker">Q:</span> {{ block.settings.question }}</p>
+            <div class="pdp-qa-a">
+              <p><span class="pdp-qa-marker">A:</span> {{ block.settings.answer }}</p>
+            </div>
+            <p class="pdp-qa-by">By {{ section.settings.brand | default: 'Fineyst Transfers' }}</p>
+          </div>
+
+          <span class="pdp-qa-date">{{ block.settings.date }}</span>
+        </article>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PDP Questions & Answers",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Questions & Answers" },
+    { "type": "text", "id": "ask_label", "label": "CTA label", "default": "Ask a question" },
+    { "type": "url", "id": "ask_link", "label": "CTA link" },
+    { "type": "text", "id": "brand", "label": "Answered by", "default": "Fineyst Transfers" }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Asked by" },
+        { "type": "textarea", "id": "question", "label": "Question" },
+        { "type": "textarea", "id": "answer", "label": "Answer" },
+        { "type": "text", "id": "date", "label": "Date" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Questions & Answers",
+      "blocks": [
+        { "type": "qa", "settings": { "name": "Yennys", "question": "I need DTF patches", "answer": "We print DTF patch sheets too - upload your artwork and choose the patch size at checkout.", "date": "07/23/26" } },
+        { "type": "qa", "settings": { "name": "Rosemarie", "question": "Can you help me design a decal for tumblers?", "answer": "We do not create designs from scratch, but our art team will clean up and resize any file you send. For tumblers, UV DTF is the transfer you want.", "date": "07/14/26" } },
+        { "type": "qa", "settings": { "name": "Charlotte", "question": "What size do you recommend for a left-chest pocket design on a t-shirt?", "answer": "For pocket-size designs we recommend around 3\" wide.", "date": "07/08/26" } },
+        { "type": "qa", "settings": { "name": "Joycelyn", "question": "Do you make UV DTF stickers as small as 1.5 x 2 inches?", "answer": "Absolutely - there is no minimum size, and small designs price out at just a few cents each.", "date": "07/08/26" } },
+        { "type": "qa", "settings": { "name": "Stacy", "question": "I'm starting a business making tea towels with sarcastic sayings. Is this something you would print?", "answer": "Yes. Upload your designs, choose the size and quantity, and we will ship you press-ready transfers for your towels.", "date": "06/30/26" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
