@@ -462,3 +462,155 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+/* ================= HEADER BEHAVIOURS (ported from Fineyst Patches) ================= */
+document.addEventListener('DOMContentLoaded', function () {
+
+  /* --- Mobile sidebar --- */
+  var sidebar = document.getElementById('mobileSidebar');
+  var overlay = document.getElementById('sidebarOverlay');
+  var openBtn = document.getElementById('mobileMenuOpen');
+  var closeBtn = document.getElementById('mobileMenuClose');
+
+  function setSidebar(open) {
+    if (!sidebar || !overlay) return;
+    sidebar.classList.toggle('open', open);
+    overlay.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  if (openBtn) openBtn.addEventListener('click', function () { setSidebar(true); });
+  if (closeBtn) closeBtn.addEventListener('click', function () { setSidebar(false); });
+  if (overlay) overlay.addEventListener('click', function () { setSidebar(false); });
+
+  /* --- Capsule tab bar: arrow scroll --- */
+  var tabsScroll = document.getElementById('capsuleTabsScroll');
+  var tabsArrow = document.getElementById('capsuleTabArrow');
+  if (tabsScroll && tabsArrow) {
+    tabsArrow.addEventListener('click', function () {
+      tabsScroll.scrollBy({ left: 160, behavior: 'smooth' });
+    });
+  }
+
+  /* --- Search overlay --- */
+  (function () {
+    var searchOverlay = document.getElementById('searchOverlay');
+    var input = document.getElementById('searchInput');
+    var toggleBtn = document.getElementById('searchToggleBtn');
+    var closeSearchBtn = document.getElementById('searchCloseBtn');
+    var submitBtn = document.getElementById('searchSubmitBtn');
+    var resultsEl = document.getElementById('searchResults');
+    var tabAll = document.getElementById('tabAll');
+    var tabProducts = document.getElementById('tabProducts');
+    var tabPages = document.getElementById('tabPages');
+    if (!searchOverlay || !input || !toggleBtn) return;
+
+    var allResults = [];
+    var activeFilter = 'all';
+    var debounceTimer = null;
+
+    function openSearch() {
+      searchOverlay.classList.add('open');
+      searchOverlay.setAttribute('aria-hidden', 'false');
+      setTimeout(function () { input.focus(); }, 50);
+    }
+    function closeSearch() {
+      searchOverlay.classList.remove('open');
+      searchOverlay.setAttribute('aria-hidden', 'true');
+    }
+    function goToSearch() {
+      if (input.value.trim()) {
+        window.location.href = '/search?q=' + encodeURIComponent(input.value.trim()) + '&type=product,page';
+      }
+    }
+
+    toggleBtn.addEventListener('click', openSearch);
+    if (closeSearchBtn) closeSearchBtn.addEventListener('click', closeSearch);
+    if (submitBtn) submitBtn.addEventListener('click', goToSearch);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSearch(); });
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') goToSearch(); });
+
+    [tabAll, tabProducts, tabPages].forEach(function (tab) {
+      if (!tab) return;
+      tab.addEventListener('click', function () {
+        activeFilter = tab.dataset.filter;
+        [tabAll, tabProducts, tabPages].forEach(function (t) { if (t) t.classList.remove('active'); });
+        tab.classList.add('active');
+        renderResults();
+      });
+    });
+
+    function pageIcon() {
+      return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+    }
+
+    function renderResults() {
+      var filtered = allResults.filter(function (r) {
+        return activeFilter === 'all' || r.type === activeFilter;
+      });
+      if (!filtered.length) {
+        resultsEl.innerHTML = '<div class="search-empty">No results found.</div>';
+        return;
+      }
+      resultsEl.innerHTML = filtered.map(function (r) {
+        var iconHtml = r.image ? '<img src="' + r.image + '" alt="' + r.title + '">' : pageIcon();
+        var desc = r.body ? r.body.replace(/<[^>]+>/g, '').substring(0, 90) + '…' : '';
+        return '<a href="' + r.url + '" class="search-result-item">'
+          + '<div class="search-result-icon">' + iconHtml + '</div>'
+          + '<div class="search-result-info">'
+            + '<div class="search-result-title">' + r.title + '</div>'
+            + (desc ? '<div class="search-result-desc">' + desc + '</div>' : '')
+            + '<div class="search-result-type">' + (r.type === 'product' ? 'Product' : 'Page') + '</div>'
+          + '</div></a>';
+      }).join('');
+    }
+
+    function updateTabs(products, pages) {
+      if (tabAll) tabAll.textContent = 'All (' + (products + pages) + ')';
+      if (tabProducts) tabProducts.textContent = 'Products (' + products + ')';
+      if (tabPages) tabPages.textContent = 'Pages (' + pages + ')';
+    }
+
+    input.addEventListener('input', function () {
+      clearTimeout(debounceTimer);
+      var q = input.value.trim();
+      if (!q) {
+        allResults = [];
+        updateTabs(0, 0);
+        resultsEl.innerHTML = '<div class="search-empty">Start typing to search…</div>';
+        return;
+      }
+      debounceTimer = setTimeout(function () {
+        fetch('/search/suggest.json?q=' + encodeURIComponent(q) + '&resources[type]=product%2Cpage&resources[limit]=8')
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            var resources = (data.resources && data.resources.results) || {};
+            var products = (resources.products || []).map(function (p) {
+              var img = p.featured_image ? p.featured_image.url : (p.image ? p.image.url : null);
+              return { type: 'product', title: p.title, url: p.url, image: img, body: p.description || p.body || '' };
+            });
+            var pages = (resources.pages || []).map(function (p) {
+              return { type: 'page', title: p.title, url: p.url, image: null, body: p.body || p.body_html || '' };
+            });
+            allResults = products.concat(pages);
+            updateTabs(products.length, pages.length);
+            renderResults();
+          })
+          .catch(function () { resultsEl.innerHTML = '<div class="search-empty">Something went wrong.</div>'; });
+      }, 250);
+    });
+  })();
+
+  /* --- Hide header on scroll down (mobile only) --- */
+  (function () {
+    if (window.innerWidth > 768) return;
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    var lastY = 0;
+    window.addEventListener('scroll', function () {
+      if (window.innerWidth > 768) return;
+      var y = window.scrollY;
+      header.classList.toggle('header-hidden', y > lastY && y > 60);
+      lastY = y;
+    }, { passive: true });
+  })();
+});

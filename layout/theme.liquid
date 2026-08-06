@@ -6,9 +6,40 @@
   <title>{{ page_title }}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
   {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
   <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
+  {%- else -%}
+    <link rel="icon" href="{{ 'favicon.ico' | asset_url }}" sizes="any">
+  {%- endif -%}
+
   {{ content_for_header }}
+
+  <style>
+    @font-face {
+      font-family: "Averta";
+      src: url("{{ 'AvertaStd-Thin.woff' | asset_url }}") format("woff");
+      font-weight: 100 300; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Averta";
+      src: url("{{ 'Averta-Regular.woff' | asset_url }}") format("woff");
+      font-weight: 301 499; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Averta";
+      src: url("{{ 'AvertaPE-Bold.woff' | asset_url }}") format("woff");
+      font-weight: 500 749; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Averta";
+      src: url("{{ 'Averta-Black.woff' | asset_url }}") format("woff");
+      font-weight: 750 900; font-style: normal; font-display: swap;
+    }
+  </style>
+
   {{ 'theme.css' | asset_url | stylesheet_tag }}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
 </head>
 <body class="template-{{ template.name }}">
   {% section 'header' %}

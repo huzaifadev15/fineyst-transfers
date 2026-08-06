@@ -5,19 +5,33 @@
       <h1>{{ section.settings.heading_pre | default: "DTF Transfers Built for" }} <span class="accent-text">{{ section.settings.heading_accent | default: "Every Print Shop" }}</span></h1>
       <p class="lead">{{ section.settings.subheading | default: "Vibrant, durable direct-to-film transfers for shirts, hoodies, and more. No minimums, no setup fees, fast turnaround." }}</p>
       <div class="hero-ctas">
-        <a href="{{ section.settings.primary_link | default: '/collections/transfers-by-size' }}" class="btn btn-accent">Order Transfers by Size</a>
-        <a href="{{ section.settings.secondary_link | default: '/pages/gang-sheet-builder' }}" class="btn btn-outline">Build a Gang Sheet</a>
+        <a href="{{ section.settings.primary_link | default: '/products/dtf-transfers' }}" class="btn btn-accent">{{ section.settings.primary_label | default: "Order Transfers by Size" }}</a>
+        <a href="{{ section.settings.secondary_link | default: '/pages/gang-sheet-builder' }}" class="btn btn-outline">{{ section.settings.secondary_label | default: "Build a Gang Sheet" }}</a>
       </div>
       <ul class="hero-badges">
         <li>No Minimum Orders</li>
-        <li>Fast, Reliable Shipping</li>
-        <li>Quality Guaranteed</li>
+        <li>Printed &amp; Shipped in 24 Hours</li>
+        <li>100+ Wash Durability</li>
       </ul>
     </div>
+
     <div class="hero-grid">
-      {% for i in (1..6) %}
-        <div class="hero-grid-tile hero-grid-tile-{{ i }}"></div>
-      {% endfor %}
+      {%- comment -%}
+        Static placeholders from /assets for the initial build. Swap each tile
+        for a picked image later, or point static_media_N at another filename.
+      {%- endcomment -%}
+      {%- assign default_media = "dtf-1.jpg,dtf-2.jpg,dtf-video-1.mp4,dtf-3.jpg,dtf-4.jpg" | split: "," -%}
+      {%- for i in (1..5) -%}
+        {%- assign key = 'static_media_' | append: i -%}
+        {%- assign file = section.settings[key] | default: default_media[forloop.index0] -%}
+        <div class="hero-grid-tile hero-grid-tile-{{ i }}">
+          {%- if file contains '.mp4' -%}
+            <video src="{{ file | asset_url }}" autoplay loop muted playsinline></video>
+          {%- else -%}
+            <img src="{{ file | asset_url }}" alt="DTF transfer sample {{ i }}" loading="{% if i > 2 %}lazy{% else %}eager{% endif %}">
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
     </div>
   </div>
 </section>
@@ -30,9 +44,16 @@
     { "type": "text", "id": "heading_accent", "label": "Heading (accent word)" },
     { "type": "textarea", "id": "subheading", "label": "Subheading" },
     { "type": "text", "id": "rating", "label": "Rating text" },
+    { "type": "text", "id": "primary_label", "label": "Primary button label" },
     { "type": "url", "id": "primary_link", "label": "Primary button link" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button label" },
     { "type": "url", "id": "secondary_link", "label": "Secondary button link" },
-    { "type": "image_picker", "id": "image", "label": "Hero image" }
+    { "type": "header", "content": "Collage tiles" },
+    { "type": "text", "id": "static_media_1", "label": "Tile 1 file", "info": "Filename in /assets. .mp4 renders as a looping video." },
+    { "type": "text", "id": "static_media_2", "label": "Tile 2 file" },
+    { "type": "text", "id": "static_media_3", "label": "Tile 3 file (tall)" },
+    { "type": "text", "id": "static_media_4", "label": "Tile 4 file" },
+    { "type": "text", "id": "static_media_5", "label": "Tile 5 file" }
   ],
   "presets": [{ "name": "Hero" }]
 }

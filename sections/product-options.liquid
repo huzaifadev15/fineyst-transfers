@@ -7,6 +7,8 @@
           <a class="option-media" href="{{ block.settings.link | default: '#' }}">
             {% if block.settings.image %}
               {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {% elsif block.settings.static_image != blank %}
+              <img src="{{ block.settings.static_image | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy">
             {% else %}
               <div class="option-media-placeholder"></div>
             {% endif %}
@@ -39,6 +41,8 @@
       "name": "Option",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "static_image", "label": "Static image file", "info": "Filename in /assets, e.g. dtf-1.jpg. Used when no image is picked." },
+        { "type": "text", "id": "static_video", "label": "Static video file", "info": "Filename in /assets, e.g. dtf-video-1.mp4. Takes priority over the static image." },
         { "type": "text", "id": "badge", "label": "Badge" },
         { "type": "text", "id": "title", "label": "Title" },
         { "type": "text", "id": "price_note", "label": "Price note" },

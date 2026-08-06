@@ -1,38 +1,189 @@
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <p class="logo">Fineyst<span>Transfers</span></p>
-      <p>Custom DTF transfers for shirts, apparel, and merch.</p>
+{%- comment -%}
+  Footer — structure ported from Fineyst Patches (brand column + 4 collapsible
+  link columns, social/newsletter row, payments bar). Transfers content.
+{%- endcomment -%}
+
+<footer class="ft">
+  <div class="ft-inner">
+
+    <div class="ft-grid">
+
+      <!-- Brand / Contact -->
+      <div class="ft-brand">
+        <div class="ft-logo-wrap">
+          <a href="/">
+            <img src="{{ 'logo.svg' | asset_url }}" alt="Fineyst Transfers" class="ft-logo" width="240" height="40">
+          </a>
+          <p class="ft-tagline">Premium DTF Transfers, Printed &amp; Shipped in 24 Hours</p>
+        </div>
+
+        <div class="ft-contact">
+          <div class="ft-contact-row">
+            <span class="ft-contact-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <span>{{ section.settings.address | default: '122 Henderson Rd, Sandy Creek, NY 13145, USA' }}</span>
+          </div>
+          <div class="ft-contact-row">
+            <span class="ft-contact-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+            </span>
+            <span><a href="tel:{{ section.settings.phone | default: '+1-888-499-7708' | remove: '-' | remove: ' ' }}">{{ section.settings.phone | default: '+1-888-499-7708' }}</a></span>
+          </div>
+          <div class="ft-contact-row">
+            <span class="ft-contact-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            </span>
+            <span><a href="mailto:{{ section.settings.email | default: 'info@fineysttransfers.com' }}">{{ section.settings.email | default: 'info@fineysttransfers.com' }}</a></span>
+          </div>
+
+          <div class="ft-hours">
+            <div>
+              <div class="ft-hours-label">Chat</div>
+              <p>Available 24 hours a Day. 7 days a Week. 365 Days a Year.</p>
+            </div>
+            <div>
+              <div class="ft-hours-label">Phone</div>
+              <p>Mon-Sat: 9:00am - 6:00pm EST</p>
+              <p>Sun: Closed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transfers -->
+      <div class="ft-col">
+        <button class="ft-col-btn" onclick="ftToggle(this)" aria-expanded="false">
+          <span>TRANSFERS</span>
+          <svg class="ft-col-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <ul class="ft-col-links">
+          <li><a href="/products/dtf-transfers">DTF Transfers by Size</a></li>
+          <li><a href="/pages/gang-sheet-builder">Build a Gang Sheet</a></li>
+          <li><a href="/products/premium-dtf-gang-sheets">Upload a Gang Sheet</a></li>
+          <li><a href="/collections/uv-dtf">UV DTF Transfers</a></li>
+          <li><a href="/collections/puff-transfers">Puff Transfers</a></li>
+          <li><a href="/collections/dtf-transfers" class="ft-view-all">View all</a></li>
+        </ul>
+      </div>
+
+      <!-- Shop -->
+      <div class="ft-col">
+        <button class="ft-col-btn" onclick="ftToggle(this)" aria-expanded="false">
+          <span>SHOP</span>
+          <svg class="ft-col-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <ul class="ft-col-links">
+          <li><a href="/collections/short-sleeve">T-Shirts</a></li>
+          <li><a href="/collections/pullover-hoodies">Hoodies</a></li>
+          <li><a href="/collections/baseball-caps">Hats</a></li>
+          <li><a href="/collections/bags">Bags &amp; Totes</a></li>
+          <li><a href="/collections/supplies">Pressing Supplies</a></li>
+          <li><a href="/collections/all" class="ft-view-all">View all</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div class="ft-col">
+        <button class="ft-col-btn" onclick="ftToggle(this)" aria-expanded="false">
+          <span>COMPANY</span>
+          <svg class="ft-col-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <ul class="ft-col-links">
+          <li><a href="/pages/about-us">About Us</a></li>
+          <li><a href="/pages/how-it-works">How It Works</a></li>
+          <li><a href="/pages/pressing-instructions">Pressing Instructions</a></li>
+          <li><a href="/pages/faq">FAQs</a></li>
+          <li><a href="/pages/rewards">Fineyst Perks</a></li>
+          <li><a href="/pages/reviews">Reviews</a></li>
+          <li><a href="/pages/contact-us">Contact</a></li>
+          <li><a href="/pages/submit-an-order-issue">Order Issue Form</a></li>
+        </ul>
+      </div>
+
+      <!-- Policies -->
+      <div class="ft-col">
+        <button class="ft-col-btn" onclick="ftToggle(this)" aria-expanded="false">
+          <span>POLICIES</span>
+          <svg class="ft-col-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <ul class="ft-col-links">
+          <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/policies/terms-of-service">Terms &amp; Service</a></li>
+          <li><a href="/policies/shipping-policy">Shipping Policy</a></li>
+          <li><a href="/policies/refund-policy">Refund Policy</a></li>
+          <li><a href="/pages/cookie-policy">Cookie Policy</a></li>
+        </ul>
+      </div>
+
+    </div><!-- /ft-grid -->
+
+    <!-- Social + Newsletter -->
+    <div class="ft-mid">
+      <div class="ft-social">
+        <span class="ft-follow-label">FOLLOW US</span>
+        <div class="ft-social-links">
+          <a class="ft-social-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg class="ft-social-icon--stroke" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          </a>
+          <a class="ft-social-link" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg class="ft-social-icon--stroke" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a class="ft-social-link" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <svg class="ft-social-icon--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 1 1-1.84-2.48V9.77a5.7 5.7 0 1 0 4.93 5.64V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3a4.28 4.28 0 0 1-3.24-1.48z"/></svg>
+          </a>
+          <a class="ft-social-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg class="ft-social-icon--stroke" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="ft-newsletter">
+        <div class="ft-nl-title">Subscribe to Our Newsletter</div>
+        <p class="ft-nl-sub">Exclusive offers, pressing tips, and new product drops</p>
+        <form class="ft-nl-form" data-newsletter-form>
+          <input type="email" name="email" placeholder="Your email address" required class="ft-nl-input" data-newsletter-email>
+          <button type="submit" class="ft-nl-btn">Subscribe</button>
+        </form>
+        <p class="ft-nl-status" data-newsletter-status aria-live="polite"></p>
+      </div>
+    </div><!-- /ft-mid -->
+
+    <!-- Bottom bar -->
+    <div class="ft-bottom">
+      <div class="ft-bottom-inner">
+        <div class="ft-copy ft-copy-desktop">
+          <p>&copy; {{ 'now' | date: '%Y' }} Fineyst Transfers. All rights reserved.</p>
+        </div>
+        <div class="ft-payments">
+          <p class="ft-payments-label">Accepted Payment Methods</p>
+          <img src="{{ 'payment-methods.webp' | asset_url }}" alt="Accepted Payment Methods" loading="lazy" height="32">
+          <p class="ft-copy-mobile">&copy; {{ 'now' | date: '%Y' }} Fineyst Transfers. All rights reserved.</p>
+        </div>
+      </div>
     </div>
-    <div class="footer-links">
-      <div>
-        <h4>Shop</h4>
-        <a href="/collections/transfers-by-size">Transfers by Size</a>
-        <a href="/pages/gang-sheet-builder">Gang Sheet Builder</a>
-        <a href="/collections/blanks">Blanks</a>
-      </div>
-      <div>
-        <h4>Support</h4>
-        <a href="/pages/faq">FAQ</a>
-        <a href="/pages/how-it-works">How It Works</a>
-        <a href="/pages/contact">Contact</a>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <a href="/pages/about">About</a>
-        <a href="/policies/refund-policy">Refund Policy</a>
-        <a href="/policies/shipping-policy">Shipping Policy</a>
-      </div>
-    </div>
-  </div>
-  <div class="container footer-bottom">
-    <p>&copy; {{ 'now' | date: '%Y' }} Fineyst Transfers. All rights reserved.</p>
-  </div>
+
+  </div><!-- /ft-inner -->
 </footer>
+
+<script>
+  function ftToggle(btn) {
+    var list = btn.nextElementSibling;
+    var chevron = btn.querySelector('.ft-col-chevron');
+    var isOpen = list.classList.contains('open');
+    list.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', !isOpen);
+  }
+</script>
 
 {% schema %}
 {
   "name": "Footer",
-  "settings": []
+  "settings": [
+    { "type": "text", "id": "address", "label": "Address" },
+    { "type": "text", "id": "phone", "label": "Phone" },
+    { "type": "text", "id": "email", "label": "Email" }
+  ]
 }
 {% endschema %}
