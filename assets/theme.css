@@ -104,7 +104,7 @@ body.template-index main { padding-top: 0; }
 .logo-wrap { display: flex; justify-content: flex-start; flex-shrink: 0; }
 @media (max-width: 768px) { .logo-wrap { flex: 1; justify-content: center; } }
 .logo { display: flex; align-items: center; flex-shrink: 0; }
-.navbar-logo { height: 32px; width: auto; object-fit: contain; }
+.navbar-logo { height: 42px; width: auto; object-fit: contain; }
 
 /* Desktop nav */
 .desktop-nav {
@@ -479,6 +479,22 @@ body.template-index main { padding-top: 0; }
 }
 .hamburger-btn:hover { background: rgba(255, 255, 255, 0.1); }
 
+/* Between the mobile breakpoint and ~1200px the six nav items plus the logo are
+   wider than the bar, so tighten the nav and ease the logo back a little. */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .navbar-logo { height: 36px; }
+  .nav-link { font-size: 11.5px; padding: 8px 5px; letter-spacing: 0; }
+  .desktop-nav { gap: 0; }
+  .header-actions { gap: 6px; }
+  .quote-free { padding: 6px 6px; }
+  .quote-dark { padding: 6px 8px; }
+}
+/* Tightest desktop band: drop the CTA pill so the nav keeps some breathing
+   room. It still appears in the mobile sidebar and as the hero's primary CTA. */
+@media (min-width: 769px) and (max-width: 1080px) {
+  .header-actions .quote-wrap { display: none; }
+}
+
 @media (max-width: 768px) {
   .mobile-only { display: flex; }
   .desktop-nav { display: none; }
@@ -580,7 +596,7 @@ body.template-index main { padding-top: 0; }
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
-.search-overlay-logo { height: 32px; }
+.search-overlay-logo { height: 40px; }
 .search-close-btn {
   background: none; border: none; color: #fff; cursor: pointer;
   padding: 6px; display: flex; opacity: 0.7; transition: opacity 0.2s;
@@ -669,7 +685,7 @@ body.template-index main { padding-top: 0; }
 @media (min-width: 900px) { .ft-brand { align-items: flex-start; padding-right: 24px; } }
 .ft-logo-wrap { display: flex; flex-direction: column; align-items: center; }
 @media (min-width: 900px) { .ft-logo-wrap { align-items: flex-start; } }
-.ft-logo { height: 40px; width: auto; object-fit: contain; display: block; margin-bottom: 12px; transition: opacity 0.2s; }
+.ft-logo { height: 54px; width: auto; object-fit: contain; display: block; margin-bottom: 14px; transition: opacity 0.2s; }
 .ft-logo:hover { opacity: 0.8; }
 .ft-tagline { color: #d1d5db; font-size: 14px; font-weight: 600; text-align: center; }
 @media (min-width: 900px) { .ft-tagline { text-align: left; } }
