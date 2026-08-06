@@ -35,15 +35,16 @@
         "text": "<p>With our proprietary fast-peel process, our DTF Transfers give you professional results in just 13 seconds. Now you can press on anything!</p>",
         "cta_label": "See Pressing Instructions",
         "cta_link": "/pages/pressing-instructions",
-        "media_position": "right"
+        "media_position": "right",
+        "static_video": "dtf-video-6.mp4"
       }
     },
     "product-options": {
       "type": "product-options",
       "blocks": {
-        "o1": { "type": "option", "settings": { "badge": "Most Popular", "title": "DTF Transfers By Size", "price_note": "As low as $0.02 per sq. inch", "text": "Print any design on any garment, material, or color with incredible durability. By Size makes ordering simple.", "link": "/products/dtf-transfers", "cta": "Upload Designs" } },
-        "o2": { "type": "option", "settings": { "badge": "Easily Design & Build Online", "title": "Build a DTF Gang Sheet", "price_note": "As low as $0.02 per sq. inch", "text": "Create custom DTF gang sheets with our easy-to-use Gang Sheet Builder.", "link": "/pages/gang-sheet-builder", "cta": "Build a DTF Gang Sheet" } },
-        "o3": { "type": "option", "settings": { "badge": "For Pros - Print Ready Files", "title": "Upload a DTF Gang Sheet", "price_note": "As low as $0.02 per sq. inch", "text": "Upload your ready-to-print template (AI, PNG, PDF) to create vibrant and durable DTF Gang Sheets.", "link": "/pages/upload-gang-sheet", "cta": "Upload DTF Gang Sheet" } }
+        "o1": { "type": "option", "settings": { "static_image": "dtf-1.jpg", "badge": "Most Popular", "title": "DTF Transfers By Size", "price_note": "As low as $0.02 per sq. inch", "text": "Print any design on any garment, material, or color with incredible durability. By Size makes ordering simple.", "link": "/products/dtf-transfers", "cta": "Upload Designs" } },
+        "o2": { "type": "option", "settings": { "static_image": "dtf-2.jpg", "badge": "Easily Design & Build Online", "title": "Build a DTF Gang Sheet", "price_note": "As low as $0.02 per sq. inch", "text": "Create custom DTF gang sheets with our easy-to-use Gang Sheet Builder.", "link": "/pages/gang-sheet-builder", "cta": "Build a DTF Gang Sheet" } },
+        "o3": { "type": "option", "settings": { "static_image": "dtf-3.jpg", "badge": "For Pros - Print Ready Files", "title": "Upload a DTF Gang Sheet", "price_note": "As low as $0.02 per sq. inch", "text": "Upload your ready-to-print template (AI, PNG, PDF) to create vibrant and durable DTF Gang Sheets.", "link": "/pages/upload-gang-sheet", "cta": "Upload DTF Gang Sheet" } }
       },
       "block_order": ["o1", "o2", "o3"],
       "settings": { "heading": "Select the DTF Product That Works Best for You" }
@@ -51,14 +52,14 @@
     "feature-tiles": {
       "type": "feature-tiles",
       "blocks": {
-        "t1": { "type": "tile", "settings": { "caption": "Incredible Image Quality" } },
-        "t2": { "type": "tile", "settings": { "caption": "Super Fine Details" } },
-        "t3": { "type": "tile", "settings": { "caption": "Works on All Fabrics" } },
-        "t4": { "type": "tile", "settings": { "caption": "Any Design on Any Color" } },
-        "t5": { "type": "tile", "settings": { "caption": "No Borders Necessary" } },
-        "t6": { "type": "tile", "settings": { "caption": "Crisp Bright Whites" } },
-        "t7": { "type": "tile", "settings": { "caption": "100+ Wash Durability" } },
-        "t8": { "type": "tile", "settings": { "caption": "9 Color Printing" } }
+        "t1": { "type": "tile", "settings": { "static_video": "dtf-video-1.mp4", "caption": "Incredible Image Quality" } },
+        "t2": { "type": "tile", "settings": { "static_image": "dtf-1.jpg", "caption": "Super Fine Details" } },
+        "t3": { "type": "tile", "settings": { "static_video": "dtf-video-2.mp4", "caption": "Works on All Fabrics" } },
+        "t4": { "type": "tile", "settings": { "static_image": "dtf-2.jpg", "caption": "Any Design on Any Color" } },
+        "t5": { "type": "tile", "settings": { "static_video": "dtf-video-8.mp4", "caption": "No Borders Necessary" } },
+        "t6": { "type": "tile", "settings": { "static_image": "dtf-5.avif", "caption": "Crisp Bright Whites" } },
+        "t7": { "type": "tile", "settings": { "static_video": "dtf-video-10.mp4", "caption": "100+ Wash Durability" } },
+        "t8": { "type": "tile", "settings": { "static_image": "dtf-6.avif", "caption": "9 Color Printing" } }
       },
       "block_order": ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8"],
       "settings": {
@@ -69,9 +70,9 @@
     "process": {
       "type": "process",
       "blocks": {
-        "s1": { "type": "step", "settings": { "title": "Upload Your Design & Order Online", "text": "From simple graphics to high-detail artwork, upload any design with unlimited colors. We convert it into a high-quality DTF transfer, ready to press." } },
-        "s2": { "type": "step", "settings": { "title": "Printed & Shipped in 24–48 Hours", "text": "We produce your transfer for sharp detail, vibrant color, and consistent, professional-grade results." } },
-        "s3": { "type": "step", "settings": { "title": "Heat Press or Iron when Ready", "text": "Press at 310°F / 155°C with medium pressure for 12–15 seconds. Repress for 5 seconds for maximum durability. Unused transfers store long-term without loss of quality." } }
+        "s1": { "type": "step", "settings": { "static_video": "dtf-video-4.mp4", "title": "Upload Your Design & Order Online", "text": "From simple graphics to high-detail artwork, upload any design with unlimited colors. We convert it into a high-quality DTF transfer, ready to press." } },
+        "s2": { "type": "step", "settings": { "static_video": "dtf-video-5.mp4", "title": "Printed & Shipped in 24–48 Hours", "text": "We produce your transfer for sharp detail, vibrant color, and consistent, professional-grade results." } },
+        "s3": { "type": "step", "settings": { "static_video": "dtf-video3.mp4", "title": "Heat Press or Iron when Ready", "text": "Press at 310°F / 155°C with medium pressure for 12–15 seconds. Repress for 5 seconds for maximum durability. Unused transfers store long-term without loss of quality." } }
       },
       "block_order": ["s1", "s2", "s3"],
       "settings": {
@@ -85,8 +86,9 @@
         "eyebrow": "We Understand Consistency, Quality, and Speed Matter Most",
         "heading": "The Largest Linearized Fleet of 100+ DTF Printers",
         "subtext": "G7 Color Standardized",
-        "overlay": 45,
-        "height": 380
+        "overlay": 55,
+        "height": 420,
+        "static_video": "dtf-video-9.mp4"
       }
     },
     "reviews": {

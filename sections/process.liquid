@@ -15,6 +15,10 @@
               {{ block.settings.video | video_tag: image_size: '800x', autoplay: true, loop: true, muted: true, controls: false }}
             {% elsif block.settings.image %}
               {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {% elsif block.settings.static_video != blank %}
+              <video src="{{ block.settings.static_video | asset_url }}" autoplay loop muted playsinline></video>
+            {% elsif block.settings.static_image != blank %}
+              <img src="{{ block.settings.static_image | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy">
             {% else %}
               <div class="process-media-placeholder"></div>
             {% endif %}
@@ -41,6 +45,8 @@
       "settings": [
         { "type": "video", "id": "video", "label": "Video", "info": "Plays muted on loop. Takes priority over the image." },
         { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "static_image", "label": "Static image file", "info": "Filename in /assets, e.g. dtf-1.jpg. Used when no image is picked." },
+        { "type": "text", "id": "static_video", "label": "Static video file", "info": "Filename in /assets, e.g. dtf-video-1.mp4. Takes priority over the static image." },
         { "type": "text", "id": "title", "label": "Title" },
         { "type": "textarea", "id": "text", "label": "Text" }
       ]
