@@ -7,31 +7,64 @@
   <div class="container pdp-inner">
 
     <div class="pdp-media">
-      <div class="product-gallery">
-        <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
+      {%- comment -%}
+        Same gallery as the transfers PDP: images become slides, arrows only
+        appear when there is more than one, and product videos render below the
+        thumbnails rather than inside the carousel.
+      {%- endcomment -%}
+      {%- assign image_count = product.images.size -%}
+
+      <div class="product-gallery" data-gallery>
+        {%- if image_count > 1 -%}
+          <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+        {%- endif -%}
+
         <div class="gallery-main" data-gallery-main>
-          {% if product.featured_image %}
-            {{ product.featured_image | image_url: width: 1200 | image_tag: loading: 'eager', sizes: '(min-width: 990px) 45vw, 100vw' }}
-          {% else %}
+          {%- if image_count > 0 -%}
+            {%- for image in product.images -%}
+              <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
+                <img src="{{ image | image_url: width: 1400 }}"
+                     alt="{{ image.alt | escape }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     sizes="(min-width: 990px) 45vw, 100vw">
+              </div>
+            {%- endfor -%}
+          {%- else -%}
             <div class="hero-media-placeholder"></div>
-          {% endif %}
+          {%- endif -%}
         </div>
-        <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
+
+        {%- if image_count > 1 -%}
+          <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        {%- endif -%}
       </div>
 
-      {% if product.images.size > 1 %}
+      {%- if image_count > 1 -%}
         <div class="gallery-thumbs">
-          {% for image in product.images %}
-            <button class="gallery-thumb {% if forloop.first %}is-active{% endif %}" type="button" data-gallery-thumb data-src="{{ image | image_url: width: 1200 }}" aria-label="View image {{ forloop.index }}">
-              {{ image | image_url: width: 200 | image_tag: loading: 'lazy' }}
+          {%- for image in product.images -%}
+            <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                    data-gallery-thumb data-index="{{ forloop.index0 }}"
+                    aria-label="View image {{ forloop.index }}">
+              <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
             </button>
-          {% endfor %}
+          {%- endfor -%}
         </div>
-      {% endif %}
+      {%- endif -%}
+
+      {%- assign product_videos = product.media | where: 'media_type', 'video' -%}
+      {%- if product_videos.size > 0 -%}
+        <div class="gallery-videos">
+          {%- for media in product_videos -%}
+            <div class="gallery-video">
+              {{ media | video_tag: image_size: '1200x', controls: true, muted: true, playsinline: true }}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
     </div>
 
     <div class="pdp-info">
