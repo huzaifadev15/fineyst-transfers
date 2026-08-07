@@ -19,28 +19,26 @@ document.addEventListener('DOMContentLoaded', function () {
     var main = gallery.querySelector('[data-gallery-main]');
     if (!main) return;
 
-    var img = main.querySelector('img');
+    // Slides can be images, videos or model viewers, so page by showing and
+    // hiding whole slides rather than swapping a single <img> source.
+    var slides = Array.from(main.querySelectorAll('[data-gallery-slide]'));
     var thumbs = Array.from(gallery.parentElement.querySelectorAll('[data-gallery-thumb]'));
+    if (slides.length < 2) return;
 
-    // Source of truth is the product's image list, so the arrows still page
-    // through images on products that render no thumbnail row.
-    var srcs = (gallery.getAttribute('data-gallery-images') || '')
-      .split('|')
-      .map(function (s) { return s.trim(); })
-      .filter(Boolean);
-
-    // Fall back to the thumbnails if the list attribute is absent.
-    if (!srcs.length && thumbs.length) {
-      srcs = thumbs.map(function (t) { return t.getAttribute('data-src'); }).filter(Boolean);
-    }
-    if (!img || srcs.length < 2) return;
-
-    var index = 0;
+    var index = slides.findIndex(function (s) { return s.classList.contains('is-active'); });
+    if (index < 0) index = 0;
 
     function show(i) {
-      index = (i + srcs.length) % srcs.length;
-      img.removeAttribute('srcset');
-      img.src = srcs[index];
+      index = (i + slides.length) % slides.length;
+      slides.forEach(function (s, si) {
+        var on = si === index;
+        s.classList.toggle('is-active', on);
+        // Stop a video that scrolls out of view so audio never overlaps.
+        if (!on) {
+          var v = s.querySelector('video');
+          if (v && typeof v.pause === 'function') v.pause();
+        }
+      });
       thumbs.forEach(function (t, ti) { t.classList.toggle('is-active', ti === index); });
     }
 

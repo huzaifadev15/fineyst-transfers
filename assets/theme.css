@@ -2370,10 +2370,13 @@ body.template-index main { padding-top: 0; }
   object-position: center;
   background: #F4F6F8;
   border: none;
-  padding: 10px;
 }
-/* Narrower media column shortens the whole block again. */
-.pdp-inner { grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); gap: 40px; }
+/* Narrower media column shortens the whole block again. Guarded by min-width:
+   unscoped it landed after the mobile rule and collapsed the PDP into two
+   ~100px columns on phones. */
+@media (min-width: 991px) {
+  .pdp-inner { grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); gap: 40px; }
+}
 .gallery-feature { aspect-ratio: 16 / 9; }
 .gallery-arrow { width: 42px; height: 42px; }
 .gallery-arrow--prev { left: 16px; }
@@ -2400,7 +2403,9 @@ body.template-index main { padding-top: 0; }
 }
 
 /* Feature grid: 2 x 2 with tinted icon chips */
-.pdp-features { grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+@media (min-width: 769px) {
+  .pdp-features { grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+}
 .pdp-features li { font-size: 0.9rem; font-weight: 600; }
 .pdp-features svg {
   width: 26px;
@@ -2461,4 +2466,255 @@ body.template-index main { padding-top: 0; }
 @media (max-width: 560px) {
   .quick-sizes-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gallery-thumb { width: 60px; height: 60px; }
+}
+
+/* =========================================================
+   PDP — MOBILE (matches the Ninja phone layout)
+   Declared last so it wins over the desktop tweaks above.
+   ========================================================= */
+@media (max-width: 768px) {
+
+  /* Single column, gallery on top */
+  .pdp { padding: 20px 0 56px; }
+  .pdp-inner { grid-template-columns: 1fr !important; gap: 24px; }
+  .pdp-media { position: static; gap: 10px; }
+  .gallery-main img,
+  .gallery-main .hero-media-placeholder { aspect-ratio: 1 / 1; max-height: 340px; }
+  .gallery-arrow { width: 34px; height: 34px; }
+  .gallery-arrow--prev { left: 8px; }
+  .gallery-arrow--next { right: 8px; }
+  .gallery-thumb { width: 54px; height: 54px; }
+
+  /* Title + flag wrap onto one tight row */
+  .pdp-title-row { gap: 8px; margin-bottom: 8px; }
+  .pdp-info h1 { font-size: 1.45rem; }
+  .pdp-flag { font-size: 0.62rem; padding: 4px 10px; }
+
+  .pdp-meta { font-size: 0.78rem; gap: 4px 10px; padding-bottom: 12px; }
+  .pdp-stars { font-size: 0.8rem; }
+
+  /* Keep the 2 x 2 feature grid but let cells shrink */
+  .pdp-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+    padding: 14px 0;
+  }
+  .pdp-features li { min-width: 0; gap: 8px; font-size: 0.78rem; line-height: 1.3; }
+  .pdp-features li > span { min-width: 0; }
+  .pdp-features svg { width: 22px; height: 22px; }
+
+  /* Trust strip becomes stacked cards with an icon, like Ninja on phones */
+  .pdp-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 14px 0;
+    border-bottom: none;
+  }
+  .pdp-strip > * {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--pdp-line);
+    border-radius: 12px;
+    background: #fff;
+    font-size: 0.82rem;
+  }
+  .pdp-strip-link { color: var(--brand); font-weight: 800; }
+
+  /* Upload card */
+  .upload-card { border-radius: 12px; }
+  .upload-card-head { padding: 14px 16px; gap: 10px; }
+  .upload-card-head h2 { font-size: 0.98rem; }
+  .upload-tabs { gap: 4px; }
+  .upload-tab { padding: 7px 9px; font-size: 0.76rem; }
+  .upload-card-body { padding: 14px; }
+  .upload-dropzone { padding: 26px 14px; }
+  .upload-icon { width: 62px; height: 62px; margin-bottom: 12px; }
+  .upload-title { font-size: 0.98rem; }
+  .upload-sub { font-size: 0.8rem; }
+
+  /* Popular sizes: two per row, label left / price right */
+  .quick-sizes { padding: 14px; margin-top: 14px; }
+  .quick-sizes-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .quick-size {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2px 6px;
+    padding: 10px;
+  }
+  .quick-size-dim { font-size: 0.82rem; }
+  .quick-size-note { font-size: 0.6rem; order: 3; flex: 1 1 100%; }
+  .quick-size-price { font-size: 0.82rem; }
+
+  /* Product details + accordion */
+  .pdp-details { padding: 32px 0; }
+  .pdp-details-inner { padding: 0 16px; gap: 20px; }
+  .pdp-details-title { font-size: 1.1rem; }
+  .pdp-details-body p { font-size: 0.86rem; line-height: 1.65; }
+  .pdp-acc-btn { padding: 14px 2px; font-size: 0.88rem; }
+
+  /* Comparison */
+  .pdp-nextgen { padding: 36px 0; }
+  .pdp-nextgen-inner { padding: 0 16px; }
+  .pdp-nextgen-head h2 { font-size: 1.3rem; }
+  .pdp-nextgen-head p { font-size: 0.84rem; }
+  .pdp-nextgen-media { grid-template-columns: 1fr; gap: 12px; }
+  .pdp-compare-head, .pdp-compare-row { grid-template-columns: 1fr; }
+  .pdp-compare-col--ours, .pdp-compare-cell--yes { border-right: none; border-bottom: 1px solid #EDEFF3; }
+  .pdp-compare-col--ours { border-bottom-color: rgba(255, 255, 255, 0.1); }
+  .pdp-compare-cell { padding: 12px 14px; font-size: 0.8rem; }
+
+  /* Customer feedback strip */
+  .pdp-ugc { padding: 32px 0; }
+  .pdp-ugc-inner { padding: 0 16px; }
+  .pdp-ugc-title { font-size: 1.15rem; }
+  .pdp-ugc-tile { width: 132px; }
+
+  /* Related products: single column cards */
+  .pdp-related { padding: 32px 0; }
+  .pdp-related-inner { padding: 0 16px; }
+  .pdp-related-title { font-size: 1.15rem; }
+  .pdp-related-grid { grid-template-columns: 1fr; gap: 16px; }
+  .pdp-related-media { aspect-ratio: 16 / 10; }
+
+  /* Reviews */
+  .pdp-reviews { padding: 32px 0; }
+  .pdp-reviews-inner { padding: 0 16px; }
+  .pdp-reviews-title { font-size: 1.3rem; }
+  .rv-summary { grid-template-columns: 1fr; gap: 16px; text-align: left; }
+  .rv-score { text-align: left; }
+  .rv-score-stars { justify-content: flex-start; }
+  .rv-item { grid-template-columns: 1fr; gap: 8px; padding: 18px 0; }
+  .rv-item-who { display: flex; align-items: center; gap: 10px; }
+  .rv-item-name { margin-bottom: 0; }
+  .rv-item-head { gap: 6px 10px; }
+  .rv-item-title { font-size: 0.86rem; }
+  .rv-item-date { margin-left: 0; width: 100%; }
+  .rv-item-body { font-size: 0.82rem; }
+
+  /* Q&A */
+  .pdp-qa { padding: 32px 0 48px; }
+  .pdp-qa-inner { padding: 0 16px; }
+  .pdp-qa-head h2 { font-size: 1.3rem; }
+  .pdp-qa-ask { margin-left: auto; }
+  .pdp-qa-item { grid-template-columns: 1fr; gap: 10px; padding: 18px 0; }
+  .pdp-qa-who { display: flex; align-items: center; gap: 10px; }
+  .pdp-qa-name { margin-bottom: 0; }
+  .pdp-qa-date { text-align: left; }
+
+  /* Partner banner */
+  .partner-banner { padding: 28px 16px; }
+  .partner-banner-text { font-size: 1rem; text-align: center; }
+
+  /* Editor (after upload) stacks into one column */
+  .editor-grid { grid-template-columns: 1fr; gap: 16px; }
+  .editor-panel { padding: 14px; }
+  .editor-canvas-wrap { padding: 22px 0 0 28px; max-width: none; }
+  .size-guide-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Ninja keeps the feature grid and size chips two-up on a 375px phone, so hold
+   two columns down to the narrowest common handset and only stack below that. */
+@media (max-width: 359px) {
+  .pdp-features { grid-template-columns: 1fr; }
+  .quick-sizes-row { grid-template-columns: 1fr; }
+  .size-guide-grid { grid-template-columns: repeat(2, 1fr); }
+  .pdp-info h1 { font-size: 1.25rem; }
+}
+
+/* Grid items default to min-width:auto, which refuses to shrink below the
+   content's min-content size — that pushed the PDP columns 47px past the
+   container on phones. Explicit 0 lets the tracks size to the container. */
+.pdp-media,
+.pdp-info { min-width: 0; }
+
+/* ===== GALLERY SLIDES (images + video) =====
+   Slides stack in one frame; only the active one shows. Media fills the frame
+   edge to edge — the earlier padding + `contain` left gaps down both sides. */
+.gallery-main { position: relative; border-radius: 14px; overflow: hidden; background: #F4F6F8; }
+.gallery-slide { display: none; }
+.gallery-slide.is-active { display: block; }
+
+.gallery-main img,
+.gallery-main video,
+.gallery-main model-viewer,
+.gallery-main iframe,
+.gallery-main .hero-media-placeholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 420px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+  border: none;
+  padding: 0;
+  background: #F4F6F8;
+}
+/* Shopify wraps video/model media in its own div — make those fill too. */
+.gallery-slide > .shopify-model-viewer-ui,
+.gallery-slide > .video-wrapper,
+.gallery-slide > deferred-media { display: block; width: 100%; }
+
+/* Play badge on non-image thumbnails */
+.gallery-thumb { position: relative; }
+.gallery-thumb-play {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.72);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .gallery-main img,
+  .gallery-main video,
+  .gallery-main model-viewer,
+  .gallery-main iframe,
+  .gallery-main .hero-media-placeholder { aspect-ratio: 1 / 1; max-height: 340px; }
+}
+
+/* ===== GALLERY: square frame keeps the crop light =====
+   A 4:3 landscape frame sliced the top and bottom off square/portrait product
+   graphics. A square frame still fills the full width edge to edge but crops
+   far less, since these images are roughly square to begin with. */
+.gallery-main img,
+.gallery-main .hero-media-placeholder {
+  aspect-ratio: 1 / 1;
+  max-height: none;
+  object-fit: cover;
+}
+
+/* Product videos live below the thumbnails, not in the carousel */
+.gallery-videos { display: grid; gap: 12px; }
+.gallery-video {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0A0A0A;
+}
+.gallery-video video,
+.gallery-video iframe,
+.gallery-video .video-wrapper,
+.gallery-video deferred-media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .gallery-main img,
+  .gallery-main .hero-media-placeholder { aspect-ratio: 1 / 1; max-height: none; }
 }

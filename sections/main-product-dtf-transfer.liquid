@@ -12,42 +12,65 @@
         even when there is no thumbnail row (single-image products), and so the
         arrows can be hidden outright when there is nothing to page through.
       {%- endcomment -%}
-      {%- capture gallery_srcs -%}
-        {%- for image in product.images -%}
-          {{ image | image_url: width: 1400 }}{%- unless forloop.last -%}|{%- endunless -%}
-        {%- endfor -%}
-      {%- endcapture -%}
-      {%- assign gallery_srcs = gallery_srcs | strip -%}
+      {%- comment -%}
+        Gallery carries images only. Product videos render below the thumbnails
+        in the promo slot, matching the Ninja layout, rather than sitting in the
+        image carousel.
+      {%- endcomment -%}
+      {%- assign image_count = product.images.size -%}
 
-      <div class="product-gallery" data-gallery data-gallery-images="{{ gallery_srcs | escape }}">
-        {%- if product.images.size > 1 -%}
+      <div class="product-gallery" data-gallery>
+        {%- if image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
         {%- endif -%}
+
         <div class="gallery-main" data-gallery-main>
-          {% if product.featured_image %}
-            {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', sizes: '(min-width: 990px) 45vw, 100vw' }}
-          {% else %}
+          {%- if image_count > 0 -%}
+            {%- for image in product.images -%}
+              <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
+                <img src="{{ image | image_url: width: 1400 }}"
+                     alt="{{ image.alt | escape }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     sizes="(min-width: 990px) 45vw, 100vw">
+              </div>
+            {%- endfor -%}
+          {%- else -%}
             <div class="hero-media-placeholder"></div>
-          {% endif %}
+          {%- endif -%}
         </div>
-        {%- if product.images.size > 1 -%}
+
+        {%- if image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
           </button>
         {%- endif -%}
       </div>
 
-      {% if product.images.size > 1 %}
+      {%- if image_count > 1 -%}
         <div class="gallery-thumbs">
-          {% for image in product.images %}
-            <button class="gallery-thumb {% if forloop.first %}is-active{% endif %}" type="button" data-gallery-thumb data-src="{{ image | image_url: width: 1200 }}" aria-label="View image {{ forloop.index }}">
-              {{ image | image_url: width: 200 | image_tag: loading: 'lazy' }}
+          {%- for image in product.images -%}
+            <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                    data-gallery-thumb data-index="{{ forloop.index0 }}"
+                    aria-label="View image {{ forloop.index }}">
+              <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
             </button>
-          {% endfor %}
+          {%- endfor -%}
         </div>
-      {% endif %}
+      {%- endif -%}
+
+      {%- comment -%} Product videos sit here, under the thumbnails. {%- endcomment -%}
+      {%- assign product_videos = product.media | where: 'media_type', 'video' -%}
+      {%- if product_videos.size > 0 -%}
+        <div class="gallery-videos">
+          {%- for media in product_videos -%}
+            <div class="gallery-video">
+              {{ media | video_tag: image_size: '1200x', controls: true, muted: true, playsinline: true }}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
 
       {% if section.settings.feature_video != blank or section.settings.feature_image %}
         <a class="gallery-feature" href="{{ section.settings.feature_link | default: '#' }}">
