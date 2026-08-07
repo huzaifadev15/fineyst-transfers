@@ -2723,3 +2723,60 @@ body.template-index main { padding-top: 0; }
    auto, so they painted in DOM order — .gallery-main covered the prev button
    (which precedes it) while the next button (which follows it) stayed visible. */
 .gallery-arrow { z-index: 2; }
+
+/* ===== TRUST STRIP: one line with dividers =====
+   The markup carries explicit .pdp-strip-sep spans AND the CSS draws a
+   border-left on every sibling, so each separator was counted as an item —
+   double rules plus wasted width, which forced the third item onto line 2. */
+.pdp-strip-sep { display: none; }
+@media (min-width: 769px) {
+  .pdp-strip {
+    flex-wrap: nowrap;
+    gap: 0 14px;
+    font-size: 0.83rem;
+    white-space: nowrap;
+  }
+  .pdp-strip > * + * { padding-left: 14px; }
+  .pdp-delivery { flex-shrink: 0; }
+}
+
+/* ===== BUY NOW, PAY LATER ===== */
+.bnpl {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--pdp-line);
+  text-align: center;
+}
+.bnpl-title {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #101828;
+}
+.bnpl-logos { display: flex; justify-content: center; }
+.bnpl-logos img { height: 26px; width: auto; max-width: 100%; object-fit: contain; }
+.bnpl-note {
+  margin: 12px auto 0;
+  max-width: 46em;
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: #98A2B3;
+}
+
+@media (max-width: 768px) {
+  .bnpl-logos img { height: 22px; }
+  .bnpl-title { font-size: 0.84rem; }
+}
+
+/* BNPL logo strip: the source art is a very wide 1253x80 row, so cap the
+   height and let width follow, keeping the marks legible without dominating. */
+.bnpl-logos img {
+  height: auto;
+  width: 100%;
+  max-width: 640px;
+  max-height: 40px;
+  object-fit: contain;
+}
+@media (max-width: 768px) {
+  .bnpl-logos img { max-height: 26px; }
+}
