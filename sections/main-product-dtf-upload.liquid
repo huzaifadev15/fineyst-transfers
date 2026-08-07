@@ -196,15 +196,40 @@
         {% if section.settings.rewards_cashback != blank %}
           <div class="gang-rewards">
             <div class="gang-rewards-inner">
-              <span class="gang-rewards-pct">Up to<br><strong>{{ section.settings.rewards_pct }}%</strong><br>Back</span>
+              <span class="gang-rewards-pct"><em>Up to</em><strong>{{ section.settings.rewards_pct }}%</strong><em>Back</em></span>
               <div class="gang-rewards-text">
-                <span class="gang-rewards-label">{{ section.settings.rewards_label }}</span>
-                {% if section.settings.rewards_link != blank %}
-                  <a class="gang-rewards-more" href="{{ section.settings.rewards_link }}">Learn More</a>
-                {% endif %}
+                <span class="gang-rewards-head">
+                  <span class="gang-rewards-label">{{ section.settings.rewards_label }}</span>
+                  {% if section.settings.rewards_link != blank %}
+                    <a class="gang-rewards-more" href="{{ section.settings.rewards_link }}">LEARN MORE</a>
+                  {% endif %}
+                </span>
                 <p>{{ section.settings.rewards_cashback }}</p>
               </div>
             </div>
+          </div>
+        {% endif %}
+
+        {% if section.settings.show_bnpl %}
+          <div class="bnpl">
+            <p class="bnpl-title">{{ section.settings.bnpl_title | default: 'Finance with Buy Now Pay Later options' }}</p>
+            <div class="bnpl-logos">
+              {% if section.settings.bnpl_image != blank %}
+                <img src="{{ section.settings.bnpl_image | image_url: width: 1200 }}" alt="Shop Pay, Afterpay, Klarna, Sezzle and Affirm" loading="lazy">
+              {% else %}
+                {%- comment -%}
+                  Falls back to the card-logo strip if the BNPL file has not been
+                  uploaded yet, so this never renders as a broken image.
+                {%- endcomment -%}
+                <img src="{{ section.settings.bnpl_static_image | default: 'payment.webp' | strip | asset_url }}"
+                     alt="Shop Pay, Afterpay, Klarna, Sezzle and Affirm"
+                     loading="lazy"
+                     onerror="this.onerror=null;this.src='{{ 'payment-methods.webp' | asset_url }}';">
+              {% endif %}
+            </div>
+            {% if section.settings.bnpl_note != blank %}
+              <p class="bnpl-note">{{ section.settings.bnpl_note }}</p>
+            {% endif %}
           </div>
         {% endif %}
 
@@ -337,28 +362,44 @@
   }
 
   /* Rewards */
+  /* Rewards bar: filled grey strip with the percentage boxed on the left,
+     label and LEARN MORE inline, matching the Ninja layout. */
   .gang-rewards {
-    border: 1px solid var(--color-border, #d1d5db);
-    border-radius: 8px;
-    padding: 14px 16px;
+    margin-top: 14px;
+    border: 1px solid #E8EAEE;
+    border-radius: 10px;
+    background: #F4F6F8;
+    padding: 12px 14px;
   }
-  .gang-rewards-inner { display: flex; align-items: center; gap: 16px; }
+  .gang-rewards-inner { display: flex; align-items: center; gap: 14px; }
   .gang-rewards-pct {
-    font-size: 11px;
-    font-weight: 600;
-    text-align: center;
-    line-height: 1.3;
-    color: var(--color-text, #111);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
     flex-shrink: 0;
+    min-width: 62px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #E8EAEE;
+    line-height: 1.1;
+    text-align: center;
   }
-  .gang-rewards-pct strong { font-size: 20px; font-weight: 800; }
-  .gang-rewards-text { display: flex; flex-direction: column; gap: 2px; font-size: 12px; }
-  .gang-rewards-label { font-size: 13px; font-weight: 700; color: var(--color-text, #111); }
+  .gang-rewards-pct em { font-style: normal; font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #667085; }
+  .gang-rewards-pct strong { font-size: 19px; font-weight: 900; color: #101828; }
+  .gang-rewards-text { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: #475467; }
+  .gang-rewards-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .gang-rewards-label { font-size: 12px; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; color: #101828; }
+  .gang-rewards-text p { margin: 0; }
   .gang-rewards-more {
-    font-size: 12px;
-    color: var(--color-accent, #0ea5e9);
-    font-weight: 600;
-    text-decoration: none;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    color: var(--brand, #019AFF);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
   .gang-rewards-text p { margin: 0; color: var(--color-text-muted, #6b7280); }
 
@@ -453,7 +494,14 @@
     { "type": "text", "id": "rewards_label", "label": "Rewards label", "default": "NINJA REWARDS CASHBACK" },
     { "type": "text", "id": "rewards_pct", "label": "Max cashback %", "default": "10" },
     { "type": "text", "id": "rewards_cashback", "label": "Cashback note", "default": "Earn up to $2.00 back on this item" },
-    { "type": "url", "id": "rewards_link", "label": "Rewards learn more link" }
+    { "type": "url", "id": "rewards_link", "label": "Rewards learn more link" },
+
+    { "type": "header", "content": "Buy now, pay later" },
+    { "type": "checkbox", "id": "show_bnpl", "label": "Show financing block", "default": true },
+    { "type": "text", "id": "bnpl_title", "label": "Financing title", "default": "Finance with Buy Now Pay Later options" },
+    { "type": "image_picker", "id": "bnpl_image", "label": "Provider logo strip" },
+    { "type": "text", "id": "bnpl_static_image", "label": "Static logo strip file", "info": "Filename in /assets. Defaults to the Shop Pay / Afterpay / Klarna / Sezzle / Affirm strip.", "default": "payment.webp" },
+    { "type": "textarea", "id": "bnpl_note", "label": "Legal note", "info": "Add your own provider and licence wording here." }
   ],
   "blocks": [
     {
