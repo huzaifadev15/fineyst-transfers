@@ -7,20 +7,36 @@
   <div class="container pdp-inner">
 
     <div class="pdp-media">
-      <div class="product-gallery">
-        <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
+      {%- comment -%}
+        The full image list travels on the gallery element so the arrows work
+        even when there is no thumbnail row (single-image products), and so the
+        arrows can be hidden outright when there is nothing to page through.
+      {%- endcomment -%}
+      {%- capture gallery_srcs -%}
+        {%- for image in product.images -%}
+          {{ image | image_url: width: 1400 }}{%- unless forloop.last -%}|{%- endunless -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- assign gallery_srcs = gallery_srcs | strip -%}
+
+      <div class="product-gallery" data-gallery data-gallery-images="{{ gallery_srcs | escape }}">
+        {%- if product.images.size > 1 -%}
+          <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+        {%- endif -%}
         <div class="gallery-main" data-gallery-main>
           {% if product.featured_image %}
-            {{ product.featured_image | image_url: width: 1200 | image_tag: loading: 'eager', sizes: '(min-width: 990px) 45vw, 100vw' }}
+            {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', sizes: '(min-width: 990px) 45vw, 100vw' }}
           {% else %}
             <div class="hero-media-placeholder"></div>
           {% endif %}
         </div>
-        <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
+        {%- if product.images.size > 1 -%}
+          <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        {%- endif -%}
       </div>
 
       {% if product.images.size > 1 %}
@@ -31,6 +47,19 @@
             </button>
           {% endfor %}
         </div>
+      {% endif %}
+
+      {% if section.settings.feature_video != blank or section.settings.feature_image %}
+        <a class="gallery-feature" href="{{ section.settings.feature_link | default: '#' }}">
+          {% if section.settings.feature_video != blank %}
+            <video autoplay muted loop playsinline preload="metadata"
+                   {% if section.settings.feature_image %}poster="{{ section.settings.feature_image | image_url: width: 900 }}"{% endif %}>
+              <source src="{{ section.settings.feature_video | file_url }}" type="video/mp4">
+            </video>
+          {% else %}
+            {{ section.settings.feature_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'See VIVID AF in action' }}
+          {% endif %}
+        </a>
       {% endif %}
     </div>
 
@@ -150,6 +179,34 @@
         </div>
         {% endif %}
       </div>
+
+      {%- comment -%}
+        Popular Sizes & Prices — shown before an upload so shoppers can see real
+        prices without having to pick a file first. Hidden once the editor opens.
+      {%- endcomment -%}
+      {%- assign quick_count = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'quick_size' -%}{%- assign quick_count = quick_count | plus: 1 -%}{%- endif -%}
+      {%- endfor -%}
+      {%- if quick_count > 0 -%}
+        <div class="quick-sizes">
+          <div class="quick-sizes-head">
+            <h3>{{ section.settings.quick_title | default: 'Popular Sizes &amp; Prices' }}</h3>
+            <p>{{ section.settings.quick_sub | default: 'No setup fees · Bulk discounts up to 50% off' }}</p>
+          </div>
+          <div class="quick-sizes-row">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'quick_size' -%}
+                <div class="quick-size" {{ block.shopify_attributes }}>
+                  <span class="quick-size-dim">{{ block.settings.label }}</span>
+                  <span class="quick-size-note">as low as</span>
+                  <span class="quick-size-price">{{ block.settings.price }}<small>ea</small></span>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
 
       <div class="editor" data-editor data-dpi="{{ section.settings.print_dpi }}" data-max-width="{{ section.settings.max_print_width }}">
         <div class="editor-grid">
@@ -429,8 +486,15 @@
     { "type": "range", "id": "cutoff_hour", "label": "Same-day cutoff hour (24h)", "min": 0, "max": 23, "step": 1, "default": 17 },
     { "type": "range", "id": "max_files", "label": "Max files per upload", "min": 1, "max": 50, "step": 1, "default": 25 },
     { "type": "url", "id": "phone_upload_link", "label": "Phone upload link" },
+    { "type": "text", "id": "quick_title", "label": "Popular sizes title", "default": "Popular Sizes & Prices" },
+    { "type": "text", "id": "quick_sub", "label": "Popular sizes subtitle", "default": "No setup fees · Bulk discounts up to 50% off" },
     { "type": "checkbox", "id": "show_ai_tools", "label": "Show AI tools panel", "default": false },
     { "type": "checkbox", "id": "show_buy_form", "label": "Show quantity & add to cart", "default": false },
+
+    { "type": "header", "content": "Gallery feature card" },
+    { "type": "image_picker", "id": "feature_image", "label": "Feature image / video poster" },
+    { "type": "text", "id": "feature_video", "label": "Feature video filename", "info": "MP4 uploaded to Content > Files, e.g. dtf-video-1.mp4" },
+    { "type": "url", "id": "feature_link", "label": "Feature card link" },
 
     { "type": "header", "content": "Editor (after upload)" },
     { "type": "text", "id": "size_guide_title", "label": "Size guide title", "default": "Size Guide" },
@@ -454,6 +518,14 @@
         { "type": "range", "id": "width_in", "label": "Print width (in)", "min": 1, "max": 22, "step": 0.5, "default": 11 },
         { "type": "range", "id": "art_width", "label": "Artwork width on preview (%)", "min": 10, "max": 90, "step": 1, "default": 45 },
         { "type": "range", "id": "art_top", "label": "Artwork top offset (%)", "min": 5, "max": 80, "step": 1, "default": 32 }
+      ]
+    },
+    {
+      "type": "quick_size",
+      "name": "Popular size (pre-upload)",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Size label", "default": "3\" x 3\"" },
+        { "type": "text", "id": "price", "label": "Price each", "default": "$0.18" }
       ]
     },
     {
