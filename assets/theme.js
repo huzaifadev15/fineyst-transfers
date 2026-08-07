@@ -17,28 +17,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.querySelectorAll('.product-gallery').forEach(function (gallery) {
     var main = gallery.querySelector('[data-gallery-main]');
-    var thumbs = gallery.parentElement.querySelectorAll('[data-gallery-thumb]');
-    if (!main || !thumbs.length) return;
+    if (!main) return;
 
-    function showThumb(thumb) {
-      var src = thumb.getAttribute('data-src');
-      var img = main.querySelector('img');
-      if (img && src) img.src = src;
-      thumbs.forEach(function (t) { t.classList.toggle('is-active', t === thumb); });
+    var img = main.querySelector('img');
+    var thumbs = Array.from(gallery.parentElement.querySelectorAll('[data-gallery-thumb]'));
+
+    // Source of truth is the product's image list, so the arrows still page
+    // through images on products that render no thumbnail row.
+    var srcs = (gallery.getAttribute('data-gallery-images') || '')
+      .split('|')
+      .map(function (s) { return s.trim(); })
+      .filter(Boolean);
+
+    // Fall back to the thumbnails if the list attribute is absent.
+    if (!srcs.length && thumbs.length) {
+      srcs = thumbs.map(function (t) { return t.getAttribute('data-src'); }).filter(Boolean);
+    }
+    if (!img || srcs.length < 2) return;
+
+    var index = 0;
+
+    function show(i) {
+      index = (i + srcs.length) % srcs.length;
+      img.removeAttribute('srcset');
+      img.src = srcs[index];
+      thumbs.forEach(function (t, ti) { t.classList.toggle('is-active', ti === index); });
     }
 
-    thumbs.forEach(function (thumb) {
-      thumb.addEventListener('click', function () { showThumb(thumb); });
+    thumbs.forEach(function (thumb, ti) {
+      thumb.addEventListener('click', function () { show(ti); });
     });
 
-    gallery.querySelector('.gallery-arrow--next')?.addEventListener('click', function () {
-      var active = Array.from(thumbs).findIndex(function (t) { return t.classList.contains('is-active'); });
-      showThumb(thumbs[(active + 1) % thumbs.length]);
-    });
-    gallery.querySelector('.gallery-arrow--prev')?.addEventListener('click', function () {
-      var active = Array.from(thumbs).findIndex(function (t) { return t.classList.contains('is-active'); });
-      showThumb(thumbs[(active - 1 + thumbs.length) % thumbs.length]);
-    });
+    var next = gallery.querySelector('.gallery-arrow--next');
+    var prev = gallery.querySelector('.gallery-arrow--prev');
+    if (next) next.addEventListener('click', function () { show(index + 1); });
+    if (prev) prev.addEventListener('click', function () { show(index - 1); });
   });
 
   document.querySelectorAll('[data-delivery]').forEach(function (el) {

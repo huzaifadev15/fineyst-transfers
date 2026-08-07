@@ -106,6 +106,34 @@
             "price": "$0.55",
             "discount": "50% off"
           }
+        },
+        "quick-1": {
+          "type": "quick_size",
+          "settings": {
+            "label": "3\" x 3\"",
+            "price": "$0.18"
+          }
+        },
+        "quick-2": {
+          "type": "quick_size",
+          "settings": {
+            "label": "5\" x 2\"",
+            "price": "$0.55"
+          }
+        },
+        "quick-3": {
+          "type": "quick_size",
+          "settings": {
+            "label": "8\" x 8\"",
+            "price": "$2.14"
+          }
+        },
+        "quick-4": {
+          "type": "quick_size",
+          "settings": {
+            "label": "12\" x 9\"",
+            "price": "$3.69"
+          }
         }
       },
       "block_order": [
@@ -115,13 +143,20 @@
         "mockup-4",
         "mockup-5",
         "mockup-6",
+        "quick-1",
+        "quick-2",
+        "quick-3",
+        "quick-4",
         "tier-0",
         "tier-1",
         "tier-2",
         "tier-3",
         "tier-4"
       ],
-      "settings": {}
+      "settings": {
+        "quick_title": "Popular Sizes & Prices",
+        "quick_sub": "No setup fees · Bulk discounts up to 50% off"
+      }
     },
     "pdp-details": {
       "type": "pdp-details",

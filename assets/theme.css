@@ -1235,14 +1235,17 @@ body.template-index main { padding-top: 0; }
 .pdp-media { position: sticky; top: 24px; }
 
 .product-gallery { position: relative; }
-.gallery-main img, .gallery-main .hero-media-placeholder { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 14px; display: block; background: #f4f6f8; }
+.gallery-main img, .gallery-main .hero-media-placeholder { width: 100%; aspect-ratio: 1; object-fit: contain; border-radius: 14px; display: block; background: #fff; border: 1px solid var(--pdp-line); }
 .gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #e6e8ec; box-shadow: 0 2px 10px rgba(16,24,40,0.12); color: #344054; cursor: pointer; padding: 0; transition: background 0.15s, box-shadow 0.15s; }
 .gallery-arrow:hover { background: #f9fafb; box-shadow: 0 4px 14px rgba(16,24,40,0.18); }
 .gallery-arrow--prev { left: 14px; }
 .gallery-arrow--next { right: 14px; }
-.gallery-thumbs { display: flex; gap: 12px; margin-top: 14px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
-.gallery-thumb { flex-shrink: 0; width: 82px; height: 62px; border-radius: 10px; overflow: hidden; border: 2px solid #e8eaee; background: #fff; padding: 0; cursor: pointer; transition: border-color 0.15s; }
-.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gallery-thumbs { display: flex; gap: 10px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.gallery-thumb { flex-shrink: 0; width: 74px; height: 74px; border-radius: 10px; overflow: hidden; border: 2px solid #e8eaee; background: #fff; padding: 0; cursor: pointer; transition: border-color 0.15s; }
+.gallery-thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+.gallery-feature { display: block; margin-top: 16px; border-radius: 14px; overflow: hidden; border: 1px solid var(--pdp-line); background: #fff; }
+.gallery-feature img, .gallery-feature video { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
 .gallery-thumb:hover { border-color: var(--pdp-blue-line); }
 .gallery-thumb.is-active { border-color: var(--pdp-blue); }
 
@@ -1283,15 +1286,15 @@ body.template-index main { padding-top: 0; }
 .upload-tab:hover { background: #F4F6F8; color: #1A1A1A; }
 .upload-tab.is-active { background: var(--pdp-blue-tint); color: var(--pdp-blue-dark); font-weight: 600; }
 
-.upload-card-body { padding: 20px; }
-.upload-dropzone { padding: 40px 20px; border: 2px dashed var(--pdp-blue-line); border-radius: 12px; text-align: center; background: var(--pdp-blue-tint); transition: border-color 0.15s, background 0.15s; }
+.upload-card-body { padding: 16px; }
+.upload-dropzone { padding: 30px 20px; border: 2px dashed var(--pdp-blue-line); border-radius: 12px; text-align: center; background: var(--pdp-blue-tint); transition: border-color 0.15s, background 0.15s; }
 .upload-dropzone.is-dragover { border-color: var(--pdp-blue); background: #E0F0FE; }
-.upload-icon { display: inline-flex; align-items: center; justify-content: center; width: 82px; height: 82px; margin-bottom: 16px; border-radius: 50%; color: #fff; background: linear-gradient(160deg, #90C9FF 0%, var(--pdp-blue) 100%); box-shadow: 0 0 0 10px rgba(46,144,250,0.10); }
+.upload-icon { display: inline-flex; align-items: center; justify-content: center; width: 68px; height: 68px; margin-bottom: 14px; border-radius: 50%; color: #fff; background: linear-gradient(160deg, #90C9FF 0%, var(--pdp-blue) 100%); box-shadow: 0 0 0 10px rgba(46,144,250,0.10); }
 .upload-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 6px; }
 .upload-sub { color: var(--pdp-muted); font-size: 0.88rem; margin: 0 0 20px; }
 .upload-file-list { list-style: none; margin: 18px 0 0; padding: 0; text-align: left; font-size: 0.85rem; color: #344054; }
 .upload-file-list li { padding: 8px 12px; background: #fff; border: 1px solid #E8EAEE; border-radius: 8px; margin-bottom: 6px; }
-.upload-phone { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; color: var(--pdp-blue); font-size: 0.9rem; font-weight: 600; }
+.upload-phone { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #F1F3F6; color: var(--pdp-blue); font-size: 0.88rem; font-weight: 600; }
 .upload-phone:hover { text-decoration: underline; }
 
 .btn-blue { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 34px; border: none; border-radius: 8px; background: var(--pdp-blue); color: #fff; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
@@ -2347,3 +2350,115 @@ body.template-index main { padding-top: 0; }
 }
 .partner-banner-logo { width: 72px; height: 72px; object-fit: contain; border-radius: 50%; background: #fff; padding: 6px; }
 .partner-banner-text { margin: 0; color: #fff; font-size: clamp(16px, 2vw, 22px); font-weight: 800; letter-spacing: -0.01em; }
+
+/* =========================================================
+   PDP TOP — gallery + upload card, matched to the Ninja layout
+   ========================================================= */
+
+/* Gallery: taller main frame, arrows floated over it, promo card beneath */
+.pdp-media { display: flex; flex-direction: column; gap: 14px; }
+/* Gallery frame: 4:3 instead of the old square, which was very tall.
+   `contain` on a soft neutral backdrop shows the whole photo — `cover` filled
+   the frame but cut ~44% off portrait shots. Switch this one line to `cover`
+   if filling the frame matters more than showing the full image. */
+.gallery-main img,
+.gallery-main .hero-media-placeholder {
+  border-radius: 14px;
+  aspect-ratio: 4 / 3;
+  max-height: 420px;
+  object-fit: contain;
+  object-position: center;
+  background: #F4F6F8;
+  border: none;
+  padding: 10px;
+}
+/* Narrower media column shortens the whole block again. */
+.pdp-inner { grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); gap: 40px; }
+.gallery-feature { aspect-ratio: 16 / 9; }
+.gallery-arrow { width: 42px; height: 42px; }
+.gallery-arrow--prev { left: 16px; }
+.gallery-arrow--next { right: 16px; }
+.gallery-thumbs { gap: 10px; }
+.gallery-thumb { width: 72px; height: 72px; border-radius: 10px; }
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.gallery-feature {
+  display: block;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0A0A0A;
+  aspect-ratio: 16 / 10;
+}
+.gallery-feature img,
+.gallery-feature video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Title flag: Ninja uses a bright gradient pill next to the H1 */
+.pdp-flag {
+  background: linear-gradient(90deg, #7C3AED 0%, #D633B0 55%, #F04E9C 100%);
+  letter-spacing: 0.02em;
+}
+
+/* Feature grid: 2 x 2 with tinted icon chips */
+.pdp-features { grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+.pdp-features li { font-size: 0.9rem; font-weight: 600; }
+.pdp-features svg {
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  border-radius: 7px;
+  background: var(--brand-tint);
+  color: var(--brand);
+}
+
+/* Upload card: rounded, soft shadow, blue dashed dropzone */
+.upload-card { border-radius: 14px; }
+.upload-dropzone { border-radius: 12px; }
+.upload-icon {
+  width: 74px;
+  height: 74px;
+  background: linear-gradient(160deg, #7FC7FF 0%, var(--brand) 100%);
+  box-shadow: 0 0 0 10px rgba(1, 154, 255, 0.10);
+}
+.upload-title { font-size: 1.1rem; font-weight: 800; }
+.upload-card-head h2 { font-size: 1.05rem; font-weight: 800; }
+
+/* ----- Popular Sizes & Prices (pre-upload) ----- */
+.quick-sizes {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--pdp-line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(16, 24, 40, 0.05);
+}
+.pdp.is-editing .quick-sizes { display: none; }
+.quick-sizes-head { margin-bottom: 12px; }
+.quick-sizes-head h3 { margin: 0 0 2px; font-size: 0.95rem; font-weight: 800; color: #101828; }
+.quick-sizes-head p { margin: 0; font-size: 0.78rem; color: #98A2B3; }
+.quick-sizes-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.quick-size {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 12px 8px;
+  border: 1px solid #E8EAEE;
+  border-radius: 10px;
+  background: #fff;
+  transition: border-color 0.15s, background 0.15s;
+}
+.quick-size:hover { border-color: var(--brand); background: var(--brand-tint); }
+.quick-size-dim { font-size: 0.92rem; font-weight: 800; color: #101828; }
+.quick-size-note { font-size: 0.68rem; color: #98A2B3; }
+.quick-size-price { font-size: 0.9rem; font-weight: 800; color: #12A150; }
+.quick-size-price small { font-size: 0.62rem; font-weight: 600; margin-left: 1px; }
+
+@media (max-width: 560px) {
+  .quick-sizes-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery-thumb { width: 60px; height: 60px; }
+}
