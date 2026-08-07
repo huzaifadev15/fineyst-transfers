@@ -2718,3 +2718,8 @@ body.template-index main { padding-top: 0; }
   .gallery-main img,
   .gallery-main .hero-media-placeholder { aspect-ratio: 1 / 1; max-height: none; }
 }
+
+/* Arrows must sit above the slide frame. Both are positioned with z-index
+   auto, so they painted in DOM order — .gallery-main covered the prev button
+   (which precedes it) while the next button (which follows it) stayed visible. */
+.gallery-arrow { z-index: 2; }
