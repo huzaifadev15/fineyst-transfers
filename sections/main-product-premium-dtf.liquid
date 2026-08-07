@@ -1,0 +1,481 @@
+{%- liquid
+  assign rating = product.metafields.reviews.rating | default: section.settings.rating_value
+  assign rating_count = product.metafields.reviews.rating_count | default: section.settings.rating_count
+-%}
+
+<section class="main-product main-product-premium-dtf pdp">
+  <div class="container pdp-inner">
+
+    <div class="pdp-media">
+      {%- assign image_count = product.images.size -%}
+
+      <div class="product-gallery" data-gallery>
+        {%- if image_count > 1 -%}
+          <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+        {%- endif -%}
+
+        <div class="gallery-main" data-gallery-main>
+          {%- if image_count > 0 -%}
+            {%- for image in product.images -%}
+              <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
+                <img src="{{ image | image_url: width: 1400 }}"
+                     alt="{{ image.alt | escape }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     sizes="(min-width: 990px) 45vw, 100vw">
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="hero-media-placeholder"></div>
+          {%- endif -%}
+        </div>
+
+        {%- if image_count > 1 -%}
+          <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        {%- endif -%}
+      </div>
+
+      {%- if image_count > 1 -%}
+        <div class="gallery-thumbs">
+          {%- for image in product.images -%}
+            <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                    data-gallery-thumb data-index="{{ forloop.index0 }}"
+                    aria-label="View image {{ forloop.index }}">
+              <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- assign product_videos = product.media | where: 'media_type', 'video' -%}
+      {%- if product_videos.size > 0 -%}
+        <div class="gallery-videos">
+          {%- for media in product_videos -%}
+            <div class="gallery-video">
+              {{ media | video_tag: image_size: '1200x', controls: true, muted: true, playsinline: true }}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {% if section.settings.feature_video != blank or section.settings.feature_image %}
+        <a class="gallery-feature" href="{{ section.settings.feature_link | default: '#' }}">
+          {% if section.settings.feature_video != blank %}
+            <video autoplay muted loop playsinline preload="metadata"
+                   {% if section.settings.feature_image %}poster="{{ section.settings.feature_image | image_url: width: 900 }}"{% endif %}>
+              <source src="{{ section.settings.feature_video | file_url }}" type="video/mp4">
+            </video>
+          {% else %}
+            {{ section.settings.feature_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'See VIVID AF in action' }}
+          {% endif %}
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="pdp-info">
+      <div class="pdp-title-row">
+        <h1>{{ product.title }}</h1>
+        {% if section.settings.badge_text != blank %}
+          <span class="pdp-flag">{{ section.settings.badge_text }}</span>
+        {% endif %}
+      </div>
+
+      <div class="pdp-meta">
+        <span class="pdp-meta-item pdp-meta-price">
+          <strong>As Low As</strong>
+          {% if section.settings.unit_price != blank %}
+            {{ section.settings.unit_price }}
+          {% else %}
+            {{ product.price | money }}
+          {% endif %}
+        </span>
+        {% if section.settings.fulfillment_note != blank %}
+          <span class="pdp-meta-item">{{ section.settings.fulfillment_note }}</span>
+        {% endif %}
+        {% if rating_count != blank %}
+          <span class="pdp-meta-item pdp-meta-rating">
+            <span class="pdp-stars" aria-hidden="true">★★★★★</span>
+            <a href="#reviews">{{ rating_count }} Reviews</a>
+          </span>
+        {% endif %}
+      </div>
+
+      <ul class="pdp-features pdp-features--grid">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3l3 2 3-2 5 3-2 4-2-1v12H8V9L6 10 4 6z"/></svg>
+          <span>Works on Any Fabric or Color</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M18 16l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>
+          <span>Vibrant Colors &amp; Ultra-fine Details</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4"/><path d="M8 6.5h2"/></svg>
+          <span>Certified for {{ section.settings.wash_count }}+ Washes
+            <button type="button" class="pdp-info-dot" aria-label="More about wash testing" data-tip="Independently lab-tested through {{ section.settings.wash_count }} home wash and dry cycles with no cracking or peeling.">i</button>
+          </span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>100% Satisfaction Guaranteed</span>
+        </li>
+      </ul>
+
+      <div class="pdp-strip">
+        <a class="pdp-strip-link" href="{{ section.settings.volume_link | default: '#size-select' }}">{{ section.settings.volume_text }}</a>
+        <span class="pdp-strip-item pdp-delivery" data-delivery data-cutoff-hour="{{ section.settings.cutoff_hour }}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.5L12 12.5l8.7-5M12 21.5v-9"/></svg>
+          Fastest Delivery <strong data-delivery-date>—</strong> order in <strong data-delivery-countdown>—</strong>
+        </span>
+        <span class="pdp-strip-item">No Minimums, Setup or Art Fees</span>
+      </div>
+
+      <div class="upload-card">
+        <div class="upload-card-head">
+          <h2>Upload Your Artwork</h2>
+          <div class="upload-tabs">
+            <button type="button" class="upload-tab is-active">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+              Upload
+            </button>
+            <a class="upload-tab" href="/pages/design-library">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M4 17l5-5 4 4 3-2 4 4"/></svg>
+              Previous Designs
+            </a>
+          </div>
+        </div>
+
+        <div class="upload-card-body">
+          <div class="upload-dropzone" data-upload-dropzone>
+            <span class="upload-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.95 5.5 5.5 0 0 1 10.7-1.6A3.75 3.75 0 0 1 17.5 18"/><path d="M12 21v-8M9 15.5l3-3 3 3"/></svg>
+            </span>
+            <p class="upload-title">Upload your file</p>
+            <p class="upload-sub">Drag and drop file here or click to browse</p>
+            <input type="file" accept="image/*,.pdf,.ai,.eps,.svg,.psd" hidden data-upload-input>
+            <button type="button" class="btn-blue" data-upload-browse>Browse</button>
+            <ul class="upload-file-list" data-upload-file-list></ul>
+          </div>
+        </div>
+      </div>
+
+      {% if section.settings.guarantee_text != blank %}
+        <div class="premium-guarantee">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>{{ section.settings.guarantee_text }}</span>
+        </div>
+      {% endif %}
+
+      {% form 'product', product, class: 'pdp-form', id: 'size-select' %}
+        <div class="gang-sheet-form" data-gang-form>
+
+          <div class="gang-film-section">
+            <h2 class="gang-section-title">Select film style</h2>
+            <div class="gang-films" data-gang-films>
+              {% for block in section.blocks %}
+                {% if block.type == 'film_style' %}
+                  <button
+                    type="button"
+                    class="gang-film-btn {% if forloop.first %}is-active{% endif %}"
+                    {{ block.shopify_attributes }}
+                    data-gang-film
+                    data-film-id="{{ block.settings.option_value }}"
+                    aria-pressed="{{ forloop.first }}"
+                  >
+                    {% if block.settings.badge != blank %}
+                      <span class="gang-film-badge">{{ block.settings.badge }}</span>
+                    {% endif %}
+                    <span class="gang-film-swatch" style="background: {{ block.settings.swatch_css }};"></span>
+                    <span class="gang-film-name">{{ block.settings.label }}</span>
+                    {% if forloop.first %}<span class="gang-film-check" aria-hidden="true">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+                    </span>{% endif %}
+                  </button>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="gang-size-section">
+            <h2 class="gang-section-title">Select your size</h2>
+            <p class="gang-size-help">Don't have a gang sheet ready to go? Use our <a href="{{ section.settings.builder_url | default: '#' }}">Online Builder</a> or <a href="{{ section.settings.template_url | default: '#' }}">Download a Template</a></p>
+            <p class="gang-section-note">All sizes are {{ section.settings.sheet_width }} inches wide</p>
+            <div class="gang-sizes" data-gang-sizes>
+              {% for block in section.blocks %}
+                {% if block.type == 'sheet_size' %}
+                  <button
+                    type="button"
+                    class="gang-size-btn {% if forloop.first %}is-active{% endif %}"
+                    {{ block.shopify_attributes }}
+                    data-gang-size
+                    data-variant-id="{{ block.settings.variant_id }}"
+                    data-price="{{ block.settings.price }}"
+                    data-compare="{{ block.settings.compare_price }}"
+                    data-discount="{{ block.settings.discount_pct }}"
+                    aria-pressed="{{ forloop.first }}"
+                  >
+                    <span class="gang-size-label">{{ block.settings.label }}</span>
+                    <span class="gang-size-price">{{ block.settings.price }}<small>ea.</small></span>
+                    {% if block.settings.discount_pct != blank and block.settings.discount_pct != '0' %}
+                      <span class="gang-size-off">{{ block.settings.discount_pct }}% off</span>
+                    {% endif %}
+                  </button>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="pdp-buy">
+            <label class="pdp-qty">
+              <span class="visually-hidden">Quantity</span>
+              <input type="number" name="quantity" value="1" min="1" inputmode="numeric">
+            </label>
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-gang-variant-input>
+            <button type="submit" class="btn-blue btn-blue--lg" {% unless product.available %}disabled{% endunless %}>
+              {% if product.available %}
+                Add to Cart
+              {% else %}
+                Sold Out
+              {% endif %}
+            </button>
+          </div>
+
+        </div>
+      {% endform %}
+
+      {% if product.description != blank %}
+        <div class="pdp-description rte">{{ product.description }}</div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .main-product-premium-dtf .pdp-features--grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+
+  .premium-guarantee {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--pdp-blue, #0ea5e9);
+  }
+
+  .gang-sheet-form { display: flex; flex-direction: column; gap: 20px; margin-top: 18px; }
+  .gang-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text, #111);
+    margin-bottom: 10px;
+  }
+  .gang-section-note { font-weight: 400; color: var(--color-text-muted, #6b7280); margin: 0 0 10px; font-size: 12px; }
+  .gang-size-help { font-size: 13px; color: var(--color-text-muted, #6b7280); margin: -4px 0 10px; }
+  .gang-size-help a { color: var(--color-accent, #0ea5e9); font-weight: 600; text-decoration: none; }
+  .gang-size-help a:hover { text-decoration: underline; }
+
+  .gang-sizes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+
+  .gang-size-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 10px 6px;
+    border: 1.5px solid var(--color-border, #d1d5db);
+    border-radius: 8px;
+    background: var(--color-bg, #fff);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    text-align: center;
+  }
+  .gang-size-btn:hover { border-color: var(--color-accent, #0ea5e9); }
+  .gang-size-btn.is-active {
+    border-color: var(--color-accent, #0ea5e9);
+    background: color-mix(in srgb, var(--color-accent, #0ea5e9) 8%, transparent);
+  }
+  .gang-size-label { font-size: 13px; font-weight: 600; color: var(--color-text, #111); }
+  .gang-size-price { font-size: 12px; color: var(--color-text, #111); }
+  .gang-size-price small { color: var(--color-text-muted, #6b7280); margin-left: 2px; }
+  .gang-size-off {
+    font-size: 10px;
+    font-weight: 600;
+    color: #16a34a;
+    background: #dcfce7;
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+
+  .gang-films {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .gang-film-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1.5px solid var(--color-border, #d1d5db);
+    border-radius: 24px;
+    background: var(--color-bg, #fff);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-color 0.15s;
+  }
+  .gang-film-btn:hover { border-color: var(--color-accent, #0ea5e9); }
+  .gang-film-btn.is-active { border-color: var(--color-accent, #0ea5e9); }
+  .gang-film-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
+  }
+  .gang-film-badge {
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    font-size: 9px;
+    font-weight: 700;
+    background: var(--color-accent, #0ea5e9);
+    color: #fff;
+    border-radius: 4px;
+    padding: 1px 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .gang-film-check { color: var(--color-accent, #0ea5e9); display: flex; align-items: center; }
+
+  @media (max-width: 749px) {
+    .main-product-premium-dtf .pdp-features--grid { grid-template-columns: 1fr; }
+    .gang-sizes { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+
+<script>
+(function () {
+  const form = document.querySelector('.main-product-premium-dtf [data-gang-form]');
+  if (!form) return;
+
+  form.querySelectorAll('[data-gang-size]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      form.querySelectorAll('[data-gang-size]').forEach(b => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-pressed', 'true');
+      const variantInput = form.querySelector('[data-gang-variant-input]');
+      if (variantInput && btn.dataset.variantId) variantInput.value = btn.dataset.variantId;
+    });
+  });
+
+  form.querySelectorAll('[data-gang-film]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      form.querySelectorAll('[data-gang-film]').forEach(b => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-pressed', 'false');
+        const chk = b.querySelector('.gang-film-check');
+        if (chk) chk.remove();
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-pressed', 'true');
+      if (!btn.querySelector('.gang-film-check')) {
+        const chk = document.createElement('span');
+        chk.className = 'gang-film-check';
+        chk.setAttribute('aria-hidden', 'true');
+        chk.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
+        btn.appendChild(chk);
+      }
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Premium DTF Product",
+  "settings": [
+    { "type": "text", "id": "badge_text", "label": "Title badge", "default": "VIVID AF" },
+    { "type": "text", "id": "unit_price", "label": "\"As low as\" price", "default": "$0.02/sq in" },
+    { "type": "text", "id": "fulfillment_note", "label": "Fulfillment note", "default": "Ships from us" },
+    { "type": "text", "id": "rating_value", "label": "Fallback rating", "default": "4.9" },
+    { "type": "text", "id": "rating_count", "label": "Fallback review count", "default": "22,861" },
+    { "type": "text", "id": "wash_count", "label": "Certified wash count", "default": "100" },
+    { "type": "text", "id": "volume_text", "label": "Volume discount text", "default": "Buy More & Save Up To 62%" },
+    { "type": "url", "id": "volume_link", "label": "Volume discount link" },
+    { "type": "range", "id": "cutoff_hour", "label": "Same-day cutoff hour (24h)", "min": 0, "max": 23, "step": 1, "default": 17 },
+    { "type": "text", "id": "sheet_width", "label": "Sheet width (inches)", "default": "22" },
+    { "type": "url", "id": "builder_url", "label": "Online Gang Sheet Builder URL" },
+    { "type": "url", "id": "template_url", "label": "Downloadable template URL" },
+    { "type": "text", "id": "guarantee_text", "label": "Guarantee line text", "default": "The Fineyst Guarantee" },
+    { "type": "header", "content": "Gallery feature card" },
+    { "type": "image_picker", "id": "feature_image", "label": "Feature image / video poster" },
+    { "type": "text", "id": "feature_video", "label": "Feature video filename", "info": "MP4 uploaded to Content > Files, e.g. dtf-video-1.mp4" },
+    { "type": "url", "id": "feature_link", "label": "Feature card link" }
+  ],
+  "blocks": [
+    {
+      "type": "sheet_size",
+      "name": "Sheet Size",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Size label", "default": "1 Foot" },
+        { "type": "text", "id": "price", "label": "Price (display)", "default": "$16.99" },
+        { "type": "text", "id": "compare_price", "label": "Compare-at price" },
+        { "type": "text", "id": "discount_pct", "label": "Discount % (leave blank for none)" },
+        { "type": "text", "id": "variant_id", "label": "Shopify variant ID" }
+      ]
+    },
+    {
+      "type": "film_style",
+      "name": "Film Style",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Film name", "default": "VIVID AF" },
+        { "type": "text", "id": "option_value", "label": "Option value (matches product variant)", "default": "vivid-af" },
+        { "type": "text", "id": "swatch_css", "label": "Swatch CSS (color, gradient, etc.)", "default": "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)" },
+        { "type": "text", "id": "badge", "label": "Badge text (optional, e.g. FREE UPGRADE)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium DTF Product",
+      "blocks": [
+        { "type": "sheet_size", "settings": { "label": "1 Foot",  "price": "$16.99", "discount_pct": "" } },
+        { "type": "sheet_size", "settings": { "label": "2 Feet",  "price": "$19.99", "discount_pct": "41" } },
+        { "type": "sheet_size", "settings": { "label": "5 Feet",  "price": "$49.99", "discount_pct": "41" } },
+        { "type": "sheet_size", "settings": { "label": "7 Feet",  "price": "$69.99", "discount_pct": "41" } },
+        { "type": "sheet_size", "settings": { "label": "10 Feet", "price": "$89.99", "discount_pct": "47" } },
+        { "type": "sheet_size", "settings": { "label": "15 Feet", "price": "$109.99", "discount_pct": "57" } },
+        { "type": "sheet_size", "settings": { "label": "20 Feet", "price": "$129.99", "discount_pct": "62" } },
+        { "type": "sheet_size", "settings": { "label": "30 Feet", "price": "$179.99", "discount_pct": "65" } },
+        { "type": "sheet_size", "settings": { "label": "40 Feet", "price": "$210.99", "discount_pct": "68" } },
+        { "type": "film_style", "settings": { "label": "VIVID AF",        "option_value": "vivid-af",        "swatch_css": "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)", "badge": "FREE UPGRADE" } },
+        { "type": "film_style", "settings": { "label": "Glitter",         "option_value": "glitter",         "swatch_css": "radial-gradient(circle, #fffde7 30%, #f5c518 100%)", "badge": "" } },
+        { "type": "film_style", "settings": { "label": "Glow in the Dark","option_value": "glow-in-dark",   "swatch_css": "#8bc34a", "badge": "" } },
+        { "type": "film_style", "settings": { "label": "Gold Foil",       "option_value": "gold-foil",       "swatch_css": "linear-gradient(135deg,#c9a84c,#f5e07a,#c9a84c)", "badge": "" } },
+        { "type": "film_style", "settings": { "label": "Silver Foil",     "option_value": "silver-foil",     "swatch_css": "linear-gradient(135deg,#9e9e9e,#e0e0e0,#9e9e9e)", "badge": "" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

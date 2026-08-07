@@ -1,0 +1,469 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product-premium-dtf",
+      "blocks": {
+        "size-1ft":     { "type": "sheet_size", "settings": { "label": "1 Foot",   "price": "$16.99",  "compare_price": "",        "discount_pct": "",   "variant_id": "" } },
+        "size-2ft":     { "type": "sheet_size", "settings": { "label": "2 Feet",   "price": "$19.99",  "compare_price": "$33.88",  "discount_pct": "41", "variant_id": "" } },
+        "size-5ft":     { "type": "sheet_size", "settings": { "label": "5 Feet",   "price": "$49.99",  "compare_price": "$84.70",  "discount_pct": "41", "variant_id": "" } },
+        "size-7ft":     { "type": "sheet_size", "settings": { "label": "7 Feet",   "price": "$69.99",  "compare_price": "$118.58", "discount_pct": "41", "variant_id": "" } },
+        "size-10ft":    { "type": "sheet_size", "settings": { "label": "10 Feet",  "price": "$89.99",  "compare_price": "$169.40", "discount_pct": "47", "variant_id": "" } },
+        "size-15ft":    { "type": "sheet_size", "settings": { "label": "15 Feet",  "price": "$109.99", "compare_price": "$254.10", "discount_pct": "57", "variant_id": "" } },
+        "size-20ft":    { "type": "sheet_size", "settings": { "label": "20 Feet",  "price": "$129.99", "compare_price": "$338.80", "discount_pct": "62", "variant_id": "" } },
+        "size-30ft":    { "type": "sheet_size", "settings": { "label": "30 Feet",  "price": "$179.99", "compare_price": "$508.20", "discount_pct": "65", "variant_id": "" } },
+        "size-40ft":    { "type": "sheet_size", "settings": { "label": "40 Feet",  "price": "$210.99", "compare_price": "$677.60", "discount_pct": "68", "variant_id": "" } },
+        "film-vivid":   { "type": "film_style", "settings": { "label": "VIVID AF",         "option_value": "vivid-af",     "swatch_css": "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)", "badge": "FREE UPGRADE" } },
+        "film-glitter": { "type": "film_style", "settings": { "label": "Glitter",          "option_value": "glitter",      "swatch_css": "radial-gradient(circle, #fffde7 30%, #f5c518 100%)",          "badge": "" } },
+        "film-glow":    { "type": "film_style", "settings": { "label": "Glow in the Dark", "option_value": "glow-in-dark", "swatch_css": "#8bc34a",                                                      "badge": "" } },
+        "film-gold":    { "type": "film_style", "settings": { "label": "Gold Foil",        "option_value": "gold-foil",    "swatch_css": "linear-gradient(135deg,#c9a84c,#f5e07a,#c9a84c)",              "badge": "" } },
+        "film-silver":  { "type": "film_style", "settings": { "label": "Silver Foil",      "option_value": "silver-foil",  "swatch_css": "linear-gradient(135deg,#9e9e9e,#e0e0e0,#9e9e9e)",              "badge": "" } }
+      },
+      "block_order": [
+        "size-1ft", "size-2ft", "size-5ft", "size-7ft", "size-10ft",
+        "size-15ft", "size-20ft", "size-30ft", "size-40ft",
+        "film-vivid", "film-glitter", "film-glow", "film-gold", "film-silver"
+      ],
+      "settings": {
+        "badge_text": "VIVID AF",
+        "unit_price": "$0.02/sq in",
+        "fulfillment_note": "Ships from us",
+        "volume_text": "Buy More & Save Up To 62%",
+        "sheet_width": "22",
+        "guarantee_text": "The Fineyst Guarantee"
+      }
+    },
+    "pdp-details": {
+      "type": "pdp-details",
+      "blocks": {
+        "d1": {
+          "type": "row",
+          "settings": {
+            "label": "Sheet Pricing",
+            "body": "<p>Each gang sheet is priced by size, not by design count - fit as many designs as you can on a sheet at no extra cost. Need more than 40 feet? Increase the quantity and we will print multiple rolls.</p>"
+          }
+        },
+        "d2": {
+          "type": "row",
+          "settings": {
+            "label": "Features",
+            "body": "<p>9-color VIVID AF printing, 16.7 million colors, near-perfect Pantone matching, bright opaque whites, 100+ wash durability, and fine detail down to 3 pixels. Works on cotton, polyester, blends, canvas, denim and nylon.</p>"
+          }
+        },
+        "d3": {
+          "type": "row",
+          "settings": {
+            "label": "Specialty DTF Film Styles",
+            "body": "<p>Beyond standard VIVID AF we print glitter, glow-in-the-dark, gold foil and silver foil gang sheets. Each specialty style ships press-ready with its own pressing card.</p>"
+          }
+        },
+        "d4": {
+          "type": "row",
+          "settings": {
+            "label": "Satisfaction Guarantee",
+            "body": "<p>If a transfer does not press correctly or arrives with a print defect, we reprint it free. No return shipping, no restocking fee, no argument.</p>"
+          }
+        },
+        "d5": {
+          "type": "row",
+          "settings": {
+            "label": "Pressing Instructions",
+            "body": "<p>Press at 300-320°F for 10-15 seconds with medium pressure, then peel. Peel temperature depends on the transfer type and is printed on the card that ships with every order.</p>"
+          }
+        },
+        "d6": {
+          "type": "row",
+          "settings": {
+            "label": "Shipping & Returns",
+            "body": "<p>Most orders are printed and shipped within 24 hours. Free shipping on qualifying US orders. Because every gang sheet is made to order we cannot accept returns, but our reprint guarantee covers any defect.</p>"
+          }
+        },
+        "d7": {
+          "type": "row",
+          "settings": {
+            "label": "Art Upload Recommendations",
+            "body": "<p>Upload PNG with a transparent background at 300 DPI for best results. We also accept PDF, AI, SVG, TIFF and JPG. Our art team reviews every file free and will flag anything that will not print cleanly.</p>"
+          }
+        },
+        "d8": {
+          "type": "row",
+          "settings": {
+            "label": "Downloadable Templates",
+            "body": "<p>Not sure how to lay out a sheet? Download a ready-made gang sheet template sized to your chosen length, drop in your designs and upload the finished file here.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "d1",
+        "d2",
+        "d3",
+        "d4",
+        "d5",
+        "d6",
+        "d7",
+        "d8"
+      ],
+      "settings": {}
+    },
+    "pdp-comparison": {
+      "type": "pdp-comparison",
+      "blocks": {
+        "c1": {
+          "type": "row",
+          "settings": {
+            "ours": "9-Color Printing (CMYK + RGBO + White)",
+            "theirs": "5-Color Printing (CMYK)"
+          }
+        },
+        "c2": {
+          "type": "row",
+          "settings": {
+            "ours": "16.7 Million Colors",
+            "theirs": "~20,000 Colors"
+          }
+        },
+        "c3": {
+          "type": "row",
+          "settings": {
+            "ours": "Noticeably Brighter & More Saturated Prints",
+            "theirs": "Muted / Dull Prints"
+          }
+        },
+        "c4": {
+          "type": "row",
+          "settings": {
+            "ours": "Near Perfect Pantone Matching",
+            "theirs": "Inconsistent / Washed Out"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {}
+    },
+    "pdp-benefits": {
+      "type": "feature-tiles",
+      "blocks": {
+        "b1": {
+          "type": "tile",
+          "settings": {
+            "static_image": "dtf-1.jpg",
+            "caption": "Works on Any Fabric or Color"
+          }
+        },
+        "b2": {
+          "type": "tile",
+          "settings": {
+            "static_video": "dtf-video-1.mp4",
+            "caption": "Unrivaled Color Spectrum & Brighter Whites"
+          }
+        },
+        "b3": {
+          "type": "tile",
+          "settings": {
+            "static_image": "dtf-2.jpg",
+            "caption": "Stretchability Means Durability"
+          }
+        },
+        "b4": {
+          "type": "tile",
+          "settings": {
+            "static_image": "dtf-3.jpg",
+            "caption": "Sharper Details & Cleaner Edges"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "heading": "Fineyst Delivers Vivid Prints & Higher Profits",
+        "subheading": "Every print you press should boost your bottom line - and with Fineyst, it does. Our vivid DTF gang sheets combine sharper colors, stronger durability, and cleaner detail that sells."
+      }
+    },
+    "pdp-pressing": {
+      "type": "media-split",
+      "settings": {
+        "heading": "Easily Applies in Seconds",
+        "text": "<p>Thanks to our proprietary Fineyst Peel Technology, our DTF gang sheets deliver professional results in just 13 seconds - making it easier than ever to press on anything!</p>",
+        "cta_label": "View DTF Pressing Guide",
+        "cta_link": "/pages/pressing-instructions",
+        "media_position": "left",
+        "static_video": "dtf-video-6.mp4"
+      }
+    },
+    "pdp-ugc": {
+      "type": "pdp-ugc",
+      "settings": {
+        "heading": "Fineyst Transfers Customer Feedback"
+      }
+    },
+    "pdp-related": {
+      "type": "pdp-related",
+      "blocks": {
+        "p1": {
+          "type": "item",
+          "settings": {
+            "handle": "glitter-transfers",
+            "static_image": "dtf-1.jpg",
+            "title": "Glitter DTF",
+            "text": "Glitter DTF creates bold, sparkling designs that instantly stand out",
+            "price": "As low as $0.03 per sq. inch",
+            "ships": "Ships as fast as 1 business day",
+            "cta": "Shop Glitter DTF"
+          }
+        },
+        "p2": {
+          "type": "item",
+          "settings": {
+            "handle": "puff-transfers",
+            "static_image": "dtf-2.jpg",
+            "title": "3D Puff Transfers",
+            "text": "Puff transfers deliver raised, textured designs without any weeding",
+            "price": "As low as $0.02 per sq. inch",
+            "ships": "Ships in 3 business days",
+            "cta": "Shop Puff Transfers"
+          }
+        },
+        "p3": {
+          "type": "item",
+          "settings": {
+            "handle": "spangle-transfers",
+            "static_image": "dtf-3.jpg",
+            "title": "Spangle Transfers",
+            "text": "Durable, holographic Spangle Transfers make any design instantly pop",
+            "price": "As low as $0.04 per sq. inch",
+            "ships": "Ships in 6 business days",
+            "cta": "Shop Spangles"
+          }
+        },
+        "p4": {
+          "type": "item",
+          "settings": {
+            "handle": "gold-foil-dtf",
+            "static_image": "dtf-4.jpg",
+            "title": "Gold Foil DTF",
+            "text": "Durable Gold Foil DTF adds premium metallic accents effortlessly",
+            "price": "As low as $0.03 per sq. inch",
+            "ships": "Ships as fast as 1 business day",
+            "cta": "Shop Gold Foil"
+          }
+        },
+        "p5": {
+          "type": "item",
+          "settings": {
+            "handle": "silver-foil-dtf",
+            "static_image": "dtf-5.avif",
+            "title": "Silver Foil DTF",
+            "text": "Silver Foil DTF brings crisp, reflective metallic detail effortlessly",
+            "price": "As low as $0.03 per sq. inch",
+            "ships": "Ships as fast as 1 business day",
+            "cta": "Shop Silver Foil"
+          }
+        },
+        "p6": {
+          "type": "item",
+          "settings": {
+            "handle": "glow-in-the-dark-dtf",
+            "static_image": "dtf-6.avif",
+            "title": "Glow in the Dark DTF",
+            "text": "Glow coatings create bold, high-contrast designs that shine brilliantly",
+            "price": "As low as $0.03 per sq. inch",
+            "ships": "Ships as fast as 1 business day",
+            "cta": "Shop Glow in the Dark"
+          }
+        },
+        "p7": {
+          "type": "item",
+          "settings": {
+            "handle": "glitter-puff-transfers",
+            "static_image": "dtf-8.avif",
+            "title": "3D Glitter Puff Transfers",
+            "text": "Glitter Puff transfers deliver vibrant, raised sparkle effects beautifully",
+            "price": "As low as $0.02 per sq. inch",
+            "ships": "Ships in 3 business days",
+            "cta": "Shop 3D Glitter Puff"
+          }
+        },
+        "p8": {
+          "type": "item",
+          "settings": {
+            "handle": "names-numbers-gang-sheet",
+            "static_image": "hero-3.jpg",
+            "title": "Names & Numbers Gang Sheet",
+            "text": "Easily create a Names & Numbers DTF gang sheet with our Gang Sheet Builder",
+            "price": "As low as $0.02 per sq. inch",
+            "ships": "Ships as fast as 1 business day",
+            "cta": "Create a Gang Sheet"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8"
+      ],
+      "settings": {}
+    },
+    "pdp-reviews": {
+      "type": "pdp-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "name": "Sound L.",
+            "title": "The best",
+            "body": "I am thoroughly satisfied with this product and highly recommend it. The gang sheet made it so easy to fit multiple designs on one order, and the process of pressing them onto shirts was straightforward and efficient.",
+            "date": "07/31/26",
+            "rating": 5,
+            "helpful": "1",
+            "unhelpful": "0"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "name": "Carol M.",
+            "title": "DTF Perfection",
+            "body": "I recently ordered gang sheets, UV DTFs and blanks. I'm impressed with how easy it is to upload the images and pick sizes. I received the sheets in the time frame promised.",
+            "date": "07/15/26",
+            "rating": 5,
+            "helpful": "0",
+            "unhelpful": "0"
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "name": "Bradley M.",
+            "title": "Beautiful transfers",
+            "body": "More than a few orders down and the gang sheets have been beautiful and perfect every single time! The colors are bright and look great. Easy to use and fast, safe shipping. Our club members love them!",
+            "date": "07/21/26",
+            "rating": 5,
+            "helpful": "0",
+            "unhelpful": "0"
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "name": "Kenneth K.",
+            "title": "Great iron on results",
+            "body": "Total novice using a 30 year old hand iron with great results. Uploading my file to a gang sheet and pressing each piece was simple. Will definitely order again.",
+            "date": "07/22/26",
+            "rating": 5,
+            "helpful": "1",
+            "unhelpful": "1"
+          }
+        },
+        "r5": {
+          "type": "review",
+          "settings": {
+            "name": "Takeya M.",
+            "title": "Great turnout",
+            "body": "The turn around was in good timing and the results were really good. I've been getting compliments, and the elasticity is really good. Can't wait to order more gang sheets!",
+            "date": "07/24/26",
+            "rating": 4,
+            "helpful": "0",
+            "unhelpful": "0"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ],
+      "settings": {}
+    },
+    "pdp-qa": {
+      "type": "pdp-qa",
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "name": "Yennys",
+            "question": "Can I mix multiple designs on one gang sheet?",
+            "answer": "Yes - upload as many designs as fit within your chosen sheet length, we lay them out efficiently at no extra charge.",
+            "date": "07/23/26"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "name": "Rosemarie",
+            "question": "Do you offer a template to help me lay out my sheet?",
+            "answer": "Yes - use the Download a Template link on this page to get a sheet sized to your chosen length, then drop in your designs.",
+            "date": "07/14/26"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "name": "Charlotte",
+            "question": "What width are the gang sheets?",
+            "answer": "All Premium DTF Gang Sheets print at 22 inches wide; choose a length from 1 to 40 feet.",
+            "date": "07/08/26"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "name": "Joycelyn",
+            "question": "Can I order more than 40 feet?",
+            "answer": "Absolutely - increase the quantity and we will print and ship multiple rolls.",
+            "date": "07/08/26"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "name": "Stacy",
+            "question": "I'm starting a business making tea towels with sarcastic sayings. Is this something you would print?",
+            "answer": "Yes. Upload your designs, choose a sheet length, and we will ship you a press-ready gang sheet for your towels.",
+            "date": "06/30/26"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ],
+      "settings": {}
+    },
+    "partner-banner": {
+      "type": "partner-banner",
+      "settings": {
+        "text": "Official Printing Partner of the Sandy Creek Athletics Program"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "pdp-details",
+    "pdp-comparison",
+    "pdp-benefits",
+    "pdp-pressing",
+    "pdp-ugc",
+    "pdp-related",
+    "pdp-reviews",
+    "pdp-qa",
+    "partner-banner"
+  ]
+}
