@@ -202,46 +202,53 @@
           <div class="gang-size-section">
             <h2 class="gang-section-title">Select your size</h2>
             <p class="gang-size-help">Don't have a gang sheet ready to go? Use our <a href="{{ section.settings.builder_url | default: '#' }}">Online Builder</a> or <a href="{{ section.settings.template_url | default: '#' }}">Download a Template</a></p>
-            <p class="gang-section-note">All sizes are {{ section.settings.sheet_width }} inches wide</p>
-            <div class="gang-sizes" data-gang-sizes>
-              {% for block in section.blocks %}
-                {% if block.type == 'sheet_size' %}
-                  <button
-                    type="button"
-                    class="gang-size-btn {% if forloop.first %}is-active{% endif %}"
-                    {{ block.shopify_attributes }}
-                    data-gang-size
-                    data-variant-id="{{ block.settings.variant_id }}"
-                    data-price="{{ block.settings.price }}"
-                    data-compare="{{ block.settings.compare_price }}"
-                    data-discount="{{ block.settings.discount_pct }}"
-                    aria-pressed="{{ forloop.first }}"
-                  >
-                    <span class="gang-size-label">{{ block.settings.label }}</span>
-                    <span class="gang-size-price">{{ block.settings.price }}<small>ea.</small></span>
-                    {% if block.settings.discount_pct != blank and block.settings.discount_pct != '0' %}
-                      <span class="gang-size-off">{{ block.settings.discount_pct }}% off</span>
-                    {% endif %}
-                  </button>
-                {% endif %}
-              {% endfor %}
+
+            <div class="gang-size-table" data-gang-size-table>
+              <div class="gang-size-row gang-size-row--head">
+                <span>Width (inches)</span>
+                <span>Height (Feet)</span>
+                <span>Price</span>
+                <span>Qty</span>
+                <span>Total</span>
+                <span></span>
+              </div>
+              <div class="gang-size-row">
+                <div class="gang-size-cell gang-size-width">
+                  <span>{{ section.settings.sheet_width }}"</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+                </div>
+                <div class="gang-size-cell">
+                  <select data-gang-size-select>
+                    {% for block in section.blocks %}
+                      {% if block.type == 'sheet_size' %}
+                        <option
+                          value="{{ block.id }}"
+                          data-price="{{ block.settings.price }}"
+                          data-discount="{{ block.settings.discount_pct }}"
+                          data-variant-id="{{ block.settings.variant_id }}"
+                          {% if forloop.first %}selected{% endif %}
+                        >{{ block.settings.label }}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="gang-size-cell gang-size-price-cell">
+                  <span data-gang-size-price>—</span><small>ea.</small>
+                </div>
+                <div class="gang-size-cell">
+                  <input type="number" name="quantity" min="1" value="1" inputmode="numeric" data-gang-size-qty>
+                </div>
+                <div class="gang-size-cell gang-size-total-cell">
+                  <span data-gang-size-total>—</span>
+                </div>
+                <div class="gang-size-cell gang-size-off-cell">
+                  <span data-gang-size-off></span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="pdp-buy">
-            <label class="pdp-qty">
-              <span class="visually-hidden">Quantity</span>
-              <input type="number" name="quantity" value="1" min="1" inputmode="numeric">
-            </label>
-            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-gang-variant-input>
-            <button type="submit" class="btn-blue btn-blue--lg" {% unless product.available %}disabled{% endunless %}>
-              {% if product.available %}
-                Add to Cart
-              {% else %}
-                Sold Out
-              {% endif %}
-            </button>
-          </div>
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-gang-variant-input>
 
         </div>
       {% endform %}
@@ -278,47 +285,64 @@
     color: var(--color-text, #111);
     margin-bottom: 10px;
   }
-  .gang-section-note { font-weight: 400; color: var(--color-text-muted, #6b7280); margin: 0 0 10px; font-size: 12px; }
-  .gang-size-help { font-size: 13px; color: var(--color-text-muted, #6b7280); margin: -4px 0 10px; }
+  .gang-size-help { font-size: 13px; color: var(--color-text-muted, #6b7280); margin: -4px 0 14px; }
   .gang-size-help a { color: var(--color-accent, #0ea5e9); font-weight: 600; text-decoration: none; }
   .gang-size-help a:hover { text-decoration: underline; }
 
-  .gang-sizes {
+  .gang-size-table { display: flex; flex-direction: column; }
+  .gang-size-row {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: 8px;
-  }
-
-  .gang-size-btn {
-    position: relative;
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: 1fr 1.3fr 1fr 0.8fr 1fr 0.9fr;
     align-items: center;
-    justify-content: center;
-    gap: 2px;
-    padding: 10px 6px;
-    border: 1.5px solid var(--color-border, #d1d5db);
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-border, #e5e7eb);
+  }
+  .gang-size-row--head {
+    border-top: 1px solid var(--color-border, #e5e7eb);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text, #111);
+  }
+  .gang-size-cell { display: flex; align-items: center; gap: 6px; }
+  .gang-size-width {
+    justify-content: space-between;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border, #d1d5db);
+    border-radius: 8px;
+    background: #f3f4f6;
+    color: var(--color-text-muted, #6b7280);
+    font-weight: 600;
+  }
+  .gang-size-cell select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border, #d1d5db);
     border-radius: 8px;
     background: var(--color-bg, #fff);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--color-text, #111);
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    text-align: center;
   }
-  .gang-size-btn:hover { border-color: var(--color-accent, #0ea5e9); }
-  .gang-size-btn.is-active {
-    border-color: var(--color-accent, #0ea5e9);
-    background: color-mix(in srgb, var(--color-accent, #0ea5e9) 8%, transparent);
+  .gang-size-cell input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border, #d1d5db);
+    border-radius: 8px;
+    background: var(--color-bg, #fff);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--color-text, #111);
   }
-  .gang-size-label { font-size: 13px; font-weight: 600; color: var(--color-text, #111); }
-  .gang-size-price { font-size: 12px; color: var(--color-text, #111); }
-  .gang-size-price small { color: var(--color-text-muted, #6b7280); margin-left: 2px; }
-  .gang-size-off {
-    font-size: 10px;
-    font-weight: 600;
-    color: #16a34a;
-    background: #dcfce7;
-    border-radius: 4px;
-    padding: 1px 5px;
+  .gang-size-price-cell { font-size: 14px; font-weight: 700; color: var(--color-text, #111); }
+  .gang-size-price-cell small { font-weight: 400; color: var(--color-text-muted, #6b7280); }
+  .gang-size-total-cell { font-size: 14px; font-weight: 700; color: var(--color-text, #111); }
+  .gang-size-off-cell { font-size: 13px; font-weight: 600; color: #16a34a; }
+
+  @media (max-width: 749px) {
+    .gang-size-row { grid-template-columns: repeat(2, 1fr); row-gap: 8px; }
+    .gang-size-row--head { display: none; }
   }
 
   .gang-films {
@@ -376,18 +400,34 @@
   const form = document.querySelector('.main-product-premium-dtf [data-gang-form]');
   if (!form) return;
 
-  form.querySelectorAll('[data-gang-size]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      form.querySelectorAll('[data-gang-size]').forEach(b => {
-        b.classList.remove('is-active');
-        b.setAttribute('aria-pressed', 'false');
-      });
-      btn.classList.add('is-active');
-      btn.setAttribute('aria-pressed', 'true');
-      const variantInput = form.querySelector('[data-gang-variant-input]');
-      if (variantInput && btn.dataset.variantId) variantInput.value = btn.dataset.variantId;
-    });
-  });
+  const sizeSelect = form.querySelector('[data-gang-size-select]');
+  const qtyInput = form.querySelector('[data-gang-size-qty]');
+  const priceEl = form.querySelector('[data-gang-size-price]');
+  const totalEl = form.querySelector('[data-gang-size-total]');
+  const offEl = form.querySelector('[data-gang-size-off]');
+  const variantInput = form.querySelector('[data-gang-variant-input]');
+
+  function parsePrice(str) {
+    return parseFloat((str || '').replace(/[^0-9.]/g, '')) || 0;
+  }
+  function money(value) {
+    return '$' + value.toFixed(2);
+  }
+  function updateSize() {
+    if (!sizeSelect) return;
+    const opt = sizeSelect.options[sizeSelect.selectedIndex];
+    if (!opt) return;
+    const price = parsePrice(opt.dataset.price);
+    const qty = parseInt(qtyInput && qtyInput.value, 10) || 1;
+    if (priceEl) priceEl.textContent = money(price);
+    if (totalEl) totalEl.textContent = money(price * qty);
+    if (offEl) offEl.textContent = opt.dataset.discount ? opt.dataset.discount + '% off' : '';
+    if (variantInput && opt.dataset.variantId) variantInput.value = opt.dataset.variantId;
+  }
+
+  if (sizeSelect) sizeSelect.addEventListener('change', updateSize);
+  if (qtyInput) qtyInput.addEventListener('input', updateSize);
+  updateSize();
 
   form.querySelectorAll('[data-gang-film]').forEach(btn => {
     btn.addEventListener('click', () => {
