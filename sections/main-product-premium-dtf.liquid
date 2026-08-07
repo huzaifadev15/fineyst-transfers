@@ -3,7 +3,7 @@
   assign rating_count = product.metafields.reviews.rating_count | default: section.settings.rating_count
 -%}
 
-<section class="main-product main-product-premium-dtf pdp">
+<section class="main-product main-product-premium-dtf pdp" data-sheet-width="{{ section.settings.sheet_width }}">
   <div class="container pdp-inner">
 
     <div class="pdp-media">
@@ -159,6 +159,24 @@
             <button type="button" class="btn-blue" data-upload-browse>Browse</button>
             <ul class="upload-file-list" data-upload-file-list></ul>
           </div>
+
+          <div class="gang-preview" data-gang-preview hidden>
+            <button type="button" class="gang-preview-delete" data-gang-preview-delete aria-label="Remove artwork">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>
+            </button>
+            <div class="gang-preview-stage">
+              <div class="gang-preview-dim gang-preview-dim--w"><span data-gang-preview-w>—</span></div>
+              <div class="gang-preview-dim gang-preview-dim--h"><span data-gang-preview-h>—</span></div>
+              <span class="gang-preview-rail gang-preview-rail--left"></span>
+              <span class="gang-preview-rail gang-preview-rail--right"></span>
+              <img class="gang-preview-img" data-gang-preview-img alt="Your uploaded artwork">
+            </div>
+            <p class="gang-preview-caption"><strong>Preview:</strong> The image will print as shown above.</p>
+            <button type="button" class="gang-preview-enlarge" data-gang-preview-enlarge>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              Click to enlarge
+            </button>
+          </div>
         </div>
       </div>
 
@@ -285,6 +303,109 @@
     color: var(--color-text, #111);
     margin-bottom: 10px;
   }
+  .gang-preview { padding: 8px 4px 4px; }
+  .gang-preview-stage {
+    position: relative;
+    margin: 30px auto 10px;
+    padding: 0 30px 20px;
+    max-width: 420px;
+  }
+  .gang-preview-delete {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    background: #6b7280;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .gang-preview-delete:hover { background: #4b5563; }
+  .gang-preview-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+  }
+  .gang-preview-rail {
+    position: absolute;
+    top: 0;
+    bottom: 20px;
+    width: 8px;
+    border-left: 2px dashed #9ca3af;
+    border-right: 2px dashed #9ca3af;
+  }
+  .gang-preview-rail--left { left: 22px; }
+  .gang-preview-rail--right { right: 22px; }
+  .gang-preview-dim {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    color: var(--color-text-muted, #6b7280);
+    font-size: 12px;
+  }
+  .gang-preview-dim--w {
+    top: -24px;
+    left: 30px;
+    right: 30px;
+    justify-content: center;
+    border-top: 1.5px solid var(--color-accent, #0ea5e9);
+  }
+  .gang-preview-dim--w::before, .gang-preview-dim--w::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    width: 1.5px;
+    height: 10px;
+    background: var(--color-accent, #0ea5e9);
+  }
+  .gang-preview-dim--w::before { left: 0; }
+  .gang-preview-dim--w::after { right: 0; }
+  .gang-preview-dim--w span { background: #fff; padding: 0 6px; margin-top: -8px; }
+  .gang-preview-dim--h {
+    top: 0;
+    bottom: 20px;
+    left: -6px;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1.5px solid var(--color-accent, #0ea5e9);
+  }
+  .gang-preview-dim--h::before, .gang-preview-dim--h::after {
+    content: '';
+    position: absolute;
+    left: -5px;
+    height: 1.5px;
+    width: 10px;
+    background: var(--color-accent, #0ea5e9);
+  }
+  .gang-preview-dim--h::before { top: 0; }
+  .gang-preview-dim--h::after { bottom: 0; }
+  .gang-preview-dim--h span { background: #fff; padding: 6px 0; writing-mode: vertical-rl; transform: rotate(180deg); }
+  .gang-preview-caption { text-align: center; font-size: 13px; color: var(--color-text, #111); margin: 6px 0 4px; }
+  .gang-preview-enlarge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 4px;
+    border: none;
+    background: none;
+    color: var(--color-accent, #0ea5e9);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .gang-preview-enlarge:hover { text-decoration: underline; }
+
   .gang-size-help { font-size: 13px; color: var(--color-text-muted, #6b7280); margin: -4px 0 14px; }
   .gang-size-help a { color: var(--color-accent, #0ea5e9); font-weight: 600; text-decoration: none; }
   .gang-size-help a:hover { text-decoration: underline; }
@@ -448,6 +569,67 @@
       }
     });
   });
+
+  const pdp = document.querySelector('.main-product-premium-dtf');
+  const dropzone = pdp && pdp.querySelector('[data-upload-dropzone]');
+  const fileInput = dropzone && dropzone.querySelector('[data-upload-input]');
+  const preview = pdp && pdp.querySelector('[data-gang-preview]');
+
+  if (pdp && dropzone && fileInput && preview) {
+    const previewImg = preview.querySelector('[data-gang-preview-img]');
+    const previewW = preview.querySelector('[data-gang-preview-w]');
+    const previewH = preview.querySelector('[data-gang-preview-h]');
+    const deleteBtn = preview.querySelector('[data-gang-preview-delete]');
+    const enlargeBtn = preview.querySelector('[data-gang-preview-enlarge]');
+    const sheetWidth = parseFloat(pdp.getAttribute('data-sheet-width')) || 22;
+    let previewUrl = null;
+
+    function formatInches(value) {
+      return parseFloat(value.toFixed(2)) + '"';
+    }
+
+    function showPreview(file) {
+      if (!file || file.type.indexOf('image/') !== 0) return;
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      previewUrl = URL.createObjectURL(file);
+      if (previewImg) previewImg.src = previewUrl;
+
+      const probe = new Image();
+      probe.onload = function () {
+        const heightIn = probe.naturalWidth ? sheetWidth * (probe.naturalHeight / probe.naturalWidth) : sheetWidth;
+        if (previewW) previewW.textContent = formatInches(sheetWidth);
+        if (previewH) previewH.textContent = formatInches(heightIn);
+      };
+      probe.src = previewUrl;
+
+      dropzone.hidden = true;
+      preview.hidden = false;
+    }
+
+    function resetPreview() {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      previewUrl = null;
+      if (previewImg) previewImg.removeAttribute('src');
+      fileInput.value = '';
+      const fileList = dropzone.querySelector('[data-upload-file-list]');
+      if (fileList) fileList.innerHTML = '';
+      preview.hidden = true;
+      dropzone.hidden = false;
+    }
+
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files && fileInput.files.length) showPreview(fileInput.files[0]);
+    });
+    dropzone.addEventListener('drop', function (e) {
+      if (e.dataTransfer && e.dataTransfer.files.length) showPreview(e.dataTransfer.files[0]);
+    });
+    if (deleteBtn) deleteBtn.addEventListener('click', resetPreview);
+    if (enlargeBtn) {
+      enlargeBtn.addEventListener('click', function () {
+        if (previewUrl) window.open(previewUrl, '_blank');
+      });
+    }
+  }
 })();
 </script>
 
