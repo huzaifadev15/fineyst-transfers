@@ -1,34 +1,184 @@
 {%- comment -%}
   PDP Customer Reviews — rating summary with a star breakdown, an AI-summary
   card, popular topic chips, the review list with verified badges and helpful
-  votes, and pagination. Mirrors the Ninja Transfers PDP review block.
+  votes, and pagination.
+
+  Data source → product.metafields.custom.review_json
+
+  Accepts either a bare list of reviews:
+
+    [ { "name": "Sound L.", "title": "The best", "body": "…",
+        "date": "07/31/26", "rating": 5, "verified": true,
+        "helpful": 1, "unhelpful": 0 }, … ]
+
+  or an object that also carries the summary card:
+
+    {
+      "average": "4.9",
+      "total": 22860,
+      "breakdown": { "5": 21792, "4": 752, "3": 139, "2": 72, "1": 106 },
+      "summary": "…",
+      "topics": ["quality", "colors", "look"],
+      "reviews": [ … ]
+    }
+
+  `average`, `total` and `breakdown` are optional — when omitted they are
+  computed from the reviews array. Section settings are used only as a
+  fallback when the metafield is empty.
 {%- endcomment -%}
 
 {%- capture star_on -%}<svg class="rv-star is-on" width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>{%- endcapture -%}
 {%- capture star_off -%}<svg class="rv-star" width="16" height="16" viewBox="0 0 24 24" fill="#D6DAE0" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>{%- endcapture -%}
 
-{%- assign total = section.settings.total_reviews | default: 22860 -%}
+{%- liquid
+  assign rj = product.metafields.custom.review_json.value
+  assign rv_items = nil
 
-<section class="pdp-reviews">
+  if rj != blank
+    if rj.reviews
+      assign rv_items = rj.reviews
+    elsif rj.size > 0 and rj.first.body
+      assign rv_items = rj
+    endif
+  endif
+
+  assign heading = section.settings.heading | default: 'Customer Reviews'
+  if rj.heading != blank
+    assign heading = rj.heading
+  endif
+
+  comment
+    Star counts: prefer an explicit breakdown, otherwise tally the reviews,
+    otherwise fall back to the section setting.
+  endcomment
+  assign c5 = 0
+  assign c4 = 0
+  assign c3 = 0
+  assign c2 = 0
+  assign c1 = 0
+  assign sum_ratings = 0
+  assign has_counts = false
+
+  if rj.breakdown != blank
+    assign c5 = rj.breakdown['5'] | plus: 0
+    assign c4 = rj.breakdown['4'] | plus: 0
+    assign c3 = rj.breakdown['3'] | plus: 0
+    assign c2 = rj.breakdown['2'] | plus: 0
+    assign c1 = rj.breakdown['1'] | plus: 0
+    assign has_counts = true
+  elsif rv_items != blank
+    for r in rv_items
+      assign rr = r.rating | default: 5 | plus: 0
+      assign sum_ratings = sum_ratings | plus: rr
+      case rr
+        when 5
+          assign c5 = c5 | plus: 1
+        when 4
+          assign c4 = c4 | plus: 1
+        when 3
+          assign c3 = c3 | plus: 1
+        when 2
+          assign c2 = c2 | plus: 1
+        else
+          assign c1 = c1 | plus: 1
+      endcase
+    endfor
+    assign has_counts = true
+  else
+    assign fb = section.settings.breakdown | default: '21792,752,139,72,106' | split: ','
+    assign c5 = fb[0] | plus: 0
+    assign c4 = fb[1] | plus: 0
+    assign c3 = fb[2] | plus: 0
+    assign c2 = fb[3] | plus: 0
+    assign c1 = fb[4] | plus: 0
+    assign has_counts = true
+  endif
+
+  assign counted = c5 | plus: c4 | plus: c3 | plus: c2 | plus: c1
+
+  assign total = counted
+  if rj.total != blank
+    assign total = rj.total | plus: 0
+  elsif rv_items == blank and rj == blank
+    assign total = section.settings.total_reviews | default: 22860 | plus: 0
+  endif
+  if total == 0
+    assign total = 1
+  endif
+
+  comment
+    Average: explicit value wins; otherwise derive it from the ratings we have.
+  endcomment
+  if rj.average != blank
+    assign average = rj.average
+  elsif sum_ratings > 0
+    assign avg_whole = sum_ratings | divided_by: counted
+    assign avg_dec = sum_ratings | modulo: counted | times: 10 | divided_by: counted
+    capture average
+      echo avg_whole
+      echo '.'
+      echo avg_dec
+    endcapture
+  else
+    assign weighted = c5 | times: 5
+    assign weighted = c4 | times: 4 | plus: weighted
+    assign weighted = c3 | times: 3 | plus: weighted
+    assign weighted = c2 | times: 2 | plus: weighted
+    assign weighted = c1 | plus: weighted
+    if counted > 0
+      assign avg_whole = weighted | divided_by: counted
+      assign avg_dec = weighted | modulo: counted | times: 10 | divided_by: counted
+      capture average
+        echo avg_whole
+        echo '.'
+        echo avg_dec
+      endcapture
+    else
+      assign average = section.settings.average | default: '4.9'
+    endif
+  endif
+
+  assign avg_stars = average | plus: 0
+
+  assign summary = section.settings.summary
+  if rj.summary != blank
+    assign summary = rj.summary
+  endif
+
+  if rj.topics != blank
+    assign topics = rj.topics
+  else
+    assign topics = section.settings.topics | default: 'quality,colors,look,transfers,design,size,results,service' | split: ','
+  endif
+
+  assign per_page = section.settings.per_page | default: 5 | plus: 0
+  if per_page < 1
+    assign per_page = 5
+  endif
+-%}
+
+<section class="pdp-reviews" data-per-page="{{ per_page }}">
   <div class="pdp-reviews-inner">
-    <h2 class="pdp-reviews-title">{{ section.settings.heading | default: 'Customer Reviews' }}</h2>
+    <h2 class="pdp-reviews-title">{{ heading }}</h2>
 
     <!-- Summary -->
     <div class="rv-summary">
       <div class="rv-score">
-        <div class="rv-score-num">{{ section.settings.average | default: '4.9' }}</div>
-        <div class="rv-score-stars">{{ star_on }}{{ star_on }}{{ star_on }}{{ star_on }}{{ star_on }}</div>
-        <p class="rv-score-count">Based on {{ total }} reviews</p>
+        <div class="rv-score-num">{{ average }}</div>
+        <div class="rv-score-stars">
+          {%- for i in (1..5) -%}
+            {%- if i <= avg_stars -%}{{ star_on }}{%- else -%}{{ star_off }}{%- endif -%}
+          {%- endfor -%}
+        </div>
+        <p class="rv-score-count">Based on {{ total }} review{% if total != 1 %}s{% endif %}</p>
       </div>
 
       <div class="rv-bars">
-        {%- assign counts = section.settings.breakdown | default: '21792,752,139,72,106' | split: ',' -%}
-        {%- for i in (1..5) -%}
-          {%- assign idx = 5 | minus: i -%}
+        {%- assign counts = c5 | append: ',' | append: c4 | append: ',' | append: c3 | append: ',' | append: c2 | append: ',' | append: c1 | split: ',' -%}
+        {%- for count_str in counts -%}
           {%- assign stars = 5 | minus: forloop.index0 -%}
-          {%- assign count = counts[forloop.index0] | plus: 0 -%}
-          {%- assign pct = 0 -%}
-          {%- if total > 0 -%}{%- assign pct = count | times: 100 | divided_by: total -%}{%- endif -%}
+          {%- assign count = count_str | plus: 0 -%}
+          {%- assign pct = count | times: 100 | divided_by: total -%}
           <div class="rv-bar-row">
             <span class="rv-bar-label">{{ stars }}</span>
             <span class="rv-bar-track"><span class="rv-bar-fill" style="width: {{ pct }}%"></span></span>
@@ -39,82 +189,176 @@
     </div>
 
     <!-- AI summary -->
-    <div class="rv-says">
-      <h3>Customers say</h3>
-      <p class="rv-says-meta">AI-generated from customer reviews.</p>
-      <p class="rv-says-body">{{ section.settings.summary | default: 'DTF Transfers by Size, printed in-house and shipped fast from the USA, has received positive feedback for its customer service, look, price, print quality, order process, shipping speed, and colors. Customers appreciate the fast and reliable service, the great look and quality of the prints, the fast shipping, and the vibrant colors.' }}</p>
+    {%- if summary != blank or topics.size > 0 -%}
+      <div class="rv-says">
+        <h3>Customers say</h3>
+        {%- if summary != blank -%}
+          <p class="rv-says-meta">AI-generated from customer reviews.</p>
+          <p class="rv-says-body">{{ summary }}</p>
+        {%- endif -%}
 
-      <div class="rv-topics">
-        {%- assign topics = section.settings.topics | default: 'quality,colors,look,transfers,design,size,results,service' | split: ',' -%}
-        {%- for topic in topics -%}
-          <span class="rv-topic">{{ topic | strip }}</span>
-        {%- endfor -%}
+        {%- if topics.size > 0 -%}
+          <div class="rv-topics">
+            {%- for topic in topics -%}
+              <span class="rv-topic">{{ topic | strip }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
       </div>
-    </div>
+    {%- endif -%}
 
     <!-- Review list -->
     <div class="rv-list">
-      {%- for block in section.blocks -%}
-        {%- assign rating = block.settings.rating | default: 5 -%}
-        <article class="rv-item" {{ block.shopify_attributes }}>
-          <div class="rv-item-who">
-            <p class="rv-item-name">{{ block.settings.name }}</p>
-            <span class="rv-item-verified">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-              Verified Buyer
-            </span>
-          </div>
+      {%- if rv_items != blank -%}
+        {%- for r in rv_items -%}
+          {%- assign rating = r.rating | default: 5 | plus: 0 -%}
+          {%- assign page_no = forloop.index0 | divided_by: per_page | plus: 1 -%}
+          <article class="rv-item" data-page="{{ page_no }}"{% if page_no > 1 %} hidden{% endif %}>
+            <div class="rv-item-who">
+              <p class="rv-item-name">{{ r.name | default: r.author }}</p>
+              {%- unless r.verified == false -%}
+                <span class="rv-item-verified">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  Verified Buyer
+                </span>
+              {%- endunless -%}
+            </div>
 
-          <div class="rv-item-main">
-            <div class="rv-item-head">
-              <div class="rv-item-stars" aria-label="{{ rating }} out of 5 stars">
-                {%- for i in (1..5) -%}{%- if i <= rating -%}{{ star_on }}{%- else -%}{{ star_off }}{%- endif -%}{%- endfor -%}
+            <div class="rv-item-main">
+              <div class="rv-item-head">
+                <div class="rv-item-stars" aria-label="{{ rating }} out of 5 stars">
+                  {%- for i in (1..5) -%}{%- if i <= rating -%}{{ star_on }}{%- else -%}{{ star_off }}{%- endif -%}{%- endfor -%}
+                </div>
+                <p class="rv-item-title">{{ r.title }}</p>
+                <span class="rv-item-date">{{ r.date }}</span>
               </div>
-              <p class="rv-item-title">{{ block.settings.title }}</p>
-              <span class="rv-item-date">{{ block.settings.date }}</span>
+              <p class="rv-item-body">{{ r.body | default: r.text }}</p>
+              <div class="rv-item-foot">
+                <span>Was this review helpful?</span>
+                <span class="rv-vote">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>
+                  {{ r.helpful | default: 0 }}
+                </span>
+                <span class="rv-vote">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg>
+                  {{ r.unhelpful | default: 0 }}
+                </span>
+              </div>
             </div>
-            <p class="rv-item-body">{{ block.settings.body }}</p>
-            <div class="rv-item-foot">
-              <span>Was this review helpful?</span>
-              <span class="rv-vote">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>
-                {{ block.settings.helpful | default: 0 }}
-              </span>
-              <span class="rv-vote">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg>
-                {{ block.settings.unhelpful | default: 0 }}
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          {%- assign rating = block.settings.rating | default: 5 -%}
+          {%- assign page_no = forloop.index0 | divided_by: per_page | plus: 1 -%}
+          <article class="rv-item" data-page="{{ page_no }}"{% if page_no > 1 %} hidden{% endif %} {{ block.shopify_attributes }}>
+            <div class="rv-item-who">
+              <p class="rv-item-name">{{ block.settings.name }}</p>
+              <span class="rv-item-verified">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                Verified Buyer
               </span>
             </div>
-          </div>
-        </article>
-      {%- endfor -%}
+
+            <div class="rv-item-main">
+              <div class="rv-item-head">
+                <div class="rv-item-stars" aria-label="{{ rating }} out of 5 stars">
+                  {%- for i in (1..5) -%}{%- if i <= rating -%}{{ star_on }}{%- else -%}{{ star_off }}{%- endif -%}{%- endfor -%}
+                </div>
+                <p class="rv-item-title">{{ block.settings.title }}</p>
+                <span class="rv-item-date">{{ block.settings.date }}</span>
+              </div>
+              <p class="rv-item-body">{{ block.settings.body }}</p>
+              <div class="rv-item-foot">
+                <span>Was this review helpful?</span>
+                <span class="rv-vote">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>
+                  {{ block.settings.helpful | default: 0 }}
+                </span>
+                <span class="rv-vote">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg>
+                  {{ block.settings.unhelpful | default: 0 }}
+                </span>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
     </div>
 
-    <nav class="rv-pager" aria-label="Reviews pagination">
-      <button class="rv-page rv-page--arrow" aria-label="Previous page" disabled>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-      </button>
-      {%- for n in (1..5) -%}
-        <button class="rv-page{% if forloop.first %} is-active{% endif %}">{{ n }}</button>
-      {%- endfor -%}
-      <button class="rv-page rv-page--arrow" aria-label="Next page">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-      </button>
-    </nav>
+    {%- if rv_items != blank -%}
+      {%- assign shown = rv_items.size -%}
+    {%- else -%}
+      {%- assign shown = section.blocks.size -%}
+    {%- endif -%}
+    {%- assign page_count = shown | plus: per_page | minus: 1 | divided_by: per_page -%}
+
+    {%- if page_count > 1 -%}
+      <nav class="rv-pager" aria-label="Reviews pagination">
+        <button class="rv-page rv-page--arrow" data-rv-prev aria-label="Previous page" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        {%- for n in (1..page_count) -%}
+          <button class="rv-page{% if forloop.first %} is-active{% endif %}" data-rv-page="{{ n }}">{{ n }}</button>
+        {%- endfor -%}
+        <button class="rv-page rv-page--arrow" data-rv-next aria-label="Next page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </nav>
+    {%- endif -%}
 
   </div>
 </section>
+
+<script>
+  (function () {
+    var root = document.currentScript.previousElementSibling;
+    if (!root) return;
+    var pager = root.querySelector('.rv-pager');
+    if (!pager) return;
+
+    var items = root.querySelectorAll('.rv-item');
+    var pageBtns = pager.querySelectorAll('[data-rv-page]');
+    var prev = pager.querySelector('[data-rv-prev]');
+    var next = pager.querySelector('[data-rv-next]');
+    var current = 1;
+    var last = pageBtns.length;
+
+    function show(page) {
+      current = Math.min(Math.max(page, 1), last);
+      items.forEach(function (el) {
+        el.hidden = el.getAttribute('data-page') !== String(current);
+      });
+      pageBtns.forEach(function (b) {
+        b.classList.toggle('is-active', b.getAttribute('data-rv-page') === String(current));
+      });
+      prev.disabled = current === 1;
+      next.disabled = current === last;
+      root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    pageBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        show(parseInt(b.getAttribute('data-rv-page'), 10));
+      });
+    });
+    prev.addEventListener('click', function () { show(current - 1); });
+    next.addEventListener('click', function () { show(current + 1); });
+  })();
+</script>
 
 {% schema %}
 {
   "name": "PDP Customer Reviews",
   "settings": [
+    { "type": "paragraph", "content": "Reviews come from the product metafield custom.review_json. The settings and blocks below are only used as a fallback when that metafield is empty." },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Customer Reviews" },
-    { "type": "text", "id": "average", "label": "Average rating", "default": "4.9" },
-    { "type": "text", "id": "total_reviews", "label": "Total reviews", "default": "22860" },
-    { "type": "text", "id": "breakdown", "label": "Star breakdown", "info": "Counts for 5,4,3,2,1 stars.", "default": "21792,752,139,72,106" },
-    { "type": "textarea", "id": "summary", "label": "AI summary" },
-    { "type": "text", "id": "topics", "label": "Popular topics", "info": "Comma separated.", "default": "quality,colors,look,transfers,design,size,results,service" }
+    { "type": "range", "id": "per_page", "label": "Reviews per page", "min": 3, "max": 20, "step": 1, "default": 5 },
+    { "type": "text", "id": "average", "label": "Average rating (fallback)", "default": "4.9" },
+    { "type": "text", "id": "total_reviews", "label": "Total reviews (fallback)", "default": "22860" },
+    { "type": "text", "id": "breakdown", "label": "Star breakdown (fallback)", "info": "Counts for 5,4,3,2,1 stars.", "default": "21792,752,139,72,106" },
+    { "type": "textarea", "id": "summary", "label": "AI summary (fallback)" },
+    { "type": "text", "id": "topics", "label": "Popular topics (fallback)", "info": "Comma separated.", "default": "quality,colors,look,transfers,design,size,results,service" }
   ],
   "blocks": [
     {

@@ -1996,6 +1996,21 @@ body.template-index main { padding-top: 0; }
 .pdp-details-sub { font-size: 1rem; font-weight: 800; color: #101828; margin: 22px 0 10px; }
 .pdp-details-body p { margin: 0 0 12px; font-size: 0.92rem; line-height: 1.75; color: #475467; }
 .pdp-details-body p:last-child { margin-bottom: 0; }
+/* product.description and details_json bodies are author-supplied HTML, so
+   normalise the tags a rich-text editor emits beyond bare paragraphs. */
+.pdp-details-body { font-size: 0.92rem; line-height: 1.75; color: #475467; }
+.pdp-details-body h2,
+.pdp-details-body h3,
+.pdp-details-body h4 { font-size: 1rem; font-weight: 800; color: #101828; margin: 22px 0 10px; }
+.pdp-details-body h2:first-child,
+.pdp-details-body h3:first-child,
+.pdp-details-body h4:first-child { margin-top: 0; }
+.pdp-details-body ul,
+.pdp-details-body ol { margin: 0 0 12px; padding-left: 20px; }
+.pdp-details-body li { margin-bottom: 6px; }
+.pdp-details-body strong, .pdp-details-body b { color: #101828; font-weight: 800; }
+.pdp-details-body a { color: var(--brand); }
+.pdp-details-body img { max-width: 100%; height: auto; }
 
 .pdp-acc { display: flex; flex-direction: column; }
 .pdp-acc-item { border-bottom: 1px solid #E3E7EC; }
@@ -2020,6 +2035,16 @@ body.template-index main { padding-top: 0; }
 .pdp-acc-panel-inner { padding: 0 4px 18px; font-size: 0.9rem; line-height: 1.7; color: #475467; }
 .pdp-acc-panel-inner p { margin: 0 0 10px; }
 .pdp-acc-panel-inner p:last-child { margin-bottom: 0; }
+.pdp-acc-panel-inner ul,
+.pdp-acc-panel-inner ol { margin: 0 0 10px; padding-left: 20px; }
+.pdp-acc-panel-inner li { margin-bottom: 5px; }
+.pdp-acc-panel-inner strong, .pdp-acc-panel-inner b { color: #101828; font-weight: 800; }
+.pdp-acc-panel-inner a { color: var(--brand); }
+.pdp-acc-panel-inner table { width: 100%; border-collapse: collapse; margin: 0 0 10px; }
+.pdp-acc-panel-inner th,
+.pdp-acc-panel-inner td { border: 1px solid #E3E7EC; padding: 6px 8px; text-align: left; }
+/* JSON-driven rows can be longer than the old fixed cap. */
+.pdp-acc-toggle:checked ~ .pdp-acc-panel { max-height: 1600px; }
 
 @media (max-width: 900px) {
   .pdp-details-inner { grid-template-columns: 1fr; gap: 28px; }
