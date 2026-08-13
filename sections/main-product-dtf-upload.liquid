@@ -141,6 +141,7 @@
                   class="gang-size-btn {% if forloop.first %}is-active{% endif %}"
                   {{ block.shopify_attributes }}
                   data-gang-size
+                  data-ft="{{ block.settings.size_ft | default: block.settings.label }}"
                   data-variant-id="{{ block.settings.variant_id }}"
                   data-price="{{ block.settings.price }}"
                   data-compare="{{ block.settings.compare_price }}"
@@ -185,10 +186,25 @@
           </div>
         </div>
 
+        <div class="gang-selection-summary" data-gang-summary>
+          <span class="gang-selection-label">Your selection</span>
+          <span class="gang-selection-value">
+            <strong data-gang-summary-size>—</strong>
+            <span class="gang-selection-sep">·</span>
+            <strong data-gang-summary-film>—</strong>
+          </span>
+          <span class="gang-selection-price">
+            <strong data-gang-summary-price>—</strong>
+            <s data-gang-summary-compare hidden></s>
+            <em data-gang-summary-off hidden></em>
+          </span>
+        </div>
+
         <a
           href="{{ section.settings.builder_url | default: '/apps/gang-sheet-builder' }}"
           class="btn-blue btn-blue--lg gang-builder-btn"
           data-gang-builder-cta
+          data-builder-base="{{ section.settings.builder_url | default: '/apps/gang-sheet-builder' }}"
         >
           {{ section.settings.builder_cta }}
         </a>
@@ -348,6 +364,27 @@
   }
   .gang-film-check { color: var(--color-accent, #0ea5e9); display: flex; align-items: center; }
 
+  /* Selected size / film / price recap above the builder CTA */
+  .gang-selection-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin: 16px 0 10px;
+    padding: 12px 14px;
+    border: 1px solid #E8EAEE;
+    border-radius: 10px;
+    background: #F8FAFC;
+    font-size: 14px;
+  }
+  .gang-selection-label { color: #667085; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .gang-selection-value { color: #101828; }
+  .gang-selection-sep { color: #98A2B3; margin: 0 4px; }
+  .gang-selection-price { margin-left: auto; display: inline-flex; align-items: baseline; gap: 8px; }
+  .gang-selection-price strong { font-size: 18px; color: #101828; }
+  .gang-selection-price s { color: #98A2B3; }
+  .gang-selection-price em { font-style: normal; color: #067647; font-weight: 600; font-size: 12px; }
+
   /* CTA button */
   .gang-builder-btn {
     width: 100%;
@@ -414,6 +451,57 @@
   const form = document.querySelector('[data-gang-form]');
   if (!form) return;
 
+  const cta = form.querySelector('[data-gang-builder-cta]');
+  const sumSize = form.querySelector('[data-gang-summary-size]');
+  const sumFilm = form.querySelector('[data-gang-summary-film]');
+  const sumPrice = form.querySelector('[data-gang-summary-price]');
+  const sumCompare = form.querySelector('[data-gang-summary-compare]');
+  const sumOff = form.querySelector('[data-gang-summary-off]');
+
+  /* Label like "10 Feet" → 10. data-ft may already hold a bare number. */
+  function feetOf(btn) {
+    const match = String(btn.dataset.ft || '').match(/[\d.]+/);
+    return match ? match[0] : '';
+  }
+
+  /* Mirror the current size + film choice into the summary row and onto the
+     builder link, so the app proxy opens the editor pre-set to that sheet. */
+  function syncSelection() {
+    const size = form.querySelector('[data-gang-size].is-active');
+    const film = form.querySelector('[data-gang-film].is-active');
+    if (!size) return;
+
+    const label = size.querySelector('.gang-size-label');
+    const price = size.dataset.price || '';
+    const compare = size.dataset.compare || '';
+    const off = size.dataset.discount || '';
+    const filmName = film ? (film.querySelector('.gang-film-name') || {}).textContent || '' : '';
+
+    if (sumSize) sumSize.textContent = label ? label.textContent.trim() : '';
+    if (sumFilm) sumFilm.textContent = filmName.trim() || '—';
+    if (sumPrice) sumPrice.textContent = price;
+    if (sumCompare) {
+      sumCompare.textContent = compare;
+      sumCompare.hidden = !compare;
+    }
+    if (sumOff) {
+      sumOff.textContent = off ? off + '% off' : '';
+      sumOff.hidden = !off || off === '0';
+    }
+
+    if (!cta) return;
+    const base = cta.dataset.builderBase || '/apps/gang-sheet-builder';
+    const url = new URL(base, window.location.origin);
+    const ft = feetOf(size);
+    if (ft) url.searchParams.set('ft', ft);
+    if (film && film.dataset.filmId) url.searchParams.set('film', film.dataset.filmId);
+    if (price) url.searchParams.set('price', price);
+    if (size.dataset.variantId) url.searchParams.set('variant', size.dataset.variantId);
+    /* toString keeps an absolute builder_url intact; a relative one was
+       already resolved against the storefront origin above. */
+    cta.href = url.toString();
+  }
+
   /* ── Size selection ── */
   form.querySelectorAll('[data-gang-size]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -423,6 +511,7 @@
       });
       btn.classList.add('is-active');
       btn.setAttribute('aria-pressed', 'true');
+      syncSelection();
     });
   });
 
@@ -444,8 +533,12 @@
         chk.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
         btn.appendChild(chk);
       }
+      syncSelection();
     });
   });
+
+  /* Prime the summary and builder link from the defaults rendered by Liquid. */
+  syncSelection();
 
   /* ── Delivery countdown ── */
   const deliveryEl = form.closest('section').querySelector('[data-delivery]');
@@ -509,6 +602,7 @@
       "name": "Sheet Size",
       "settings": [
         { "type": "text", "id": "label", "label": "Size label", "default": "1 Foot" },
+        { "type": "text", "id": "size_ft", "label": "Length in feet", "info": "Numeric value passed to the gang sheet builder (e.g. 2). Falls back to reading the label." },
         { "type": "text", "id": "price", "label": "Price (display)", "default": "$16.99" },
         { "type": "text", "id": "compare_price", "label": "Compare-at price" },
         { "type": "text", "id": "discount_pct", "label": "Discount % (leave blank for none)" },

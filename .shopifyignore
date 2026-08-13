@@ -1,0 +1,8 @@
+# Atomic-write temp files. Editors write "<name>.tmp.<pid>.<hash>" then rename
+# over the target; the theme watcher can catch them mid-write and try to upload
+# a filename Shopify rejects as containing illegal characters.
+*.tmp.*
+*.tmp
+*.swp
+*~
+.DS_Store
