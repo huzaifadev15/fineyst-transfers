@@ -63,17 +63,21 @@
         </button>
         <div class="filter-group-body">
           <ul class="filter-list">
+            {%- assign cut_counts_str = "" -%}
+            {%- for product in collection.products -%}
+              {%- if product.title contains "Youth" -%}{%- assign this_cut = "Youth" -%}
+              {%- elsif product.title contains "Toddler" or product.title contains "Infant" -%}{%- assign this_cut = "Infant" -%}
+              {%- elsif product.title contains "Girls" -%}{%- assign this_cut = "Girls" -%}
+              {%- elsif product.title contains "Women" -%}{%- assign this_cut = "Women" -%}
+              {%- elsif product.title contains "Men's" -%}{%- assign this_cut = "Men" -%}
+              {%- else -%}{%- assign this_cut = "Adult" -%}
+              {%- endif -%}
+              {%- assign cut_counts_str = cut_counts_str | append: '|' | append: this_cut | append: '|' -%}
+            {%- endfor -%}
             {%- for key in cut_keys -%}
-              {%- assign cut_count = 0 -%}
-              {%- for product in collection.products -%}
-                {%- if key == 'Adult' and product.title contains 'Adult' -%}{%- assign cut_count = cut_count | plus: 1 -%}
-                {%- elsif key == 'Women' and product.title contains "Women" -%}{%- assign cut_count = cut_count | plus: 1 -%}
-                {%- elsif key == 'Youth' and product.title contains 'Youth' -%}{%- assign cut_count = cut_count | plus: 1 -%}
-                {%- elsif key == 'Men' and product.title contains "Men's" -%}{%- assign cut_count = cut_count | plus: 1 -%}
-                {%- elsif key == 'Girls' and product.title contains 'Girls' -%}{%- assign cut_count = cut_count | plus: 1 -%}
-                {%- elsif key == 'Infant' and product.title contains 'Toddler' or product.title contains 'Infant' or product.title contains 'Baby' -%}{%- assign cut_count = cut_count | plus: 1 -%}
-                {%- endif -%}
-              {%- endfor -%}
+              {%- assign cut_needle = '|' | append: key | append: '|' -%}
+              {%- assign cut_parts = cut_counts_str | split: cut_needle -%}
+              {%- assign cut_count = cut_parts.size | minus: 1 -%}
               {%- if cut_count > 0 -%}
                 <li>
                   <label class="filter-check">
@@ -190,13 +194,15 @@
             {%- for product in collection.products -%}
               {%- assign p_cut = "" -%}
               {%- if product.title contains "Youth" -%}{%- assign p_cut = "Youth" -%}
-              {%- elsif product.title contains "Toddler" or product.title contains "Infant" or product.title contains "Baby" -%}{%- assign p_cut = "Infant" -%}
+              {%- elsif product.title contains "Toddler" or product.title contains "Infant" -%}{%- assign p_cut = "Infant" -%}
               {%- elsif product.title contains "Girls" -%}{%- assign p_cut = "Girls" -%}
               {%- elsif product.title contains "Women" -%}{%- assign p_cut = "Women" -%}
               {%- elsif product.title contains "Men's" -%}{%- assign p_cut = "Men" -%}
               {%- else -%}{%- assign p_cut = "Adult" -%}
               {%- endif -%}
               {%- assign p_colors = product.metafields.custom.swatch_colors -%}
+              <!-- SWATCH_DEBUG sku={{ product.selected_or_first_available_variant.sku }} type={{ product.metafields.custom.swatch_colors.type }} class={{ product.metafields.custom.swatch_colors.class }} raw={{ product.metafields.custom.swatch_colors | json | escape }} size={{ p_colors.size }} -->
+
               {%- assign p_color_names = "" -%}
               {%- for c in p_colors -%}{%- assign p_color_names = p_color_names | append: c.name | append: '|' -%}{%- endfor -%}
 
