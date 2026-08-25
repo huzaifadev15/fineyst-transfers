@@ -232,6 +232,17 @@ body.template-index main { padding-top: 0; }
 
 .mega-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .mega-cards--stack { grid-template-columns: 1fr; gap: 10px; }
+.mega-menu--compact {
+  position: absolute;
+  top: 100%; left: 0; right: auto;
+  margin-top: 12px;
+}
+.mega-menu--compact .mega-inner {
+  width: max-content;
+  max-width: 420px;
+  margin: 0;
+}
+.mega-menu--compact .mega-cards--stack { width: 380px; }
 .mega-cards--grid { grid-template-columns: repeat(4, 1fr); }
 .mega-card {
   display: block;
