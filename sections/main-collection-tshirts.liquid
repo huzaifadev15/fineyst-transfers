@@ -94,7 +94,7 @@
 
       {%- assign color_names_raw = "" | split: "" -%}
       {%- for product in collection.products -%}
-        {%- assign pcolors = product.metafields.custom.swatch_colors -%}
+        {%- assign pcolors = product.metafields.custom.swatch_colors.value -%}
         {%- for c in pcolors -%}
           {%- assign one_color_name = c.name | split: '§' -%}
           {%- assign color_names_raw = color_names_raw | concat: one_color_name -%}
@@ -112,7 +112,7 @@
               {%- for name in color_names limit: 24 -%}
                 {%- assign swatch_hex = "#D9D9D9" -%}
                 {%- for product in collection.products -%}
-                  {%- assign pcolors = product.metafields.custom.swatch_colors -%}
+                  {%- assign pcolors = product.metafields.custom.swatch_colors.value -%}
                   {%- for c in pcolors -%}
                     {%- if c.name == name -%}{%- assign swatch_hex = c.hex -%}{%- break -%}{%- endif -%}
                   {%- endfor -%}
@@ -200,9 +200,7 @@
               {%- elsif product.title contains "Men's" -%}{%- assign p_cut = "Men" -%}
               {%- else -%}{%- assign p_cut = "Adult" -%}
               {%- endif -%}
-              {%- assign p_colors = product.metafields.custom.swatch_colors -%}
-              <!-- SWATCH_DEBUG sku={{ product.selected_or_first_available_variant.sku }} type={{ product.metafields.custom.swatch_colors.type }} valueclass={{ product.metafields.custom.swatch_colors.value.class }} valuesize={{ product.metafields.custom.swatch_colors.value.size }} valuefirst={{ product.metafields.custom.swatch_colors.value.first }} directsize={{ p_colors.size }} directfirstname={{ p_colors.first.name }} -->
-
+              {%- assign p_colors = product.metafields.custom.swatch_colors.value -%}
               {%- assign p_color_names = "" -%}
               {%- for c in p_colors -%}{%- assign p_color_names = p_color_names | append: c.name | append: '|' -%}{%- endfor -%}
 
