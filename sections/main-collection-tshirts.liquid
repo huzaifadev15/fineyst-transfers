@@ -92,7 +92,8 @@
       {%- for product in collection.products -%}
         {%- assign pcolors = product.metafields.custom.swatch_colors -%}
         {%- for c in pcolors -%}
-          {%- assign color_names_raw = color_names_raw | concat: (c.name | split: '§') -%}
+          {%- assign one_color_name = c.name | split: '§' -%}
+          {%- assign color_names_raw = color_names_raw | concat: one_color_name -%}
         {%- endfor -%}
       {%- endfor -%}
       {%- assign color_names = color_names_raw | uniq -%}
