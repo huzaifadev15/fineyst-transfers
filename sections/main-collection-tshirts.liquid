@@ -201,7 +201,7 @@
               {%- else -%}{%- assign p_cut = "Adult" -%}
               {%- endif -%}
               {%- assign p_colors = product.metafields.custom.swatch_colors -%}
-              <!-- SWATCH_DEBUG sku={{ product.selected_or_first_available_variant.sku }} type={{ product.metafields.custom.swatch_colors.type }} class={{ product.metafields.custom.swatch_colors.class }} raw={{ product.metafields.custom.swatch_colors | json | escape }} size={{ p_colors.size }} -->
+              <!-- SWATCH_DEBUG sku={{ product.selected_or_first_available_variant.sku }} type={{ product.metafields.custom.swatch_colors.type }} valueclass={{ product.metafields.custom.swatch_colors.value.class }} valuesize={{ product.metafields.custom.swatch_colors.value.size }} valuefirst={{ product.metafields.custom.swatch_colors.value.first }} directsize={{ p_colors.size }} directfirstname={{ p_colors.first.name }} -->
 
               {%- assign p_color_names = "" -%}
               {%- for c in p_colors -%}{%- assign p_color_names = p_color_names | append: c.name | append: '|' -%}{%- endfor -%}
