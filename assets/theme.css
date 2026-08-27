@@ -298,6 +298,74 @@ body.template-index main { padding-top: 0; }
 .mega-footer a:hover,
 .mega-foot-cta { color: var(--brand); font-weight: 700; }
 
+/* Mega menu — tabbed layout (Patches & Stickers) */
+.mega-menu--patches .mega-inner { width: 640px; }
+.mega-tabs { display: flex; border-bottom: 1px solid #E5E7EB; margin-bottom: 16px; }
+.mega-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #6B7280;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.mega-tab:hover { color: var(--brand-dark); }
+.mega-tab.is-active { color: var(--brand-dark); border-bottom-color: var(--brand); }
+.mega-tab-panel { display: none; }
+.mega-tab-panel.is-active { display: block; }
+
+.mega-price-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 28px; margin-bottom: 14px; }
+.mega-price-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.mega-price-card:hover { background: var(--brand-tint); }
+.mega-price-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #E9F5FF, #CFE9FF);
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+.mega-price-info { display: flex; flex-direction: column; gap: 4px; }
+.mega-price-badge {
+  display: inline-block;
+  width: max-content;
+  background: var(--success);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.mega-price-title { font-size: 14px; font-weight: 700; color: #111; }
+
+.mega-footer--gray {
+  background: #F8F9FB;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-top: 4px;
+}
+.mega-footer--gray .mega-footer-note { display: flex; align-items: center; gap: 8px; color: #374151; font-weight: 600; }
+.mega-footer--gray .mega-footer-icon { color: var(--success); }
+
 .mega-footer--banner {
   background: #F1F5FF;
   border: none;

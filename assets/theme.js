@@ -658,4 +658,22 @@ document.addEventListener('DOMContentLoaded', function () {
       lastY = y;
     }, { passive: true });
   })();
+
+  /* --- Mega menu tabs (Patches & Stickers) --- */
+  document.querySelectorAll('.mega-tabs').forEach(function (tabs) {
+    var panelWrap = tabs.parentElement;
+    tabs.querySelectorAll('.mega-tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.getAttribute('data-mega-tab');
+        tabs.querySelectorAll('.mega-tab').forEach(function (t) {
+          t.classList.toggle('is-active', t === tab);
+        });
+        panelWrap.querySelectorAll('.mega-tab-panel').forEach(function (panel) {
+          var isMatch = panel.getAttribute('data-mega-panel') === target;
+          panel.classList.toggle('is-active', isMatch);
+          panel.hidden = !isMatch;
+        });
+      });
+    });
+  });
 });
