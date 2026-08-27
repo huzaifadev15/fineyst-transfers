@@ -1,4 +1,4 @@
 {
-  "sections": { "main": { "type": "main-page-free-samples", "settings": {} } },
+  "sections": { "main": { "type": "main-page-free-sample", "settings": {} } },
   "order": ["main"]
 }

@@ -307,7 +307,7 @@
       <div class="header-actions">
         <div class="quote-wrap">
           <div class="quote-glow"></div>
-          <a href="{{ section.settings.cta_link | default: '/pages/free-samples' }}" class="btn-quote">
+          <a href="{{ section.settings.cta_link | default: '/pages/free-sample' }}" class="btn-quote">
             <div class="btn-quote-inner">
               <span class="quote-free">FREE</span>
               <span class="quote-dark">SAMPLE
@@ -363,7 +363,7 @@
       </button>
     </div>
     <div class="sidebar-body">
-      {%- assign sidebar_links = "Home,/|DTF Transfers,/products/dtf-transfers|Gang Sheet Builder,/pages/gang-sheet-builder|Blank Apparel,/collections/blank-apparel|Supplies,/collections/supplies|How It Works,/pages/how-it-works|FAQ,/pages/faq|Free Sample Pack,/pages/free-samples|Contact,/pages/contact-us" | split: "|" -%}
+      {%- assign sidebar_links = "Home,/|DTF Transfers,/products/dtf-transfers|Gang Sheet Builder,/pages/gang-sheet-builder|Blank Apparel,/collections/blank-apparel|Supplies,/collections/supplies|How It Works,/pages/how-it-works|FAQ,/pages/faq|Free Sample Pack,/pages/free-sample|Contact,/pages/contact-us" | split: "|" -%}
       {%- for link in sidebar_links -%}
         {%- assign lparts = link | split: "," -%}
         <a href="{{ lparts[1] }}" class="sidebar-link">{{ lparts[0] }}
