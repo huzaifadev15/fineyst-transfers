@@ -207,6 +207,7 @@ body.template-index main { padding-top: 0; }
 
 /* Mega menu — column layout (Blank Apparel / Supplies / Support) */
 .mega-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.mega-cols--5 { grid-template-columns: repeat(5, 1fr); }
 .mega-col-hd {
   font-size: 12px;
   font-weight: 800;
@@ -296,6 +297,28 @@ body.template-index main { padding-top: 0; }
 }
 .mega-footer a:hover,
 .mega-foot-cta { color: var(--brand); font-weight: 700; }
+
+.mega-footer--banner {
+  background: #F1F5FF;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-top: 16px;
+}
+.mega-footer-note { display: flex; align-items: center; gap: 8px; color: #374151; font-weight: 600; }
+.mega-footer-icon { width: 18px; height: 18px; color: var(--success, #16a34a); flex-shrink: 0; }
+.mega-footer-note strong { color: #111; }
+.mega-footer-btn {
+  background: var(--brand);
+  color: #fff;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.mega-footer-btn:hover { background: var(--brand-dark); color: #fff; }
 
 /* Header actions */
 .header-actions {
