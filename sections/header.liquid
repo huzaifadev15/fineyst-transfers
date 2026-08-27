@@ -94,7 +94,7 @@
             <div class="mega-inner">
               <div class="mega-section-label">UV DTF PermaStickers</div>
               <div class="mega-cards mega-cards--stack">
-                <a href="/collections/uv-dtf" class="mega-card mega-card--row">
+                <a href="/products/uv-dtf-perma-stickers" class="mega-card mega-card--row">
                   <span class="mega-card-thumb" style="background-image:url({{ 'dtf-1.jpg' | asset_url }})"></span>
                   <span class="mega-card-body">
                     <span class="mega-card-badge mega-card-badge--blue">Most Popular</span>
@@ -102,7 +102,7 @@
                     <p>Upload any design. Press on any hard good</p>
                   </span>
                 </a>
-                <a href="/pages/gang-sheet-builder" class="mega-card mega-card--row">
+                <a href="/products/uv-dtf-gang-sheet-builder" class="mega-card mega-card--row">
                   <span class="mega-card-thumb" style="background-image:url({{ 'dtf-2.jpg' | asset_url }})"></span>
                   <span class="mega-card-body">
                     <span class="mega-card-badge mega-card-badge--green">All Skill Levels</span>
@@ -121,7 +121,7 @@
               </div>
               <div class="mega-footer">
                 <span>No minimums · No setup fees · 24-hour production</span>
-                <a href="/collections/uv-dtf">Shop All UV DTF &rarr;</a>
+                <a href="products/uv-dtf-perma-stickers">Shop All UV DTF &rarr;</a>
               </div>
             </div>
           </div>
@@ -284,7 +284,7 @@
                 <div class="mega-col">
                   <div class="mega-col-hd">Design Tools</div>
                   <ul>
-                    <li><a href="/pages/gang-sheet-builder">Gang Sheet Builder</a></li>
+                    <li><a href="/products/uv-dtf-gang-sheet-builder">Gang Sheet Builder</a></li>
                     <li><a href="/pages/design-library">Design Library</a></li>
                     <li><a href="/pages/art-guidelines">Art Guidelines</a></li>
                   </ul>
@@ -336,7 +336,7 @@
       <div class="capsule-tabs-wrap">
         <div class="capsule-tabs-scroll" id="capsuleTabsScroll">
           <div class="capsule-tabs-inner">
-            {%- assign tab_links = "By Size,/products/dtf-transfers|Gang Sheets,/pages/gang-sheet-builder|UV DTF,/collections/uv-dtf|Puff,/collections/puff-transfers|Glitter,/collections/glitter-transfers|Reflective,/collections/reflective-transfers|Sublimation,/collections/sublimation|Blanks,/collections/blank-apparel|Supplies,/collections/supplies" | split: "|" -%}
+            {%- assign tab_links = "By Size,/products/dtf-transfers|Gang Sheets,/products/uv-dtf-gang-sheet-builder|UV DTF,/products/uv-dtf-perma-stickers|Puff,/collections/puff-transfers|Glitter,/collections/glitter-transfers|Reflective,/collections/reflective-transfers|Sublimation,/collections/sublimation|Blanks,/collections/blank-apparel|Supplies,/collections/supplies" | split: "|" -%}
             {%- for tab in tab_links -%}
               {%- assign tparts = tab | split: "," -%}
               <a href="{{ tparts[1] }}" class="capsule-tab{% if request.path == tparts[1] %} is-active{% endif %}"{% if request.path == tparts[1] %} aria-current="page"{% endif %}>{{ tparts[0] }}</a>
@@ -363,7 +363,7 @@
       </button>
     </div>
     <div class="sidebar-body">
-      {%- assign sidebar_links = "Home,/|DTF Transfers,/products/dtf-transfers|Gang Sheet Builder,/pages/gang-sheet-builder|Blank Apparel,/collections/blank-apparel|Supplies,/collections/supplies|How It Works,/pages/how-it-works|FAQ,/pages/faq|Free Sample Pack,/pages/free-sample|Contact,/pages/contact-us" | split: "|" -%}
+      {%- assign sidebar_links = "Home,/|DTF Transfers,/products/dtf-transfers|Gang Sheet Builder,/products/uv-dtf-gang-sheet-builder|Blank Apparel,/collections/blank-apparel|Supplies,/collections/supplies|How It Works,/pages/how-it-works|FAQ,/pages/faq|Free Sample Pack,/pages/free-sample|Contact,/pages/contact-us" | split: "|" -%}
       {%- for link in sidebar_links -%}
         {%- assign lparts = link | split: "," -%}
         <a href="{{ lparts[1] }}" class="sidebar-link">{{ lparts[0] }}

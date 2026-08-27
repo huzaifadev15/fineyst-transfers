@@ -12,7 +12,7 @@
         "primary_label": "Order Transfers by Size",
         "primary_link": "/products/dtf-transfers",
         "secondary_label": "Build a Gang Sheet",
-        "secondary_link": "/pages/gang-sheet-builder",
+        "secondary_link": "/products/uv-dtf-gang-sheet-builder",
         "column_1": "hero-1.jpg,hero-4.jpg,hero-7.jpg",
         "column_2": "hero-2.jpg,hero-5.jpg,hero-1.jpg",
         "column_3": "hero-3.jpg,hero-6.jpg,hero-4.jpg"
@@ -70,14 +70,7 @@
           }
         }
       },
-      "block_order": [
-        "f1",
-        "f2",
-        "f3",
-        "f4",
-        "f5",
-        "f6"
-      ],
+      "block_order": ["f1", "f2", "f3", "f4", "f5", "f6"],
       "settings": {
         "heading": "The Leader in Custom DTF Transfers"
       }
@@ -123,7 +116,7 @@
             "title": "Build a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
             "text": "Create custom DTF gang sheets with our easy-to-use Gang Sheet Builder.",
-            "link": "/pages/gang-sheet-builder",
+            "link": "/products/uv-dtf-gang-sheet-builder",
             "cta": "Build a DTF Gang Sheet"
           }
         },
@@ -140,11 +133,7 @@
           }
         }
       },
-      "block_order": [
-        "o1",
-        "o2",
-        "o3"
-      ],
+      "block_order": ["o1", "o2", "o3"],
       "settings": {
         "heading": "Select the DTF Product That Works Best for You"
       }
@@ -209,16 +198,7 @@
           }
         }
       },
-      "block_order": [
-        "t1",
-        "t2",
-        "t3",
-        "t4",
-        "t5",
-        "t6",
-        "t7",
-        "t8"
-      ],
+      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8"],
       "settings": {
         "heading": "Features of our DTF Transfers",
         "subheading": "No more second guessing your artwork, style, or colors. Our premium DTF transfers are brighter, sharper, stretchier, and more durable."
@@ -252,11 +232,7 @@
           }
         }
       },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3"
-      ],
+      "block_order": ["s1", "s2", "s3"],
       "settings": {
         "heading": "The Fineyst DTF Process",
         "tagline": "Faster. Simpler. Satisfaction Guaranteed."
@@ -621,13 +597,7 @@
           }
         }
       },
-      "block_order": [
-        "k1",
-        "k2",
-        "k3",
-        "k4",
-        "k5"
-      ],
+      "block_order": ["k1", "k2", "k3", "k4", "k5"],
       "settings": {
         "eyebrow": "Things to Know",
         "image_top_file": "hero-1.jpg",
