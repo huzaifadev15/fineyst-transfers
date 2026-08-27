@@ -1,0 +1,194 @@
+{%- comment -%}
+  Free Samples landing page — mirrors ninjatransfers.com/products/free-samples:
+  hero w/ application-method quiz + shipping form, trust stats bar, 3-step
+  explainer, DTF vs. other methods comparison table, process video, final CTA.
+{%- endcomment -%}
+
+<section class="fs-page">
+
+  <div class="fs-hero container">
+    <div class="fs-hero-media">
+      <img src="{{ 'hero-3.jpg' | asset_url }}" alt="Free DTF transfer and UV DTF PermaStickers sample pack" loading="lazy">
+    </div>
+
+    <div class="fs-hero-content">
+      <span class="fs-badge">FREE</span>
+      <h1>Free DTF Transfers &amp; UV DTF PermaStickers Sample Pack</h1>
+      <div class="fs-hero-meta">
+        <span>Free US shipping</span>
+        <span class="fs-dot">&bull;</span>
+        <span>Delivered in 3&ndash;5 days</span>
+      </div>
+
+      <p>Try our Free Premium DTF Transfer Sample Pack to experience the benefits of DTF transfers firsthand. You'll receive a selection of transfers that demonstrate why DTF beats other decoration methods.</p>
+      <p>Also included is our UV DTF PermaStickers Sample Pack, so you can see for yourself how these stickers apply to almost any hard surface. Once you try them, we know you'll be back for more.</p>
+
+      <div class="fs-tabs" role="tablist">
+        <button type="button" class="fs-tab is-active" data-fs-tab="transfers">Transfers &mdash; Press on Anything</button>
+        <button type="button" class="fs-tab" data-fs-tab="uv">UV &mdash; Apply to Any Hard Surface</button>
+      </div>
+
+      {% form 'contact', id: 'fsSampleForm', class: 'fs-form' %}
+        {%- if form.errors -%}
+          <div class="fs-form-errors">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+
+        <div class="fs-progress">
+          <div class="fs-progress-row">
+            <span id="fsProgressLabel">0 of 1 completed</span>
+            <span id="fsProgressPct">0%</span>
+          </div>
+          <div class="fs-progress-bar"><div class="fs-progress-fill" id="fsProgressFill"></div></div>
+        </div>
+
+        <label class="fs-question" for="fsApplyHeat">What do you use to apply your transfers? <span class="fs-required">(Required)</span></label>
+        <div class="fs-options" role="radiogroup">
+          <label class="fs-option">
+            <input type="radio" name="contact[Application method]" value="Heat Press" id="fsApplyHeat" required>
+            <span>Heat Press</span>
+          </label>
+          <label class="fs-option">
+            <input type="radio" name="contact[Application method]" value="Handheld Press (like Cricut)">
+            <span>Handheld Press (like Cricut)</span>
+          </label>
+          <label class="fs-option">
+            <input type="radio" name="contact[Application method]" value="Household Iron">
+            <span>Household Iron</span>
+          </label>
+        </div>
+
+        <div class="fs-ship-fields" id="fsShipFields" hidden>
+          <div class="fs-field-row">
+            <div class="fs-field">
+              <label for="fsName">Full name</label>
+              <input type="text" id="fsName" name="contact[name]" required>
+            </div>
+            <div class="fs-field">
+              <label for="fsEmail">Email</label>
+              <input type="email" id="fsEmail" name="contact[email]" {% if customer %}value="{{ customer.email }}"{% endif %} required>
+            </div>
+          </div>
+          <div class="fs-field">
+            <label for="fsAddress">Shipping address</label>
+            <input type="text" id="fsAddress" name="contact[Shipping address]" placeholder="Street, city, state, ZIP" required>
+          </div>
+        </div>
+
+        <button type="submit" class="fs-submit" id="fsSubmitBtn" disabled>Ship My Free Sample Pack</button>
+        <p class="fs-disclaimer">Limit one per household. No credit card. No subscription. 100% free!</p>
+      {% endform %}
+    </div>
+  </div>
+
+  <div class="fs-trust container">
+    <div class="fs-trust-item"><span class="fs-trust-icon" aria-hidden="true">&#x1F7E2;</span><strong>1,972</strong><span>packs shipped this week</span></div>
+    <div class="fs-trust-item"><span class="fs-trust-icon" aria-hidden="true">&#11088;</span><strong>4.9</strong><span>average rating from reviewers</span></div>
+    <div class="fs-trust-item"><span class="fs-trust-icon" aria-hidden="true">&#127981;</span><strong>Trusted by 500,000+</strong><span>print shops &amp; makers</span></div>
+    <div class="fs-trust-item"><span class="fs-trust-icon" aria-hidden="true">&#128230;</span><strong>24 hour</strong><span>ship time</span></div>
+  </div>
+
+  <div class="fs-steps container">
+    <h2>Three steps to a sample you can feel.</h2>
+    <p class="fs-steps-sub">No credit card. No subscription trap. Just fill out the form and we'll get it out the door.</p>
+    <div class="fs-steps-grid">
+      <div class="fs-step">
+        <span class="fs-step-num">01</span>
+        <h3>Fill out the form</h3>
+        <p>Tell us a bit about yourself so we can match you with the right samples.</p>
+        <span class="fs-step-time">~ 20 seconds</span>
+      </div>
+      <div class="fs-step">
+        <span class="fs-step-num">02</span>
+        <h3>We ship within 24h</h3>
+        <p>Your pack leaves one of our facilities the next business day.</p>
+        <span class="fs-step-time">3&ndash;5 days</span>
+      </div>
+      <div class="fs-step">
+        <span class="fs-step-num">03</span>
+        <h3>Press, peel, decide</h3>
+        <p>Put us up against whatever you're using now to see why Fineyst is the best!</p>
+        <span class="fs-step-time">Your call</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fs-compare container">
+    <h2>How we stack up.</h2>
+    <p class="fs-compare-sub">DTF isn't the only way to decorate apparel &mdash; but for most shops it's the best tradeoff on cost, speed, and quality.</p>
+    <div class="fs-compare-table-wrap">
+      <table class="fs-compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="fs-compare-highlight">Fineyst's DTF</th>
+            <th>Screen print</th>
+            <th>HTV vinyl</th>
+            <th>Sublimation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Min. order</td><td class="fs-compare-highlight">1 piece</td><td>24+ pieces</td><td>1 piece</td><td>1 piece</td></tr>
+          <tr><td>Full color / photo</td><td class="fs-compare-highlight">Yes</td><td>Limited</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Works on any material</td><td class="fs-compare-highlight">Yes</td><td>Limited</td><td>No</td><td>No</td></tr>
+          <tr><td>Works on any location</td><td class="fs-compare-highlight">Yes</td><td>No</td><td>No</td><td>No</td></tr>
+          <tr><td>Soft hand feel</td><td class="fs-compare-highlight">Very soft</td><td>Medium</td><td>Plastic-y</td><td>None</td></tr>
+          <tr><td>Wash durability</td><td class="fs-compare-highlight">100+ washes</td><td>60+ washes</td><td>25&ndash;40 washes</td><td>60+ washes</td></tr>
+          <tr><td>Setup time</td><td class="fs-compare-highlight">None</td><td>Hours</td><td>Minutes</td><td>Minutes</td></tr>
+          <tr><td>Cost per piece (qty 15)</td><td class="fs-compare-highlight">as low as $.30</td><td>$4.50</td><td>$3.20</td><td>$2.80</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="fs-video container">
+    <h2>15 seconds. That's all it takes.</h2>
+    <p>Preheat, press, peel. The process is fast enough that you'll rethink your entire production flow.</p>
+    <div class="fs-video-wrap">
+      <video src="{{ 'dtf-video-1.mp4' | asset_url }}" controls playsinline poster="{{ 'dtf-4.jpg' | asset_url }}"></video>
+      <span class="fs-video-caption">Putting DTF Transfers to Work &middot; 0:15</span>
+    </div>
+  </div>
+
+  <div class="fs-final container">
+    <h2>Still thinking?</h2>
+    <p>Claim your free pack in 20 seconds.</p>
+    <a href="#fsSampleForm" class="fs-final-btn">Get It</a>
+  </div>
+
+</section>
+
+<script>
+(function () {
+  var form = document.getElementById('fsSampleForm');
+  if (!form) return;
+
+  var radios = form.querySelectorAll('input[name="contact[Application method]"]');
+  var shipFields = document.getElementById('fsShipFields');
+  var submitBtn = document.getElementById('fsSubmitBtn');
+  var fill = document.getElementById('fsProgressFill');
+  var label = document.getElementById('fsProgressLabel');
+  var pct = document.getElementById('fsProgressPct');
+
+  radios.forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      fill.style.width = '100%';
+      label.textContent = '1 of 1 completed';
+      pct.textContent = '100%';
+      shipFields.hidden = false;
+      submitBtn.disabled = false;
+    });
+  });
+
+  var tabs = form.closest('.fs-hero-content').querySelectorAll('.fs-tab');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('is-active'); });
+      tab.classList.add('is-active');
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{ "name": "Free Samples Page", "settings": [] }
+{% endschema %}
