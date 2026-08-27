@@ -3,7 +3,7 @@
   assign cut_keys = "Adult,Women,Youth,Men,Girls,Infant" | split: ","
 -%}
 
-<section class="main-collection-tshirts">
+<section class="main-collection-hoodies">
   <div class="container coll-head">
     <div class="coll-head-text">
       <h1>{{ collection.title }}</h1>
@@ -264,7 +264,7 @@
 </section>
 
 <style>
-  .main-collection-tshirts { padding: 28px 0 60px; }
+  .main-collection-hoodies { padding: 28px 0 60px; }
   .coll-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
   .coll-head h1 { font-size: 2rem; font-weight: 800; }
   .coll-desc { color: var(--pdp-muted); margin-top: 6px; max-width: 640px; font-size: 0.95rem; }
@@ -392,7 +392,7 @@
 
 {% schema %}
 {
-  "name": "T-Shirt Collection",
+  "name": "Hoodie Collection",
   "settings": [
     { "type": "checkbox", "id": "show_quick_nav", "label": "Show quick category nav", "default": true },
     { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 12, "max": 48, "step": 4, "default": 24 },
@@ -418,17 +418,18 @@
   ],
   "presets": [
     {
-      "name": "T-Shirt Collection",
+      "name": "Hoodie Collection",
       "blocks": [
         { "type": "badge", "settings": { "text": "Next-Day Delivery" } },
         { "type": "badge", "settings": { "text": "Free Shipping on $59+" } },
         { "type": "badge", "settings": { "text": "No Minimums" } },
         { "type": "badge", "settings": { "text": "Bulk Discounts" } },
-        { "type": "quick_link", "settings": { "label": "All T-Shirts", "link": "/collections/all" } },
-        { "type": "quick_link", "settings": { "label": "Short Sleeve", "link": "/collections/short-sleeve" } },
-        { "type": "quick_link", "settings": { "label": "Long Sleeve", "link": "/collections/long-sleeve" } },
-        { "type": "quick_link", "settings": { "label": "Tank Tops", "link": "/collections/tank-tops" } },
-        { "type": "quick_link", "settings": { "label": "Tie-Dye", "link": "/collections/tie-dye" } }
+        { "type": "quick_link", "settings": { "label": "All Hoodies", "link": "/collections/all" } },
+        { "type": "quick_link", "settings": { "label": "Crewnecks", "link": "/collections/crewnecks" } },
+        { "type": "quick_link", "settings": { "label": "Pullover Hoodies", "link": "/collections/pullover-hoodies" } },
+        { "type": "quick_link", "settings": { "label": "Full-Zip Hoodies", "link": "/collections/full-zip-hoodies" } },
+        { "type": "quick_link", "settings": { "label": "Multicolored Hoodies", "link": "/collections/multicolored-hoodies" } },
+        { "type": "quick_link", "settings": { "label": "Eco-Friendly", "link": "/collections/eco-friendly" } }
       ]
     }
   ]

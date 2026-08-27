@@ -226,14 +226,16 @@
                 {%- endif -%}
 
                 <span class="product-card-body">
-                  <span class="product-card-price">
-                    <small>As low as</small>
-                    <strong>{{ product.price_min | money }}</strong>
-                    {%- if product.compare_at_price > product.price -%}
-                      <s>{{ product.compare_at_price | money }}</s>
-                    {%- endif -%}
+                  <span class="product-card-meta">
+                    <span class="product-card-price">
+                      <small>As low as</small>
+                      <strong>{{ product.price_min | money }}</strong>
+                      {%- if product.compare_at_price > product.price -%}
+                        <s>{{ product.compare_at_price | money }}</s>
+                      {%- endif -%}
+                    </span>
+                    {%- if product.vendor != blank -%}<span class="product-card-vendor">{{ product.vendor }}</span>{%- endif -%}
                   </span>
-                  {%- if product.vendor != blank -%}<span class="product-card-vendor">{{ product.vendor }}</span>{%- endif -%}
                   <span class="product-card-title">{{ product.title }}</span>
                 </span>
               </a>
@@ -311,16 +313,17 @@
   .product-card-media { display: block; aspect-ratio: 1; background: #f6f7f9; }
   .product-card-media img { width: 100%; height: 100%; object-fit: cover; }
   .product-card-save { position: absolute; top: 10px; left: 10px; background: var(--danger); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; }
-  .product-card-swatches { display: flex; align-items: center; gap: 4px; padding: 10px 14px 0; flex-wrap: wrap; }
-  .pc-swatch { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.12); flex-shrink: 0; }
-  .pc-swatch-more { font-size: 0.68rem; font-weight: 700; color: var(--pdp-muted); margin-left: 2px; }
-  .product-card-body { padding: 8px 14px 16px; display: flex; flex-direction: column; gap: 3px; }
-  .product-card-price { display: flex; align-items: baseline; gap: 6px; }
-  .product-card-price small { font-size: 0.7rem; color: var(--pdp-muted); }
-  .product-card-price strong { font-size: 1.05rem; color: var(--success); font-weight: 800; }
-  .product-card-price s { font-size: 0.75rem; color: var(--pdp-muted); }
-  .product-card-vendor { font-size: 0.72rem; font-weight: 800; color: var(--pdp-muted); text-transform: uppercase; letter-spacing: 0.03em; }
-  .product-card-title { font-size: 0.88rem; font-weight: 600; color: var(--color-text); line-height: 1.35; }
+  .product-card-swatches { display: flex; align-items: center; gap: 8px; padding: 12px 14px 0; flex-wrap: wrap; }
+  .pc-swatch { width: 16px; height: 16px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.18); flex-shrink: 0; }
+  .pc-swatch-more { font-size: 0.78rem; font-weight: 600; color: #6b7280; margin-left: 2px; }
+  .product-card-body { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .product-card-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .product-card-price { display: flex; flex-direction: column; gap: 1px; }
+  .product-card-price small { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--pdp-muted); }
+  .product-card-price strong { font-size: 1.15rem; line-height: 1.15; color: var(--success); font-weight: 800; }
+  .product-card-price s { font-size: 0.7rem; color: var(--pdp-muted); font-weight: 400; }
+  .product-card-vendor { font-size: 0.95rem; font-weight: 700; color: #1E3A8A; letter-spacing: 0.01em; white-space: nowrap; }
+  .product-card-title { font-size: 0.82rem; font-weight: 500; color: #374151; line-height: 1.35; }
 
   .coll-pagination { display: flex; justify-content: center; gap: 8px; margin-top: 36px; }
   .coll-page-link { padding: 8px 14px; border: 1px solid var(--pdp-line); border-radius: 8px; font-size: 0.85rem; font-weight: 600; }

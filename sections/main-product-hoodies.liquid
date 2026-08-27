@@ -1,0 +1,284 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign image_count = product.images.size
+-%}
+
+<section class="main-product-hoodies pdp" data-section-id="{{ section.id }}">
+  <div class="container pdp-inner">
+
+    <div class="pdp-media">
+      <div class="product-gallery" data-gallery>
+        {%- if image_count > 1 -%}
+          <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image" data-gallery-prev>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+        {%- endif -%}
+
+        <div class="gallery-main" data-gallery-main>
+          {%- if image_count > 0 -%}
+            {%- for image in product.images -%}
+              <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
+                <img src="{{ image | image_url: width: 1400 }}"
+                     alt="{{ image.alt | default: product.title | escape }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     sizes="(min-width: 990px) 45vw, 100vw">
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="hero-media-placeholder"></div>
+          {%- endif -%}
+        </div>
+
+        {%- if image_count > 1 -%}
+          <button class="gallery-arrow gallery-arrow--next" aria-label="Next image" data-gallery-next>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        {%- endif -%}
+      </div>
+
+      {%- if image_count > 1 -%}
+        <div class="gallery-thumbs">
+          {%- for image in product.images -%}
+            <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                    data-gallery-thumb data-index="{{ forloop.index0 }}"
+                    aria-label="View image {{ forloop.index }}">
+              <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="pdp-info">
+      {%- if product.vendor != blank -%}
+        <a class="pdp-vendor-link" href="/collections/all?filter.p.vendor={{ product.vendor | url_encode }}">Browse All {{ product.vendor }}</a>
+      {%- endif -%}
+
+      <h1>{{ product.title }}</h1>
+
+      <div class="pdp-price-row">
+        <span class="pdp-price-label">As low as</span>
+        <span class="pdp-price-now">{{ current_variant.price | money }}</span>
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span class="pdp-price-was">{{ current_variant.compare_at_price | money }}</span>
+          <span class="pdp-price-save">Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round }}%</span>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_info_strip -%}
+        <div class="pdp-strip">
+          <span class="pdp-strip-item">{{ section.settings.strip_1 | default: 'Order by 5PM, Ships Next Day' }}</span>
+          <span class="pdp-strip-item">{{ section.settings.strip_2 | default: 'Free Shipping on $59+' }}</span>
+          <span class="pdp-strip-item">{{ section.settings.strip_3 | default: 'No Minimums' }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- unless product.has_only_default_variant -%}
+        <div class="pdp-swatches">
+          {%- for option in product.options_with_values -%}
+            <div class="pdp-option-group">
+              <div class="pdp-option-hd">{{ option.name }}: <strong data-option-value-label="{{ forloop.index0 }}">{{ option.selected_value }}</strong></div>
+              <div class="pdp-option-values">
+                {%- for value in option.values -%}
+                  <button type="button" class="pdp-option-pill{% if value == option.selected_value %} is-active{% endif %}"
+                          data-option-index="{{ forloop.parentloop.index0 }}" data-option-value="{{ value | escape }}">
+                    {{ value }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endunless -%}
+
+      {%- assign fabric = product.metafields.custom.fabric | default: product.metafields.details.fabric -%}
+      {%- assign weight = product.metafields.custom.weight | default: product.metafields.details.weight -%}
+      {%- assign fit = product.metafields.custom.fit | default: product.metafields.details.fit -%}
+      {%- if fabric != blank or weight != blank or fit != blank -%}
+        <div class="pdp-spec-tiles">
+          {%- if fabric != blank -%}<div class="pdp-spec-tile"><span>Fabric</span><strong>{{ fabric }}</strong></div>{%- endif -%}
+          {%- if weight != blank -%}<div class="pdp-spec-tile"><span>Weight</span><strong>{{ weight }}</strong></div>{%- endif -%}
+          {%- if fit != blank -%}<div class="pdp-spec-tile"><span>Fit</span><strong>{{ fit }}</strong></div>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {% form 'product', product, class: 'pdp-form', id: 'product-form' %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-pdp-variant-input>
+
+        <div class="pdp-qty-row">
+          <label class="pdp-qty-label" for="pdp-qty">Qty</label>
+          <div class="pdp-qty-stepper">
+            <button type="button" class="pdp-qty-btn" data-qty-decrease aria-label="Decrease quantity">&minus;</button>
+            <input type="number" id="pdp-qty" name="quantity" min="1" value="1" inputmode="numeric">
+            <button type="button" class="pdp-qty-btn" data-qty-increase aria-label="Increase quantity">+</button>
+          </div>
+          <span class="pdp-line-total" data-pdp-line-total></span>
+        </div>
+
+        <button type="submit" class="btn-blue btn-blue--lg pdp-add-to-cart" {% unless current_variant.available %}disabled{% endunless %}>
+          {%- if current_variant.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
+        </button>
+      {% endform %}
+
+      {%- if product.description != blank -%}
+        <div class="pdp-description rte">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- if product.tags.size > 0 -%}
+        <div class="pdp-tags">
+          {%- for tag in product.tags limit: 8 -%}
+            <span class="pdp-tag">{{ tag }}</span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .main-product-hoodies.pdp { padding: 32px 0 60px; }
+  .pdp-inner { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: start; }
+
+  .product-gallery { position: relative; }
+  .gallery-main { position: relative; aspect-ratio: 1; background: #f6f7f9; border-radius: 14px; overflow: hidden; }
+  .gallery-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .gallery-slide.is-active { opacity: 1; pointer-events: auto; }
+  .gallery-slide img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 36px; height: 36px; border-radius: 50%; border: none; background: #fff; box-shadow: 0 2px 10px rgba(16,24,40,0.15); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .gallery-arrow--prev { left: 12px; }
+  .gallery-arrow--next { right: 12px; }
+  .gallery-thumbs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .gallery-thumb { width: 66px; height: 66px; border-radius: 8px; overflow: hidden; border: 2px solid transparent; padding: 0; cursor: pointer; background: #f6f7f9; }
+  .gallery-thumb.is-active { border-color: var(--brand); }
+  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  .pdp-vendor-link { font-size: 0.8rem; font-weight: 700; color: var(--pdp-muted); text-decoration: underline; }
+  .pdp-info h1 { font-size: 1.6rem; font-weight: 800; margin: 8px 0 14px; }
+
+  .pdp-price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .pdp-price-label { font-size: 0.85rem; color: var(--pdp-muted); font-weight: 600; }
+  .pdp-price-now { font-size: 1.7rem; font-weight: 800; color: var(--success); }
+  .pdp-price-was { font-size: 0.95rem; color: var(--pdp-muted); text-decoration: line-through; }
+  .pdp-price-save { font-size: 0.78rem; font-weight: 800; color: #fff; background: var(--brand); padding: 3px 9px; border-radius: 6px; }
+
+  .pdp-strip { display: flex; flex-wrap: wrap; gap: 10px 20px; padding: 12px 0; border-top: 1px solid var(--pdp-line); border-bottom: 1px solid var(--pdp-line); margin-bottom: 20px; }
+  .pdp-strip-item { font-size: 0.8rem; font-weight: 600; color: var(--pdp-muted); }
+
+  .pdp-swatches { margin-bottom: 20px; }
+  .pdp-option-group { margin-bottom: 14px; }
+  .pdp-option-hd { font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; }
+  .pdp-option-values { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pdp-option-pill { padding: 7px 14px; border: 1.5px solid var(--pdp-line); border-radius: 8px; font-size: 0.82rem; font-weight: 600; background: #fff; cursor: pointer; transition: border-color .15s; }
+  .pdp-option-pill:hover, .pdp-option-pill.is-active { border-color: var(--brand); color: var(--brand); }
+
+  .pdp-spec-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px; }
+  .pdp-spec-tile { border: 1px solid var(--pdp-line); border-radius: 10px; padding: 10px 12px; text-align: center; }
+  .pdp-spec-tile span { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--pdp-muted); margin-bottom: 4px; }
+  .pdp-spec-tile strong { font-size: 0.9rem; }
+
+  .pdp-qty-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+  .pdp-qty-label { font-size: 0.85rem; font-weight: 700; }
+  .pdp-qty-stepper { display: flex; align-items: center; border: 1.5px solid var(--pdp-line); border-radius: 8px; overflow: hidden; }
+  .pdp-qty-stepper input { width: 52px; text-align: center; border: none; padding: 8px 0; font-size: 0.9rem; -moz-appearance: textfield; }
+  .pdp-qty-stepper input::-webkit-outer-spin-button, .pdp-qty-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .pdp-qty-btn { width: 34px; height: 36px; border: none; background: #f6f7f9; font-size: 1.1rem; cursor: pointer; }
+  .pdp-line-total { font-size: 0.85rem; color: var(--pdp-muted); }
+
+  .pdp-add-to-cart { width: 100%; margin-bottom: 20px; }
+
+  .pdp-description { font-size: 0.92rem; line-height: 1.6; color: var(--color-text); margin-bottom: 18px; }
+  .pdp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pdp-tag { font-size: 0.72rem; font-weight: 600; color: var(--pdp-muted); background: #f6f7f9; padding: 4px 10px; border-radius: 999px; }
+
+  @media (max-width: 900px) {
+    .pdp-inner { grid-template-columns: 1fr; gap: 24px; }
+  }
+</style>
+
+<script>
+(function () {
+  var root = document.currentScript.closest(".main-product-hoodies") || document.querySelector(".main-product-hoodies");
+  if (!root) return;
+
+  // Gallery
+  var slides = root.querySelectorAll('[data-gallery-slide]');
+  var thumbs = root.querySelectorAll('[data-gallery-thumb]');
+  var prevBtn = root.querySelector('[data-gallery-prev]');
+  var nextBtn = root.querySelector('[data-gallery-next]');
+  var activeIndex = 0;
+
+  function showSlide(i) {
+    if (!slides.length) return;
+    activeIndex = (i + slides.length) % slides.length;
+    slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === activeIndex); });
+    thumbs.forEach(function (t, idx) { t.classList.toggle('is-active', idx === activeIndex); });
+  }
+  thumbs.forEach(function (t, idx) { t.addEventListener('click', function () { showSlide(idx); }); });
+  if (prevBtn) prevBtn.addEventListener('click', function () { showSlide(activeIndex - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { showSlide(activeIndex + 1); });
+
+  // Quantity stepper + line total
+  var qtyInput = root.querySelector('#pdp-qty');
+  var decBtn = root.querySelector('[data-qty-decrease]');
+  var incBtn = root.querySelector('[data-qty-increase]');
+  var lineTotal = root.querySelector('[data-pdp-line-total]');
+  var unitPrice = {{ current_variant.price | default: 0 }};
+
+  function updateTotal() {
+    if (!lineTotal || !qtyInput) return;
+    var qty = parseInt(qtyInput.value, 10) || 1;
+    lineTotal.textContent = '= ' + (unitPrice * qty / 100).toLocaleString(undefined, { style: 'currency', currency: '{{ cart.currency.iso_code | default: shop.currency }}' });
+  }
+  if (decBtn) decBtn.addEventListener('click', function () { qtyInput.value = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1); updateTotal(); });
+  if (incBtn) incBtn.addEventListener('click', function () { qtyInput.value = (parseInt(qtyInput.value, 10) || 1) + 1; updateTotal(); });
+  if (qtyInput) qtyInput.addEventListener('input', updateTotal);
+  updateTotal();
+
+  // Variant option pills -> update hidden variant id (best-effort match by option name/value against product variants)
+  var variants = {{ product.variants | json }};
+  var optionPills = root.querySelectorAll('[data-option-index]');
+  var selected = {};
+  optionPills.forEach(function (pill) {
+    var group = pill.closest('.pdp-option-group');
+    if (group && pill.classList.contains('is-active')) {
+      selected[pill.dataset.optionIndex] = pill.dataset.optionValue;
+    }
+  });
+  optionPills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      var idx = pill.dataset.optionIndex;
+      var group = pill.closest('.pdp-option-group');
+      group.querySelectorAll('.pdp-option-pill').forEach(function (p) { p.classList.remove('is-active'); });
+      pill.classList.add('is-active');
+      var label = group.querySelector('[data-option-value-label]');
+      if (label) label.textContent = pill.dataset.optionValue;
+      selected[idx] = pill.dataset.optionValue;
+
+      var match = variants.find(function (v) {
+        return ['option1', 'option2', 'option3'].every(function (key, i) {
+          return selected[i] === undefined || v[key] === selected[i];
+        });
+      });
+      if (match) {
+        var input = root.querySelector('[data-pdp-variant-input]');
+        if (input) input.value = match.id;
+        unitPrice = match.price;
+        updateTotal();
+      }
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hoodie Product",
+  "settings": [
+    { "type": "checkbox", "id": "show_info_strip", "label": "Show info strip", "default": true },
+    { "type": "text", "id": "strip_1", "label": "Info strip item 1", "default": "Order by 5PM, Ships Next Day" },
+    { "type": "text", "id": "strip_2", "label": "Info strip item 2", "default": "Free Shipping on $59+" },
+    { "type": "text", "id": "strip_3", "label": "Info strip item 3", "default": "No Minimums" }
+  ]
+}
+{% endschema %}
