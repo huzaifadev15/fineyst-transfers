@@ -219,7 +219,12 @@
                 {%- if p_colors.size > 0 -%}
                   <span class="product-card-swatches">
                     {%- for c in p_colors limit: 8 -%}
-                      <span class="pc-swatch" style="background:{{ c.hex }};"></span>
+                      {%- if c.image_index != blank -%}
+                        {%- assign swatch_img = product.images[c.image_index] | default: product.featured_image -%}
+                      {%- else -%}
+                        {%- assign swatch_img = product.featured_image -%}
+                      {%- endif -%}
+                      <button type="button" class="pc-swatch" style="background:{{ c.hex }};" data-swatch-image="{{ swatch_img | image_url: width: 500 }}" aria-label="{{ c.name | escape }}" title="{{ c.name | escape }}"></button>
                     {%- endfor -%}
                     {%- if p_colors.size > 8 -%}<span class="pc-swatch-more">+{{ p_colors.size | minus: 8 }}</span>{%- endif -%}
                   </span>
@@ -314,7 +319,8 @@
   .product-card-media img { width: 100%; height: 100%; object-fit: cover; }
   .product-card-save { position: absolute; top: 10px; left: 10px; background: var(--danger); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; }
   .product-card-swatches { display: flex; align-items: center; gap: 8px; padding: 12px 14px 0; flex-wrap: wrap; }
-  .pc-swatch { width: 16px; height: 16px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.18); flex-shrink: 0; }
+  .pc-swatch { width: 16px; height: 16px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.18); flex-shrink: 0; padding: 0; cursor: pointer; }
+  .pc-swatch:hover, .pc-swatch.is-active { box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--brand); }
   .pc-swatch-more { font-size: 0.78rem; font-weight: 600; color: #6b7280; margin-left: 2px; }
   .product-card-body { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 4px; }
   .product-card-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -385,6 +391,24 @@
       btn.classList.toggle('is-active');
       if (btn.classList.contains('is-active')) activeColors.add(color); else activeColors.delete(color);
       applyFilters();
+    });
+  });
+
+  // Product-card color swatches: preview only, must not navigate to the product.
+  document.querySelectorAll('.pc-swatch').forEach(function (swatch) {
+    swatch.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var card = swatch.closest('.product-card');
+      if (!card) return;
+      card.querySelectorAll('.pc-swatch').forEach(function (s) { s.classList.remove('is-active'); });
+      swatch.classList.add('is-active');
+      var img = card.querySelector('.product-card-media img');
+      var newSrc = swatch.dataset.swatchImage;
+      if (img && newSrc) {
+        img.src = newSrc;
+        img.removeAttribute('srcset');
+      }
     });
   });
 })();
