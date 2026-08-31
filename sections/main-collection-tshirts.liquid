@@ -4,57 +4,73 @@
 -%}
 
 <section class="main-collection-tshirts">
-  <div class="container coll-head">
-    <div class="coll-head-text">
-      <h1>{{ collection.title }}</h1>
-      {%- if collection.description != blank -%}
-        <div class="coll-desc rte">{{ collection.description }}</div>
-      {%- endif -%}
-    </div>
-    {%- assign badge_blocks = section.blocks | where: 'type', 'badge' -%}
-    {%- if badge_blocks.size > 0 -%}
-      <div class="coll-badges">
-        {%- for badge in section.blocks -%}
-          {%- if badge.type == 'badge' -%}
-            <div class="coll-badge" {{ badge.shopify_attributes }}>
-              <span class="coll-badge-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
+
+  {%- comment -%} ---------- Hero ---------- {%- endcomment -%}
+  <header class="coll-hero">
+    <div class="coll-wide coll-hero-inner">
+      <div class="coll-hero-left">
+        <h1 class="coll-hero-title">
+          {{ collection.title }}
+          {%- if section.settings.heading_highlight != blank %} <span class="coll-hero-hl">{{ section.settings.heading_highlight }}</span>{% endif -%}
+        </h1>
+        {%- if collection.description != blank -%}
+          <div class="coll-hero-desc rte">{{ collection.description }}</div>
+        {%- elsif section.settings.heading_subtext != blank -%}
+          <div class="coll-hero-desc">{{ section.settings.heading_subtext }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- assign badge_blocks = section.blocks | where: 'type', 'badge' -%}
+      {%- if badge_blocks.size > 0 -%}
+        <div class="coll-trust">
+          {%- for badge in badge_blocks -%}
+            <div class="coll-trust-item" {{ badge.shopify_attributes }}>
+              <span class="coll-trust-icon">
+                {%- case badge.settings.icon -%}
+                  {%- when 'shipping' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10H3M16 2l5 8M8 2 3 10M12 22 8 10h8z"/></svg>
+                  {%- when 'minimums' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>
+                  {%- when 'discount' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  {%- else -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                {%- endcase -%}
               </span>
               <span>{{ badge.settings.text }}</span>
             </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
-  </div>
-
-  {%- if section.settings.show_quick_nav and section.blocks.size > 0 -%}
-    <div class="coll-quicknav-wrap">
-      <div class="container">
-        <div class="coll-quicknav">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'quick_link' -%}
-              <a href="{{ block.settings.link }}" class="coll-quicktab{% if block.settings.link contains collection.handle %} is-active{% endif %}" {{ block.shopify_attributes }}>
-                <span class="coll-quicktab-thumb">
-                  {%- if block.settings.image -%}
-                    {{ block.settings.image | image_url: width: 64 | image_tag: loading: 'lazy', alt: block.settings.label }}
-                  {%- else -%}
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l2 3-3 2v11H10V8L7 6l2-3z"/></svg>
-                  {%- endif -%}
-                </span>
-                <span class="coll-quicktab-label">{{ block.settings.label }}</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="coll-quicktab-chevron"><path d="m9 18 6-6-6-6"/></svg>
-              </a>
-            {%- endif -%}
           {%- endfor -%}
         </div>
-      </div>
+      {%- endif -%}
     </div>
+  </header>
+
+  {%- comment -%} ---------- Category cards ---------- {%- endcomment -%}
+  {%- assign nav_blocks = section.blocks | where: 'type', 'quick_link' -%}
+  {%- if section.settings.show_quick_nav and nav_blocks.size > 0 -%}
+    <nav class="coll-catnav">
+      <div class="coll-wide coll-catnav-inner">
+        {%- for block in nav_blocks -%}
+          <a href="{{ block.settings.link }}" class="coll-cat-card{% if block.settings.link contains collection.handle %} is-active{% endif %}" {{ block.shopify_attributes }}>
+            <span class="coll-cat-icon">
+              {%- if block.settings.image -%}
+                {{ block.settings.image | image_url: width: 96 | image_tag: loading: 'lazy', alt: block.settings.label, width: 48, height: 48 }}
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l2 3-3 2v11H10V8L7 6l2-3z"/></svg>
+              {%- endif -%}
+            </span>
+            <span class="coll-cat-label">{{ block.settings.label }}</span>
+          </a>
+        {%- endfor -%}
+      </div>
+    </nav>
   {%- endif -%}
 
-  <div class="container coll-body">
+  <div class="coll-wide coll-body">
 
     <aside class="coll-sidebar" id="collFilters">
+      <div class="coll-filter-panel">
+        <div class="filter-chips" id="collFilterChips" hidden></div>
 
       <div class="filter-group" data-filter-group>
         <button type="button" class="filter-group-hd" data-filter-toggle>
@@ -81,7 +97,7 @@
               {%- if cut_count > 0 -%}
                 <li>
                   <label class="filter-check">
-                    <input type="checkbox" data-cut-filter value="{{ key }}">
+                    <input type="checkbox" data-facet="cut" value="{{ key | escape }}">
                     <span>{{ key }}</span>
                     <small>({{ cut_count }})</small>
                   </label>
@@ -117,9 +133,108 @@
                     {%- if c.name == name -%}{%- assign swatch_hex = c.hex -%}{%- break -%}{%- endif -%}
                   {%- endfor -%}
                 {%- endfor -%}
-                <button type="button" class="filter-swatch" data-color-filter data-color="{{ name | escape }}" style="background:{{ swatch_hex }};" title="{{ name | escape }}"></button>
+                <button type="button" class="filter-swatch" data-facet="color" data-color="{{ name | escape }}" style="background:{{ swatch_hex }};" title="{{ name | escape }}"></button>
               {%- endfor -%}
             </div>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%}
+        Brand / Style / Size are built from the products themselves (vendor, tags and
+        the Size option) because the store's Search & Discovery app only exposes
+        Availability, Fabric and a raw Color facet.
+      {%- endcomment -%}
+
+      {%- assign brand_tally = '|' -%}
+      {%- assign style_tally = '|' -%}
+      {%- assign size_tally = '|' -%}
+      {%- assign brand_list = "" | split: "" -%}
+      {%- for product in collection.products -%}
+        {%- if product.vendor != blank -%}
+          {%- assign brand_tally = brand_tally | append: product.vendor | append: '|' -%}
+          {%- assign one_vendor = product.vendor | split: '§' -%}
+          {%- assign brand_list = brand_list | concat: one_vendor -%}
+        {%- endif -%}
+        {%- for t in product.tags -%}
+          {%- assign style_tally = style_tally | append: t | append: '|' -%}
+        {%- endfor -%}
+        {%- for opt in product.options_with_values -%}
+          {%- if opt.name == 'Size' -%}
+            {%- for v in opt.values -%}
+              {%- assign size_tally = size_tally | append: v | append: '|' -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+
+      {%- assign brands = brand_list | uniq | sort -%}
+      {%- if brands.size > 0 -%}
+        <div class="filter-group" data-filter-group>
+          <button type="button" class="filter-group-hd" data-filter-toggle>
+            Brand
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="filter-chevron"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="filter-group-body">
+            <ul class="filter-list">
+              {%- for brand in brands -%}
+                {%- assign needle = '|' | append: brand | append: '|' -%}
+                {%- assign parts = brand_tally | split: needle -%}
+                {%- assign n = parts.size | minus: 1 -%}
+                {%- if n < 1 -%}{%- assign n = 1 -%}{%- endif -%}
+                <li>
+                  <label class="filter-check">
+                    <input type="checkbox" data-facet="brand" value="{{ brand | escape }}">
+                    <span>{{ brand }}</span>
+                    <small>({{ n }})</small>
+                  </label>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- assign style_keys = "Performance Shirts,Pocket T-Shirts,Woven Shirts,Raglan T-Shirts,Tie-Dye,Crop Tops,Tank Tops,Long Sleeve,Heavyweight,Ringspun" | split: "," -%}
+      {%- assign style_rows = "" -%}
+      {%- for key in style_keys -%}
+        {%- assign needle = '|' | append: key | append: '|' -%}
+        {%- assign parts = style_tally | split: needle -%}
+        {%- assign n = parts.size | minus: 1 -%}
+        {%- if n > 0 -%}
+          {%- capture style_rows -%}{{ style_rows }}<li><label class="filter-check"><input type="checkbox" data-facet="style" value="{{ key | escape }}"><span>{{ key }}</span><small>({{ n }})</small></label></li>{%- endcapture -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if style_rows != blank -%}
+        <div class="filter-group" data-filter-group>
+          <button type="button" class="filter-group-hd" data-filter-toggle>
+            Style
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="filter-chevron"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="filter-group-body">
+            <ul class="filter-list">{{ style_rows }}</ul>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- assign size_keys = "XS,S,M,L,XL,2XL,3XL,4XL,5XL,6XL,XXL,XXXL" | split: "," -%}
+      {%- assign size_rows = "" -%}
+      {%- for key in size_keys -%}
+        {%- assign needle = '|' | append: key | append: '|' -%}
+        {%- assign parts = size_tally | split: needle -%}
+        {%- assign n = parts.size | minus: 1 -%}
+        {%- if n > 0 -%}
+          {%- capture size_rows -%}{{ size_rows }}<li><label class="filter-check"><input type="checkbox" data-facet="size" value="{{ key | escape }}"><span>{{ key }}</span><small>({{ n }})</small></label></li>{%- endcapture -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if size_rows != blank -%}
+        <div class="filter-group" data-filter-group>
+          <button type="button" class="filter-group-hd" data-filter-toggle>
+            Size
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="filter-chevron"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="filter-group-body">
+            <ul class="filter-list">{{ size_rows }}</ul>
           </div>
         </div>
       {%- endif -%}
@@ -127,7 +242,10 @@
       {%- if collection.filters.size > 0 -%}
         <form id="collFilterForm">
           {%- for filter in collection.filters -%}
-            {%- if filter.values.size > 0 -%}
+            {%- comment -%} The raw Color facet duplicates the swatch grid above, with
+            inconsistent casing across ~100 variant values, so it is skipped. {%- endcomment -%}
+            {%- assign filter_key = filter.label | downcase -%}
+            {%- if filter.values.size > 0 and filter_key != 'color' and filter_key != 'colour' -%}
               <div class="filter-group" data-filter-group>
                 <button type="button" class="filter-group-hd" data-filter-toggle>
                   {{ filter.label }}
@@ -170,6 +288,7 @@
           {%- endif -%}
         </form>
       {%- endif -%}
+      </div>
     </aside>
 
     <div class="coll-main">
@@ -201,16 +320,32 @@
               {%- else -%}{%- assign p_cut = "Adult" -%}
               {%- endif -%}
               {%- assign p_colors = product.metafields.custom.swatch_colors.value -%}
-              {%- assign p_color_names = "" -%}
+              {%- assign p_color_names = '|' -%}
               {%- for c in p_colors -%}{%- assign p_color_names = p_color_names | append: c.name | append: '|' -%}{%- endfor -%}
+              {%- assign p_styles = '|' -%}
+              {%- for t in product.tags -%}{%- assign p_styles = p_styles | append: t | append: '|' -%}{%- endfor -%}
+              {%- assign p_sizes = '|' -%}
+              {%- for opt in product.options_with_values -%}
+                {%- if opt.name == 'Size' -%}
+                  {%- for v in opt.values -%}{%- assign p_sizes = p_sizes | append: v | append: '|' -%}{%- endfor -%}
+                {%- endif -%}
+              {%- endfor -%}
 
-              <a class="product-card" href="{{ product.url }}" data-cut="{{ p_cut }}" data-colors="{{ p_color_names }}">
+              <a class="product-card" href="{{ product.url }}" data-cut="|{{ p_cut }}|" data-colors="{{ p_color_names | escape }}" data-brand="|{{ product.vendor | escape }}|" data-style="{{ p_styles | escape }}" data-size="{{ p_sizes | escape }}">
                 <span class="product-card-media">
                   {%- if product.featured_image -%}
                     {{ product.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: product.title }}
                   {%- else -%}
                     <span class="hero-media-placeholder"></span>
                   {%- endif -%}
+                  <span class="pc-quickbuy" aria-hidden="true">
+                    <svg width="14" height="13" viewBox="0 0 14 13" fill="none">
+                      <path d="M1 1h1.5l1.9 7h6.4l1.2-5H4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <circle cx="6.5" cy="11.5" r="1" fill="currentColor"/>
+                      <circle cx="11" cy="11.5" r="1" fill="currentColor"/>
+                    </svg>
+                    Quick Buy
+                  </span>
                 </span>
                 {%- if product.compare_at_price > product.price -%}
                   <span class="product-card-save">Save {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%</span>
@@ -269,79 +404,131 @@
 </section>
 
 <style>
-  .main-collection-tshirts { padding: 28px 0 60px; }
-  .coll-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
-  .coll-head h1 { font-size: 2rem; font-weight: 800; }
-  .coll-desc { color: var(--pdp-muted); margin-top: 6px; max-width: 640px; font-size: 0.95rem; }
-  .coll-badges { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .coll-badge { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--pdp-line); border-radius: 10px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
-  .coll-badge-icon { color: var(--brand); display: flex; }
+  /* ---- Ninja-style blanks collection ---- */
+  .main-collection-tshirts { --coll-accent: var(--brand); --coll-ink: #0F0F1A; --coll-line: #E6E6EA; background: #fff; padding-bottom: 56px; }
+  .coll-wide { max-width: 1400px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
 
-  .coll-quicknav-wrap { border-top: 1px solid var(--pdp-line); border-bottom: 1px solid var(--pdp-line); margin-bottom: 24px; background: #FAFBFC; }
-  .coll-quicknav { display: flex; gap: 12px; overflow-x: auto; padding: 16px 0; }
-  .coll-quicktab { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border: 1px solid var(--pdp-line); border-radius: 10px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; flex-shrink: 0; background: #fff; transition: border-color .15s, box-shadow .15s; }
-  .coll-quicktab:hover, .coll-quicktab.is-active { border-color: var(--brand); box-shadow: 0 2px 8px rgba(1,154,255,0.15); }
-  .coll-quicktab-thumb { width: 26px; height: 26px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--brand-tint); color: var(--brand); flex-shrink: 0; }
-  .coll-quicktab-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .coll-quicktab-label { flex: 1; }
-  .coll-quicktab-chevron { color: var(--pdp-muted); flex-shrink: 0; }
+  /* Hero */
+  .coll-hero { background: #fff; }
+  .coll-hero-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; padding-top: 16px; padding-bottom: 16px; flex-wrap: wrap; }
+  .coll-hero-left { flex: 1 1 420px; min-width: 0; }
+  .coll-hero-title { font-size: 48px; line-height: 1.1; font-weight: 800; letter-spacing: -0.04em; color: #2A2A2A; margin: 0; }
+  .coll-hero-hl { color: var(--coll-accent); }
+  .coll-hero-desc { margin-top: 8px; font-size: 15.2px; line-height: 1.65; color: #666; max-width: 800px; }
+  .coll-hero-desc p { margin: 0; }
 
-  .coll-body { display: grid; grid-template-columns: 240px 1fr; gap: 32px; align-items: start; }
-  .coll-sidebar { position: sticky; top: calc(var(--nav-bottom, 97px) + 20px); }
-  .filter-group { border-bottom: 1px solid var(--pdp-line); padding: 14px 0; }
-  .filter-group-hd { width: 100%; display: flex; justify-content: space-between; align-items: center; background: none; border: none; font-size: 0.9rem; font-weight: 700; cursor: pointer; padding: 0; }
-  .filter-chevron { transition: transform .2s; }
+  .coll-trust { display: grid; grid-template-columns: repeat(2, 165px); gap: 10px; flex: 0 0 auto; }
+  .coll-trust-item { display: flex; align-items: center; gap: 10px; padding: 14px 12px; font-size: 13px; font-weight: 600; line-height: 1.25; color: #3A3A4A; background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .coll-trust-icon { flex: 0 0 auto; width: 20px; height: 20px; color: var(--coll-accent); display: flex; }
+  .coll-trust-icon svg { width: 100%; height: 100%; }
+
+  /* Category cards */
+  .coll-catnav { background: #fff; }
+  .coll-catnav-inner { display: flex; gap: 8px; padding-top: 14px; padding-bottom: 14px; overflow-x: auto; scrollbar-width: none; }
+  .coll-catnav-inner::-webkit-scrollbar { display: none; }
+  .coll-cat-card { display: flex; align-items: center; gap: 10px; height: 56px; padding: 0 16px; flex: 1 1 0; min-width: 140px; border: 1px solid #E0E0E0; border-radius: 12px; background: #fff; transition: border-color .15s, box-shadow .15s, transform .15s; }
+  .coll-cat-card:hover { border-color: var(--coll-accent); box-shadow: 0 4px 12px rgba(62,109,142,0.16); transform: translateY(-1px); }
+  .coll-cat-card.is-active { border-color: var(--coll-accent); background: var(--brand-tint); }
+  .coll-cat-icon { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 8px; background: #F0F4FF; display: flex; align-items: center; justify-content: center; overflow: hidden; color: #4A5A7A; }
+  .coll-cat-icon img { width: 100%; height: 100%; object-fit: cover; }
+  .coll-cat-icon svg { width: 18px; height: 18px; }
+  .coll-cat-label { font-size: 12.8px; font-weight: 600; letter-spacing: -0.01em; color: #222; white-space: nowrap; }
+
+  /* Layout */
+  .coll-body { display: grid; grid-template-columns: 240px 1fr; gap: 28px; align-items: start; padding-top: 4px; }
+  .coll-sidebar { position: sticky; top: calc(var(--nav-bottom, 97px) + 16px); }
+
+  /* Sidebar filters — card panel */
+  .coll-filter-panel { background: #fff; border: 1px solid #EFEFEF; border-radius: 14px; box-shadow: 0 1px 3px rgba(16,24,40,0.04), 0 6px 20px rgba(16,24,40,0.05); padding: 6px 0; overflow: hidden; }
+  .filter-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #F0F0F0; }
+  .filter-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border: 1px solid var(--coll-line); border-radius: 999px; background: #F7F8FA; font-size: 12px; font-weight: 600; color: #333; cursor: pointer; }
+  .filter-chip:hover { border-color: var(--coll-accent); color: var(--brand-dark); }
+  .filter-chip svg { color: #9AA0A6; flex-shrink: 0; }
+  .filter-chip-clear { padding: 4px 4px; background: none; border: none; font-size: 12px; font-weight: 700; color: var(--coll-accent); cursor: pointer; }
+  .filter-chip-clear:hover { text-decoration: underline; }
+  .filter-count-badge { margin-left: auto; margin-right: 8px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--coll-accent); color: #fff; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+  .filter-group { border-bottom: 1px solid #F0F0F0; }
+  .filter-group-hd { width: 100%; display: flex; justify-content: space-between; align-items: center; background: none; border: none; font-size: 13px; font-weight: 700; color: #111; cursor: pointer; padding: 12px 14px; }
+  .filter-chevron { transition: transform .2s; color: #9AA0A6; flex-shrink: 0; }
   .filter-group[data-collapsed] .filter-chevron { transform: rotate(-90deg); }
   .filter-group[data-collapsed] .filter-group-body { display: none; }
-  .filter-group-body { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; max-height: 260px; overflow-y: auto; }
-  .filter-check { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; }
-  .filter-check small { color: var(--pdp-muted); }
-  .filter-price-range { display: flex; gap: 10px; }
-  .filter-price-range label { display: flex; flex-direction: column; gap: 4px; font-size: 0.75rem; color: var(--pdp-muted); flex: 1; }
-  .filter-price-range input { padding: 6px 8px; border: 1px solid var(--pdp-line); border-radius: 6px; width: 100%; }
-  .filter-apply-btn { width: 100%; margin-top: 16px; padding: 10px; font-size: 0.85rem; }
-  .filter-clear-link { display: block; text-align: center; margin-top: 10px; font-size: 0.8rem; color: var(--pdp-muted); text-decoration: underline; }
-  .filter-swatch-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
-  .filter-swatch { width: 26px; height: 26px; border-radius: 6px; border: 1.5px solid var(--pdp-line); cursor: pointer; padding: 0; transition: transform .1s, border-color .1s; }
-  .filter-swatch:hover { transform: scale(1.12); }
-  .filter-swatch.is-active { border-color: var(--brand); box-shadow: 0 0 0 2px var(--brand-tint); }
+  .filter-group-body { display: flex; flex-direction: column; gap: 2px; padding: 0 14px 10px; }
+  .filter-list { list-style: none; margin: 0; padding: 0; }
+  .filter-check { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 13px; color: #222; cursor: pointer; }
+  .filter-check input { accent-color: var(--coll-accent); width: 14px; height: 14px; flex-shrink: 0; }
+  .filter-check span { flex: 1; min-width: 0; }
+  .filter-check small { color: #AAA; font-size: 11px; }
+  .filter-show-all { align-self: flex-start; margin-top: 6px; padding: 0; background: none; border: none; font-size: 12px; font-weight: 600; color: var(--coll-accent); cursor: pointer; }
+  .filter-show-all:hover { text-decoration: underline; }
+  .filter-item-hidden { display: none; }
+  .filter-price-range { display: flex; gap: 10px; padding-top: 4px; }
+  .filter-price-range label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #6B7280; flex: 1; }
+  .filter-price-range input { padding: 7px 8px; border: 1px solid var(--coll-line); border-radius: 8px; width: 100%; font-size: 13px; }
+  .filter-apply-btn { width: calc(100% - 28px); margin: 14px; padding: 11px; font-size: 13px; font-weight: 700; border: none; border-radius: 10px; background: var(--coll-accent); color: #fff; cursor: pointer; }
+  .filter-apply-btn:hover { background: var(--brand-dark); }
+  .filter-clear-link { display: block; text-align: center; margin: -4px 0 14px; font-size: 12px; color: #6B7280; text-decoration: underline; }
+  #collFilterForm .filter-group:last-of-type { border-bottom: none; }
+  .filter-swatch-grid { display: grid; grid-template-columns: repeat(6, 28px); gap: 6px; padding-top: 4px; }
+  .filter-swatch { width: 28px; height: 28px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.12); cursor: pointer; padding: 0; transition: transform .1s, box-shadow .1s; }
+  .filter-swatch:hover { transform: scale(1.1); }
+  .filter-swatch.is-active { box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--coll-accent); }
 
-  .coll-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
-  .coll-toolbar-note { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: var(--brand-dark); }
-  .coll-count { font-size: 0.85rem; color: var(--pdp-muted); margin-left: auto; }
-  .coll-toolbar select { padding: 8px 12px; border: 1px solid var(--pdp-line); border-radius: 8px; font-size: 0.85rem; }
+  /* Toolbar */
+  .coll-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+  .coll-toolbar-note { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 10px; background: var(--brand-tint); font-size: 13px; font-weight: 700; color: var(--brand-dark); }
+  .coll-toolbar-note svg { color: var(--coll-accent); flex-shrink: 0; }
+  .coll-count { font-size: 13px; color: #6B7280; margin-left: auto; }
+  .coll-toolbar select { padding: 9px 12px; border: 1px solid var(--coll-line); border-radius: 10px; font-size: 13px; background: #fff; cursor: pointer; }
 
-  .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .product-card { display: flex; flex-direction: column; border: 1px solid var(--pdp-line); border-radius: 12px; overflow: hidden; position: relative; transition: box-shadow .15s, transform .15s; }
-  .product-card:hover { box-shadow: 0 8px 24px rgba(16,24,40,0.1); transform: translateY(-2px); }
+  /* Product grid */
+  .product-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+  .product-card { display: flex; flex-direction: column; background: #fff; border: none; border-radius: 12px; overflow: hidden; position: relative; box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.05); transition: box-shadow .18s, transform .18s; }
+  .product-card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.08), 0 12px 28px rgba(0,0,0,0.10); transform: translateY(-3px); }
   .product-card.is-filtered-out { display: none; }
-  .product-card-media { display: block; aspect-ratio: 1; background: #f6f7f9; }
+  .product-card-media { display: block; position: relative; aspect-ratio: 4 / 5; background: #F7F8FA; overflow: hidden; }
   .product-card-media img { width: 100%; height: 100%; object-fit: cover; }
-  .product-card-save { position: absolute; top: 10px; left: 10px; background: var(--danger); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; }
-  .product-card-swatches { display: flex; align-items: center; gap: 8px; padding: 12px 14px 0; flex-wrap: wrap; }
-  .pc-swatch { width: 16px; height: 16px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.18); flex-shrink: 0; padding: 0; cursor: pointer; }
-  .pc-swatch:hover, .pc-swatch.is-active { box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--brand); }
-  .pc-swatch-more { font-size: 0.78rem; font-weight: 600; color: #6b7280; margin-left: 2px; }
-  .product-card-body { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 4px; }
-  .product-card-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .product-card-price { display: flex; flex-direction: column; gap: 1px; }
-  .product-card-price small { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--pdp-muted); }
-  .product-card-price strong { font-size: 1.15rem; line-height: 1.15; color: var(--success); font-weight: 800; }
-  .product-card-price s { font-size: 0.7rem; color: var(--pdp-muted); font-weight: 400; }
-  .product-card-vendor { font-size: 0.95rem; font-weight: 700; color: #1E3A8A; letter-spacing: 0.01em; white-space: nowrap; }
-  .product-card-title { font-size: 0.82rem; font-weight: 500; color: #374151; line-height: 1.35; }
+  .pc-quickbuy { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; display: flex; align-items: center; justify-content: center; gap: 7px; background: rgba(18,18,18,0.9); color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0; transform: translateY(6px); transition: opacity .18s, transform .18s; z-index: 3; }
+  .pc-quickbuy svg { flex-shrink: 0; }
+  .product-card:hover .pc-quickbuy, .product-card:focus-within .pc-quickbuy { opacity: 1; transform: translateY(0); }
+  .product-card:hover .pc-quickbuy:hover { background: #000; }
+  @media (hover: none) { .pc-quickbuy { display: none; } }
+  .product-card-save { position: absolute; top: 8px; left: 8px; background: var(--danger); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 7px; border-radius: 6px; z-index: 2; }
+  .product-card-swatches { display: flex; align-items: center; gap: 4px; padding: 10px 10px 0; flex-wrap: wrap; }
+  .pc-swatch { width: 16px; height: 16px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; padding: 0; cursor: pointer; }
+  .pc-swatch:hover, .pc-swatch.is-active { box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px var(--coll-accent); }
+  .pc-swatch-more { font-size: 11px; font-weight: 700; color: #6B7280; margin-left: 2px; }
+  .product-card-body { padding: 8px 10px 12px; display: flex; flex-direction: column; gap: 3px; }
+  .product-card-meta { display: flex; align-items: flex-end; justify-content: space-between; gap: 6px; }
+  .product-card-price { display: flex; flex-direction: column; gap: 0; }
+  .product-card-price small { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #9AA0A6; }
+  .product-card-price strong { font-size: 18px; line-height: 1.15; color: #16A34A; font-weight: 800; }
+  .product-card-price s { font-size: 11px; color: #9AA0A6; font-weight: 400; }
+  .product-card-vendor { font-size: 12px; font-weight: 800; color: #1E3A8A; letter-spacing: -0.01em; white-space: nowrap; }
+  .product-card-title { font-size: 11.5px; font-weight: 500; color: #4B5563; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
   .coll-pagination { display: flex; justify-content: center; gap: 8px; margin-top: 36px; }
-  .coll-page-link { padding: 8px 14px; border: 1px solid var(--pdp-line); border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
-  .coll-page-link.is-active { background: var(--brand); border-color: var(--brand); color: #fff; }
-  .coll-empty { padding: 60px 0; text-align: center; color: var(--pdp-muted); }
+  .coll-page-link { padding: 9px 14px; border: 1px solid var(--coll-line); border-radius: 10px; font-size: 13px; font-weight: 600; }
+  .coll-page-link.is-active { background: var(--coll-accent); border-color: var(--coll-accent); color: #fff; }
+  .coll-empty { padding: 60px 0; text-align: center; color: #6B7280; }
 
+  @media (max-width: 1280px) {
+    .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (max-width: 1100px) {
+    .coll-hero-title { font-size: 36px; }
+    .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
   @media (max-width: 900px) {
+    .coll-wide { padding-left: 20px; padding-right: 20px; }
     .coll-body { grid-template-columns: 1fr; }
     .coll-sidebar { position: static; order: 2; }
-    .product-grid { grid-template-columns: repeat(2, 1fr); }
-    .coll-badges { grid-template-columns: 1fr; }
+    .coll-trust { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+    .coll-cat-card { flex: 0 0 auto; }
     .coll-count { margin-left: 0; }
+  }
+  @media (max-width: 600px) {
+    .coll-hero-title { font-size: 28px; }
+    .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   }
 </style>
 
@@ -355,6 +542,26 @@
       window.location.href = url.toString();
     });
   }
+  // Long filter lists collapse to the first 6 rows behind a "Show all (N)"
+  // toggle, so the panel never grows an inner scrollbar.
+  var SHOW_LIMIT = 6;
+  document.querySelectorAll(".filter-group-body .filter-list").forEach(function (list) {
+    var items = Array.prototype.slice.call(list.children);
+    if (items.length <= SHOW_LIMIT + 1) return;
+    var hidden = items.slice(SHOW_LIMIT);
+    hidden.forEach(function (li) { li.classList.add("filter-item-hidden"); });
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "filter-show-all";
+    btn.textContent = "Show all (" + items.length + ")";
+    btn.addEventListener("click", function () {
+      var expanded = !hidden[0].classList.contains("filter-item-hidden");
+      hidden.forEach(function (li) { li.classList.toggle("filter-item-hidden", expanded); });
+      btn.textContent = expanded ? "Show all (" + items.length + ")" : "Show less";
+    });
+    list.parentNode.appendChild(btn);
+  });
+
   document.querySelectorAll('[data-filter-toggle]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var group = btn.closest('[data-filter-group]');
@@ -364,35 +571,114 @@
     });
   });
 
-  // Client-side Cut + Color filtering (page-scoped; server-side facets aren't
-  // available for these since products only carry one default variant).
+  // Client-side facets (cut / brand / style / size / color). These are derived from
+  // product data rather than Search & Discovery facets, so they narrow the products
+  // rendered on the current page.
+  var FACET_ATTR = { cut: 'cut', brand: 'brand', style: 'style', size: 'size', color: 'colors' };
   var cards = Array.prototype.slice.call(document.querySelectorAll('#collProductGrid .product-card'));
-  var activeCuts = new Set();
-  var activeColors = new Set();
+  var chipBar = document.getElementById('collFilterChips');
+  var active = {};
+  Object.keys(FACET_ATTR).forEach(function (f) { active[f] = new Set(); });
+
+  function matches(card, facet, value) {
+    return (card.dataset[FACET_ATTR[facet]] || '').indexOf('|' + value + '|') > -1;
+  }
 
   function applyFilters() {
     cards.forEach(function (card) {
-      var cutOk = activeCuts.size === 0 || activeCuts.has(card.dataset.cut);
-      var cardColors = (card.dataset.colors || '').split('|').filter(Boolean);
-      var colorOk = activeColors.size === 0 || cardColors.some(function (c) { return activeColors.has(c); });
-      card.classList.toggle('is-filtered-out', !(cutOk && colorOk));
+      var ok = Object.keys(active).every(function (facet) {
+        if (!active[facet].size) return true;
+        return Array.from(active[facet]).some(function (v) { return matches(card, facet, v); });
+      });
+      card.classList.toggle('is-filtered-out', !ok);
+    });
+    renderBadges();
+    renderChips();
+  }
+
+  // Count badge on each collapsed group header, like Ninja's.
+  function renderBadges() {
+    document.querySelectorAll('[data-filter-group]').forEach(function (group) {
+      var n = group.querySelectorAll('input[data-facet]:checked, .filter-swatch.is-active, input[name^="filter."]:checked').length;
+      var hd = group.querySelector('.filter-group-hd');
+      var badge = hd.querySelector('.filter-count-badge');
+      if (!n) { if (badge) badge.remove(); return; }
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'filter-count-badge';
+        hd.insertBefore(badge, hd.querySelector('.filter-chevron'));
+      }
+      badge.textContent = n;
     });
   }
 
-  document.querySelectorAll('[data-cut-filter]').forEach(function (cb) {
+  function deselect(facet, value) {
+    active[facet].delete(value);
+    if (facet === 'color') {
+      var sw = document.querySelector('.filter-swatch[data-color="' + window.CSS.escape(value) + '"]');
+      if (sw) sw.classList.remove('is-active');
+    } else {
+      document.querySelectorAll('input[data-facet="' + facet + '"]').forEach(function (cb) {
+        if (cb.value === value) cb.checked = false;
+      });
+    }
+    applyFilters();
+  }
+
+  function renderChips() {
+    if (!chipBar) return;
+    var total = 0;
+    chipBar.innerHTML = '';
+    Object.keys(active).forEach(function (facet) {
+      active[facet].forEach(function (value) {
+        total++;
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'filter-chip';
+        chip.innerHTML = '<span></span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+        chip.querySelector('span').textContent = value;
+        chip.setAttribute('aria-label', 'Remove filter ' + value);
+        chip.addEventListener('click', function () { deselect(facet, value); });
+        chipBar.appendChild(chip);
+      });
+    });
+    if (total) {
+      var clear = document.createElement('button');
+      clear.type = 'button';
+      clear.className = 'filter-chip-clear';
+      clear.textContent = 'Clear all';
+      clear.addEventListener('click', function () {
+        Object.keys(active).forEach(function (f) {
+          Array.from(active[f]).forEach(function (v) { active[f].delete(v); });
+        });
+        document.querySelectorAll('input[data-facet]').forEach(function (cb) { cb.checked = false; });
+        document.querySelectorAll('.filter-swatch.is-active').forEach(function (sw) { sw.classList.remove('is-active'); });
+        applyFilters();
+      });
+      chipBar.appendChild(clear);
+    }
+    chipBar.hidden = !total;
+  }
+
+  document.querySelectorAll('input[data-facet]').forEach(function (cb) {
     cb.addEventListener('change', function () {
-      if (cb.checked) activeCuts.add(cb.value); else activeCuts.delete(cb.value);
+      var facet = cb.dataset.facet;
+      if (cb.checked) active[facet].add(cb.value); else active[facet].delete(cb.value);
       applyFilters();
     });
   });
-  document.querySelectorAll('[data-color-filter]').forEach(function (btn) {
+  document.querySelectorAll('.filter-swatch[data-facet="color"]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var color = btn.dataset.color;
       btn.classList.toggle('is-active');
-      if (btn.classList.contains('is-active')) activeColors.add(color); else activeColors.delete(color);
+      if (btn.classList.contains('is-active')) active.color.add(color); else active.color.delete(color);
       applyFilters();
     });
   });
+  document.querySelectorAll('#collFilterForm input[type="checkbox"]').forEach(function (cb) {
+    cb.addEventListener('change', renderBadges);
+  });
+  renderBadges();
 
   // Product-card color swatches: preview only, must not navigate to the product.
   document.querySelectorAll('.pc-swatch').forEach(function (swatch) {
@@ -419,6 +705,8 @@
   "name": "T-Shirt Collection",
   "settings": [
     { "type": "checkbox", "id": "show_quick_nav", "label": "Show quick category nav", "default": true },
+    { "type": "text", "id": "heading_highlight", "label": "Heading highlight (accent color)", "default": "at Wholesale Prices" },
+    { "type": "text", "id": "heading_subtext", "label": "Subtext (shown when the collection has no description)", "default": "Top Brands. Better Blanks. Thousands of styles to choose from." },
     { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 12, "max": 48, "step": 4, "default": 24 },
     { "type": "text", "id": "delivery_note", "label": "Delivery note", "default": "Next-Day Delivery — Order by 5PM" }
   ],
@@ -427,7 +715,16 @@
       "type": "badge",
       "name": "Info badge",
       "settings": [
-        { "type": "text", "id": "text", "label": "Badge text", "default": "Free shipping on $59+" }
+        { "type": "text", "id": "text", "label": "Badge text", "default": "Free shipping on $59+" },
+        {
+          "type": "select", "id": "icon", "label": "Icon", "default": "delivery",
+          "options": [
+            { "value": "delivery", "label": "Delivery truck" },
+            { "value": "shipping", "label": "Shipping / plane" },
+            { "value": "minimums", "label": "No minimums" },
+            { "value": "discount", "label": "Bulk discount" }
+          ]
+        }
       ]
     },
     {
@@ -444,10 +741,10 @@
     {
       "name": "T-Shirt Collection",
       "blocks": [
-        { "type": "badge", "settings": { "text": "Next-Day Delivery" } },
-        { "type": "badge", "settings": { "text": "Free Shipping on $59+" } },
-        { "type": "badge", "settings": { "text": "No Minimums" } },
-        { "type": "badge", "settings": { "text": "Bulk Discounts" } },
+        { "type": "badge", "settings": { "text": "Next Day Delivery", "icon": "delivery" } },
+        { "type": "badge", "settings": { "text": "Free shipping on $59+", "icon": "shipping" } },
+        { "type": "badge", "settings": { "text": "No minimums", "icon": "minimums" } },
+        { "type": "badge", "settings": { "text": "Bulk Discounts", "icon": "discount" } },
         { "type": "quick_link", "settings": { "label": "All T-Shirts", "link": "/collections/all" } },
         { "type": "quick_link", "settings": { "label": "Short Sleeve", "link": "/collections/short-sleeve" } },
         { "type": "quick_link", "settings": { "label": "Long Sleeve", "link": "/collections/long-sleeve" } },
