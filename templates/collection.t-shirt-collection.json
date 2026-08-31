@@ -101,7 +101,7 @@
           "type": "brand",
           "settings": {
             "name": "Gildan",
-            "static_logo": "brand-gildan.png",
+            "static_logo": "gildan_logo.jpg",
             "link": "/collections/all?filter.p.vendor=Gildan"
           }
         },
@@ -109,7 +109,7 @@
           "type": "brand",
           "settings": {
             "name": "Bella + Canvas",
-            "static_logo": "brand-bella-canvas.png",
+            "static_logo": "Bella_Canvas_1ea747b1-37f3-4d4d-80a3-39a61f716bbe.jpg",
             "link": "/collections/all?filter.p.vendor=Bella%20%2B%20Canvas"
           }
         },
@@ -117,7 +117,7 @@
           "type": "brand",
           "settings": {
             "name": "Next Level",
-            "static_logo": "brand-next-level.png",
+            "static_logo": "Next_Level_Logo_4b5b526a-840d-470f-b79f-99997b843caa.jpg",
             "link": "/collections/all?filter.p.vendor=Next%20Level"
           }
         },
@@ -125,7 +125,7 @@
           "type": "brand",
           "settings": {
             "name": "Comfort Colors",
-            "static_logo": "brand-comfort-colors.png",
+            "static_logo": "Comfort_Colors_60178ebb-2ea5-498c-8185-1c627ab4e3fa.jpg",
             "link": "/collections/all?filter.p.vendor=Comfort%20Colors"
           }
         },
@@ -133,7 +133,7 @@
           "type": "brand",
           "settings": {
             "name": "Hanes",
-            "static_logo": "brand-hanes.png",
+            "static_logo": "Hanes_4e920530-feaa-4287-87ed-b92876c5dc88.jpg",
             "link": "/collections/all?filter.p.vendor=Hanes"
           }
         },
@@ -141,7 +141,7 @@
           "type": "brand",
           "settings": {
             "name": "Team 365",
-            "static_logo": "brand-team-365.png",
+            "static_logo": "Team365_Logo.jpg",
             "link": "/collections/all?filter.p.vendor=Team%20365"
           }
         },
@@ -149,7 +149,7 @@
           "type": "brand",
           "settings": {
             "name": "Jerzees",
-            "static_logo": "brand-jerzees.png",
+            "static_logo": "Jerzees_Logo.jpg",
             "link": "/collections/all?filter.p.vendor=Jerzees"
           }
         },
@@ -157,7 +157,7 @@
           "type": "brand",
           "settings": {
             "name": "Independent Trading Co.",
-            "static_logo": "brand-independent-trading.png",
+            "static_logo": "Independent_Tradin_Co_Logo.jpg",
             "link": "/collections/all?filter.p.vendor=Independent%20Trading%20Co."
           }
         },
@@ -165,7 +165,7 @@
           "type": "brand",
           "settings": {
             "name": "UltraClub",
-            "static_logo": "brand-ultraclub.png",
+            "static_logo": "UltraClub_Logo.jpg",
             "link": "/collections/all?filter.p.vendor=UltraClub"
           }
         },
@@ -173,7 +173,7 @@
           "type": "brand",
           "settings": {
             "name": "Tultex",
-            "static_logo": "brand-tultex.png",
+            "static_logo": "Tultex_Logo.jpg",
             "link": "/collections/all?filter.p.vendor=Tultex"
           }
         }
