@@ -22,7 +22,13 @@
           {%- if block.settings.logo -%}
             {{ block.settings.logo | image_url: width: 400 | image_tag: loading: 'lazy', alt: block.settings.name, class: 'bbg-card-img' }}
           {%- elsif block.settings.static_logo != blank -%}
-            <img src="{{ block.settings.static_logo | strip | asset_url }}" alt="{{ block.settings.name | escape }}" loading="lazy" class="bbg-card-img">
+            {%- comment -%}
+              Liquid cannot test whether an asset exists, so a missing or misnamed
+              file falls back to the wordmark rather than a broken-image icon.
+            {%- endcomment -%}
+            <img src="{{ block.settings.static_logo | strip | asset_url }}" alt="{{ block.settings.name | escape }}" loading="lazy" class="bbg-card-img"
+                 onerror="this.style.display='none';this.nextElementSibling.removeAttribute('hidden');">
+            <span class="bbg-card-word" hidden>{{ block.settings.name }}</span>
           {%- else -%}
             <span class="bbg-card-word">{{ block.settings.name }}</span>
           {%- endif -%}
