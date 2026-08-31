@@ -1,0 +1,120 @@
+{%- comment -%}
+  Shop by Category — tiles modelled on the Ninja blank-apparel category strip.
+  Each block points at a real collection, so the style count and the "as low as"
+  price are read from live data rather than typed in by hand.
+{%- endcomment -%}
+
+<section class="bcg-section">
+  <div class="bcg-inner">
+
+    <div class="bcg-header">
+      <h2 class="bcg-title">{{ section.settings.heading | default: 'Shop by Category' }}</h2>
+      {%- if section.settings.view_all_link != blank -%}
+        <a href="{{ section.settings.view_all_link }}" class="bcg-view-all">
+          {{ section.settings.view_all_text | default: 'Shop All Categories' }} <span aria-hidden="true">&rarr;</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="bcg-grid">
+      {%- for block in section.blocks -%}
+        {%- assign col = block.settings.collection -%}
+        {%- assign card_title = block.settings.title | default: col.title -%}
+        {%- if block.settings.image -%}
+          {%- assign card_image = block.settings.image -%}
+        {%- elsif col.image -%}
+          {%- assign card_image = col.image -%}
+        {%- else -%}
+          {%- assign card_image = col.products.first.featured_image -%}
+        {%- endif -%}
+
+        <a href="{{ col.url | default: block.settings.link }}" class="bcg-card" {{ block.shopify_attributes }}>
+          <span class="bcg-card-bg">
+            {%- if card_image -%}
+              {{ card_image | image_url: width: 400 | image_tag: loading: 'lazy', alt: card_title, class: 'bcg-card-img' }}
+            {%- endif -%}
+          </span>
+          <span class="bcg-card-label">
+            <span class="bcg-card-name">{{ card_title }}</span>
+            {%- if col.products_count > 0 -%}
+              <span class="bcg-card-count">{{ col.products_count }}+ styles</span>
+            {%- endif -%}
+            {%- comment -%}
+              Liquid caps a bare collection.products at 50, so scanning it only
+              samples the cheapest product. Prefer the override when it is set.
+            {%- endcomment -%}
+            {%- if block.settings.price_override != blank -%}
+              <span class="bcg-card-price"><span>As low as </span>{{ block.settings.price_override }}</span>
+            {%- else -%}
+              {%- assign cheapest = col.products | sort: 'price_min' | first -%}
+              {%- if cheapest -%}
+                <span class="bcg-card-price"><span>As low as </span>{{ cheapest.price_min | money }}</span>
+              {%- endif -%}
+            {%- endif -%}
+          </span>
+        </a>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .bcg-section { background: #fff; padding: 28px 0 40px; }
+  .bcg-inner { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+  .bcg-header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+  .bcg-title { font-size: 22px; font-weight: 800; color: #0F0F1A; margin: 0; }
+  .bcg-view-all { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: var(--brand); }
+  .bcg-view-all:hover { color: var(--brand-dark); }
+  .bcg-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+  .bcg-card { display: flex; flex-direction: column; background: #fff; border: 1px solid #EFEFEF; border-radius: 16px; overflow: hidden; transition: border-color .15s, box-shadow .15s, transform .15s; }
+  .bcg-card:hover { border-color: var(--brand); box-shadow: 0 6px 18px rgba(62,109,142,0.14); transform: translateY(-2px); }
+  .bcg-card-bg { display: block; aspect-ratio: 1; background: #F7F8FA; }
+  .bcg-card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .bcg-card-label { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 12px; }
+  .bcg-card-name { font-size: 13px; font-weight: 700; color: #1A1A1A; }
+  .bcg-card-count { font-size: 11px; color: #9AA0A6; }
+  .bcg-card-price { font-size: 12px; font-weight: 800; color: #16A34A; }
+  .bcg-card-price span { font-size: 10px; font-weight: 600; color: #9AA0A6; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  @media (max-width: 1200px) { .bcg-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (max-width: 900px)  { .bcg-inner { padding: 0 20px; } .bcg-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 600px)  { .bcg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bcg-title { font-size: 19px; } }
+</style>
+
+{% schema %}
+{
+  "name": "Shop by Category",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by Category" },
+    { "type": "text", "id": "view_all_text", "label": "View all text", "default": "Shop All Categories" },
+    { "type": "url", "id": "view_all_link", "label": "View all link" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection", "info": "Style count and the 'as low as' price are read from this collection." },
+        { "type": "text", "id": "title", "label": "Title override" },
+        { "type": "image_picker", "id": "image", "label": "Image override", "info": "Falls back to the collection image, then its first product." },
+        { "type": "text", "id": "price_override", "label": "\"As low as\" price", "info": "Recommended. Liquid only sees the first 50 products, so the auto-detected price is wrong on large collections." },
+        { "type": "url", "id": "link", "label": "Link override" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Category",
+      "blocks": [
+        { "type": "category", "settings": { "title": "T-Shirts" } },
+        { "type": "category", "settings": { "title": "Hoodies" } },
+        { "type": "category", "settings": { "title": "Sweatshirts" } },
+        { "type": "category", "settings": { "title": "Hats" } },
+        { "type": "category", "settings": { "title": "Polos" } },
+        { "type": "category", "settings": { "title": "Bags" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

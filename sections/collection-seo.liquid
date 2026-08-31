@@ -1,0 +1,96 @@
+{%- comment -%}
+  Long-form collection copy on a tinted band, modelled on the Ninja
+  blank-apparel SEO block: a two-tone heading, intro prose, then a
+  benefits list of "Label: value" rows.
+{%- endcomment -%}
+
+<section class="cseo-section">
+  <div class="cseo-inner">
+
+    <h2 class="cseo-title">
+      {{ section.settings.heading }}
+      {%- if section.settings.heading_highlight != blank %} <span class="cseo-hl">{{ section.settings.heading_highlight }}</span>{% endif -%}
+    </h2>
+
+    {%- if section.settings.body != blank -%}
+      <div class="cseo-body rte">{{ section.settings.body }}</div>
+    {%- endif -%}
+
+    {%- assign point_blocks = section.blocks | where: 'type', 'point' -%}
+    {%- if point_blocks.size > 0 -%}
+      {%- if section.settings.list_heading != blank -%}
+        <h3 class="cseo-subtitle">{{ section.settings.list_heading }}</h3>
+      {%- endif -%}
+      <ul class="cseo-list">
+        {%- for block in point_blocks -%}
+          <li {{ block.shopify_attributes }}>
+            <strong>{{ block.settings.label }}:</strong> {{ block.settings.text }}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.footnote != blank -%}
+      <p class="cseo-footnote">{{ section.settings.footnote }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+  .cseo-section { background: #F7F8FA; padding: 48px 0; }
+  .cseo-inner { max-width: 900px; margin: 0 auto; padding: 0 40px; }
+  .cseo-title { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; color: #0F0F1A; margin: 0 0 14px; }
+  .cseo-hl { color: var(--brand); }
+  .cseo-body { font-size: 14px; line-height: 1.75; color: #4B5563; }
+  .cseo-body p { margin: 0 0 12px; }
+  .cseo-body a { color: var(--brand); text-decoration: underline; }
+  .cseo-body a:hover { color: var(--brand-dark); }
+  .cseo-subtitle { font-size: 16px; font-weight: 800; color: #0F0F1A; margin: 22px 0 10px; }
+  .cseo-list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 7px; }
+  .cseo-list li { font-size: 14px; line-height: 1.6; color: #4B5563; }
+  .cseo-list strong { color: #1A1A1A; font-weight: 700; }
+  .cseo-footnote { margin-top: 18px; font-size: 13px; color: #6B7280; }
+
+  @media (max-width: 900px) {
+    .cseo-inner { padding: 0 20px; }
+    .cseo-title { font-size: 21px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection SEO copy",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop Bulk Wholesale Apparel" },
+    { "type": "text", "id": "heading_highlight", "label": "Heading highlight", "default": "With No Minimums" },
+    { "type": "richtext", "id": "body", "label": "Body copy", "default": "<p>Whether you're printing for customers, building your brand, or stocking up for an upcoming event, our blank apparel selection makes it easy to order exactly what you need. Choose from everyday basics and premium fits, available in bulk or small quantities, all at wholesale pricing.</p>" },
+    { "type": "text", "id": "list_heading", "label": "List heading", "default": "Why Customers Choose Us For Blank Apparel" },
+    { "type": "text", "id": "footnote", "label": "Footnote" }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Free Shipping" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Qualifying orders ship free." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection SEO copy",
+      "blocks": [
+        { "type": "point", "settings": { "label": "Free Shipping on $59+", "text": "Qualifying blank orders ship free on any order over $59." } },
+        { "type": "point", "settings": { "label": "Easy Customization", "text": "Pair your blanks with our DTF transfers for a simple one-stop ordering experience." } },
+        { "type": "point", "settings": { "label": "Competitive Pricing", "text": "Get wholesale rates on bulk apparel and everyday blank clothing." } },
+        { "type": "point", "settings": { "label": "Quality You Can Count On", "text": "Consistent products backed by helpful customer support." } },
+        { "type": "point", "settings": { "label": "No Minimums", "text": "Order one to two styles or buy bulk where you're ready to stock up." } },
+        { "type": "point", "settings": { "label": "Huge Selection", "text": "Shop sizes, colors, fits, and top brands across every category." } },
+        { "type": "point", "settings": { "label": "Fast Delivery", "text": "Restock quickly and keep production moving without delays." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
