@@ -1,16 +1,83 @@
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
   assign image_count = product.images.size
+  assign swatches = product.metafields.custom.swatch_colors.value
+  assign color_index = -1
+  assign size_index = -1
 -%}
 
+{%- comment -%} Locate Color / Size options by name so the grid works regardless
+of the order Shopify stored them in. {%- endcomment -%}
+{%- for opt in product.options_with_values -%}
+  {%- assign nm = opt.name | downcase -%}
+  {%- if nm == 'color' -%}{%- assign color_index = forloop.index0 -%}{%- endif -%}
+  {%- if nm == 'size' -%}{%- assign size_index = forloop.index0 -%}{%- endif -%}
+{%- endfor -%}
+
+{%- if color_index >= 0 -%}
+  {%- assign color_option = product.options_with_values[color_index] -%}
+  {%- assign selected_color = current_variant.options[color_index] -%}
+{%- endif -%}
+
+{%- comment -%} White vs coloured pricing, derived from the real variant prices
+rather than hard-coded. {%- endcomment -%}
+{%- assign white_min = 2147483647 -%}
+{%- assign white_cmp = 0 -%}
+{%- assign colors_min = 2147483647 -%}
+{%- assign colors_cmp = 0 -%}
+{%- for v in product.variants -%}
+  {%- assign cname = '' -%}
+  {%- if color_index >= 0 -%}{%- assign cname = v.options[color_index] | downcase -%}{%- endif -%}
+  {%- if cname contains 'white' -%}
+    {%- if v.price < white_min -%}
+      {%- assign white_min = v.price -%}
+      {%- assign white_cmp = v.compare_at_price | default: 0 -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- if v.price < colors_min -%}
+      {%- assign colors_min = v.price -%}
+      {%- assign colors_cmp = v.compare_at_price | default: 0 -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} Facet metafields are list.single_line_text_field — they need
+.value and a join, otherwise they render as raw JSON. {%- endcomment -%}
+{%- assign fabric_txt = product.metafields.custom.fabric.value | join: ', ' -%}
+{%- assign weight_txt = product.metafields.custom.weight.value | join: ', ' -%}
+{%- assign fit_txt = product.metafields.custom.fit.value | join: ', ' -%}
+
 <section class="main-product-hats pdp" data-section-id="{{ section.id }}">
+
+  {%- if section.settings.show_info_strip -%}
+    <div class="pdp-topstrip">
+      <div class="container pdp-topstrip-inner">
+        <span class="pdp-topstrip-item pdp-topstrip-item--accent">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          {{ section.settings.strip_1 | default: 'Order by 5PM, Receive it Tomorrow' }}
+        </span>
+        <span class="pdp-topstrip-item">{{ section.settings.strip_2 | default: 'Free Shipping at $99' }}</span>
+        <span class="pdp-topstrip-item">{{ section.settings.strip_3 | default: 'Free 45-Day Returns' }}</span>
+        <span class="pdp-topstrip-item">{{ section.settings.strip_4 | default: 'No Minimums' }}</span>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ================= Buy box ================= {%- endcomment -%}
   <div class="container pdp-inner">
 
     <div class="pdp-media">
       <div class="product-gallery" data-gallery>
+        {%- if section.settings.badge_text != blank -%}
+          <span class="pdp-cert-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+            {{ section.settings.badge_text }}
+          </span>
+        {%- endif -%}
+
         {%- if image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image" data-gallery-prev>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
         {%- endif -%}
 
@@ -31,20 +98,28 @@
 
         {%- if image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--next" aria-label="Next image" data-gallery-next>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
           </button>
         {%- endif -%}
       </div>
 
       {%- if image_count > 1 -%}
         <div class="gallery-thumbs">
-          {%- for image in product.images -%}
+          {%- for image in product.images limit: 6 -%}
             <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
                     data-gallery-thumb data-index="{{ forloop.index0 }}"
                     aria-label="View image {{ forloop.index }}">
               <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
             </button>
           {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if fabric_txt != blank or weight_txt != blank or fit_txt != blank -%}
+        <div class="pdp-spec-tiles">
+          {%- if fabric_txt != blank -%}<div class="pdp-spec-tile"><span>Fabric</span><strong>{{ fabric_txt }}</strong></div>{%- endif -%}
+          {%- if weight_txt != blank -%}<div class="pdp-spec-tile"><span>Weight</span><strong>{{ weight_txt }}</strong></div>{%- endif -%}
+          {%- if fit_txt != blank -%}<div class="pdp-spec-tile"><span>Fit</span><strong>{{ fit_txt }}</strong></div>{%- endif -%}
         </div>
       {%- endif -%}
     </div>
@@ -56,143 +131,486 @@
 
       <h1>{{ product.title }}</h1>
 
-      <div class="pdp-price-row">
-        <span class="pdp-price-label">As low as</span>
-        <span class="pdp-price-now">{{ current_variant.price | money }}</span>
-        {%- if current_variant.compare_at_price > current_variant.price -%}
-          <span class="pdp-price-was">{{ current_variant.compare_at_price | money }}</span>
-          <span class="pdp-price-save">Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round }}%</span>
+      {%- comment -%} White / Colors price cards ---------- {%- endcomment -%}
+      <div class="pdp-price-cards">
+        {%- if white_min < 2147483647 -%}
+          <div class="pdp-price-card">
+            <span class="pdp-price-card-name">White</span>
+            <span class="pdp-price-card-lbl">As low as</span>
+            <span class="pdp-price-card-now">{{ white_min | money }}</span>
+            {%- if white_cmp > white_min -%}
+              <span class="pdp-price-card-was">{{ white_cmp | money }}</span>
+              <span class="pdp-price-card-save">Save {{ white_cmp | minus: white_min | times: 100.0 | divided_by: white_cmp | round }}%</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        {%- if colors_min < 2147483647 -%}
+          <div class="pdp-price-card">
+            <span class="pdp-price-card-name">{% if white_min < 2147483647 %}Colors{% else %}As low as{% endif %}</span>
+            {%- if white_min < 2147483647 -%}<span class="pdp-price-card-lbl">As low as</span>{%- endif -%}
+            <span class="pdp-price-card-now">{{ colors_min | money }}</span>
+            {%- if colors_cmp > colors_min -%}
+              <span class="pdp-price-card-was">{{ colors_cmp | money }}</span>
+              <span class="pdp-price-card-save">Save {{ colors_cmp | minus: colors_min | times: 100.0 | divided_by: colors_cmp | round }}%</span>
+            {%- endif -%}
+          </div>
         {%- endif -%}
       </div>
 
-      {%- if section.settings.show_info_strip -%}
-        <div class="pdp-strip">
-          <span class="pdp-strip-item">{{ section.settings.strip_1 | default: 'Order by 5PM, Ships Next Day' }}</span>
-          <span class="pdp-strip-item">{{ section.settings.strip_2 | default: 'Free Shipping on $59+' }}</span>
-          <span class="pdp-strip-item">{{ section.settings.strip_3 | default: 'No Minimums' }}</span>
-        </div>
-      {%- endif -%}
-
-      {%- unless product.has_only_default_variant -%}
-        <div class="pdp-swatches">
-          {%- for option in product.options_with_values -%}
-            <div class="pdp-option-group">
-              <div class="pdp-option-hd">{{ option.name }}: <strong data-option-value-label="{{ forloop.index0 }}">{{ option.selected_value }}</strong></div>
-              <div class="pdp-option-values">
-                {%- for value in option.values -%}
-                  <button type="button" class="pdp-option-pill{% if value == option.selected_value %} is-active{% endif %}"
-                          data-option-index="{{ forloop.parentloop.index0 }}" data-option-value="{{ value | escape }}">
-                    {{ value }}
-                  </button>
-                {%- endfor -%}
-              </div>
-            </div>
-          {%- endfor -%}
-        </div>
-      {%- endunless -%}
-
-      {%- assign fabric = product.metafields.custom.fabric | default: product.metafields.details.fabric -%}
-      {%- assign weight = product.metafields.custom.weight | default: product.metafields.details.weight -%}
-      {%- assign fit = product.metafields.custom.fit | default: product.metafields.details.fit -%}
-      {%- if fabric != blank or weight != blank or fit != blank -%}
-        <div class="pdp-spec-tiles">
-          {%- if fabric != blank -%}<div class="pdp-spec-tile"><span>Fabric</span><strong>{{ fabric }}</strong></div>{%- endif -%}
-          {%- if weight != blank -%}<div class="pdp-spec-tile"><span>Weight</span><strong>{{ weight }}</strong></div>{%- endif -%}
-          {%- if fit != blank -%}<div class="pdp-spec-tile"><span>Fit</span><strong>{{ fit }}</strong></div>{%- endif -%}
-        </div>
-      {%- endif -%}
-
-      {% form 'product', product, class: 'pdp-form', id: 'product-form' %}
-        <input type="hidden" name="id" value="{{ current_variant.id }}" data-pdp-variant-input>
-
-        <div class="pdp-qty-row">
-          <label class="pdp-qty-label" for="pdp-qty">Qty</label>
-          <div class="pdp-qty-stepper">
-            <button type="button" class="pdp-qty-btn" data-qty-decrease aria-label="Decrease quantity">&minus;</button>
-            <input type="number" id="pdp-qty" name="quantity" min="1" value="1" inputmode="numeric">
-            <button type="button" class="pdp-qty-btn" data-qty-increase aria-label="Increase quantity">+</button>
+      {%- comment -%} Colour swatches ---------- {%- endcomment -%}
+      {%- if color_index >= 0 and color_option.values.size > 0 -%}
+        <div class="pdp-colors">
+          <div class="pdp-color-hd">
+            <span class="pdp-color-hd-lbl">Color:</span>
+            <span class="pdp-color-current">
+              <span class="pdp-color-current-chip" data-selected-color-chip></span>
+              <strong data-selected-color-label>{{ selected_color }}</strong>
+              <svg class="pdp-color-caret" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+            <span class="pdp-color-count">{{ color_option.values.size }} color{% if color_option.values.size != 1 %}s{% endif %}</span>
           </div>
-          <span class="pdp-line-total" data-pdp-line-total></span>
+          <div class="pdp-color-grid">
+            {%- for value in color_option.values -%}
+              {%- assign swatch_hex = '#D9D9D9' -%}
+              {%- assign swatch_img_index = '' -%}
+              {%- assign value_down = value | downcase -%}
+              {%- for c in swatches -%}
+                {%- assign c_name_down = c.name | downcase -%}
+                {%- if c_name_down == value_down -%}
+                  {%- assign swatch_hex = c.hex -%}
+                  {%- assign swatch_img_index = c.image_index -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+              <button type="button"
+                      class="pdp-color-swatch{% if value == selected_color %} is-active{% endif %}"
+                      style="background:{{ swatch_hex }};"
+                      data-color-swatch
+                      data-color="{{ value | escape }}"
+                      data-hex="{{ swatch_hex }}"
+                      data-image-index="{{ swatch_img_index }}"
+                      title="{{ value | escape }}"
+                      aria-label="{{ value | escape }}">
+                <svg class="pdp-color-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </button>
+            {%- endfor -%}
+          </div>
         </div>
-
-        <button type="submit" class="btn-blue btn-blue--lg pdp-add-to-cart" {% unless current_variant.available %}disabled{% endunless %}>
-          {%- if current_variant.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
-        </button>
-      {% endform %}
-
-      {%- if product.description != blank -%}
-        <div class="pdp-description rte">{{ product.description }}</div>
       {%- endif -%}
 
-      {%- if product.tags.size > 0 -%}
-        <div class="pdp-tags">
-          {%- for tag in product.tags limit: 8 -%}
-            <span class="pdp-tag">{{ tag }}</span>
+      {%- comment -%} Size / quantity panel ---------- {%- endcomment -%}
+      <form class="pdp-buy-panel" data-pdp-form>
+        <div class="pdp-size-hd">Choose Size</div>
+        <div class="pdp-size-grid" data-size-grid>
+          {%- for v in product.variants -%}
+            {%- assign show_variant = true -%}
+            {%- if color_index >= 0 and v.options[color_index] != selected_color -%}
+              {%- assign show_variant = false -%}
+            {%- endif -%}
+            {%- if show_variant -%}
+              <div class="pdp-size-col{% unless v.available %} is-unavailable{% endunless %}">
+                <div class="pdp-size-name">
+                  {%- if size_index >= 0 -%}{{ v.options[size_index] }}{%- else -%}{{ v.title }}{%- endif -%}
+                </div>
+                <span class="pdp-qty-wrap">
+                  <input type="number" class="pdp-size-qty" min="0" value="" inputmode="numeric"
+                         data-variant-qty="{{ v.id }}" data-price="{{ v.price }}"
+                         aria-label="Quantity for {% if size_index >= 0 %}{{ v.options[size_index] }}{% else %}{{ v.title }}{% endif %}"
+                         {% unless v.available %}disabled{% endunless %}>
+                  <span class="pdp-qty-arrows">
+                    <button type="button" data-qty-step="1" tabindex="-1" aria-label="Increase">
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8l6 8H6z"/></svg>
+                    </button>
+                    <button type="button" data-qty-step="-1" tabindex="-1" aria-label="Decrease">
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16 6 8h12z"/></svg>
+                    </button>
+                  </span>
+                </span>
+                {%- if v.compare_at_price > v.price -%}
+                  <div class="pdp-size-was">{{ v.compare_at_price | money }}</div>
+                {%- endif -%}
+                <div class="pdp-size-price">{{ v.price | money }}</div>
+              </div>
+            {%- endif -%}
           {%- endfor -%}
+        </div>
+
+        <div class="pdp-cart-summary" data-cart-summary hidden>
+          <span data-summary-qty>0 items</span>
+          <span data-summary-total></span>
+        </div>
+
+        <button type="submit" class="pdp-add-to-cart" data-add-to-cart>ADD TO CART</button>
+        <p class="pdp-cart-msg" data-cart-msg hidden></p>
+      </form>
+    </div>
+  </div>
+
+  {%- comment -%} ============ Volume pricing + DTF upload ============ {%- endcomment -%}
+  {%- assign tier_blocks = section.blocks | where: 'type', 'volume_tier' -%}
+  {%- if tier_blocks.size > 0 or section.settings.show_dtf_upload -%}
+    <div class="container pdp-mid">
+      {%- if tier_blocks.size > 0 -%}
+        <div class="pdp-volume">
+          <h2 class="pdp-volume-hd">Buy More <span>Save More</span></h2>
+          {%- if section.settings.volume_note != blank -%}
+            <p class="pdp-volume-note">{{ section.settings.volume_note }}</p>
+          {%- endif -%}
+          <table class="pdp-volume-table">
+            <thead>
+              <tr>
+                <th>Cart Total</th>
+                <th>{{ section.settings.volume_col_1 | default: 'White' }}</th>
+                <th>{{ section.settings.volume_col_2 | default: 'Colors' }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for block in tier_blocks -%}
+                <tr {{ block.shopify_attributes }}>
+                  <td class="pdp-volume-total">{{ block.settings.cart_total }}</td>
+                  <td>
+                    <span class="pdp-volume-price">{{ block.settings.price_1 }}</span>
+                    {%- if block.settings.off_1 != blank -%}<span class="pdp-volume-off">{{ block.settings.off_1 }}</span>{%- endif -%}
+                  </td>
+                  <td>
+                    <span class="pdp-volume-price">{{ block.settings.price_2 }}</span>
+                    {%- if block.settings.off_2 != blank -%}<span class="pdp-volume-off">{{ block.settings.off_2 }}</span>{%- endif -%}
+                  </td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+          {%- if section.settings.volume_footnote != blank -%}
+            <p class="pdp-volume-foot">{{ section.settings.volume_footnote }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_dtf_upload -%}
+        <div class="pdp-dtf">
+          <h2 class="pdp-dtf-hd">{{ section.settings.dtf_heading | default: 'Add DTF Transfers to your order' }}</h2>
+          <p class="pdp-dtf-sub">{{ section.settings.dtf_sub }}</p>
+          <div class="pdp-dtf-panel">
+            <span class="pdp-dtf-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V8m0 0-3.5 3.5M12 8l3.5 3.5"/><path d="M20 16.7A4.5 4.5 0 0 0 17.5 8h-1.3A7 7 0 1 0 5 15.7"/></svg>
+            </span>
+            <div class="pdp-dtf-body">
+              <div class="pdp-dtf-title">{{ section.settings.dtf_panel_title | default: 'Upload Your Artwork' }}</div>
+              <p>{{ section.settings.dtf_panel_text | default: 'Click the button below to add your file(s)' }}</p>
+              {%- if section.settings.dtf_button_link != blank -%}
+                <a href="{{ section.settings.dtf_button_link }}" class="pdp-dtf-btn">{{ section.settings.dtf_button_label | default: 'Upload Your Design' }}</a>
+              {%- endif -%}
+            </div>
+            {%- if section.settings.dtf_image -%}
+              <img class="pdp-dtf-img" src="{{ section.settings.dtf_image | image_url: width: 600 }}" alt="" loading="lazy">
+            {%- endif -%}
+          </div>
         </div>
       {%- endif -%}
     </div>
+  {%- endif -%}
 
+  {%- comment -%} ============ Description + accordions ============ {%- endcomment -%}
+  <div class="pdp-detail-band">
+    <div class="container pdp-detail">
+      <div class="pdp-detail-left">
+        {%- if product.description != blank -%}
+          <h2 class="pdp-section-hd">Description</h2>
+          <div class="pdp-description rte">{{ product.description }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="pdp-detail-right">
+        {%- comment -%} Breakdown rows come from whichever facet metafields this
+        product actually has, so nothing renders blank. {%- endcomment -%}
+        {%- assign spec_labels = 'Fabric,Weight,Fit,Type,Style,Sleeve Length,Sleeve Style,Neckline,Collar,Cuffs,Treatment,Tag,Gender-Age,Construction,Closure,Bill' | split: ',' -%}
+        {%- assign spec_keys = 'fabric,weight,fit,type,style,sleeve_length,sleeve_style,neckline,collar,cuffs,treatment,tag,gender_age,construction,closure,bill' | split: ',' -%}
+        {%- assign spec_rows = '' -%}
+        {%- for key in spec_keys -%}
+          {%- assign val = product.metafields.custom[key].value | join: ', ' -%}
+          {%- if val != blank -%}
+            {%- assign label = spec_labels[forloop.index0] -%}
+            {%- assign spec_rows = spec_rows | append: '<tr><th>' | append: label | append: '</th><td>' | append: val | append: '</td></tr>' -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if spec_rows != blank -%}
+          <div class="pdp-acc" data-acc>
+            <button type="button" class="pdp-acc-hd" data-acc-toggle>
+              <span class="pdp-acc-name">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                Breakdown
+              </span>
+              <span class="pdp-acc-icon">+</span>
+            </button>
+            <div class="pdp-acc-body">
+              <table class="pdp-spec-table">{{ spec_rows }}</table>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- assign features_list = product.metafields.custom.features.value -%}
+        {%- if features_list.size > 0 -%}
+          <div class="pdp-acc" data-acc>
+            <button type="button" class="pdp-acc-hd" data-acc-toggle>
+              <span class="pdp-acc-name">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.9 5.8L20 10l-5 3.6 1.5 6L12 16.5 7.5 19.6 9 13.6 4 10l6.1-1.2z"/></svg>
+                Features
+              </span>
+              <span class="pdp-acc-icon">+</span>
+            </button>
+            <div class="pdp-acc-body">
+              <ul class="pdp-feature-list">
+                {%- for f in features_list -%}<li>{{ f }}</li>{%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.size_chart != blank -%}
+          <div class="pdp-acc" data-acc>
+            <button type="button" class="pdp-acc-hd" data-acc-toggle>
+              <span class="pdp-acc-name">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 15 15 2l7 7L9 22z"/><path d="m6 11 2 2M10 7l2 2M14 11l2 2"/></svg>
+                Size Chart
+              </span>
+              <span class="pdp-acc-icon">+</span>
+            </button>
+            <div class="pdp-acc-body rte">{{ section.settings.size_chart }}</div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.shipping_returns != blank -%}
+          <div class="pdp-acc" data-acc>
+            <button type="button" class="pdp-acc-hd" data-acc-toggle>
+              <span class="pdp-acc-name">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                Shipping &amp; Returns
+              </span>
+              <span class="pdp-acc-icon">+</span>
+            </button>
+            <div class="pdp-acc-body rte">{{ section.settings.shipping_returns }}</div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ============ Print promo banner ============ {%- endcomment -%}
+  {%- if section.settings.promo_heading != blank -%}
+    <div class="container">
+      <div class="pdp-promo">
+        <div class="pdp-promo-body">
+          {%- if section.settings.promo_eyebrow != blank -%}
+            <span class="pdp-promo-eyebrow">{{ section.settings.promo_eyebrow }}</span>
+          {%- endif -%}
+          <h2 class="pdp-promo-hd">{{ section.settings.promo_heading }}</h2>
+          {%- if section.settings.promo_text != blank -%}
+            <p class="pdp-promo-text">{{ section.settings.promo_text }}</p>
+          {%- endif -%}
+          {%- assign promo_badges = section.settings.promo_badges | split: ',' -%}
+          {%- if promo_badges.size > 0 -%}
+            <div class="pdp-promo-badges">
+              {%- for b in promo_badges -%}
+                <span class="pdp-promo-badge">{{ b | strip }}</span>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+          {%- if section.settings.promo_link != blank -%}
+            <a class="pdp-promo-btn" href="{{ section.settings.promo_link }}">{{ section.settings.promo_button | default: 'Print My Blanks' }} &rarr;</a>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.promo_image -%}
+          <img class="pdp-promo-img" src="{{ section.settings.promo_image | image_url: width: 1200 }}" alt="" loading="lazy">
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ============ Recommended ============ {%- endcomment -%}
+  <div class="container pdp-recommended" data-recommendations data-product-id="{{ product.id }}" hidden>
+    <div class="pdp-rec-hd">
+      <h2 class="pdp-section-hd">Recommended</h2>
+      <span class="pdp-rec-divider"></span>
+      <span class="pdp-section-sub">You may also <strong>like</strong> these products</span>
+    </div>
+    <div class="pdp-rec-grid" data-rec-grid></div>
   </div>
 </section>
 
 <style>
-  .main-product-hats.pdp { padding: 32px 0 60px; }
-  .pdp-inner { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: start; }
+  /* Design tokens measured from the reference PDP. Scoped to this section so
+     the rest of the theme keeps its own palette. */
+  .main-product-hats {
+    --nt-surface: #F5F4F2;   /* price cards, spec tiles, buy panel */
+    --nt-orange:  #F27708;   /* headline price + save badge */
+    --nt-blue:    #019AFF;   /* add to cart */
+    --nt-navy:    #03406C;   /* per-size and volume prices */
+    --nt-green:   #1A7A3C;   /* recommended "starting at" prices */
+    --nt-ink:     #2B2B2B;
+    --nt-muted:   #5A5B60;
+    --nt-retail:  #888888;
+    --nt-line:    #DDDDDD;
+    --nt-dark:    #111111;
+  }
+  .main-product-hats.pdp { padding: 0 0 60px; }
 
+  .pdp-topstrip { background: #FFF8E6; border-bottom: 1px solid #F3E3B3; margin-bottom: 26px; }
+  .pdp-topstrip-inner { display: flex; flex-wrap: wrap; gap: 8px 26px; padding: 9px 0; justify-content: center; }
+  .pdp-topstrip-item { font-size: 0.76rem; font-weight: 600; color: #6B5B2E; display: inline-flex; align-items: center; gap: 6px; }
+  .pdp-topstrip-item--accent { font-weight: 800; color: #8A6D1F; }
+
+  .pdp-inner { display: grid; grid-template-columns: 1fr 1.15fr; gap: 44px; align-items: start; }
+
+  /* ---- gallery ---- */
   .product-gallery { position: relative; }
-  .gallery-main { position: relative; aspect-ratio: 1; background: #f6f7f9; border-radius: 14px; overflow: hidden; }
+  .pdp-cert-badge { position: absolute; top: 12px; left: 12px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; background: #1F2937; color: #fff; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; padding: 7px 12px; border-radius: 7px; }
+  .gallery-main { position: relative; aspect-ratio: 1; background: #fff; border: 1px solid var(--pdp-line); border-radius: 10px; overflow: hidden; }
   .gallery-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .2s; }
   .gallery-slide.is-active { opacity: 1; pointer-events: auto; }
-  .gallery-slide img { width: 100%; height: 100%; object-fit: cover; }
-  .gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 36px; height: 36px; border-radius: 50%; border: none; background: #fff; box-shadow: 0 2px 10px rgba(16,24,40,0.15); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-  .gallery-arrow--prev { left: 12px; }
-  .gallery-arrow--next { right: 12px; }
-  .gallery-thumbs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-  .gallery-thumb { width: 66px; height: 66px; border-radius: 8px; overflow: hidden; border: 2px solid transparent; padding: 0; cursor: pointer; background: #f6f7f9; }
+  .gallery-slide img { width: 100%; height: 100%; object-fit: contain; }
+  .gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--pdp-line); background: #fff; box-shadow: 0 2px 8px rgba(16,24,40,0.10); display: flex; align-items: center; justify-content: center; cursor: pointer; color: #4B5563; }
+  .gallery-arrow--prev { left: -14px; }
+  .gallery-arrow--next { right: -14px; }
+  .gallery-thumbs { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .gallery-thumb { width: 78px; height: 78px; border-radius: 8px; overflow: hidden; border: 1px solid var(--pdp-line); padding: 0; cursor: pointer; background: #fff; }
   .gallery-thumb.is-active { border-color: var(--brand); }
-  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-thumb img { width: 100%; height: 100%; object-fit: contain; }
 
-  .pdp-vendor-link { font-size: 0.8rem; font-weight: 700; color: var(--pdp-muted); text-decoration: underline; }
-  .pdp-info h1 { font-size: 1.6rem; font-weight: 800; margin: 8px 0 14px; }
+  .pdp-spec-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  .pdp-spec-tile { background: var(--nt-surface); border-radius: 6px; padding: 14px 16px; text-align: center; }
+  .pdp-spec-tile span { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--nt-muted); margin-bottom: 5px; font-weight: 500; }
+  .pdp-spec-tile strong { font-size: 15px; font-weight: 700; }
 
-  .pdp-price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
-  .pdp-price-label { font-size: 0.85rem; color: var(--pdp-muted); font-weight: 600; }
-  .pdp-price-now { font-size: 1.7rem; font-weight: 800; color: var(--success); }
-  .pdp-price-was { font-size: 0.95rem; color: var(--pdp-muted); text-decoration: line-through; }
-  .pdp-price-save { font-size: 0.78rem; font-weight: 800; color: #fff; background: var(--brand); padding: 3px 9px; border-radius: 6px; }
+  /* ---- buy box ---- */
+  .pdp-vendor-link { font-size: 13px; font-weight: 600; color: var(--nt-ink); text-decoration: underline; }
+  .pdp-info h1 { font-size: 24px; font-weight: 700; margin: 8px 0 14px; line-height: 1.3; }
 
-  .pdp-strip { display: flex; flex-wrap: wrap; gap: 10px 20px; padding: 12px 0; border-top: 1px solid var(--pdp-line); border-bottom: 1px solid var(--pdp-line); margin-bottom: 20px; }
-  .pdp-strip-item { font-size: 0.8rem; font-weight: 600; color: var(--pdp-muted); }
+  .pdp-price-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-bottom: 22px; }
+  .pdp-price-card { display: flex; align-items: center; gap: 8px; background: var(--nt-surface); border-radius: 8px; padding: 0 0 0 16px; overflow: hidden; min-height: 44px; }
+  .pdp-price-card-name { font-size: 13px; font-weight: 700; color: var(--nt-ink); }
+  .pdp-price-card-lbl { font-size: 11px; font-weight: 400; color: var(--nt-muted); }
+  .pdp-price-card-now { font-size: 16px; font-weight: 800; color: var(--nt-orange); }
+  .pdp-price-card-was { font-size: 13px; font-weight: 400; color: var(--nt-retail); text-decoration: line-through; }
+  .pdp-price-card-save { margin-left: auto; align-self: stretch; display: flex; align-items: center; background: var(--nt-orange); color: #fff; font-size: 11px; font-weight: 800; padding: 0 16px; white-space: nowrap; }
 
-  .pdp-swatches { margin-bottom: 20px; }
-  .pdp-option-group { margin-bottom: 14px; }
-  .pdp-option-hd { font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; }
-  .pdp-option-values { display: flex; flex-wrap: wrap; gap: 8px; }
-  .pdp-option-pill { padding: 7px 14px; border: 1.5px solid var(--pdp-line); border-radius: 8px; font-size: 0.82rem; font-weight: 600; background: #fff; cursor: pointer; transition: border-color .15s; }
-  .pdp-option-pill:hover, .pdp-option-pill.is-active { border-color: var(--brand); color: var(--brand); }
+  .pdp-colors { margin-bottom: 20px; }
+  .pdp-color-hd { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; margin-bottom: 10px; }
+  .pdp-color-hd-lbl { font-weight: 700; }
+  .pdp-color-current { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--pdp-line); border-radius: 6px; padding: 4px 10px; }
+  .pdp-color-current-chip { width: 15px; height: 15px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.18); display: inline-block; }
+  .pdp-color-caret { color: #6B7280; flex-shrink: 0; }
+  .pdp-color-count { margin-left: auto; font-size: 11px; font-weight: 600; color: #fff; background: var(--nt-dark); border-radius: 20px; padding: 3px 10px; }
+  /* Fixed 28px tracks — with 1fr the swatches stretched into rectangles. */
+  .pdp-color-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pdp-color-swatch { position: relative; flex: 0 0 28px; width: 28px; height: 28px; border-radius: 8px; border: 1px solid #B1B1B1; padding: 0; cursor: pointer; transition: transform .1s, box-shadow .1s; display: flex; align-items: center; justify-content: center; }
+  .pdp-color-swatch:hover { transform: scale(1.08); }
+  .pdp-color-swatch.is-active { box-shadow: 0 0 0 2px #fff, 0 0 0 2px var(--nt-blue); }
+  .pdp-color-check { opacity: 0; color: #111827; filter: drop-shadow(0 0 2px rgba(255,255,255,0.9)); }
+  .pdp-color-swatch.is-active .pdp-color-check { opacity: 1; }
 
-  .pdp-spec-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px; }
-  .pdp-spec-tile { border: 1px solid var(--pdp-line); border-radius: 10px; padding: 10px 12px; text-align: center; }
-  .pdp-spec-tile span { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--pdp-muted); margin-bottom: 4px; }
-  .pdp-spec-tile strong { font-size: 0.9rem; }
+  .pdp-buy-panel { background: var(--nt-surface); border-radius: 10px; padding: 20px; }
+  .pdp-size-hd { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+  .pdp-size-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(65px, 1fr)); gap: 10px; margin-bottom: 18px; }
+  .pdp-size-col { text-align: center; }
+  .pdp-size-col.is-unavailable { opacity: 0.4; }
+  .pdp-size-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .pdp-qty-wrap { display: inline-flex; align-items: stretch; width: 69px; height: 38px; background: #fff; border: 1px solid var(--nt-line); border-radius: 4px; overflow: hidden; }
+  .pdp-qty-wrap:focus-within { border-color: var(--nt-blue); }
+  .pdp-size-qty { width: 100%; min-width: 0; text-align: center; border: none; padding: 0; font-size: 15px; font-weight: 600; color: #333; background: #fff; -moz-appearance: textfield; }
+  .pdp-size-qty::-webkit-outer-spin-button, .pdp-size-qty::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .pdp-size-qty:focus { outline: none; }
+  .pdp-qty-arrows { display: flex; flex-direction: column; width: 21px; flex-shrink: 0; border-left: 1px solid var(--nt-line); }
+  .pdp-qty-arrows button { flex: 1; border: none; background: #fff; cursor: pointer; padding: 0; color: #7A7A7A; display: flex; align-items: center; justify-content: center; }
+  .pdp-qty-arrows button:hover { background: #EFEFEF; }
+  .pdp-qty-arrows button + button { border-top: 1px solid var(--nt-line); }
+  .pdp-size-was { font-size: 12px; color: var(--nt-retail); text-decoration: line-through; margin-top: 6px; }
+  .pdp-size-price { font-size: 15px; font-weight: 700; color: var(--nt-navy); margin-top: 2px; }
 
-  .pdp-qty-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
-  .pdp-qty-label { font-size: 0.85rem; font-weight: 700; }
-  .pdp-qty-stepper { display: flex; align-items: center; border: 1.5px solid var(--pdp-line); border-radius: 8px; overflow: hidden; }
-  .pdp-qty-stepper input { width: 52px; text-align: center; border: none; padding: 8px 0; font-size: 0.9rem; -moz-appearance: textfield; }
-  .pdp-qty-stepper input::-webkit-outer-spin-button, .pdp-qty-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  .pdp-qty-btn { width: 34px; height: 36px; border: none; background: #f6f7f9; font-size: 1.1rem; cursor: pointer; }
-  .pdp-line-total { font-size: 0.85rem; color: var(--pdp-muted); }
+  /* display:flex outranks the UA [hidden] rule, so restate it explicitly. */
+  .pdp-cart-summary { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; padding: 4px 2px 12px; }
+  .pdp-cart-summary[hidden] { display: none; }
+  .pdp-add-to-cart { width: 100%; background: var(--nt-blue); color: #fff; border: none; border-radius: 8px; padding: 14px 15px; font-size: 15px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: background .15s; }
+  .pdp-add-to-cart:hover { background: #0286DD; }
+  .pdp-add-to-cart:disabled { background: #94A3B8; cursor: default; }
+  .pdp-cart-msg { font-size: 0.82rem; margin: 10px 0 0; }
+  .pdp-cart-msg.is-error { color: #C92A2A; }
+  .pdp-cart-msg.is-success { color: var(--success); }
 
-  .pdp-add-to-cart { width: 100%; margin-bottom: 20px; }
+  /* ---- volume + dtf ---- */
+  .pdp-mid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 44px; align-items: start; margin-top: 52px; }
+  .pdp-volume-hd { font-size: 1.3rem; font-weight: 800; margin: 0 0 4px; }
+  .pdp-volume-hd span { color: var(--nt-blue); }
+  .pdp-volume-note { font-size: 0.78rem; color: #6B7280; margin: 0 0 16px; }
+  .pdp-volume-table { width: 100%; border-collapse: collapse; }
+  .pdp-volume-table th { text-align: left; font-size: 0.8rem; font-weight: 700; color: #374151; padding: 10px 8px; border-bottom: 1px solid var(--pdp-line); }
+  .pdp-volume-table td { padding: 13px 8px; border-bottom: 1px solid var(--pdp-line); font-size: 0.85rem; }
+  .pdp-volume-total { font-weight: 700; }
+  .pdp-volume-price { font-size: 15px; font-weight: 700; color: var(--nt-navy); }
+  .pdp-volume-off { font-size: 12px; color: var(--nt-blue); margin-left: 6px; }
+  .pdp-volume-foot { font-size: 0.72rem; color: #6B7280; margin-top: 12px; }
 
-  .pdp-description { font-size: 0.92rem; line-height: 1.6; color: var(--color-text); margin-bottom: 18px; }
-  .pdp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .pdp-tag { font-size: 0.72rem; font-weight: 600; color: var(--pdp-muted); background: #f6f7f9; padding: 4px 10px; border-radius: 999px; }
+  .pdp-dtf { text-align: center; }
+  .pdp-dtf-hd { font-size: 1.15rem; font-weight: 800; margin: 0 0 6px; }
+  .pdp-dtf-sub { font-size: 0.85rem; color: #6B7280; margin: 0 0 18px; }
+  .pdp-dtf-panel { position: relative; display: flex; align-items: center; gap: 16px; text-align: left; background: #EFF8FF; border: 2px dashed #7DD3FC; border-radius: 10px; padding: 22px; overflow: hidden; }
+  .pdp-dtf-icon { flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%; background: #fff; color: var(--nt-blue); display: flex; align-items: center; justify-content: center; }
+  .pdp-dtf-title { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+  .pdp-dtf-body p { font-size: 0.8rem; color: #4B5563; margin: 0 0 12px; max-width: 34ch; }
+  .pdp-dtf-btn { display: inline-block; background: var(--nt-blue); color: #fff; font-size: 0.85rem; font-weight: 700; padding: 10px 18px; border-radius: 7px; }
+  .pdp-dtf-img { width: 45%; max-width: 320px; margin-left: auto; border-radius: 8px; }
+
+  /* ---- description + accordions ---- */
+  .pdp-detail-band { background: #F9FAFB; margin-top: 52px; padding: 36px 0; }
+  .pdp-detail { display: grid; grid-template-columns: 1fr 1.1fr; gap: 52px; align-items: start; }
+  .pdp-section-hd { font-size: 1.05rem; font-weight: 800; margin: 0 0 14px; }
+  .pdp-description { font-size: 0.88rem; line-height: 1.75; color: #374151; }
+  .pdp-acc { border-top: 1px solid var(--pdp-line); }
+  .pdp-acc:last-child { border-bottom: 1px solid var(--pdp-line); }
+  .pdp-acc-hd { width: 100%; display: flex; justify-content: space-between; align-items: center; background: none; border: none; padding: 18px 2px; font-size: 0.92rem; font-weight: 700; cursor: pointer; text-align: left; }
+  .pdp-acc-name { display: inline-flex; align-items: center; gap: 10px; color: #374151; }
+  .pdp-acc-icon { font-size: 1.2rem; color: #6B7280; transition: transform .15s; }
+  .pdp-acc-body { display: none; padding: 0 2px 18px; font-size: 0.86rem; line-height: 1.65; }
+  .pdp-acc.is-open .pdp-acc-body { display: block; }
+  .pdp-acc.is-open .pdp-acc-icon { transform: rotate(45deg); }
+  .pdp-feature-list { margin: 0; padding-left: 18px; }
+  .pdp-feature-list li { margin-bottom: 5px; }
+  .pdp-spec-table { width: 100%; border-collapse: collapse; }
+  .pdp-spec-table th { text-align: left; font-weight: 700; padding: 7px 12px 7px 0; width: 40%; vertical-align: top; color: #6B7280; font-size: 0.82rem; }
+  .pdp-spec-table td { padding: 7px 0; font-size: 0.85rem; }
+
+  /* ---- promo ---- */
+  .pdp-promo { display: grid; grid-template-columns: 1fr 1.1fr; gap: 24px; align-items: center; border: 1px solid var(--pdp-line); border-radius: 14px; padding: 30px; margin-top: 48px; overflow: hidden; }
+  .pdp-promo-eyebrow { display: inline-block; background: #FFF1E6; color: #C2410C; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; margin-bottom: 12px; }
+  .pdp-promo-hd { font-size: 1.35rem; font-weight: 800; margin: 0 0 10px; }
+  .pdp-promo-text { font-size: 0.88rem; color: #4B5563; margin: 0 0 14px; max-width: 46ch; }
+  .pdp-promo-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .pdp-promo-badge { font-size: 0.74rem; font-weight: 600; color: #374151; background: #F3F4F6; border-radius: 999px; padding: 5px 12px; }
+  .pdp-promo-badge::before { content: "•"; color: var(--nt-orange); margin-right: 6px; }
+  .pdp-promo-btn { display: inline-block; background: var(--nt-orange); color: #fff; font-size: 0.88rem; font-weight: 700; padding: 12px 22px; border-radius: 8px; }
+  .pdp-promo-img { width: 100%; border-radius: 10px; }
+
+  /* ---- recommended ---- */
+  .pdp-recommended { margin-top: 52px; }
+  .pdp-rec-hd { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .pdp-rec-hd .pdp-section-hd { margin: 0; }
+  .pdp-rec-divider { width: 1px; height: 20px; background: var(--pdp-line); }
+  .pdp-section-sub { font-size: 0.85rem; color: #6B7280; }
+  .pdp-rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; }
+  .pdp-rec-card { border: 1px solid var(--pdp-line); border-radius: 12px; overflow: hidden; background: #fff; display: block; }
+  .pdp-rec-card img { width: 100%; aspect-ratio: 1; object-fit: contain; background: #fff; display: block; }
+  .pdp-rec-body { padding: 10px 12px 14px; }
+  .pdp-rec-colors { font-size: 0.7rem; color: #6B7280; font-weight: 600; margin-bottom: 8px; }
+  .pdp-rec-lbl { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #9CA3AF; }
+  .pdp-rec-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .pdp-rec-price { font-size: 15px; font-weight: 700; color: var(--nt-green); }
+  .pdp-rec-vendor { font-size: 0.75rem; font-weight: 700; color: #1E3A8A; }
+  .pdp-rec-title { font-size: 0.78rem; font-weight: 500; color: #374151; line-height: 1.35; margin-top: 6px; }
 
   @media (max-width: 900px) {
-    .pdp-inner { grid-template-columns: 1fr; gap: 24px; }
+    .pdp-inner, .pdp-mid, .pdp-detail, .pdp-promo { grid-template-columns: 1fr; gap: 24px; }
+    .gallery-arrow--prev { left: 8px; }
+    .gallery-arrow--next { right: 8px; }
+    .pdp-dtf-img { display: none; }
   }
 </style>
 
@@ -201,7 +619,23 @@
   var root = document.currentScript.closest(".main-product-hats") || document.querySelector(".main-product-hats");
   if (!root) return;
 
-  // Gallery
+  var variants = {{ product.variants | json }};
+  var colorIndex = {{ color_index }};
+  var sizeIndex = {{ size_index }};
+
+  function formatMoney(cents) {
+    return (cents / 100).toLocaleString(undefined, {
+      style: 'currency',
+      currency: '{{ cart.currency.iso_code | default: shop.currency }}'
+    });
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* ---------- Gallery ---------- */
   var slides = root.querySelectorAll('[data-gallery-slide]');
   var thumbs = root.querySelectorAll('[data-gallery-thumb]');
   var prevBtn = root.querySelector('[data-gallery-prev]');
@@ -218,56 +652,190 @@
   if (prevBtn) prevBtn.addEventListener('click', function () { showSlide(activeIndex - 1); });
   if (nextBtn) nextBtn.addEventListener('click', function () { showSlide(activeIndex + 1); });
 
-  // Quantity stepper + line total
-  var qtyInput = root.querySelector('#pdp-qty');
-  var decBtn = root.querySelector('[data-qty-decrease]');
-  var incBtn = root.querySelector('[data-qty-increase]');
-  var lineTotal = root.querySelector('[data-pdp-line-total]');
-  var unitPrice = {{ current_variant.price | default: 0 }};
+  /* ---------- Size grid ---------- */
+  var sizeGrid = root.querySelector('[data-size-grid]');
+  var summary = root.querySelector('[data-cart-summary]');
+  var summaryQty = root.querySelector('[data-summary-qty]');
+  var summaryTotal = root.querySelector('[data-summary-total]');
 
-  function updateTotal() {
-    if (!lineTotal || !qtyInput) return;
-    var qty = parseInt(qtyInput.value, 10) || 1;
-    lineTotal.textContent = '= ' + (unitPrice * qty / 100).toLocaleString(undefined, { style: 'currency', currency: '{{ cart.currency.iso_code | default: shop.currency }}' });
+  function updateSummary() {
+    if (!sizeGrid) return;
+    var qty = 0, total = 0;
+    sizeGrid.querySelectorAll('[data-variant-qty]').forEach(function (input) {
+      var n = parseInt(input.value, 10) || 0;
+      if (n > 0) { qty += n; total += n * (parseInt(input.dataset.price, 10) || 0); }
+    });
+    if (summary) summary.hidden = qty === 0;
+    if (summaryQty) summaryQty.textContent = qty + (qty === 1 ? ' item' : ' items');
+    if (summaryTotal) summaryTotal.textContent = formatMoney(total);
   }
-  if (decBtn) decBtn.addEventListener('click', function () { qtyInput.value = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1); updateTotal(); });
-  if (incBtn) incBtn.addEventListener('click', function () { qtyInput.value = (parseInt(qtyInput.value, 10) || 1) + 1; updateTotal(); });
-  if (qtyInput) qtyInput.addEventListener('input', updateTotal);
-  updateTotal();
 
-  // Variant option pills -> update hidden variant id (best-effort match by option name/value against product variants)
-  var variants = {{ product.variants | json }};
-  var optionPills = root.querySelectorAll('[data-option-index]');
-  var selected = {};
-  optionPills.forEach(function (pill) {
-    var group = pill.closest('.pdp-option-group');
-    if (group && pill.classList.contains('is-active')) {
-      selected[pill.dataset.optionIndex] = pill.dataset.optionValue;
-    }
-  });
-  optionPills.forEach(function (pill) {
-    pill.addEventListener('click', function () {
-      var idx = pill.dataset.optionIndex;
-      var group = pill.closest('.pdp-option-group');
-      group.querySelectorAll('.pdp-option-pill').forEach(function (p) { p.classList.remove('is-active'); });
-      pill.classList.add('is-active');
-      var label = group.querySelector('[data-option-value-label]');
-      if (label) label.textContent = pill.dataset.optionValue;
-      selected[idx] = pill.dataset.optionValue;
+  function renderSizeGrid(color) {
+    if (!sizeGrid) return;
+    var matching = variants.filter(function (v) {
+      return colorIndex < 0 || v.options[colorIndex] === color;
+    });
+    sizeGrid.innerHTML = matching.map(function (v) {
+      var label = escapeHtml(sizeIndex >= 0 ? v.options[sizeIndex] : v.title);
+      var was = (v.compare_at_price && v.compare_at_price > v.price)
+        ? '<div class="pdp-size-was">' + formatMoney(v.compare_at_price) + '</div>'
+        : '';
+      return '<div class="pdp-size-col' + (v.available ? '' : ' is-unavailable') + '">' +
+        '<div class="pdp-size-name">' + label + '</div>' +
+        '<span class="pdp-qty-wrap">' +
+          '<input type="number" class="pdp-size-qty" min="0" value="" inputmode="numeric"' +
+            ' data-variant-qty="' + v.id + '" data-price="' + v.price + '"' +
+            ' aria-label="Quantity for ' + label + '"' +
+            (v.available ? '' : ' disabled') + '>' +
+          '<span class="pdp-qty-arrows">' +
+            '<button type="button" data-qty-step="1" tabindex="-1" aria-label="Increase">' +
+              '<svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8l6 8H6z"/></svg></button>' +
+            '<button type="button" data-qty-step="-1" tabindex="-1" aria-label="Decrease">' +
+              '<svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16 6 8h12z"/></svg></button>' +
+          '</span>' +
+        '</span>' +
+        was +
+        '<div class="pdp-size-price">' + formatMoney(v.price) + '</div>' +
+      '</div>';
+    }).join('');
+    updateSummary();
+  }
 
-      var match = variants.find(function (v) {
-        return ['option1', 'option2', 'option3'].every(function (key, i) {
-          return selected[i] === undefined || v[key] === selected[i];
-        });
-      });
-      if (match) {
-        var input = root.querySelector('[data-pdp-variant-input]');
-        if (input) input.value = match.id;
-        unitPrice = match.price;
-        updateTotal();
-      }
+  if (sizeGrid) {
+    sizeGrid.addEventListener('input', updateSummary);
+
+    // Delegated so the arrows keep working after the grid is re-rendered.
+    sizeGrid.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-qty-step]');
+      if (!btn) return;
+      var input = btn.closest('.pdp-qty-wrap').querySelector('[data-variant-qty]');
+      if (!input || input.disabled) return;
+      var next = (parseInt(input.value, 10) || 0) + parseInt(btn.dataset.qtyStep, 10);
+      input.value = next > 0 ? next : '';
+      updateSummary();
+    });
+  }
+
+  /* ---------- Colour swatches ---------- */
+  var colorChip = root.querySelector('[data-selected-color-chip]');
+  var colorLabel = root.querySelector('[data-selected-color-label]');
+
+  function syncChip(swatch) {
+    if (colorChip) colorChip.style.background = swatch.dataset.hex || '#D9D9D9';
+    if (colorLabel) colorLabel.textContent = swatch.dataset.color;
+  }
+
+  var swatchEls = root.querySelectorAll('[data-color-swatch]');
+  swatchEls.forEach(function (swatch) {
+    swatch.addEventListener('click', function () {
+      swatchEls.forEach(function (s) { s.classList.remove('is-active'); });
+      swatch.classList.add('is-active');
+      syncChip(swatch);
+
+      var imgIndex = parseInt(swatch.dataset.imageIndex, 10);
+      if (!isNaN(imgIndex)) showSlide(imgIndex);
+
+      renderSizeGrid(swatch.dataset.color);
     });
   });
+  var activeSwatch = root.querySelector('[data-color-swatch].is-active');
+  if (activeSwatch) syncChip(activeSwatch);
+
+  /* ---------- Add to cart (multi-variant) ---------- */
+  var form = root.querySelector('[data-pdp-form]');
+  var msg = root.querySelector('[data-cart-msg]');
+  var addBtn = root.querySelector('[data-add-to-cart]');
+
+  function showMsg(text, kind) {
+    if (!msg) return;
+    msg.textContent = text;
+    msg.className = 'pdp-cart-msg ' + (kind === 'error' ? 'is-error' : 'is-success');
+    msg.hidden = false;
+  }
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var items = [];
+      sizeGrid.querySelectorAll('[data-variant-qty]').forEach(function (input) {
+        var n = parseInt(input.value, 10) || 0;
+        if (n > 0) items.push({ id: parseInt(input.dataset.variantQty, 10), quantity: n });
+      });
+
+      if (!items.length) {
+        showMsg('Enter a quantity for at least one size.', 'error');
+        return;
+      }
+
+      addBtn.disabled = true;
+      addBtn.textContent = 'ADDING…';
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items })
+      })
+        .then(function (r) { return r.json().then(function (body) { return { ok: r.ok, body: body }; }); })
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.body && res.body.description ? res.body.description : 'Could not add to cart.');
+          var count = items.reduce(function (n, i) { return n + i.quantity; }, 0);
+          showMsg(count + (count === 1 ? ' item' : ' items') + ' added to your cart.', 'success');
+          sizeGrid.querySelectorAll('[data-variant-qty]').forEach(function (i) { i.value = 0; });
+          updateSummary();
+          document.dispatchEvent(new CustomEvent('cart:updated'));
+        })
+        .catch(function (err) { showMsg(err.message, 'error'); })
+        .finally(function () {
+          addBtn.disabled = false;
+          addBtn.textContent = 'ADD TO CART';
+        });
+    });
+  }
+
+  /* ---------- Recommendations ---------- */
+  var recWrap = root.querySelector('[data-recommendations]');
+  if (recWrap) {
+    fetch('/recommendations/products.json?product_id=' + recWrap.dataset.productId + '&limit=5')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.products || !data.products.length) return;
+        var grid = recWrap.querySelector('[data-rec-grid]');
+        grid.innerHTML = data.products.map(function (p) {
+          var img = p.featured_image || (p.images && p.images[0]) || '';
+          // Colour count is derived from the variants the API returns; hex
+          // values aren't available here, so show a count rather than
+          // rendering swatches in the wrong colours.
+          var colors = 0;
+          if (p.variants && p.variants.length) {
+            var seen = {};
+            p.variants.forEach(function (v) { if (v.option1) seen[v.option1] = 1; });
+            colors = Object.keys(seen).length;
+          }
+          return '<a class="pdp-rec-card" href="' + p.url + '">' +
+            (img ? '<img src="' + img + '" alt="" loading="lazy">' : '') +
+            '<div class="pdp-rec-body">' +
+              (colors > 1 ? '<div class="pdp-rec-colors">' + colors + ' colors</div>' : '') +
+              '<div class="pdp-rec-lbl">Starting at</div>' +
+              '<div class="pdp-rec-row">' +
+                '<span class="pdp-rec-price">' + formatMoney(p.price) + '</span>' +
+                (p.vendor ? '<span class="pdp-rec-vendor">' + escapeHtml(p.vendor) + '</span>' : '') +
+              '</div>' +
+              '<div class="pdp-rec-title">' + escapeHtml(p.title) + '</div>' +
+            '</div></a>';
+        }).join('');
+        recWrap.hidden = false;
+      })
+      .catch(function () { /* recommendations are optional */ });
+  }
+
+  /* ---------- Accordions ---------- */
+  root.querySelectorAll('[data-acc-toggle]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      btn.closest('[data-acc]').classList.toggle('is-open');
+    });
+  });
+
+  updateSummary();
 })();
 </script>
 
@@ -275,10 +843,57 @@
 {
   "name": "Hat Product",
   "settings": [
+    { "type": "header", "content": "Top strip" },
     { "type": "checkbox", "id": "show_info_strip", "label": "Show info strip", "default": true },
-    { "type": "text", "id": "strip_1", "label": "Info strip item 1", "default": "Order by 5PM, Ships Next Day" },
-    { "type": "text", "id": "strip_2", "label": "Info strip item 2", "default": "Free Shipping on $59+" },
-    { "type": "text", "id": "strip_3", "label": "Info strip item 3", "default": "No Minimums" }
+    { "type": "text", "id": "strip_1", "label": "Item 1", "default": "Order by 5PM, Receive it Tomorrow" },
+    { "type": "text", "id": "strip_2", "label": "Item 2", "default": "Free Shipping at $99" },
+    { "type": "text", "id": "strip_3", "label": "Item 3", "default": "Free 45-Day Returns" },
+    { "type": "text", "id": "strip_4", "label": "Item 4", "default": "No Minimums" },
+
+    { "type": "header", "content": "Gallery" },
+    { "type": "text", "id": "badge_text", "label": "Image badge", "default": "DTF Certified" },
+
+    { "type": "header", "content": "Volume pricing table" },
+    { "type": "text", "id": "volume_col_1", "label": "Column 1 heading", "default": "White" },
+    { "type": "text", "id": "volume_col_2", "label": "Column 2 heading", "default": "Colors" },
+    { "type": "text", "id": "volume_note", "label": "Note under heading", "default": "Volume discounts applied automatically at checkout" },
+    { "type": "text", "id": "volume_footnote", "label": "Footnote", "default": "Prices are for sizes S - XL" },
+
+    { "type": "header", "content": "DTF upload panel" },
+    { "type": "checkbox", "id": "show_dtf_upload", "label": "Show DTF upload panel", "default": false },
+    { "type": "text", "id": "dtf_heading", "label": "Heading", "default": "Add DTF Transfers to your order" },
+    { "type": "text", "id": "dtf_sub", "label": "Subheading" },
+    { "type": "text", "id": "dtf_panel_title", "label": "Panel title", "default": "Upload Your Artwork" },
+    { "type": "text", "id": "dtf_panel_text", "label": "Panel text", "default": "Click the button below to add your file(s)" },
+    { "type": "text", "id": "dtf_button_label", "label": "Button label", "default": "Upload Your Design" },
+    { "type": "url", "id": "dtf_button_link", "label": "Button link" },
+    { "type": "image_picker", "id": "dtf_image", "label": "Panel image" },
+
+    { "type": "header", "content": "Accordions" },
+    { "type": "richtext", "id": "size_chart", "label": "Size chart content" },
+    { "type": "richtext", "id": "shipping_returns", "label": "Shipping & Returns content" },
+
+    { "type": "header", "content": "Promo banner" },
+    { "type": "text", "id": "promo_eyebrow", "label": "Eyebrow label" },
+    { "type": "text", "id": "promo_heading", "label": "Heading" },
+    { "type": "text", "id": "promo_text", "label": "Text" },
+    { "type": "text", "id": "promo_badges", "label": "Badges (comma separated)", "default": "No Minimums, Free Shipping, Rush Delivery" },
+    { "type": "text", "id": "promo_button", "label": "Button label", "default": "Print My Blanks" },
+    { "type": "url", "id": "promo_link", "label": "Button link" },
+    { "type": "image_picker", "id": "promo_image", "label": "Banner image" }
+  ],
+  "blocks": [
+    {
+      "type": "volume_tier",
+      "name": "Volume tier",
+      "settings": [
+        { "type": "text", "id": "cart_total", "label": "Cart total", "default": "$99+" },
+        { "type": "text", "id": "price_1", "label": "Column 1 price" },
+        { "type": "text", "id": "off_1", "label": "Column 1 discount label" },
+        { "type": "text", "id": "price_2", "label": "Column 2 price" },
+        { "type": "text", "id": "off_2", "label": "Column 2 discount label" }
+      ]
+    }
   ]
 }
 {% endschema %}
