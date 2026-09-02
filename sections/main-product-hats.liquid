@@ -290,16 +290,28 @@ rather than hard-coded. {%- endcomment -%}
         <div class="pdp-dtf">
           <h2 class="pdp-dtf-hd">{{ section.settings.dtf_heading | default: 'Add DTF Transfers to your order' }}</h2>
           <p class="pdp-dtf-sub">{{ section.settings.dtf_sub }}</p>
-          <div class="pdp-dtf-panel">
+          {%- comment -%} Drag/drop or browse hands the file to the DTF transfer
+          product page, which does the real upload + pricing. {%- endcomment -%}
+          <div class="pdp-dtf-panel" data-dtf-drop
+               data-dtf-target="{{ section.settings.dtf_target | default: '/products/dtf-transfers' }}">
             <span class="pdp-dtf-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V8m0 0-3.5 3.5M12 8l3.5 3.5"/><path d="M20 16.7A4.5 4.5 0 0 0 17.5 8h-1.3A7 7 0 1 0 5 15.7"/></svg>
             </span>
             <div class="pdp-dtf-body">
               <div class="pdp-dtf-title">{{ section.settings.dtf_panel_title | default: 'Upload Your Artwork' }}</div>
-              <p>{{ section.settings.dtf_panel_text | default: 'Click the button below to add your file(s)' }}</p>
-              {%- if section.settings.dtf_button_link != blank -%}
-                <a href="{{ section.settings.dtf_button_link }}" class="pdp-dtf-btn">{{ section.settings.dtf_button_label | default: 'Upload Your Design' }}</a>
-              {%- endif -%}
+              <p data-dtf-text>{{ section.settings.dtf_panel_text | default: 'Click the button below to add your file(s) or drag into this area' }}</p>
+              <input type="file" hidden data-dtf-input
+                     accept=".png,.jpg,.jpeg,.webp,.svg,.pdf,.ai,.eps,.psd,image/*">
+              <button type="button" class="pdp-dtf-btn" data-dtf-browse>
+                {{ section.settings.dtf_button_label | default: 'Upload Your Design' }}
+              </button>
+              <div class="pdp-dtf-chips">
+                <span class="pdp-dtf-chip">PNG</span>
+                <span class="pdp-dtf-chip">JPG</span>
+                <span class="pdp-dtf-chip">PDF</span>
+                <span class="pdp-dtf-chip">SVG</span>
+                <span class="pdp-dtf-chip">AI</span>
+              </div>
             </div>
             {%- if section.settings.dtf_image -%}
               <img class="pdp-dtf-img" src="{{ section.settings.dtf_image | image_url: width: 600 }}" alt="" loading="lazy">
@@ -556,7 +568,11 @@ rather than hard-coded. {%- endcomment -%}
   .pdp-dtf-icon { flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%; background: #fff; color: var(--nt-blue); display: flex; align-items: center; justify-content: center; }
   .pdp-dtf-title { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
   .pdp-dtf-body p { font-size: 0.8rem; color: #4B5563; margin: 0 0 12px; max-width: 34ch; }
-  .pdp-dtf-btn { display: inline-block; background: var(--nt-blue); color: #fff; font-size: 0.85rem; font-weight: 700; padding: 10px 18px; border-radius: 7px; }
+  .pdp-dtf-btn { display: inline-block; background: var(--nt-blue); color: #fff; font-size: 0.85rem; font-weight: 700; padding: 10px 18px; border-radius: 7px; border: none; cursor: pointer; }
+  .pdp-dtf-btn:hover { background: #0286DD; }
+  .pdp-dtf-panel.is-dragging { background: #DCF0FF; border-color: var(--nt-blue); }
+  .pdp-dtf-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .pdp-dtf-chip { font-size: 0.66rem; font-weight: 700; color: #0369A1; background: #fff; border: 1px solid #BAE6FD; border-radius: 4px; padding: 3px 7px; }
   .pdp-dtf-img { width: 45%; max-width: 320px; margin-left: auto; border-radius: 8px; }
 
   /* ---- description + accordions ---- */
@@ -828,6 +844,72 @@ rather than hard-coded. {%- endcomment -%}
       .catch(function () { /* recommendations are optional */ });
   }
 
+  /* ---------- DTF artwork hand-off ----------
+     The file is stashed in IndexedDB (same origin, handles large binaries)
+     and picked up by the DTF transfer product page, which owns the real
+     upload and pricing. */
+  var dtfPanel = root.querySelector('[data-dtf-drop]');
+  if (dtfPanel) {
+    var dtfInput = dtfPanel.querySelector('[data-dtf-input]');
+    var dtfBrowse = dtfPanel.querySelector('[data-dtf-browse]');
+    var dtfText = dtfPanel.querySelector('[data-dtf-text]');
+    var dtfTarget = dtfPanel.dataset.dtfTarget || '/products/dtf-transfers';
+    var MAX_BYTES = 20 * 1024 * 1024; // Shopify line-item file upload ceiling
+
+    function openArtworkDB() {
+      return new Promise(function (resolve, reject) {
+        var req = indexedDB.open('fineyst-dtf', 1);
+        req.onupgradeneeded = function () { req.result.createObjectStore('files'); };
+        req.onsuccess = function () { resolve(req.result); };
+        req.onerror = function () { reject(req.error); };
+      });
+    }
+
+    function stashArtwork(file) {
+      return openArtworkDB().then(function (db) {
+        return new Promise(function (resolve, reject) {
+          var tx = db.transaction('files', 'readwrite');
+          tx.objectStore('files').put({ name: file.name, type: file.type, blob: file }, 'pending');
+          tx.oncomplete = resolve;
+          tx.onerror = function () { reject(tx.error); };
+        });
+      });
+    }
+
+    function handoff(file) {
+      if (!file) { window.location.href = dtfTarget; return; }
+      if (file.size > MAX_BYTES) {
+        if (dtfText) dtfText.textContent = 'That file is over 20MB. Please compress it and try again.';
+        return;
+      }
+      if (dtfText) dtfText.textContent = 'Got it — taking you to set up your transfer…';
+      stashArtwork(file)
+        .then(function () { window.location.href = dtfTarget; })
+        // If storage is unavailable, still send them to the upload page.
+        .catch(function () { window.location.href = dtfTarget; });
+    }
+
+    if (dtfBrowse) dtfBrowse.addEventListener('click', function () { dtfInput.click(); });
+    if (dtfInput) dtfInput.addEventListener('change', function () { handoff(dtfInput.files[0]); });
+
+    ['dragenter', 'dragover'].forEach(function (evt) {
+      dtfPanel.addEventListener(evt, function (e) {
+        e.preventDefault();
+        dtfPanel.classList.add('is-dragging');
+      });
+    });
+    ['dragleave', 'drop'].forEach(function (evt) {
+      dtfPanel.addEventListener(evt, function (e) {
+        e.preventDefault();
+        if (evt === 'dragleave' && dtfPanel.contains(e.relatedTarget)) return;
+        dtfPanel.classList.remove('is-dragging');
+      });
+    });
+    dtfPanel.addEventListener('drop', function (e) {
+      if (e.dataTransfer && e.dataTransfer.files.length) handoff(e.dataTransfer.files[0]);
+    });
+  }
+
   /* ---------- Accordions ---------- */
   root.querySelectorAll('[data-acc-toggle]').forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -860,13 +942,13 @@ rather than hard-coded. {%- endcomment -%}
     { "type": "text", "id": "volume_footnote", "label": "Footnote", "default": "Prices are for sizes S - XL" },
 
     { "type": "header", "content": "DTF upload panel" },
-    { "type": "checkbox", "id": "show_dtf_upload", "label": "Show DTF upload panel", "default": false },
+    { "type": "checkbox", "id": "show_dtf_upload", "label": "Show DTF upload panel", "default": true },
     { "type": "text", "id": "dtf_heading", "label": "Heading", "default": "Add DTF Transfers to your order" },
-    { "type": "text", "id": "dtf_sub", "label": "Subheading" },
+    { "type": "text", "id": "dtf_sub", "label": "Subheading", "default": "High quality transfers delivered fast." },
     { "type": "text", "id": "dtf_panel_title", "label": "Panel title", "default": "Upload Your Artwork" },
     { "type": "text", "id": "dtf_panel_text", "label": "Panel text", "default": "Click the button below to add your file(s)" },
     { "type": "text", "id": "dtf_button_label", "label": "Button label", "default": "Upload Your Design" },
-    { "type": "url", "id": "dtf_button_link", "label": "Button link" },
+    { "type": "text", "id": "dtf_target", "label": "Send artwork to (product path)", "default": "/products/dtf-transfers" },
     { "type": "image_picker", "id": "dtf_image", "label": "Panel image" },
 
     { "type": "header", "content": "Accordions" },

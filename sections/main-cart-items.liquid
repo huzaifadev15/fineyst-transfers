@@ -15,12 +15,91 @@
         </tbody>
       </table>
       <p><strong>Total: {{ cart.total_price | money }}</strong></p>
-      <a href="/checkout" class="btn btn-accent">Checkout</a>
+      <a href="/checkout" class="btn btn-accent" data-cart-checkout>Checkout</a>
+      <p class="cart-checkout-msg" data-checkout-msg hidden></p>
     {% else %}
       <p>Your cart is empty.</p>
     {% endif %}
   </div>
 </section>
+
+{% if cart.item_count > 0 %}
+  {%- comment -%}
+    Cart line items, handed to the gang sheet app's checkout route so the draft
+    order keeps each line's custom attributes (artwork URL, sheet size, film).
+    Rendered as JSON rather than read from /cart.js so the properties are
+    already in the shape the route expects.
+  {%- endcomment -%}
+  <script type="application/json" data-cart-payload>
+    {
+      "lineItems": [
+        {%- for item in cart.items -%}
+          {
+            "variantId": {{ item.variant_id | json }},
+            "quantity": {{ item.quantity }},
+            "productTitle": {{ item.product.title | json }}
+            {%- for p in item.properties -%}
+              {%- if p.last != blank -%}
+                {%- if p.first == 'Artwork' %}, "artworkUrl": {{ p.last | json }}{% endif -%}
+                {%- if p.first == 'Sheet Length' %}, "sheetFt": {{ p.last | json }}{% endif -%}
+                {%- if p.first == 'Film' %}, "film": {{ p.last | json }}{% endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+
+  <script>
+  (function () {
+    var btn = document.querySelector('[data-cart-checkout]');
+    var payloadEl = document.querySelector('[data-cart-payload]');
+    var msg = document.querySelector('[data-checkout-msg]');
+    if (!btn || !payloadEl) return;
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var payload;
+      try {
+        payload = JSON.parse(payloadEl.textContent);
+      } catch (err) {
+        window.location.href = '/checkout';
+        return;
+      }
+
+      btn.classList.add('is-loading');
+      btn.textContent = 'Preparing checkout…';
+      if (msg) msg.hidden = true;
+
+      fetch('/apps/gang-sheet-builder/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (d) {
+            return { ok: res.ok, data: d };
+          });
+        })
+        .then(function (r) {
+          if (!r.ok || !r.data.invoiceUrl) {
+            throw new Error(r.data.message || 'Could not start checkout.');
+          }
+          window.location.href = r.data.invoiceUrl;
+        })
+        .catch(function (err) {
+          // Never strand the customer: fall back to Shopify's own checkout.
+          if (msg) {
+            msg.textContent = err.message + ' Continuing with standard checkout…';
+            msg.hidden = false;
+          }
+          setTimeout(function () { window.location.href = '/checkout'; }, 1200);
+        });
+    });
+  })();
+  </script>
+{% endif %}
 
 {% schema %}
 { "name": "Main cart", "settings": [] }

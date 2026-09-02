@@ -453,6 +453,8 @@
       </div>
 
       {% if section.settings.show_buy_form %}
+      {%- comment -%} Artwork is uploaded to Shopify Files via the app proxy and
+      travels as a URL in properties[Artwork], so this form posts plain fields. {%- endcomment -%}
       {% form 'product', product, class: 'pdp-form' %}
         {% unless product.has_only_default_variant %}
           <div class="pdp-options">
@@ -475,6 +477,9 @@
             <input type="number" name="quantity" value="1" min="1" inputmode="numeric">
           </label>
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {%- comment -%} Populated with hidden properties[Artwork N] inputs
+          holding the Shopify CDN URLs returned by the upload endpoint. {%- endcomment -%}
+          <span data-artwork-carriers hidden></span>
           <button type="submit" class="btn-blue btn-blue--lg" {% unless product.available %}disabled{% endunless %}>
             {% if product.available %}
               Add to Cart <span class="pdp-buy-price">{{ product.price | money }}</span>
@@ -484,12 +489,202 @@
           </button>
         </div>
       {% endform %}
+      {%- comment -%} endform closes the buy form; upload wiring follows. {%- endcomment -%}
       {% endif %}
 
     </div>
 
   </div>
 </section>
+
+<script>
+(function () {
+  var zone = document.querySelector('[data-upload-dropzone]');
+  if (!zone) return;
+
+  var input = zone.querySelector('[data-upload-input]');
+  var browse = zone.querySelector('[data-upload-browse]');
+  var list = zone.querySelector('[data-upload-file-list]');
+  var carriers = document.querySelector('[data-artwork-carriers]');
+  var form = carriers ? carriers.closest('form') : null;
+  var submitBtn = form ? form.querySelector('[type="submit"]') : null;
+
+  var UPLOAD_URL = '/apps/gang-sheet-builder/upload';
+  var maxFiles = {{ section.settings.max_files | default: 5 }};
+  var MAX_BYTES = 20 * 1024 * 1024;
+
+  // entries: { file, name, size, status: 'uploading'|'done'|'error', url, error }
+  var entries = [];
+
+  function humanSize(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1048576) return (n / 1024).toFixed(0) + ' KB';
+    return (n / 1048576).toFixed(1) + ' MB';
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function render() {
+    if (!list) return;
+    list.innerHTML = entries.map(function (e, i) {
+      var status = e.status === 'done'
+        ? '<span class="upload-file-ok">Uploaded</span>'
+        : e.status === 'error'
+          ? '<span class="upload-file-err">' + esc(e.error || 'Failed') + '</span>'
+          : '<span class="upload-file-progress">Uploading…</span>';
+      return '<li class="upload-file-item' + (e.status === 'error' ? ' is-error' : '') + '">' +
+        '<span class="upload-file-name">' + esc(e.name) + '</span>' +
+        status +
+        '<span class="upload-file-size">' + humanSize(e.size) + '</span>' +
+        '<button type="button" class="upload-file-remove" data-remove="' + i + '" aria-label="Remove file">&times;</button>' +
+      '</li>';
+    }).join('');
+    syncCarriers();
+    syncSubmit();
+  }
+
+  // Uploaded artwork travels as a line-item property holding the Shopify CDN
+  // URL returned by the app proxy — a stable link for production, rather than
+  // re-posting the bytes through the cart.
+  function syncCarriers() {
+    if (!carriers) return;
+    carriers.innerHTML = '';
+    entries.filter(function (e) { return e.status === 'done' && e.url; })
+      .forEach(function (e, i) {
+        var el = document.createElement('input');
+        el.type = 'hidden';
+        el.name = 'properties[Artwork' + (i === 0 ? '' : ' ' + (i + 1)) + ']';
+        el.value = e.url;
+        carriers.appendChild(el);
+      });
+  }
+
+  // Block checkout while an upload is still in flight, so artwork can't be
+  // dropped from the order by a fast click.
+  function syncSubmit() {
+    if (!submitBtn) return;
+    var pending = entries.some(function (e) { return e.status === 'uploading'; });
+    submitBtn.disabled = pending;
+    submitBtn.dataset.uploadPending = pending ? '1' : '';
+  }
+
+  function uploadEntry(entry) {
+    var body = new FormData();
+    body.append('file', entry.file, entry.name);
+
+    return fetch(UPLOAD_URL, { method: 'POST', body: body })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok || !data.url) {
+            throw new Error(data.error || 'Upload failed (' + res.status + ')');
+          }
+          return data;
+        });
+      })
+      .then(function (data) {
+        entry.status = 'done';
+        entry.url = data.url;
+      })
+      .catch(function (err) {
+        entry.status = 'error';
+        entry.error = err.message;
+      })
+      .then(render);
+  }
+
+  function addFiles(incoming) {
+    Array.prototype.forEach.call(incoming, function (f) {
+      if (entries.length >= maxFiles) return;
+      if (f.size > MAX_BYTES) {
+        entries.push({ file: f, name: f.name, size: f.size, status: 'error', error: 'Over 20MB' });
+        return;
+      }
+      var dupe = entries.some(function (x) { return x.name === f.name && x.size === f.size; });
+      if (dupe) return;
+      var entry = { file: f, name: f.name, size: f.size, status: 'uploading' };
+      entries.push(entry);
+      uploadEntry(entry);
+    });
+    render();
+  }
+
+  if (browse) browse.addEventListener('click', function () { input.click(); });
+  if (input) input.addEventListener('change', function () { addFiles(input.files); input.value = ''; });
+
+  if (list) {
+    list.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-remove]');
+      if (!btn) return;
+      entries.splice(parseInt(btn.dataset.remove, 10), 1);
+      render();
+    });
+  }
+
+  ['dragenter', 'dragover'].forEach(function (evt) {
+    zone.addEventListener(evt, function (e) { e.preventDefault(); zone.classList.add('is-dragging'); });
+  });
+  ['dragleave', 'drop'].forEach(function (evt) {
+    zone.addEventListener(evt, function (e) {
+      e.preventDefault();
+      if (evt === 'dragleave' && zone.contains(e.relatedTarget)) return;
+      zone.classList.remove('is-dragging');
+    });
+  });
+  zone.addEventListener('drop', function (e) {
+    if (e.dataTransfer && e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+  });
+
+  /* ---------- Pick up artwork handed over from a blank product page ---------- */
+  (function claimHandoff() {
+    if (!window.indexedDB) return;
+    var req = indexedDB.open('fineyst-dtf', 1);
+    req.onupgradeneeded = function () {
+      var db = req.result;
+      if (!db.objectStoreNames.contains('files')) db.createObjectStore('files');
+    };
+    req.onsuccess = function () {
+      var db = req.result;
+      if (!db.objectStoreNames.contains('files')) return;
+      var tx = db.transaction('files', 'readwrite');
+      var store = tx.objectStore('files');
+      var get = store.get('pending');
+      get.onsuccess = function () {
+        var rec = get.result;
+        if (!rec || !rec.blob) return;
+        // Keep the record so the gang sheet builder can still ingest it if the
+        // customer continues there; the flag stops a refresh re-adding it here.
+        if (rec.seenOnProduct) return;
+        rec.seenOnProduct = true;
+        store.put(rec, 'pending');
+
+        var file = rec.blob instanceof File
+          ? rec.blob
+          : new File([rec.blob], rec.name || 'artwork', { type: rec.type || '' });
+        addFiles([file]);
+        zone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+    };
+  })();
+})();
+</script>
+
+<style>
+  .upload-dropzone.is-dragging { border-color: var(--brand); background: var(--brand-tint); }
+  .upload-file-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .upload-file-item { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--pdp-line); border-radius: 8px; padding: 8px 12px; font-size: 0.82rem; }
+  .upload-file-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload-file-size { color: var(--pdp-muted); font-size: 0.75rem; }
+  .upload-file-ok { font-size: 0.72rem; font-weight: 700; color: var(--success); margin-left: auto; }
+  .upload-file-err { font-size: 0.72rem; font-weight: 700; color: #C92A2A; margin-left: auto; }
+  .upload-file-progress { font-size: 0.72rem; font-weight: 600; color: var(--pdp-muted); margin-left: auto; }
+  .upload-file-item.is-error { border-color: #F3C6C6; background: #FFF6F6; }
+  .upload-file-remove { border: none; background: none; font-size: 1.1rem; line-height: 1; color: var(--pdp-muted); cursor: pointer; padding: 0 2px; }
+  .upload-file-remove:hover { color: #C92A2A; }
+</style>
 
 {% schema %}
 {
