@@ -3,70 +3,70 @@
     "main": {
       "type": "main-collection-tshirts",
       "blocks": {
-        "badge_delivery": {
+        "badge_0": {
           "type": "badge",
           "settings": {
             "text": "Next Day Delivery",
             "icon": "delivery"
           }
         },
-        "badge_shipping": {
+        "badge_1": {
           "type": "badge",
           "settings": {
             "text": "Free shipping on $59+",
             "icon": "shipping"
           }
         },
-        "badge_minimums": {
+        "badge_2": {
           "type": "badge",
           "settings": {
             "text": "No minimums",
             "icon": "minimums"
           }
         },
-        "badge_discounts": {
+        "badge_3": {
           "type": "badge",
           "settings": {
             "text": "Bulk Discounts",
             "icon": "discount"
           }
         },
-        "nav_short": {
+        "nav_0": {
           "type": "quick_link",
           "settings": {
             "label": "Short Sleeve",
             "link": "/collections/short-sleeve"
           }
         },
-        "nav_long": {
+        "nav_1": {
           "type": "quick_link",
           "settings": {
             "label": "Long Sleeve",
             "link": "/collections/long-sleeve"
           }
         },
-        "nav_tanks": {
+        "nav_2": {
           "type": "quick_link",
           "settings": {
             "label": "Tank Tops",
             "link": "/collections/tank-tops"
           }
         },
-        "nav_hoodies": {
+        "nav_3": {
           "type": "quick_link",
           "settings": {
             "label": "Hoodies",
             "link": "/collections/pullover-hoodies"
           }
         },
-        "nav_hats": {
+        "nav_4": {
           "type": "quick_link",
           "settings": {
             "label": "Hats",
             "link": "/collections/baseball-caps"
           }
         },
-        "nav_all": {
+        "nav_5": {
           "type": "quick_link",
           "settings": {
             "label": "All Blanks",
@@ -75,16 +75,16 @@
         }
       },
       "block_order": [
-        "badge_delivery",
-        "badge_shipping",
-        "badge_minimums",
-        "badge_discounts",
-        "nav_short",
-        "nav_long",
-        "nav_tanks",
-        "nav_hoodies",
-        "nav_hats",
-        "nav_all"
+        "badge_0",
+        "badge_1",
+        "badge_2",
+        "badge_3",
+        "nav_0",
+        "nav_1",
+        "nav_2",
+        "nav_3",
+        "nav_4",
+        "nav_5"
       ],
       "settings": {
         "show_quick_nav": true,

@@ -1,9 +1,392 @@
 {
   "sections": {
     "main": {
-      "type": "main-collection-hats",
-      "settings": {}
+      "type": "main-collection-tshirts",
+      "blocks": {
+        "badge_0": {
+          "type": "badge",
+          "settings": {
+            "text": "Next Day Delivery",
+            "icon": "delivery"
+          }
+        },
+        "badge_1": {
+          "type": "badge",
+          "settings": {
+            "text": "Free shipping on $59+",
+            "icon": "shipping"
+          }
+        },
+        "badge_2": {
+          "type": "badge",
+          "settings": {
+            "text": "No minimums",
+            "icon": "minimums"
+          }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": {
+            "text": "Bulk Discounts",
+            "icon": "discount"
+          }
+        },
+        "nav_0": {
+          "type": "quick_link",
+          "settings": {
+            "label": "Baseball Caps",
+            "link": "/collections/baseball-caps"
+          }
+        },
+        "nav_1": {
+          "type": "quick_link",
+          "settings": {
+            "label": "Trucker Hats",
+            "link": "/collections/trucker-hats"
+          }
+        },
+        "nav_2": {
+          "type": "quick_link",
+          "settings": {
+            "label": "Beanies",
+            "link": "/collections/beanies"
+          }
+        },
+        "nav_3": {
+          "type": "quick_link",
+          "settings": {
+            "label": "Snapback Hats",
+            "link": "/collections/snapback-hats"
+          }
+        },
+        "nav_4": {
+          "type": "quick_link",
+          "settings": {
+            "label": "Performance Hats",
+            "link": "/collections/performance-hats"
+          }
+        },
+        "nav_5": {
+          "type": "quick_link",
+          "settings": {
+            "label": "Bandanas",
+            "link": "/collections/bandanas"
+          }
+        }
+      },
+      "block_order": [
+        "badge_0",
+        "badge_1",
+        "badge_2",
+        "badge_3",
+        "nav_0",
+        "nav_1",
+        "nav_2",
+        "nav_3",
+        "nav_4",
+        "nav_5"
+      ],
+      "settings": {
+        "show_quick_nav": true,
+        "heading_highlight": "at Wholesale Prices",
+        "heading_subtext": "Caps, beanies and headwear ready for your design. Wholesale pricing, no minimums.",
+        "products_per_page": 24,
+        "delivery_note": "Next-Day Delivery — Order by 5PM"
+      }
+    },
+    "brands": {
+      "type": "collection-brands",
+      "blocks": {
+        "brand_0": {
+          "type": "brand",
+          "settings": {
+            "name": "Gildan",
+            "static_logo": "gildan_logo.jpg",
+            "link": "/collections/all?filter.p.vendor=Gildan"
+          }
+        },
+        "brand_1": {
+          "type": "brand",
+          "settings": {
+            "name": "Bella + Canvas",
+            "static_logo": "Bella_Canvas_1ea747b1-37f3-4d4d-80a3-39a61f716bbe.jpg",
+            "link": "/collections/all?filter.p.vendor=Bella%20%2B%20Canvas"
+          }
+        },
+        "brand_2": {
+          "type": "brand",
+          "settings": {
+            "name": "Next Level",
+            "static_logo": "Next_Level_Logo_4b5b526a-840d-470f-b79f-99997b843caa.jpg",
+            "link": "/collections/all?filter.p.vendor=Next%20Level"
+          }
+        },
+        "brand_3": {
+          "type": "brand",
+          "settings": {
+            "name": "Comfort Colors",
+            "static_logo": "Comfort_Colors_60178ebb-2ea5-498c-8185-1c627ab4e3fa.jpg",
+            "link": "/collections/all?filter.p.vendor=Comfort%20Colors"
+          }
+        },
+        "brand_4": {
+          "type": "brand",
+          "settings": {
+            "name": "Hanes",
+            "static_logo": "Hanes_4e920530-feaa-4287-87ed-b92876c5dc88.jpg",
+            "link": "/collections/all?filter.p.vendor=Hanes"
+          }
+        },
+        "brand_5": {
+          "type": "brand",
+          "settings": {
+            "name": "Team 365",
+            "static_logo": "Team365_Logo.jpg",
+            "link": "/collections/all?filter.p.vendor=Team%20365"
+          }
+        },
+        "brand_6": {
+          "type": "brand",
+          "settings": {
+            "name": "Jerzees",
+            "static_logo": "Jerzees_Logo.jpg",
+            "link": "/collections/all?filter.p.vendor=Jerzees"
+          }
+        },
+        "brand_7": {
+          "type": "brand",
+          "settings": {
+            "name": "Independent Trading Co.",
+            "static_logo": "Independent_Tradin_Co_Logo.jpg",
+            "link": "/collections/all?filter.p.vendor=Independent%20Trading%20Co."
+          }
+        },
+        "brand_8": {
+          "type": "brand",
+          "settings": {
+            "name": "UltraClub",
+            "static_logo": "UltraClub_Logo.jpg",
+            "link": "/collections/all?filter.p.vendor=UltraClub"
+          }
+        },
+        "brand_9": {
+          "type": "brand",
+          "settings": {
+            "name": "Tultex",
+            "static_logo": "Tultex_Logo.jpg",
+            "link": "/collections/all?filter.p.vendor=Tultex"
+          }
+        }
+      },
+      "block_order": [
+        "brand_0",
+        "brand_1",
+        "brand_2",
+        "brand_3",
+        "brand_4",
+        "brand_5",
+        "brand_6",
+        "brand_7",
+        "brand_8",
+        "brand_9"
+      ],
+      "settings": {
+        "heading": "Shop by Brand",
+        "view_all_text": "Shop All Brands",
+        "view_all_link": "/collections/all"
+      }
+    },
+    "categories": {
+      "type": "collection-categories",
+      "blocks": {
+        "cat_0": {
+          "type": "category",
+          "settings": {
+            "title": "T-Shirts",
+            "collection": "t-shirts",
+            "price_override": "$2.05"
+          }
+        },
+        "cat_1": {
+          "type": "category",
+          "settings": {
+            "title": "Long Sleeve",
+            "collection": "long-sleeve",
+            "price_override": "$4.96"
+          }
+        },
+        "cat_2": {
+          "type": "category",
+          "settings": {
+            "title": "Tank Tops",
+            "collection": "tank-tops",
+            "price_override": "$4.08"
+          }
+        },
+        "cat_3": {
+          "type": "category",
+          "settings": {
+            "title": "Pullover Hoodies",
+            "collection": "pullover-hoodies",
+            "price_override": "$9.24"
+          }
+        },
+        "cat_4": {
+          "type": "category",
+          "settings": {
+            "title": "Crewnecks",
+            "collection": "crewnecks",
+            "price_override": "$7.65"
+          }
+        },
+        "cat_5": {
+          "type": "category",
+          "settings": {
+            "title": "Baseball Caps",
+            "collection": "baseball-caps",
+            "price_override": "$2.64"
+          }
+        }
+      },
+      "block_order": [
+        "cat_0",
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4",
+        "cat_5"
+      ],
+      "settings": {
+        "heading": "Shop by Category",
+        "view_all_text": "Shop All Categories",
+        "view_all_link": "/collections/all"
+      }
+    },
+    "seo": {
+      "type": "collection-seo",
+      "blocks": {
+        "pt_0": {
+          "type": "point",
+          "settings": {
+            "label": "Free Shipping on $59+",
+            "text": "Qualifying blank orders ship free on any order over $59."
+          }
+        },
+        "pt_1": {
+          "type": "point",
+          "settings": {
+            "label": "Easy Customization",
+            "text": "Pair your blanks with our DTF transfers for a simple one-stop ordering experience."
+          }
+        },
+        "pt_2": {
+          "type": "point",
+          "settings": {
+            "label": "Competitive Pricing",
+            "text": "Get wholesale rates on bulk apparel and everyday blank clothing."
+          }
+        },
+        "pt_3": {
+          "type": "point",
+          "settings": {
+            "label": "Quality You Can Count On",
+            "text": "Consistent products backed by helpful customer support."
+          }
+        },
+        "pt_4": {
+          "type": "point",
+          "settings": {
+            "label": "No Minimums",
+            "text": "Order one or two styles, or buy bulk when you are ready to stock up."
+          }
+        },
+        "pt_5": {
+          "type": "point",
+          "settings": {
+            "label": "Huge Selection",
+            "text": "Shop sizes, colors, fits, and top brands across every category."
+          }
+        },
+        "pt_6": {
+          "type": "point",
+          "settings": {
+            "label": "Fast Delivery",
+            "text": "Restock quickly and keep production moving without delays."
+          }
+        }
+      },
+      "block_order": [
+        "pt_0",
+        "pt_1",
+        "pt_2",
+        "pt_3",
+        "pt_4",
+        "pt_5",
+        "pt_6"
+      ],
+      "settings": {
+        "heading": "Shop Bulk Wholesale Apparel",
+        "heading_highlight": "With No Minimums",
+        "list_heading": "Why Customers Choose Fineyst For Blank Apparel"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_0": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What types of blank apparel do you offer?",
+            "answer": "<p>T-shirts, long sleeves, tank tops, hoodies, sweatshirts, polos, and headwear from brands like Gildan, Bella + Canvas, Next Level, and Comfort Colors.</p>"
+          }
+        },
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are there any minimum order requirements for wholesale apparel?",
+            "answer": "<p>No minimums. Order a single piece or several hundred and you get the same wholesale pricing, with bulk discounts applied automatically as quantity grows.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I mix and match styles and colors in one order?",
+            "answer": "<p>Yes. Mix any styles, sizes, and colors in a single order - quantity breaks are calculated across your whole cart, not per style.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you have blank apparel for kids?",
+            "answer": "<p>Yes. Youth, toddler, and infant cuts are available across many of our core styles. Use the Cut filter in the sidebar to see everything available in a given size range.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I customize the blank apparel I purchase?",
+            "answer": "<p>Absolutely - that is what our DTF transfers are for. Order your blanks and transfers together and press them yourself, or use our gang sheets to fit many designs onto one sheet.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_0",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4"
+      ],
+      "settings": {
+        "heading": "Frequently Asked Questions",
+        "subheading": "Common questions about ordering blank apparel in bulk"
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main",
+    "brands",
+    "categories",
+    "seo",
+    "faq"
+  ]
 }
