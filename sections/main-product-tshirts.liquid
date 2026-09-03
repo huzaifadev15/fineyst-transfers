@@ -163,14 +163,20 @@ rather than hard-coded. {%- endcomment -%}
         <div class="pdp-colors">
           <div class="pdp-color-hd">
             <span class="pdp-color-hd-lbl">Color:</span>
-            <span class="pdp-color-current">
-              <span class="pdp-color-current-chip" data-selected-color-chip></span>
-              <strong data-selected-color-label>{{ selected_color }}</strong>
-              <svg class="pdp-color-caret" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            <span class="pdp-color-picker">
+              <button type="button" class="pdp-color-current" data-color-toggle
+                      aria-expanded="false" aria-haspopup="listbox" aria-controls="ColorMenu-{{ section.id }}">
+                <span class="pdp-color-current-chip" data-selected-color-chip></span>
+                <strong data-selected-color-label>{{ selected_color }}</strong>
+                <svg class="pdp-color-caret" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              {%- comment -%} Rows are built in JS from the swatch grid below, so the
+              hex lookup is not repeated server-side. {%- endcomment -%}
+              <div class="pdp-color-menu" id="ColorMenu-{{ section.id }}" role="listbox" hidden></div>
             </span>
             <span class="pdp-color-count">{{ color_option.values.size }} color{% if color_option.values.size != 1 %}s{% endif %}</span>
           </div>
-          <div class="pdp-color-grid">
+          <div class="pdp-color-grid" id="ColorGrid-{{ section.id }}">
             {%- for value in color_option.values -%}
               {%- assign swatch_hex = '#D9D9D9' -%}
               {%- assign swatch_img_index = '' -%}
@@ -505,17 +511,28 @@ rather than hard-coded. {%- endcomment -%}
   .pdp-info h1 { font-size: 24px; font-weight: 700; margin: 8px 0 14px; line-height: 1.3; }
 
   .pdp-price-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-bottom: 22px; }
-  .pdp-price-card { display: flex; align-items: center; gap: 8px; background: var(--nt-surface); border-radius: 8px; padding: 0 0 0 16px; overflow: hidden; min-height: 44px; }
-  .pdp-price-card-name { font-size: 13px; font-weight: 700; color: var(--nt-ink); }
-  .pdp-price-card-lbl { font-size: 11px; font-weight: 400; color: var(--nt-muted); }
-  .pdp-price-card-now { font-size: 19px; font-weight: 800; color: var(--nt-price); }
-  .pdp-price-card-was { font-size: 13px; font-weight: 400; color: var(--nt-retail); text-decoration: line-through; }
-  .pdp-price-card-save { margin-left: auto; align-self: stretch; display: flex; align-items: center; background: var(--nt-save); color: #fff; font-size: 11px; font-weight: 800; padding: 0 16px; white-space: nowrap; }
+  .pdp-price-card { display: flex; align-items: center; gap: 9px; background: var(--nt-surface); border-radius: 8px; padding: 0 0 0 18px; overflow: hidden; min-height: 52px; }
+  .pdp-price-card-name { font-size: 14px; font-weight: 700; color: var(--nt-ink); }
+  .pdp-price-card-lbl { font-size: 12px; font-weight: 400; color: var(--nt-muted); }
+  .pdp-price-card-now { font-size: 22px; font-weight: 800; line-height: 1; color: var(--nt-price); }
+  .pdp-price-card-was { font-size: 14px; font-weight: 400; color: var(--nt-retail); text-decoration: line-through; }
+  .pdp-price-card-save { margin-left: auto; align-self: stretch; display: flex; align-items: center; background: var(--nt-save); color: #fff; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; padding: 0 18px 0 28px; white-space: nowrap; clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%); }
 
   .pdp-colors { margin-bottom: 20px; }
   .pdp-color-hd { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; margin-bottom: 10px; }
   .pdp-color-hd-lbl { font-weight: 700; }
-  .pdp-color-current { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--pdp-line); border-radius: 6px; padding: 4px 10px; }
+  .pdp-color-current { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--pdp-line); border-radius: 6px; padding: 4px 10px; background: #fff; font: inherit; color: inherit; cursor: pointer; }
+  .pdp-color-current:hover { border-color: var(--brand, #3E6D8E); }
+  .pdp-color-caret { transition: transform .18s; flex-shrink: 0; }
+  .pdp-color-current[aria-expanded="true"] .pdp-color-caret { transform: rotate(180deg); }
+  .pdp-color-picker { position: relative; display: inline-flex; }
+  .pdp-color-menu { position: absolute; top: calc(100% + 6px); left: 0; z-index: 30; width: 260px; max-height: 340px; overflow-y: auto; background: #fff; border: 1px solid var(--pdp-line); border-radius: 10px; box-shadow: 0 10px 30px rgba(16,24,40,0.16); padding: 4px; }
+  .pdp-color-menu[hidden] { display: none; }
+  .pdp-color-opt { display: flex; align-items: center; gap: 14px; width: 100%; padding: 9px 10px; background: none; border: 0; border-radius: 8px; font: inherit; font-size: 0.85rem; font-weight: 600; color: #1F2937; text-align: left; cursor: pointer; }
+  .pdp-color-opt + .pdp-color-opt { border-top: 1px solid #F1F2F4; }
+  .pdp-color-opt:hover, .pdp-color-opt:focus-visible { background: var(--brand-tint, #EAF4FB); }
+  .pdp-color-opt.is-active { background: var(--brand-tint, #EAF4FB); }
+  .pdp-color-opt-chip { flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.14); }
   .pdp-color-current-chip { width: 15px; height: 15px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.18); display: inline-block; }
   .pdp-color-caret { color: #6B7280; flex-shrink: 0; }
   .pdp-color-count { margin-left: auto; font-size: 11px; font-weight: 600; color: #fff; background: var(--nt-dark); border-radius: 20px; padding: 3px 10px; }
@@ -760,6 +777,68 @@ rather than hard-coded. {%- endcomment -%}
   function syncChip(swatch) {
     if (colorChip) colorChip.style.background = swatch.dataset.hex || '#D9D9D9';
     if (colorLabel) colorLabel.textContent = swatch.dataset.color;
+  }
+
+  // Colour dropdown: a scrollable list of swatch + name, built from the grid so
+  // selection stays in one place - a row just forwards the click to its swatch.
+  var colorToggle = root.querySelector("[data-color-toggle]");
+  var colorMenu = root.querySelector(".pdp-color-menu");
+  if (colorToggle && colorMenu) {
+    var built = false;
+    var buildMenu = function () {
+      if (built) return;
+      root.querySelectorAll("[data-color-swatch]").forEach(function (sw) {
+        var opt = document.createElement("button");
+        opt.type = "button";
+        opt.className = "pdp-color-opt";
+        opt.setAttribute("role", "option");
+        opt.dataset.colorFor = sw.dataset.color;
+        var chip = document.createElement("span");
+        chip.className = "pdp-color-opt-chip";
+        chip.style.background = sw.dataset.hex || "#D9D9D9";
+        var name = document.createElement("span");
+        name.textContent = sw.dataset.color;
+        opt.appendChild(chip);
+        opt.appendChild(name);
+        opt.addEventListener("click", function () {
+          sw.click();
+          closeMenu();
+          colorToggle.focus();
+        });
+        colorMenu.appendChild(opt);
+      });
+      built = true;
+    };
+    var syncActive = function () {
+      var current = (root.querySelector("[data-selected-color-label]") || {}).textContent;
+      colorMenu.querySelectorAll(".pdp-color-opt").forEach(function (o) {
+        var on = o.dataset.colorFor === (current || "").trim();
+        o.classList.toggle("is-active", on);
+        o.setAttribute("aria-selected", on ? "true" : "false");
+      });
+    };
+    var openMenu = function () {
+      buildMenu();
+      syncActive();
+      colorMenu.hidden = false;
+      colorToggle.setAttribute("aria-expanded", "true");
+      var active = colorMenu.querySelector(".pdp-color-opt.is-active");
+      if (active) colorMenu.scrollTop = active.offsetTop - colorMenu.clientHeight / 2;
+    };
+    var closeMenu = function () {
+      colorMenu.hidden = true;
+      colorToggle.setAttribute("aria-expanded", "false");
+    };
+    colorToggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (colorMenu.hidden) openMenu(); else closeMenu();
+    });
+    document.addEventListener("click", function (e) {
+      if (!colorMenu.hidden && !colorMenu.contains(e.target) && e.target !== colorToggle) closeMenu();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !colorMenu.hidden) { closeMenu(); colorToggle.focus(); }
+    });
   }
 
   var swatchEls = root.querySelectorAll('[data-color-swatch]');
