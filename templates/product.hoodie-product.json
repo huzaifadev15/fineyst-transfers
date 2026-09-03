@@ -1,9 +1,121 @@
 {
   "sections": {
     "main": {
-      "type": "main-product-hoodies",
-      "settings": {}
+      "type": "main-product-tshirts",
+      "settings": {
+        "show_info_strip": true,
+        "strip_1": "Order by 5PM, Receive it Tomorrow",
+        "strip_2": "Free Shipping at $59",
+        "strip_3": "Bulk Pricing at $99",
+        "strip_4": "Free 45-Day Returns",
+        "badge_text": "DTF Certified",
+        "volume_col_1": "White",
+        "volume_col_2": "Colors",
+        "volume_note": "Volume discounts applied automatically at checkout",
+        "volume_footnote": "Prices are for sizes S - XL",
+        "show_dtf_upload": true,
+        "dtf_heading": "Add DTF Transfers to your order",
+        "dtf_sub": "High quality transfers delivered fast.",
+        "dtf_panel_title": "Upload Your Artwork",
+        "dtf_panel_text": "Click the button below to add your file(s)",
+        "dtf_button_label": "Upload Your Design",
+        "dtf_target": "/products/dtf-transfers",
+        "size_chart": "<p>Body measurements in inches. If you are between sizes, order the larger size.</p><ul><li>S &mdash; Chest 34-36, Length 28</li><li>M &mdash; Chest 38-40, Length 29</li><li>L &mdash; Chest 42-44, Length 30</li><li>XL &mdash; Chest 46-48, Length 31</li><li>2XL &mdash; Chest 50-52, Length 32</li><li>3XL &mdash; Chest 54-56, Length 33</li></ul><p>Sizing varies between brands and styles. Check the manufacturer spec sheet in the Breakdown panel for exact measurements.</p>",
+        "shipping_returns": "<p><strong>Shipping.</strong> Blank apparel orders placed before 5PM ship the same business day. Free shipping applies on qualifying orders over $99.</p><p><strong>Returns.</strong> Unused, unprinted blanks in original packaging can be returned within 45 days. Printed or decorated garments cannot be returned.</p><p><strong>Damaged or incorrect items.</strong> Contact support within 30 days of delivery and we will replace them at no cost.</p>",
+        "promo_eyebrow": "Blanks + Transfers",
+        "promo_heading": "Need your hoodies printed?",
+        "promo_text": "Pair your fleece with DTF transfers and press them yourself. No minimums, and both ship from the same place.",
+        "promo_badges": "No Minimums, Free Shipping, Rush Delivery",
+        "promo_button": "Print My Blanks",
+        "promo_link": "/products/dtf-transfers",
+        "strip_5": "No Minimums",
+        "dtf_static_image": "upload-image.png",
+        "promo_static_image": "PrinthousePromo1.jpg"
+      },
+      "blocks": {
+        "tier_0": {
+          "type": "volume_tier",
+          "settings": {
+            "cart_total": "$99+",
+            "price_1": "—",
+            "off_1": "",
+            "price_2": "—",
+            "off_2": ""
+          }
+        },
+        "tier_1": {
+          "type": "volume_tier",
+          "settings": {
+            "cart_total": "$150+",
+            "price_1": "—",
+            "off_1": "",
+            "price_2": "—",
+            "off_2": ""
+          }
+        },
+        "tier_2": {
+          "type": "volume_tier",
+          "settings": {
+            "cart_total": "$250+",
+            "price_1": "—",
+            "off_1": "",
+            "price_2": "—",
+            "off_2": ""
+          }
+        },
+        "tier_3": {
+          "type": "volume_tier",
+          "settings": {
+            "cart_total": "$500+",
+            "price_1": "—",
+            "off_1": "",
+            "price_2": "—",
+            "off_2": ""
+          }
+        },
+        "tier_4": {
+          "type": "volume_tier",
+          "settings": {
+            "cart_total": "$1,000+",
+            "price_1": "—",
+            "off_1": "",
+            "price_2": "—",
+            "off_2": ""
+          }
+        },
+        "tier_5": {
+          "type": "volume_tier",
+          "settings": {
+            "cart_total": "$1,750+",
+            "price_1": "—",
+            "off_1": "",
+            "price_2": "—",
+            "off_2": ""
+          }
+        },
+        "tier_6": {
+          "type": "volume_tier",
+          "settings": {
+            "cart_total": "$3,800+",
+            "price_1": "—",
+            "off_1": "",
+            "price_2": "—",
+            "off_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "tier_0",
+        "tier_1",
+        "tier_2",
+        "tier_3",
+        "tier_4",
+        "tier_5",
+        "tier_6"
+      ]
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

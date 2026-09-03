@@ -59,6 +59,7 @@ rather than hard-coded. {%- endcomment -%}
         <span class="pdp-topstrip-item">{{ section.settings.strip_2 | default: 'Free Shipping at $99' }}</span>
         <span class="pdp-topstrip-item">{{ section.settings.strip_3 | default: 'Free 45-Day Returns' }}</span>
         <span class="pdp-topstrip-item">{{ section.settings.strip_4 | default: 'No Minimums' }}</span>
+        <span class="pdp-topstrip-item">{{ section.settings.strip_5 | default: 'No Minimums' }}</span>
       </div>
     </div>
   {%- endif -%}
@@ -315,6 +316,8 @@ rather than hard-coded. {%- endcomment -%}
             </div>
             {%- if section.settings.dtf_image -%}
               <img class="pdp-dtf-img" src="{{ section.settings.dtf_image | image_url: width: 600 }}" alt="" loading="lazy">
+            {%- elsif section.settings.dtf_static_image != blank -%}
+              <img class="pdp-dtf-img" src="{{ section.settings.dtf_static_image | strip | asset_url }}" alt="" loading="lazy">
             {%- endif -%}
           </div>
         </div>
@@ -433,6 +436,8 @@ rather than hard-coded. {%- endcomment -%}
         </div>
         {%- if section.settings.promo_image -%}
           <img class="pdp-promo-img" src="{{ section.settings.promo_image | image_url: width: 1200 }}" alt="" loading="lazy">
+        {%- elsif section.settings.promo_static_image != blank -%}
+          <img class="pdp-promo-img" src="{{ section.settings.promo_static_image | strip | asset_url }}" alt="" loading="lazy">
         {%- endif -%}
       </div>
     </div>
@@ -454,9 +459,10 @@ rather than hard-coded. {%- endcomment -%}
      the rest of the theme keeps its own palette. */
   .main-product-tshirts {
     --nt-surface: #F5F4F2;   /* price cards, spec tiles, buy panel */
-    --nt-orange:  #F27708;   /* headline price + save badge */
-    --nt-blue:    #019AFF;   /* add to cart */
-    --nt-navy:    #03406C;   /* per-size and volume prices */
+    --nt-price:   #16A34A;   /* headline price, matches the collection cards */
+    --nt-save:    var(--danger, #DB073A);  /* save badge */
+    --nt-blue:    var(--brand, #3E6D8E);   /* add to cart */
+    --nt-navy:    var(--brand-dark, #2A4E66); /* per-size and volume prices */
     --nt-green:   #1A7A3C;   /* recommended "starting at" prices */
     --nt-ink:     #2B2B2B;
     --nt-muted:   #5A5B60;
@@ -466,10 +472,11 @@ rather than hard-coded. {%- endcomment -%}
   }
   .main-product-tshirts.pdp { padding: 0 0 60px; }
 
-  .pdp-topstrip { background: #FFF8E6; border-bottom: 1px solid #F3E3B3; margin-bottom: 26px; }
-  .pdp-topstrip-inner { display: flex; flex-wrap: wrap; gap: 8px 26px; padding: 9px 0; justify-content: center; }
-  .pdp-topstrip-item { font-size: 0.76rem; font-weight: 600; color: #6B5B2E; display: inline-flex; align-items: center; gap: 6px; }
-  .pdp-topstrip-item--accent { font-weight: 800; color: #8A6D1F; }
+  .pdp-topstrip { margin: 12px 0 26px; }
+  .pdp-topstrip-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 0; max-width: 1100px; margin: 0 auto; padding: 11px 24px; background: var(--brand-tint, #EAF4FB); border-left: 3px solid var(--brand); border-right: 3px solid var(--brand); border-radius: 8px; }
+  .pdp-topstrip-item { font-size: 0.78rem; font-weight: 600; color: var(--brand-dark, #2A4E66); display: inline-flex; align-items: center; gap: 6px; padding: 0 18px; }
+  .pdp-topstrip-item + .pdp-topstrip-item { border-left: 1px solid rgba(42,78,102,0.22); }
+  .pdp-topstrip-item--accent { font-weight: 800; color: #1A2E3C; }
 
   .pdp-inner { display: grid; grid-template-columns: 1fr 1.15fr; gap: 44px; align-items: start; }
 
@@ -501,9 +508,9 @@ rather than hard-coded. {%- endcomment -%}
   .pdp-price-card { display: flex; align-items: center; gap: 8px; background: var(--nt-surface); border-radius: 8px; padding: 0 0 0 16px; overflow: hidden; min-height: 44px; }
   .pdp-price-card-name { font-size: 13px; font-weight: 700; color: var(--nt-ink); }
   .pdp-price-card-lbl { font-size: 11px; font-weight: 400; color: var(--nt-muted); }
-  .pdp-price-card-now { font-size: 16px; font-weight: 800; color: var(--nt-orange); }
+  .pdp-price-card-now { font-size: 19px; font-weight: 800; color: var(--nt-price); }
   .pdp-price-card-was { font-size: 13px; font-weight: 400; color: var(--nt-retail); text-decoration: line-through; }
-  .pdp-price-card-save { margin-left: auto; align-self: stretch; display: flex; align-items: center; background: var(--nt-orange); color: #fff; font-size: 11px; font-weight: 800; padding: 0 16px; white-space: nowrap; }
+  .pdp-price-card-save { margin-left: auto; align-self: stretch; display: flex; align-items: center; background: var(--nt-save); color: #fff; font-size: 11px; font-weight: 800; padding: 0 16px; white-space: nowrap; }
 
   .pdp-colors { margin-bottom: 20px; }
   .pdp-color-hd { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; margin-bottom: 10px; }
@@ -523,6 +530,11 @@ rather than hard-coded. {%- endcomment -%}
   .pdp-buy-panel { background: var(--nt-surface); border-radius: 10px; padding: 20px; }
   .pdp-size-hd { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
   .pdp-size-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(65px, 1fr)); gap: 10px; margin-bottom: 18px; }
+  /* A single size (One Size headwear) should read as one tidy tile, not a lone
+     column stretched across the whole panel. */
+  .pdp-size-grid:has(.pdp-size-col:only-child) { grid-template-columns: 120px; justify-content: start; }
+  .pdp-size-grid .pdp-size-col:only-child { text-align: left; padding: 12px 14px; background: #fff; border: 1px solid var(--nt-line); border-radius: 8px; }
+  .pdp-size-grid .pdp-size-col:only-child .pdp-size-name { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--nt-muted); }
   .pdp-size-col { text-align: center; }
   .pdp-size-col.is-unavailable { opacity: 0.4; }
   .pdp-size-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
@@ -550,6 +562,7 @@ rather than hard-coded. {%- endcomment -%}
 
   /* ---- volume + dtf ---- */
   .pdp-mid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 44px; align-items: start; margin-top: 52px; }
+  .pdp-mid:not(:has(.pdp-volume)) { grid-template-columns: minmax(0, 1fr); }
   .pdp-volume-hd { font-size: 1.3rem; font-weight: 800; margin: 0 0 4px; }
   .pdp-volume-hd span { color: var(--nt-blue); }
   .pdp-volume-note { font-size: 0.78rem; color: #6B7280; margin: 0 0 16px; }
@@ -561,10 +574,11 @@ rather than hard-coded. {%- endcomment -%}
   .pdp-volume-off { font-size: 12px; color: var(--nt-blue); margin-left: 6px; }
   .pdp-volume-foot { font-size: 0.72rem; color: #6B7280; margin-top: 12px; }
 
-  .pdp-dtf { text-align: center; }
+  .pdp-dtf { text-align: center; min-width: 0; }
+  .pdp-mid:not(:has(.pdp-volume)) .pdp-dtf { width: 100%; max-width: 760px; margin: 0 auto; }
   .pdp-dtf-hd { font-size: 1.15rem; font-weight: 800; margin: 0 0 6px; }
   .pdp-dtf-sub { font-size: 0.85rem; color: #6B7280; margin: 0 0 18px; }
-  .pdp-dtf-panel { position: relative; display: flex; align-items: center; gap: 16px; text-align: left; background: #EFF8FF; border: 2px dashed #7DD3FC; border-radius: 10px; padding: 22px; overflow: hidden; }
+  .pdp-dtf-panel { width: 100%; box-sizing: border-box; position: relative; display: flex; align-items: center; gap: 16px; text-align: left; background: #EFF8FF; border: 2px dashed #7DD3FC; border-radius: 10px; padding: 22px; overflow: hidden; }
   .pdp-dtf-icon { flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%; background: #fff; color: var(--nt-blue); display: flex; align-items: center; justify-content: center; }
   .pdp-dtf-title { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
   .pdp-dtf-body p { font-size: 0.8rem; color: #4B5563; margin: 0 0 12px; max-width: 34ch; }
@@ -577,8 +591,15 @@ rather than hard-coded. {%- endcomment -%}
 
   /* ---- description + accordions ---- */
   .pdp-detail-band { background: #F9FAFB; margin-top: 52px; padding: 36px 0; }
-  .pdp-detail { display: grid; grid-template-columns: 1fr 1.1fr; gap: 52px; align-items: start; }
+  .pdp-detail { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 52px; align-items: start; }
+  .pdp-detail:not(:has(.pdp-acc)) { grid-template-columns: minmax(0, 1fr); }
+  .pdp-detail-left, .pdp-detail-right { min-width: 0; }
+  .pdp-description > *:first-child { margin-top: 0; }
   .pdp-section-hd { font-size: 1.05rem; font-weight: 800; margin: 0 0 14px; }
+  /* The accordion column opens with a 1px rule and an 18px header pad, so the
+     Description heading mirrors that geometry (rule kept transparent) to put the
+     two column headings on the same baseline. */
+  .pdp-detail-left .pdp-section-hd { border-top: 1px solid transparent; padding: 18px 0 0; margin: 0 0 14px; }
   .pdp-description { font-size: 0.88rem; line-height: 1.75; color: #374151; }
   .pdp-acc { border-top: 1px solid var(--pdp-line); }
   .pdp-acc:last-child { border-bottom: 1px solid var(--pdp-line); }
@@ -601,8 +622,8 @@ rather than hard-coded. {%- endcomment -%}
   .pdp-promo-text { font-size: 0.88rem; color: #4B5563; margin: 0 0 14px; max-width: 46ch; }
   .pdp-promo-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
   .pdp-promo-badge { font-size: 0.74rem; font-weight: 600; color: #374151; background: #F3F4F6; border-radius: 999px; padding: 5px 12px; }
-  .pdp-promo-badge::before { content: "•"; color: var(--nt-orange); margin-right: 6px; }
-  .pdp-promo-btn { display: inline-block; background: var(--nt-orange); color: #fff; font-size: 0.88rem; font-weight: 700; padding: 12px 22px; border-radius: 8px; }
+  .pdp-promo-badge::before { content: "•"; color: var(--brand); margin-right: 6px; }
+  .pdp-promo-btn { display: inline-block; background: var(--brand); color: #fff; font-size: 0.88rem; font-weight: 700; padding: 12px 22px; border-radius: 8px; }
   .pdp-promo-img { width: 100%; border-radius: 10px; }
 
   /* ---- recommended ---- */
@@ -923,7 +944,7 @@ rather than hard-coded. {%- endcomment -%}
 
 {% schema %}
 {
-  "name": "T-Shirt Product",
+  "name": "Blank Apparel Product",
   "settings": [
     { "type": "header", "content": "Top strip" },
     { "type": "checkbox", "id": "show_info_strip", "label": "Show info strip", "default": true },
@@ -931,6 +952,7 @@ rather than hard-coded. {%- endcomment -%}
     { "type": "text", "id": "strip_2", "label": "Item 2", "default": "Free Shipping at $99" },
     { "type": "text", "id": "strip_3", "label": "Item 3", "default": "Free 45-Day Returns" },
     { "type": "text", "id": "strip_4", "label": "Item 4", "default": "No Minimums" },
+    { "type": "text", "id": "strip_5", "label": "Item 5", "default": "No Minimums" },
 
     { "type": "header", "content": "Gallery" },
     { "type": "text", "id": "badge_text", "label": "Image badge", "default": "DTF Certified" },
@@ -950,6 +972,7 @@ rather than hard-coded. {%- endcomment -%}
     { "type": "text", "id": "dtf_button_label", "label": "Button label", "default": "Upload Your Design" },
     { "type": "text", "id": "dtf_target", "label": "Send artwork to (product path)", "default": "/products/dtf-transfers" },
     { "type": "image_picker", "id": "dtf_image", "label": "Panel image" },
+    { "type": "text", "id": "dtf_static_image", "label": "Panel image file", "info": "Filename in /assets, e.g. upload-image.png. Used when no image is picked." },
 
     { "type": "header", "content": "Accordions" },
     { "type": "richtext", "id": "size_chart", "label": "Size chart content" },
@@ -962,7 +985,8 @@ rather than hard-coded. {%- endcomment -%}
     { "type": "text", "id": "promo_badges", "label": "Badges (comma separated)", "default": "No Minimums, Free Shipping, Rush Delivery" },
     { "type": "text", "id": "promo_button", "label": "Button label", "default": "Print My Blanks" },
     { "type": "url", "id": "promo_link", "label": "Button link" },
-    { "type": "image_picker", "id": "promo_image", "label": "Banner image" }
+    { "type": "image_picker", "id": "promo_image", "label": "Banner image" },
+    { "type": "text", "id": "promo_static_image", "label": "Banner image file", "info": "Filename in /assets, e.g. PrinthousePromo1.jpg. Used when no image is picked." }
   ],
   "blocks": [
     {
