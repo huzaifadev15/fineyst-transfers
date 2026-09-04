@@ -1,105 +1,429 @@
-<section class="main-cart">
-  <div class="container" style="padding: 48px 24px;">
-    <h1>Your Cart</h1>
-    {% if cart.item_count > 0 %}
-      <table style="width:100%; border-collapse: collapse;">
-        <thead><tr><th style="text-align:left;">Item</th><th>Qty</th><th>Price</th></tr></thead>
-        <tbody>
-        {% for item in cart.items %}
-          <tr>
-            <td>{{ item.product.title }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.final_line_price | money }}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-      <p><strong>Total: {{ cart.total_price | money }}</strong></p>
-      <a href="/checkout" class="btn btn-accent" data-cart-checkout>Checkout</a>
-      <p class="cart-checkout-msg" data-checkout-msg hidden></p>
-    {% else %}
-      <p>Your cart is empty.</p>
-    {% endif %}
+{%- comment -%}
+  Cart page. Line items are edited in place through /cart/change.js and the
+  Section Rendering API, so quantity edits and removals never reload the page.
+  Checkout still hands the lines to the gang sheet app so the draft order keeps
+  each line's custom attributes (artwork URL, sheet size, film).
+{%- endcomment -%}
+
+<section class="cart-page" data-cart-root data-item-count="{{ cart.item_count }}">
+  <div class="container cart-page__inner">
+
+    <header class="cart-page__head">
+      <h1 class="cart-page__title">Your Cart</h1>
+      {%- if cart.item_count > 0 -%}
+        <p class="cart-page__count">
+          {{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}
+        </p>
+      {%- endif -%}
+    </header>
+
+    <p class="cart-alert" data-cart-alert role="alert" hidden></p>
+    <p class="visually-hidden" data-cart-live aria-live="polite"></p>
+
+    {%- if cart.item_count == 0 -%}
+
+      <div class="cart-empty">
+        <svg class="cart-empty__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M3 3h2l2.4 12.1a2 2 0 0 0 2 1.6h8.5a2 2 0 0 0 2-1.6L21 7H6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/>
+        </svg>
+        <h2 class="cart-empty__title">Your cart is empty</h2>
+        <p class="cart-empty__text">Build a gang sheet or pick a transfer size to get started &mdash; printed and shipped in 24 hours.</p>
+        <div class="cart-empty__actions">
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn-accent">Shop transfers</a>
+          <a href="/pages/build-a-gang-sheet" class="btn btn-outline">Build a gang sheet</a>
+        </div>
+      </div>
+
+    {%- else -%}
+
+      <form action="{{ routes.cart_url }}" method="post" novalidate class="cart-layout" data-cart-form>
+
+        <div class="cart-items">
+          {%- for item in cart.items -%}
+            {%- liquid
+              assign line_max = 999
+              if item.variant.inventory_management != blank and item.variant.inventory_policy == 'deny'
+                assign line_max = item.variant.inventory_quantity
+                if line_max < 1
+                  assign line_max = 1
+                endif
+              endif
+            -%}
+            <div class="cart-item" data-cart-item data-line="{{ forloop.index }}" data-key="{{ item.key }}">
+
+              <a class="cart-item__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+                {%- if item.image -%}
+                  <img src="{{ item.image | image_url: width: 240 }}" alt="" width="120" height="120" loading="lazy">
+                {%- else -%}
+                  <span class="cart-item__media-fallback"></span>
+                {%- endif -%}
+              </a>
+
+              <div class="cart-item__info">
+                <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+
+                {%- unless item.product.has_only_default_variant -%}
+                  <p class="cart-item__variant">{{ item.variant.title }}</p>
+                {%- endunless -%}
+
+                {%- assign has_props = false -%}
+                {%- for p in item.properties -%}
+                  {%- assign first_char = p.first | slice: 0 -%}
+                  {%- if p.last != blank and first_char != '_' -%}
+                    {%- assign has_props = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- if has_props -%}
+                  <ul class="cart-item__props">
+                    {%- for p in item.properties -%}
+                      {%- assign first_char = p.first | slice: 0 -%}
+                      {%- if p.last != blank and first_char != '_' -%}
+                        <li>
+                          <span class="cart-item__prop-key">{{ p.first }}:</span>
+                          {%- if p.last contains 'http' -%}
+                            <a href="{{ p.last }}" target="_blank" rel="noopener">{{ p.last | split: '/' | last | truncate: 28 }}</a>
+                          {%- else -%}
+                            {{ p.last }}
+                          {%- endif -%}
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+
+                {%- if item.line_level_discount_allocations.size > 0 -%}
+                  <ul class="cart-item__discounts">
+                    {%- for d in item.line_level_discount_allocations -%}
+                      <li>{{ d.discount_application.title }} (&minus;{{ d.amount | money }})</li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+
+                <p class="cart-item__unit">{{ item.original_price | money }} each</p>
+              </div>
+
+              <div class="cart-item__qty">
+                <div class="qty-stepper" data-qty-stepper>
+                  <button type="button" class="qty-stepper__btn" data-qty-down aria-label="Decrease quantity for {{ item.product.title | escape }}">&minus;</button>
+                  <input
+                    class="qty-stepper__input"
+                    type="number"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    max="{{ line_max }}"
+                    step="1"
+                    data-qty-input
+                    aria-label="Quantity for {{ item.product.title | escape }}">
+                  <button type="button" class="qty-stepper__btn" data-qty-up aria-label="Increase quantity for {{ item.product.title | escape }}">+</button>
+                </div>
+                {%- if line_max < 999 -%}
+                  <p class="cart-item__stock">Only {{ line_max }} left</p>
+                {%- endif -%}
+                <button type="button" class="cart-item__remove" data-cart-remove>Remove</button>
+              </div>
+
+              <div class="cart-item__total">
+                {%- if item.original_line_price != item.final_line_price -%}
+                  <s class="cart-item__was">{{ item.original_line_price | money }}</s>
+                {%- endif -%}
+                <span class="cart-item__price">{{ item.final_line_price | money }}</span>
+              </div>
+
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <aside class="cart-summary">
+          <h2 class="cart-summary__title">Order summary</h2>
+
+          <div class="cart-summary__row">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+
+          {%- for d in cart.cart_level_discount_applications -%}
+            <div class="cart-summary__row cart-summary__row--discount">
+              <span>{{ d.title }}</span>
+              <span>&minus;{{ d.total_allocated_amount | money }}</span>
+            </div>
+          {%- endfor -%}
+
+          <div class="cart-summary__row">
+            <span>Shipping</span>
+            <span class="cart-summary__free">Free</span>
+          </div>
+
+          <p class="cart-summary__note">Taxes and any discount codes are applied at checkout.</p>
+
+          <button type="submit" name="checkout" class="btn btn-accent cart-summary__checkout" data-cart-checkout>
+            Checkout &middot; {{ cart.total_price | money }}
+          </button>
+
+          <p class="cart-checkout-msg" data-checkout-msg role="status" hidden></p>
+
+          <a href="{{ routes.all_products_collection_url }}" class="cart-summary__continue">Continue shopping</a>
+
+          <div class="cart-summary__trust">
+            <img src="{{ 'payment-methods.webp' | asset_url }}" alt="Accepted payment methods" loading="lazy" width="240" height="24">
+            <p>Printed &amp; shipped in 24 hours &middot; Secure checkout</p>
+          </div>
+        </aside>
+
+      </form>
+
+      {%- comment -%}
+        Cart line items handed to the gang sheet app's checkout route. Rendered
+        as JSON rather than read from /cart.js so the properties are already in
+        the shape the route expects.
+      {%- endcomment -%}
+      <script type="application/json" data-cart-payload>
+        {
+          "lineItems": [
+            {%- for item in cart.items -%}
+              {
+                "variantId": {{ item.variant_id | json }},
+                "quantity": {{ item.quantity }},
+                "productTitle": {{ item.product.title | json }}
+                {%- for p in item.properties -%}
+                  {%- if p.last != blank -%}
+                    {%- if p.first == 'Artwork' %}, "artworkUrl": {{ p.last | json }}{% endif -%}
+                    {%- if p.first == 'Sheet Length' %}, "sheetFt": {{ p.last | json }}{% endif -%}
+                    {%- if p.first == 'Film' %}, "film": {{ p.last | json }}{% endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              }{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        }
+      </script>
+
+    {%- endif -%}
   </div>
 </section>
 
-{% if cart.item_count > 0 %}
-  {%- comment -%}
-    Cart line items, handed to the gang sheet app's checkout route so the draft
-    order keeps each line's custom attributes (artwork URL, sheet size, film).
-    Rendered as JSON rather than read from /cart.js so the properties are
-    already in the shape the route expects.
-  {%- endcomment -%}
-  <script type="application/json" data-cart-payload>
-    {
-      "lineItems": [
-        {%- for item in cart.items -%}
-          {
-            "variantId": {{ item.variant_id | json }},
-            "quantity": {{ item.quantity }},
-            "productTitle": {{ item.product.title | json }}
-            {%- for p in item.properties -%}
-              {%- if p.last != blank -%}
-                {%- if p.first == 'Artwork' %}, "artworkUrl": {{ p.last | json }}{% endif -%}
-                {%- if p.first == 'Sheet Length' %}, "sheetFt": {{ p.last | json }}{% endif -%}
-                {%- if p.first == 'Film' %}, "film": {{ p.last | json }}{% endif -%}
-              {%- endif -%}
-            {%- endfor -%}
-          }{% unless forloop.last %},{% endunless %}
-        {%- endfor -%}
-      ]
-    }
-  </script>
+<script>
+(function () {
+  // Bind once: the section markup is swapped out on every cart update, so the
+  // listeners live on document and resolve their elements at event time.
+  if (window.__fineystCartBound) return;
+  window.__fineystCartBound = true;
 
-  <script>
-  (function () {
-    var btn = document.querySelector('[data-cart-checkout]');
-    var payloadEl = document.querySelector('[data-cart-payload]');
-    var msg = document.querySelector('[data-checkout-msg]');
-    if (!btn || !payloadEl) return;
+  var SECTION_ID = {{ section.id | json }};
+  var busy = false;
 
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      var payload;
-      try {
-        payload = JSON.parse(payloadEl.textContent);
-      } catch (err) {
-        window.location.href = '/checkout';
+  function root() { return document.querySelector('[data-cart-root]'); }
+
+  function showAlert(text) {
+    var el = document.querySelector('[data-cart-alert]');
+    if (!el) return;
+    if (!text) { el.hidden = true; el.textContent = ''; return; }
+    el.textContent = text;
+    el.hidden = false;
+  }
+
+  function announce(text) {
+    var el = document.querySelector('[data-cart-live]');
+    if (el) el.textContent = text;
+  }
+
+  function setBusy(state) {
+    busy = state;
+    var r = root();
+    if (r) r.classList.toggle('is-busy', state);
+    document.querySelectorAll('[data-cart-checkout],[data-qty-input],[data-qty-up],[data-qty-down],[data-cart-remove]')
+      .forEach(function (el) { el.disabled = state; });
+  }
+
+  function updateHeaderCount(count) {
+    document.querySelectorAll('.cart-icon-link').forEach(function (link) {
+      var badge = link.querySelector('.cart-count-badge');
+      if (count > 0) {
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'cart-count-badge';
+          link.appendChild(badge);
+        }
+        badge.textContent = count > 99 ? '99+' : String(count);
+        badge.setAttribute('aria-label', count + ' items in cart');
+      } else if (badge) {
+        badge.remove();
+      }
+    });
+  }
+
+  // Sends one line update, then swaps in the freshly rendered section markup.
+  function changeLine(line, quantity) {
+    if (busy) return;
+    setBusy(true);
+    showAlert('');
+
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ line: line, quantity: quantity, sections: [SECTION_ID] })
+    })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          return { ok: res.ok, data: data };
+        });
+      })
+      .then(function (r) {
+        if (!r.ok) {
+          // Shopify answers 422 with a human-readable reason (e.g. stock limits).
+          throw new Error(r.data.description || r.data.message || 'We could not update your cart.');
+        }
+        var html = r.data.sections && r.data.sections[SECTION_ID];
+        var current = root();
+        if (!html || !current) { window.location.reload(); return; }
+
+        var next = new DOMParser().parseFromString(html, 'text/html').querySelector('[data-cart-root]');
+        if (!next) { window.location.reload(); return; }
+        current.replaceWith(next);
+
+        updateHeaderCount(r.data.item_count);
+        announce(quantity === 0 ? 'Item removed from cart.' : 'Cart updated.');
+        setBusy(false);
+      })
+      .catch(function (err) {
+        setBusy(false);
+        showAlert(err.message);
+        announce(err.message);
+      });
+  }
+
+  function clampQty(input) {
+    var max = parseInt(input.getAttribute('max'), 10);
+    var value = parseInt(input.value, 10);
+    if (isNaN(value) || value < 0) value = 0;
+    if (!isNaN(max) && value > max) value = max;
+    return value;
+  }
+
+  // Keep non-digits out of the number input entirely.
+  document.addEventListener('keydown', function (e) {
+    if (!e.target.closest || !e.target.closest('[data-qty-input]')) return;
+    if (['e', 'E', '+', '-', '.', ','].indexOf(e.key) !== -1) e.preventDefault();
+    if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest) return;
+
+    var step = e.target.closest('[data-qty-up],[data-qty-down]');
+    if (step) {
+      var up = !!step.closest('[data-qty-up]');
+      var item = step.closest('[data-cart-item]');
+      var input = step.closest('[data-qty-stepper]').querySelector('[data-qty-input]');
+      if (!item || !input) return;
+      var max = parseInt(input.getAttribute('max'), 10);
+      var next = clampQty(input) + (up ? 1 : -1);
+      if (next < 0) return;
+      if (up && !isNaN(max) && next > max) {
+        showAlert('Only ' + max + ' of this item are available.');
         return;
       }
+      changeLine(parseInt(item.dataset.line, 10), next);
+      return;
+    }
 
-      btn.classList.add('is-loading');
-      btn.textContent = 'Preparing checkout…';
-      if (msg) msg.hidden = true;
+    var remove = e.target.closest('[data-cart-remove]');
+    if (remove) {
+      var line = remove.closest('[data-cart-item]');
+      if (line) changeLine(parseInt(line.dataset.line, 10), 0);
+      return;
+    }
 
-      fetch('/apps/gang-sheet-builder/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(function (res) {
-          return res.json().catch(function () { return {}; }).then(function (d) {
-            return { ok: res.ok, data: d };
-          });
-        })
-        .then(function (r) {
-          if (!r.ok || !r.data.invoiceUrl) {
-            throw new Error(r.data.message || 'Could not start checkout.');
-          }
-          window.location.href = r.data.invoiceUrl;
-        })
-        .catch(function (err) {
-          // Never strand the customer: fall back to Shopify's own checkout.
-          if (msg) {
-            msg.textContent = err.message + ' Continuing with standard checkout…';
-            msg.hidden = false;
-          }
-          setTimeout(function () { window.location.href = '/checkout'; }, 1200);
+    var checkout = e.target.closest('[data-cart-checkout]');
+    if (checkout) {
+      e.preventDefault();
+      startCheckout(checkout);
+    }
+  });
+
+  // Typed quantities commit on blur/Enter, clamped to the line's stock limit.
+  document.addEventListener('change', function (e) {
+    var input = e.target.closest && e.target.closest('[data-qty-input]');
+    if (!input) return;
+    var item = input.closest('[data-cart-item]');
+    if (!item) return;
+
+    var original = parseInt(input.defaultValue, 10);
+    if (input.value.trim() === '') { input.value = original; return; }
+
+    var max = parseInt(input.getAttribute('max'), 10);
+    if (!isNaN(max) && parseInt(input.value, 10) > max) {
+      showAlert('Only ' + max + ' of this item are available.');
+    }
+    var value = clampQty(input);
+    input.value = value;
+    if (value === original) return;
+    changeLine(parseInt(item.dataset.line, 10), value);
+  });
+
+  // Never submit the plain form: every change already went through AJAX.
+  document.addEventListener('submit', function (e) {
+    if (e.target.matches && e.target.matches('[data-cart-form]')) e.preventDefault();
+  });
+
+  function startCheckout(btn) {
+    if (busy) return;
+    var r = root();
+    if (!r || parseInt(r.dataset.itemCount, 10) === 0) {
+      showAlert('Your cart is empty.');
+      return;
+    }
+
+    var payloadEl = document.querySelector('[data-cart-payload]');
+    var payload = null;
+    if (payloadEl) {
+      try { payload = JSON.parse(payloadEl.textContent); } catch (err) { payload = null; }
+    }
+    if (!payload || !payload.lineItems || !payload.lineItems.length) {
+      window.location.href = '/checkout';
+      return;
+    }
+
+    var msg = document.querySelector('[data-checkout-msg]');
+    var label = btn.textContent;
+    setBusy(true);
+    btn.classList.add('is-loading');
+    btn.textContent = 'Preparing checkout…';
+    if (msg) msg.hidden = true;
+
+    fetch('/apps/gang-sheet-builder/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (d) {
+          return { ok: res.ok, data: d };
         });
-    });
-  })();
-  </script>
-{% endif %}
+      })
+      .then(function (r2) {
+        if (!r2.ok || !r2.data.invoiceUrl) {
+          throw new Error(r2.data.message || 'Could not start checkout.');
+        }
+        window.location.href = r2.data.invoiceUrl;
+      })
+      .catch(function (err) {
+        // Never strand the customer: fall back to Shopify's own checkout.
+        btn.textContent = label;
+        btn.classList.remove('is-loading');
+        if (msg) {
+          msg.textContent = err.message + ' Continuing with standard checkout…';
+          msg.hidden = false;
+        }
+        setTimeout(function () { window.location.href = '/checkout'; }, 1200);
+      });
+  }
+})();
+</script>
 
 {% schema %}
 { "name": "Main cart", "settings": [] }
