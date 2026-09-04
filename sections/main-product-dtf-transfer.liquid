@@ -1,3 +1,17 @@
+<style>
+  .upload-dropzone.is-dragging { border-color: var(--brand); background: var(--brand-tint); }
+  .upload-file-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .upload-file-item { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--pdp-line); border-radius: 8px; padding: 8px 12px; font-size: 0.82rem; }
+  .upload-file-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload-file-size { color: var(--pdp-muted); font-size: 0.75rem; }
+  .upload-file-ok { font-size: 0.72rem; font-weight: 700; color: var(--success); margin-left: auto; }
+  .upload-file-err { font-size: 0.72rem; font-weight: 700; color: #C92A2A; margin-left: auto; }
+  .upload-file-progress { font-size: 0.72rem; font-weight: 600; color: var(--pdp-muted); margin-left: auto; }
+  .upload-file-item.is-error { border-color: #F3C6C6; background: #FFF6F6; }
+  .upload-file-remove { border: none; background: none; font-size: 1.1rem; line-height: 1; color: var(--pdp-muted); cursor: pointer; padding: 0 2px; }
+  .upload-file-remove:hover { color: #C92A2A; }
+</style>
+
 {%- liquid
   assign rating = product.metafields.reviews.rating | default: section.settings.rating_value
   assign rating_count = product.metafields.reviews.rating_count | default: section.settings.rating_count
@@ -672,19 +686,6 @@
 })();
 </script>
 
-<style>
-  .upload-dropzone.is-dragging { border-color: var(--brand); background: var(--brand-tint); }
-  .upload-file-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
-  .upload-file-item { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--pdp-line); border-radius: 8px; padding: 8px 12px; font-size: 0.82rem; }
-  .upload-file-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .upload-file-size { color: var(--pdp-muted); font-size: 0.75rem; }
-  .upload-file-ok { font-size: 0.72rem; font-weight: 700; color: var(--success); margin-left: auto; }
-  .upload-file-err { font-size: 0.72rem; font-weight: 700; color: #C92A2A; margin-left: auto; }
-  .upload-file-progress { font-size: 0.72rem; font-weight: 600; color: var(--pdp-muted); margin-left: auto; }
-  .upload-file-item.is-error { border-color: #F3C6C6; background: #FFF6F6; }
-  .upload-file-remove { border: none; background: none; font-size: 1.1rem; line-height: 1; color: var(--pdp-muted); cursor: pointer; padding: 0 2px; }
-  .upload-file-remove:hover { color: #C92A2A; }
-</style>
 
 {% schema %}
 {
