@@ -1,3 +1,190 @@
+<style>
+  /* ── Gang Sheet specific overrides ─────────────────────────── */
+  .main-product-dtf-upload .pdp-features--grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+
+  .pdp-meta-sep {
+    color: var(--color-border, #d1d5db);
+    margin: 0 6px;
+  }
+
+  /* Size selector */
+  .gang-sheet-form { display: flex; flex-direction: column; gap: 20px; margin-top: 18px; }
+  .gang-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text, #111);
+    margin-bottom: 10px;
+  }
+  .gang-section-note { font-weight: 400; color: var(--color-text-muted, #6b7280); }
+
+  .gang-sizes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+
+  .gang-size-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 10px 6px;
+    border: 1.5px solid var(--color-border, #d1d5db);
+    border-radius: 8px;
+    background: var(--color-bg, #fff);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    text-align: center;
+  }
+  .gang-size-btn:hover { border-color: var(--color-accent, #0ea5e9); }
+  .gang-size-btn.is-active {
+    border-color: var(--color-accent, #0ea5e9);
+    background: color-mix(in srgb, var(--color-accent, #0ea5e9) 8%, transparent);
+  }
+  .gang-size-label { font-size: 13px; font-weight: 600; color: var(--color-text, #111); }
+  .gang-size-price { font-size: 12px; color: var(--color-text, #111); }
+  .gang-size-off {
+    font-size: 10px;
+    font-weight: 600;
+    color: #16a34a;
+    background: #dcfce7;
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+
+  /* Film style */
+  .gang-films {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .gang-film-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1.5px solid var(--color-border, #d1d5db);
+    border-radius: 24px;
+    background: var(--color-bg, #fff);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-color 0.15s;
+  }
+  .gang-film-btn:hover { border-color: var(--color-accent, #0ea5e9); }
+  .gang-film-btn.is-active { border-color: var(--color-accent, #0ea5e9); }
+  .gang-film-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
+  }
+  .gang-film-badge {
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    font-size: 9px;
+    font-weight: 700;
+    background: var(--color-accent, #0ea5e9);
+    color: #fff;
+    border-radius: 4px;
+    padding: 1px 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .gang-film-check { color: var(--color-accent, #0ea5e9); display: flex; align-items: center; }
+
+  /* Selected size / film / price recap above the builder CTA */
+  .gang-selection-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin: 16px 0 10px;
+    padding: 12px 14px;
+    border: 1px solid #E8EAEE;
+    border-radius: 10px;
+    background: #F8FAFC;
+    font-size: 14px;
+  }
+  .gang-selection-label { color: #667085; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .gang-selection-value { color: #101828; }
+  .gang-selection-sep { color: #98A2B3; margin: 0 4px; }
+  .gang-selection-price { margin-left: auto; display: inline-flex; align-items: baseline; gap: 8px; }
+  .gang-selection-price strong { font-size: 18px; color: #101828; }
+  .gang-selection-price s { color: #98A2B3; }
+  .gang-selection-price em { font-style: normal; color: #067647; font-weight: 600; font-size: 12px; }
+
+  /* CTA button */
+  .gang-builder-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 16px;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+  }
+
+  /* Rewards */
+  /* Rewards bar: filled grey strip with the percentage boxed on the left,
+     label and LEARN MORE inline, matching the Ninja layout. */
+  .gang-rewards {
+    margin-top: 14px;
+    border: 1px solid #E8EAEE;
+    border-radius: 10px;
+    background: #F4F6F8;
+    padding: 12px 14px;
+  }
+  .gang-rewards-inner { display: flex; align-items: center; gap: 14px; }
+  .gang-rewards-pct {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-shrink: 0;
+    min-width: 62px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #E8EAEE;
+    line-height: 1.1;
+    text-align: center;
+  }
+  .gang-rewards-pct em { font-style: normal; font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #667085; }
+  .gang-rewards-pct strong { font-size: 19px; font-weight: 900; color: #101828; }
+  .gang-rewards-text { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: #475467; }
+  .gang-rewards-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .gang-rewards-label { font-size: 12px; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; color: #101828; }
+  .gang-rewards-text p { margin: 0; }
+  .gang-rewards-more {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    color: var(--brand, #3E6D8E);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .gang-rewards-text p { margin: 0; color: var(--color-text-muted, #6b7280); }
+
+  @media (max-width: 749px) {
+    .main-product-dtf-upload .pdp-features--grid { grid-template-columns: 1fr; }
+    .gang-sizes { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+
 {%- liquid
   assign rating = product.metafields.reviews.rating | default: section.settings.rating_value
   assign rating_count = product.metafields.reviews.rating_count | default: section.settings.rating_count
@@ -259,192 +446,6 @@
   </div>
 </section>
 
-<style>
-  /* ── Gang Sheet specific overrides ─────────────────────────── */
-  .main-product-dtf-upload .pdp-features--grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 24px;
-  }
-
-  .pdp-meta-sep {
-    color: var(--color-border, #d1d5db);
-    margin: 0 6px;
-  }
-
-  /* Size selector */
-  .gang-sheet-form { display: flex; flex-direction: column; gap: 20px; margin-top: 18px; }
-  .gang-section-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--color-text, #111);
-    margin-bottom: 10px;
-  }
-  .gang-section-note { font-weight: 400; color: var(--color-text-muted, #6b7280); }
-
-  .gang-sizes {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: 8px;
-  }
-
-  .gang-size-btn {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    padding: 10px 6px;
-    border: 1.5px solid var(--color-border, #d1d5db);
-    border-radius: 8px;
-    background: var(--color-bg, #fff);
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    text-align: center;
-  }
-  .gang-size-btn:hover { border-color: var(--color-accent, #0ea5e9); }
-  .gang-size-btn.is-active {
-    border-color: var(--color-accent, #0ea5e9);
-    background: color-mix(in srgb, var(--color-accent, #0ea5e9) 8%, transparent);
-  }
-  .gang-size-label { font-size: 13px; font-weight: 600; color: var(--color-text, #111); }
-  .gang-size-price { font-size: 12px; color: var(--color-text, #111); }
-  .gang-size-off {
-    font-size: 10px;
-    font-weight: 600;
-    color: #16a34a;
-    background: #dcfce7;
-    border-radius: 4px;
-    padding: 1px 5px;
-  }
-
-  /* Film style */
-  .gang-films {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .gang-film-btn {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border: 1.5px solid var(--color-border, #d1d5db);
-    border-radius: 24px;
-    background: var(--color-bg, #fff);
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: border-color 0.15s;
-  }
-  .gang-film-btn:hover { border-color: var(--color-accent, #0ea5e9); }
-  .gang-film-btn.is-active { border-color: var(--color-accent, #0ea5e9); }
-  .gang-film-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,0,0,0.1);
-    flex-shrink: 0;
-  }
-  .gang-film-badge {
-    position: absolute;
-    top: -8px;
-    left: 8px;
-    font-size: 9px;
-    font-weight: 700;
-    background: var(--color-accent, #0ea5e9);
-    color: #fff;
-    border-radius: 4px;
-    padding: 1px 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-  }
-  .gang-film-check { color: var(--color-accent, #0ea5e9); display: flex; align-items: center; }
-
-  /* Selected size / film / price recap above the builder CTA */
-  .gang-selection-summary {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px 12px;
-    margin: 16px 0 10px;
-    padding: 12px 14px;
-    border: 1px solid #E8EAEE;
-    border-radius: 10px;
-    background: #F8FAFC;
-    font-size: 14px;
-  }
-  .gang-selection-label { color: #667085; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .gang-selection-value { color: #101828; }
-  .gang-selection-sep { color: #98A2B3; margin: 0 4px; }
-  .gang-selection-price { margin-left: auto; display: inline-flex; align-items: baseline; gap: 8px; }
-  .gang-selection-price strong { font-size: 18px; color: #101828; }
-  .gang-selection-price s { color: #98A2B3; }
-  .gang-selection-price em { font-style: normal; color: #067647; font-weight: 600; font-size: 12px; }
-
-  /* CTA button */
-  .gang-builder-btn {
-    width: 100%;
-    justify-content: center;
-    padding: 16px;
-    font-size: 15px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: 8px;
-  }
-
-  /* Rewards */
-  /* Rewards bar: filled grey strip with the percentage boxed on the left,
-     label and LEARN MORE inline, matching the Ninja layout. */
-  .gang-rewards {
-    margin-top: 14px;
-    border: 1px solid #E8EAEE;
-    border-radius: 10px;
-    background: #F4F6F8;
-    padding: 12px 14px;
-  }
-  .gang-rewards-inner { display: flex; align-items: center; gap: 14px; }
-  .gang-rewards-pct {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    flex-shrink: 0;
-    min-width: 62px;
-    padding: 6px 8px;
-    border-radius: 8px;
-    background: #fff;
-    border: 1px solid #E8EAEE;
-    line-height: 1.1;
-    text-align: center;
-  }
-  .gang-rewards-pct em { font-style: normal; font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #667085; }
-  .gang-rewards-pct strong { font-size: 19px; font-weight: 900; color: #101828; }
-  .gang-rewards-text { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: #475467; }
-  .gang-rewards-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-  .gang-rewards-label { font-size: 12px; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; color: #101828; }
-  .gang-rewards-text p { margin: 0; }
-  .gang-rewards-more {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    color: var(--brand, #3E6D8E);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-  .gang-rewards-text p { margin: 0; color: var(--color-text-muted, #6b7280); }
-
-  @media (max-width: 749px) {
-    .main-product-dtf-upload .pdp-features--grid { grid-template-columns: 1fr; }
-    .gang-sizes { grid-template-columns: repeat(3, 1fr); }
-  }
-</style>
 
 <script>
 (function () {
