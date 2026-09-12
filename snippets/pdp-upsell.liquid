@@ -1,0 +1,73 @@
+{%- comment -%}
+  PDP Upsell — a horizontal carousel of cross-sell products rendered directly
+  under the sizes block in the buy column of the DTF / UV DTF product pages.
+
+  Several of those pages share one product template, so the category can't come
+  from template settings — it is resolved from the product handle below. UV DTF
+  presses onto hard goods, DTF presses onto apparel, so each side upsells the
+  blanks its own transfers actually stick to.
+
+  Usage (both overrides optional):
+    {% render 'pdp-upsell' %}
+    {% render 'pdp-upsell', collection_handle: 'baseball-caps', heading: 'Complete your order with hats' %}
+{%- endcomment -%}
+
+{%- liquid
+  case product.handle
+    when 'uv-dtf-perma-stickers', 'uv-dtf-gang-sheet-builder', 'uv-dtf-gang-sheet-upload'
+      assign default_collection = 'drinkware-hard-goods'
+      assign default_heading = 'Complete your order with hard goods'
+    when 'premium-dtf-gang-sheets'
+      assign default_collection = 'blank-apparel'
+      assign default_heading = 'Complete your order with blank apparel'
+    else
+      assign default_collection = 't-shirts'
+      assign default_heading = 'Complete your order with blank tees'
+  endcase
+
+  assign upsell_handle = collection_handle | default: default_collection
+  assign upsell_collection = collections[upsell_handle]
+  assign upsell_heading = heading | default: default_heading
+  assign upsell_sub = subheading | default: 'No Minimums | Earliest Delivery: Tomorrow'
+  assign upsell_limit = limit | default: 12
+-%}
+
+{%- if upsell_collection != blank and upsell_collection.products_count > 0 -%}
+  <div class="pdp-upsell" data-pdp-upsell>
+    <div class="pdp-upsell-head">
+      <h3 class="pdp-upsell-title">{{ upsell_heading }}</h3>
+      {%- if upsell_sub != blank -%}
+        <p class="pdp-upsell-sub">{{ upsell_sub }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="pdp-upsell-viewport">
+      <button type="button" class="pdp-upsell-nav pdp-upsell-nav--prev" data-upsell-prev aria-label="Previous products" hidden>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+
+      <div class="pdp-upsell-track" data-upsell-track>
+        {%- for upsell_product in upsell_collection.products limit: upsell_limit -%}
+          <a class="pdp-upsell-card" href="{{ upsell_product.url }}">
+            <div class="pdp-upsell-media">
+              {%- if upsell_product.featured_image -%}
+                {{ upsell_product.featured_image | image_url: width: 480 | image_tag: loading: 'lazy', width: 240, height: 240, alt: upsell_product.title, class: 'pdp-upsell-img' }}
+              {%- else -%}
+                <span class="pdp-upsell-img pdp-upsell-img--empty" aria-hidden="true"></span>
+              {%- endif -%}
+            </div>
+            <div class="pdp-upsell-body">
+              <span class="pdp-upsell-name">{{ upsell_product.title }}</span>
+              <span class="pdp-upsell-lbl">Starting at</span>
+              <span class="pdp-upsell-price">{{ upsell_product.price_min | money }}</span>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+
+      <button type="button" class="pdp-upsell-nav pdp-upsell-nav--next" data-upsell-next aria-label="More products" hidden>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+{%- endif -%}

@@ -245,6 +245,9 @@
         </div>
       {%- endif -%}
 
+      {%- comment -%} Cross-sell the blanks these transfers press onto. {%- endcomment -%}
+      {% render 'pdp-upsell' %}
+
       <div class="editor" data-editor data-dpi="{{ section.settings.print_dpi }}" data-max-width="{{ section.settings.max_print_width }}">
         <div class="editor-grid">
 

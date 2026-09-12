@@ -508,6 +508,9 @@
         </div>
       {% endform %}
 
+      {%- comment -%} Cross-sell the blanks these transfers press onto. {%- endcomment -%}
+      {% render 'pdp-upsell' %}
+
       {% if product.description != blank %}
         <div class="pdp-description rte">{{ product.description }}</div>
       {% endif %}
