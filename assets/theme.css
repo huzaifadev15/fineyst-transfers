@@ -3394,3 +3394,52 @@ body.template-index main { padding-top: 0; }
   .cart-item__total { grid-area: total; align-self: center; }
   .cart-item__stock { width: 100%; }
 }
+
+/* ==========================================================================
+   PDP Upsell — cross-sell carousel rendered under the sizes block on the
+   DTF / UV DTF product pages. See snippets/pdp-upsell.liquid.
+   ========================================================================== */
+.pdp-upsell { margin-top: 28px; }
+.pdp-upsell-head { margin-bottom: 14px; }
+.pdp-upsell-title { margin: 0; font-size: 1.35rem; font-weight: 800; color: #111827; line-height: 1.25; }
+.pdp-upsell-sub { margin: 4px 0 0; font-size: 0.9rem; color: #6B7280; }
+
+.pdp-upsell-viewport { position: relative; }
+.pdp-upsell-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(190px, 1fr);
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.pdp-upsell-track::-webkit-scrollbar { display: none; }
+
+.pdp-upsell-card { display: block; scroll-snap-align: start; text-decoration: none; color: inherit; }
+.pdp-upsell-media { background: #F3F4F6; border-radius: 10px; overflow: hidden; }
+.pdp-upsell-img { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; }
+.pdp-upsell-img--empty { background: #E5E7EB; }
+.pdp-upsell-body { display: flex; flex-direction: column; gap: 2px; padding-top: 10px; }
+.pdp-upsell-name { font-size: 0.95rem; font-weight: 700; color: #111827; line-height: 1.3; }
+.pdp-upsell-lbl { font-size: 0.82rem; color: #6B7280; }
+.pdp-upsell-price { font-size: 1rem; font-weight: 800; color: #1A7A3C; }
+
+.pdp-upsell-nav {
+  position: absolute; top: 34%; transform: translateY(-50%); z-index: 2;
+  width: 38px; height: 38px; border: 0; border-radius: 50%; cursor: pointer;
+  display: grid; place-items: center;
+  background: rgba(17, 24, 39, 0.55); color: #fff;
+  transition: background 0.15s ease;
+}
+.pdp-upsell-nav:hover { background: rgba(17, 24, 39, 0.8); }
+.pdp-upsell-nav--prev { left: -6px; }
+.pdp-upsell-nav--next { right: -6px; }
+
+@media (max-width: 749px) {
+  .pdp-upsell-track { grid-auto-columns: minmax(150px, 1fr); gap: 12px; }
+  .pdp-upsell-title { font-size: 1.15rem; }
+  .pdp-upsell-nav { display: none; }
+}
