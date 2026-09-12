@@ -3419,9 +3419,15 @@ body.template-index main { padding-top: 0; }
 .pdp-upsell-track::-webkit-scrollbar { display: none; }
 
 .pdp-upsell-card { display: block; scroll-snap-align: start; text-decoration: none; color: inherit; }
-.pdp-upsell-media { background: #F3F4F6; border-radius: 10px; overflow: hidden; }
-.pdp-upsell-img { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; }
-.pdp-upsell-img--empty { background: #E5E7EB; }
+/* White, not grey: product shots are letterboxed inside the square by
+   object-fit: contain, and a tinted box turned that spare room into grey bands
+   above and below every landscape image.
+   height: auto is load-bearing — the img carries a height="240" attribute, and
+   without an author height that attribute wins, pinning the box to 240px tall
+   and leaving aspect-ratio inert (boxes then vary with each photo). */
+.pdp-upsell-media { background: #fff; border-radius: 10px; overflow: hidden; }
+.pdp-upsell-img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; background: #fff; }
+.pdp-upsell-img--empty { background: #F3F4F6; }
 .pdp-upsell-body { display: flex; flex-direction: column; gap: 2px; padding-top: 10px; }
 .pdp-upsell-name { font-size: 0.95rem; font-weight: 700; color: #111827; line-height: 1.3; }
 .pdp-upsell-lbl { font-size: 0.82rem; color: #6B7280; }
