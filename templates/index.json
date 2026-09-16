@@ -13,9 +13,9 @@
         "primary_link": "/products/dtf-transfers",
         "secondary_label": "Build a Gang Sheet",
         "secondary_link": "/products/uv-dtf-gang-sheet-builder",
-        "column_1": "hero-1.jpg,hero-4.jpg,hero-7.jpg",
-        "column_2": "hero-2.jpg,hero-5.jpg,hero-1.jpg",
-        "column_3": "hero-3.jpg,hero-6.jpg,hero-4.jpg"
+        "column_1": "carousel-1.png,we-print-apparel.png,carousel-3.png",
+        "column_2": "carousel-2.png,quality-check.png,carousel-1.png",
+        "column_3": "carousel-3.png,we-print-apparel.png,carousel-2.png"
       }
     },
     "features": {
@@ -99,7 +99,7 @@
         "o1": {
           "type": "option",
           "settings": {
-            "static_image": "dtf-1.jpg",
+            "static_image": "dtf-transfer-by-size.png",
             "badge": "Most Popular",
             "title": "DTF Transfers By Size",
             "price_note": "As low as $0.02 per sq. inch",
@@ -111,7 +111,7 @@
         "o2": {
           "type": "option",
           "settings": {
-            "static_image": "dtf-2.jpg",
+            "static_image": "dtf-gang-sheet.png",
             "badge": "Easily Design & Build Online",
             "title": "Build a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
@@ -123,7 +123,7 @@
         "o3": {
           "type": "option",
           "settings": {
-            "static_image": "dtf-3.jpg",
+            "static_image": "step-1-send-design.png",
             "badge": "For Pros - Print Ready Files",
             "title": "Upload a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
@@ -151,7 +151,7 @@
         "t2": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-1.jpg",
+            "static_image": "sharp-fine-print.png",
             "caption": "Super Fine Details"
           }
         },
@@ -165,7 +165,7 @@
         "t4": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-2.jpg",
+            "static_image": "true-to-color.png",
             "caption": "Any Design on Any Color"
           }
         },
@@ -179,7 +179,7 @@
         "t6": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-5.avif",
+            "static_image": "whites-stay-white.png",
             "caption": "Crisp Bright Whites"
           }
         },
@@ -550,7 +550,7 @@
         "trust_text": "25,000+ Trusted Customers",
         "cta_text": "Get Started",
         "cta_url": "/products/dtf-transfers",
-        "static_image": "dtf-4.jpg"
+        "static_image": "quality-check.png"
       }
     },
     "things-to-know": {
@@ -600,9 +600,9 @@
       "block_order": ["k1", "k2", "k3", "k4", "k5"],
       "settings": {
         "eyebrow": "Things to Know",
-        "image_top_file": "hero-1.jpg",
-        "image_middle_file": "hero-4.jpg",
-        "image_bottom_file": "hero-7.jpg"
+        "image_top_file": "carousel-1.png",
+        "image_middle_file": "carousel-2.png",
+        "image_bottom_file": "carousel-3.png"
       }
     }
   },

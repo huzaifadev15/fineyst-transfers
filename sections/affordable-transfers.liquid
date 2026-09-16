@@ -43,7 +43,7 @@
     <h2 class="shop-heading">{{ section.settings.grid_heading | default: 'Shop Transfer Types - DTF, UV DTF, Puff, Glitter &amp; More' }}</h2>
 
     <div class="patch-grid">
-      {%- assign transfer_types = "DTF TRANSFERS BY SIZE,dtf-transfers,$0.02 per sq. in.,Press any design on any garment or color.,dtf-1.jpg|DTF GANG SHEETS,premium-dtf-gang-sheets,$0.02 per sq. in.,Fit more designs per sheet and save.,dtf-2.jpg|UV DTF TRANSFERS,uv-dtf-transfers,$0.06 per sq. in.,For mugs and hard surfaces - no heat needed.,dtf-3.jpg|PUFF TRANSFERS,puff-transfers,$0.09 per sq. in.,Raised 3D texture with a premium finish.,dtf-4.jpg|GLITTER TRANSFERS,glitter-transfers,$0.07 per sq. in.,Sparkle finish that survives the wash.,dtf-5.avif|REFLECTIVE TRANSFERS,reflective-transfers,$0.11 per sq. in.,High-visibility shine under direct light.,dtf-6.avif|METALLIC FOIL TRANSFERS,metallic-foil-transfers,$0.10 per sq. in.,Mirror-bright gold and silver accents.,dtf-8.avif|SUBLIMATION TRANSFERS,sublimation-transfers,$0.05 per sq. in.,Soft hand feel that dyes into the fabric.,hero-3.jpg" | split: "|" -%}
+      {%- assign transfer_types = "DTF TRANSFERS BY SIZE,dtf-transfers,$0.02 per sq. in.,Press any design on any garment or color.,dtf-transfer-by-size.png|DTF GANG SHEETS,premium-dtf-gang-sheets,$0.02 per sq. in.,Fit more designs per sheet and save.,dtf-gang-sheet.png|UV DTF TRANSFERS,uv-dtf-transfers,$0.06 per sq. in.,For mugs and hard surfaces - no heat needed.,uv-dtf-transfers.png|PUFF TRANSFERS,puff-transfers,$0.09 per sq. in.,Raised 3D texture with a premium finish.,puff-print.png|GLITTER TRANSFERS,glitter-transfers,$0.07 per sq. in.,Sparkle finish that survives the wash.,glitter-print.png|REFLECTIVE TRANSFERS,reflective-transfers,$0.11 per sq. in.,High-visibility shine under direct light.,reflective-dtf.png|METALLIC FOIL TRANSFERS,metallic-foil-transfers,$0.10 per sq. in.,Mirror-bright gold and silver accents.,foil-transfers.png|SUBLIMATION TRANSFERS,sublimation-transfers,$0.05 per sq. in.,Soft hand feel that dyes into the fabric.,sublimation-transfer.png" | split: "|" -%}
 
       {%- for item in transfer_types -%}
         {%- assign parts = item | split: "," -%}
@@ -58,15 +58,15 @@
           <a href="{{ transfer_url }}" class="patch-card-link" aria-label="View {{ parts[0] }}">
             <figure class="patch-card-fig">
               <span class="patch-badge">{{ section.settings.badge | default: 'No minimum' }}</span>
-              {%- if transfer_image != blank -%}
+              {%- if parts[4] != blank -%}
+                <img src="{{ parts[4] | strip | asset_url }}"
+                     alt="{{ parts[0] | escape }}"
+                     width="225" height="225" loading="lazy">
+              {%- elsif transfer_image != blank -%}
                 <img
                   src="{{ transfer_image | image_url: width: 700, height: 700, crop: 'center' }}"
                   alt="{{ transfer_image.alt | default: parts[0] | escape }}"
                   width="225" height="225" loading="lazy">
-              {%- else -%}
-                <img src="{{ parts[4] | strip | asset_url }}"
-                     alt="{{ parts[0] | escape }}"
-                     width="225" height="225" loading="lazy">
               {%- endif -%}
             </figure>
             <div class="patch-card-body">
