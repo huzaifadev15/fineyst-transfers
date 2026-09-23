@@ -702,6 +702,7 @@
   }
 
   function addFiles(incoming) {
+    var firstImage = null;
     Array.prototype.forEach.call(incoming, function (f) {
       if (entries.length >= maxFiles) return;
       if (f.size > MAX_BYTES) {
@@ -713,8 +714,15 @@
       var entry = { file: f, name: f.name, size: f.size, status: 'uploading' };
       entries.push(entry);
       uploadEntry(entry);
+      if (!firstImage && f.type.indexOf('image/') === 0) firstImage = f;
     });
     render();
+    if (firstImage) {
+      zone.dispatchEvent(new CustomEvent('dtf:artwork-ready', {
+        bubbles: true,
+        detail: { file: firstImage }
+      }));
+    }
   }
 
   if (browse) browse.addEventListener('click', function () { input.click(); });

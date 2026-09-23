@@ -100,20 +100,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!dropzone) return;
 
     var input = dropzone.querySelector('[data-upload-input]');
-    var browseBtn = dropzone.querySelector('[data-upload-browse]');
-    var fileList = dropzone.querySelector('[data-upload-file-list]');
     var artworkUrl = null;
     var artRatio = 1;
-
-    function renderFiles(files) {
-      if (!fileList) return;
-      fileList.innerHTML = '';
-      Array.from(files).forEach(function (file) {
-        var li = document.createElement('li');
-        li.textContent = file.name;
-        fileList.appendChild(li);
-      });
-    }
 
     function formatInches(value) {
       return parseFloat(value.toFixed(2)) + '"';
@@ -219,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (artworkUrl) URL.revokeObjectURL(artworkUrl);
       artworkUrl = null;
       if (input) input.value = '';
-      if (fileList) fileList.innerHTML = '';
       if (editor) {
         editor.querySelectorAll('[data-canvas-art], [data-option-art], [data-mockup-art]').forEach(function (img) {
           img.removeAttribute('src');
@@ -227,38 +214,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-    function handleFiles(files) {
-      if (!files || !files.length) return;
-      renderFiles(files);
-      openEditor(files[0]);
-    }
+    dropzone.addEventListener('dtf:artwork-ready', function (e) {
+      if (e.detail && e.detail.file) openEditor(e.detail.file);
+    });
 
-    if (browseBtn && input) {
-      browseBtn.addEventListener('click', function () { input.click(); });
-      dropzone.addEventListener('click', function (e) {
-        if (e.target === dropzone) input.click();
-      });
-      input.addEventListener('change', function () { handleFiles(input.files); });
-    }
-
-    ['dragenter', 'dragover'].forEach(function (evt) {
-      dropzone.addEventListener(evt, function (e) {
-        e.preventDefault();
-        dropzone.classList.add('is-dragover');
-      });
-    });
-    ['dragleave', 'drop'].forEach(function (evt) {
-      dropzone.addEventListener(evt, function (e) {
-        e.preventDefault();
-        dropzone.classList.remove('is-dragover');
-      });
-    });
-    dropzone.addEventListener('drop', function (e) {
-      if (e.dataTransfer && e.dataTransfer.files.length) {
-        if (input) input.files = e.dataTransfer.files;
-        handleFiles(e.dataTransfer.files);
-      }
-    });
 
     if (!editor) return;
 
