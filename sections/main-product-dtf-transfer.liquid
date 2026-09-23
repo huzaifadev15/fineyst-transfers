@@ -13,8 +13,9 @@
 </style>
 
 <style>
-  .btn-checkout { display: block; width: 100%; background: #007AFF; color: #fff; border: none; border-radius: 10px; padding: 18px 24px; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; margin-top: 16px; text-align: center; text-decoration: none; box-sizing: border-box; }
-  .btn-checkout:hover { background: #0062cc; color: #fff; }
+  .btn-checkout { display: block; width: 100%; background: #007AFF; color: #fff; border: none; border-radius: 10px; padding: 18px 24px; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; margin-top: 16px; text-align: center; }
+  .btn-checkout:hover:not(:disabled) { background: #0062cc; }
+  .btn-checkout:disabled { background: #b0c8e8; cursor: not-allowed; }
   .pdp-cashback { display: flex; align-items: center; gap: 6px; font-size: 0.84rem; color: var(--text, #333); margin-top: 12px; flex-wrap: wrap; }
   .pdp-cashback svg { flex-shrink: 0; color: #1a7f37; }
   .pdp-cashback strong { color: #1a7f37; }
@@ -525,9 +526,11 @@
       travels as a URL in properties[Artwork], so this form posts plain fields. {%- endcomment -%}
       <div class="pdp-form">
         <div class="pdp-buy">
-          <a href="https://tranfer-gangsheet-app.vercel.app/apps/gang-sheet-builder/checkout" class="btn-checkout">
+          <button type="button" class="btn-checkout" data-checkout-btn
+            data-variant-id="gid://shopify/ProductVariant/{{ product.selected_or_first_available_variant.id }}"
+            data-product-title="{{ product.title | escape }}">
             PROCEED TO CHECKOUT
-          </a>
+          </button>
         </div>
       </div>
 

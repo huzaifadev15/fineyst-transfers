@@ -467,6 +467,72 @@ document.addEventListener('click', function (e) {
   input.dispatchEvent(new Event('input', { bubbles: true }));
 });
 
+/* ================= DTF CHECKOUT ================= */
+(function () {
+  var btn = document.querySelector('[data-checkout-btn]');
+  if (!btn) return;
+
+  var CHECKOUT_URL = 'https://tranfer-gangsheet-app.vercel.app/apps/gang-sheet-builder/checkout';
+
+  btn.addEventListener('click', function () {
+    btn.disabled = true;
+    btn.textContent = 'PROCESSING…';
+
+    var editor = document.querySelector('[data-editor]');
+    var sizeRows = editor ? editor.querySelectorAll('[data-size-row]') : [];
+    var variantId = btn.getAttribute('data-variant-id') || '';
+    var productTitle = btn.getAttribute('data-product-title') || '';
+
+    var artImg = editor ? editor.querySelector('[data-canvas-art]') : null;
+    var artSrc = artImg ? artImg.src : '';
+
+    var lineItems = [];
+    sizeRows.forEach(function (row) {
+      var w = parseFloat(row.querySelector('[data-size-w]').value) || 0;
+      var h = parseFloat(row.querySelector('[data-size-h]').value) || 0;
+      var qty = parseInt(row.querySelector('[data-size-qty]').value, 10) || 1;
+      var priceEl = row.querySelector('[data-size-price]');
+      var priceText = priceEl ? priceEl.textContent.replace(/[^0-9.]/g, '') : '';
+      var unitPrice = parseFloat(priceText) || 0;
+
+      lineItems.push({
+        variantId: variantId,
+        quantity: qty,
+        unitPrice: unitPrice,
+        productTitle: productTitle,
+        film: 'DTF',
+        artworkUrl: artSrc,
+        previewUrl: artSrc
+      });
+    });
+
+    var body = lineItems.length === 1
+      ? lineItems[0]
+      : { lineItems: lineItems };
+
+    fetch(CHECKOUT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      if (data.ok && data.invoiceUrl) {
+        window.location.href = data.invoiceUrl;
+      } else {
+        alert('Checkout failed. Please try again.');
+        btn.disabled = false;
+        btn.textContent = 'PROCEED TO CHECKOUT';
+      }
+    })
+    .catch(function () {
+      alert('Checkout failed. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'PROCEED TO CHECKOUT';
+    });
+  });
+})();
+
 /* ================= HEADER BEHAVIOURS (ported from Fineyst Patches) ================= */
 document.addEventListener('DOMContentLoaded', function () {
 
