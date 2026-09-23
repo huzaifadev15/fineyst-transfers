@@ -12,6 +12,34 @@
   .upload-file-remove:hover { color: #C92A2A; }
 </style>
 
+<style>
+  .btn-checkout { display: block; width: 100%; background: #007AFF; color: #fff; border: none; border-radius: 10px; padding: 18px 24px; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; margin-top: 16px; }
+  .btn-checkout:hover:not(:disabled) { background: #0062cc; }
+  .btn-checkout:disabled { background: #b0c8e8; cursor: not-allowed; }
+  .pdp-cashback { display: flex; align-items: center; gap: 6px; font-size: 0.84rem; color: var(--text, #333); margin-top: 12px; flex-wrap: wrap; }
+  .pdp-cashback svg { flex-shrink: 0; color: #1a7f37; }
+  .pdp-cashback strong { color: #1a7f37; }
+  .pdp-cashback-sep { color: var(--pdp-muted, #888); margin: 0 2px; }
+  .pdp-cashback-learn { color: var(--brand, #007AFF); text-decoration: none; margin-left: 4px; white-space: nowrap; }
+  .pdp-cashback-learn:hover { text-decoration: underline; }
+  .pdp-bnpl { margin-top: 18px; text-align: center; border-top: 1px solid var(--pdp-line, #e8e8e8); padding-top: 16px; }
+  .pdp-bnpl-label { font-size: 0.82rem; color: var(--pdp-muted, #888); margin: 0 0 10px; }
+  .pdp-bnpl-logos { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+  .bnpl-logo { font-size: 0.78rem; font-weight: 700; padding: 5px 10px; border-radius: 6px; white-space: nowrap; line-height: 1; }
+  .bnpl-shoppay { background: #5A31F4; color: #fff; }
+  .bnpl-afterpay { background: #B2FCE4; color: #000; }
+  .bnpl-klarna { background: #FFB3C7; color: #000; }
+  .bnpl-sezzle { background: #392558; color: #fff; }
+  .bnpl-affirm { background: #fff; color: #0FA0CE; border: 1px solid #e0e0e0; }
+  .pdp-bnpl-legal { font-size: 0.65rem; color: var(--pdp-muted, #888); margin: 10px 0 0; line-height: 1.5; }
+  .precut-option { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--pdp-line, #e8e8e8); }
+  .precut-option h4 { font-size: 0.85rem; font-weight: 600; margin: 0 0 8px; }
+  .precut-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; }
+  .precut-label input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--brand, #007AFF); flex-shrink: 0; }
+  .precut-optional { color: var(--pdp-muted, #888); font-size: 0.82rem; font-weight: 400; }
+  .upload-file-progress-msg { font-size: 0.72rem; font-weight: 600; color: var(--brand, #007AFF); margin-left: auto; }
+</style>
+
 {%- liquid
   assign rating = product.metafields.reviews.rating | default: section.settings.rating_value
   assign rating_count = product.metafields.reviews.rating_count | default: section.settings.rating_count
@@ -412,6 +440,16 @@
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
                 Add another size of this design
               </button>
+
+              <div class="precut-option">
+                <h4>Want to save time?</h4>
+                <label class="precut-label">
+                  <input type="checkbox" name="properties[Pre-cut Transfers]" value="yes">
+                  <span>Pre-cut my transfers</span>
+                  <span class="precut-optional">(optional)</span>
+                  <button type="button" class="pdp-info-dot" aria-label="About pre-cut transfers" data-tip="We cut each transfer individually from the sheet so it's ready to press right out of the bag — no trimming needed.">i</button>
+                </label>
+              </div>
             </div>
 
             <div class="size-panel" data-size-panel="popular" hidden>
@@ -489,24 +527,34 @@
         {% endunless %}
 
         <div class="pdp-buy">
-          <label class="pdp-qty">
-            <span class="visually-hidden">Quantity</span>
-            <input type="number" name="quantity" value="1" min="1" inputmode="numeric">
-          </label>
+          <input type="hidden" name="quantity" value="1">
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-          {%- comment -%} Populated with hidden properties[Artwork N] inputs
-          holding the Shopify CDN URLs returned by the upload endpoint. {%- endcomment -%}
           <span data-artwork-carriers hidden></span>
-          <button type="submit" class="btn-blue btn-blue--lg" {% unless product.available %}disabled{% endunless %}>
-            {% if product.available %}
-              Add to Cart <span class="pdp-buy-price">{{ product.price | money }}</span>
-            {% else %}
-              Sold Out
-            {% endif %}
+          <button type="submit" class="btn-checkout" {% unless product.available %}disabled{% endunless %}>
+            {% if product.available %}PROCEED TO CHECKOUT{% else %}Sold Out{% endif %}
           </button>
         </div>
       {% endform %}
-      {%- comment -%} endform closes the buy form; upload wiring follows. {%- endcomment -%}
+
+      <div class="pdp-cashback">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        Earn up to <strong data-cashback-amount>$0.00</strong> on this item
+        <span class="pdp-cashback-sep">|</span>
+        Fineyst Rewards · up to 10% cashback
+        <a class="pdp-cashback-learn" href="/pages/rewards">Learn &rarr;</a>
+      </div>
+
+      <div class="pdp-bnpl">
+        <p class="pdp-bnpl-label">Finance with Buy Now Pay Later options</p>
+        <div class="pdp-bnpl-logos">
+          <span class="bnpl-logo bnpl-shoppay">Shop<span style="font-weight:400">Pay</span></span>
+          <span class="bnpl-logo bnpl-afterpay">afterpay&gt;</span>
+          <span class="bnpl-logo bnpl-klarna">Klarna.</span>
+          <span class="bnpl-logo bnpl-sezzle">Sezzle</span>
+          <span class="bnpl-logo bnpl-affirm">affirm</span>
+        </div>
+        <p class="pdp-bnpl-legal">Monthly financing through Klarna issued by WebBank. Subject to credit approval. Other CA resident loans made or arranged pursuant to a California Financing Law license.</p>
+      </div>
       {% endif %}
 
     </div>
@@ -530,6 +578,20 @@
   var maxFiles = {{ section.settings.max_files | default: 5 }};
   var MAX_BYTES = 20 * 1024 * 1024;
 
+  var funMessages = [
+    'Sharpening the pixels…',
+    'Mixing the inks…',
+    'Checking color accuracy…',
+    'Warming up the printer…',
+    'Reviewing your artwork…',
+    'Optimizing for DTF…',
+    'Counting the colors…',
+    'Prepping the film…',
+    'Adding the vibrance…',
+    'Almost there…'
+  ];
+  var msgTimers = {};
+
   // entries: { file, name, size, status: 'uploading'|'done'|'error', url, error }
   var entries = [];
 
@@ -547,12 +609,15 @@
 
   function render() {
     if (!list) return;
+    // Clear old fun-message timers
+    Object.keys(msgTimers).forEach(function(k) { clearInterval(msgTimers[k]); });
+    msgTimers = {};
     list.innerHTML = entries.map(function (e, i) {
       var status = e.status === 'done'
         ? '<span class="upload-file-ok">Uploaded</span>'
         : e.status === 'error'
           ? '<span class="upload-file-err">' + esc(e.error || 'Failed') + '</span>'
-          : '<span class="upload-file-progress">Uploading…</span>';
+          : '<span class="upload-file-progress-msg" data-fun-msg="' + i + '">Uploading…</span>';
       return '<li class="upload-file-item' + (e.status === 'error' ? ' is-error' : '') + '">' +
         '<span class="upload-file-name">' + esc(e.name) + '</span>' +
         status +
@@ -560,6 +625,17 @@
         '<button type="button" class="upload-file-remove" data-remove="' + i + '" aria-label="Remove file">&times;</button>' +
       '</li>';
     }).join('');
+    // Start fun-message cycling for any uploading entries
+    entries.forEach(function(e, i) {
+      if (e.status !== 'uploading') return;
+      var msgIdx = 0;
+      msgTimers[i] = setInterval(function() {
+        var el = list.querySelector('[data-fun-msg="' + i + '"]');
+        if (!el) { clearInterval(msgTimers[i]); return; }
+        msgIdx = (msgIdx + 1) % funMessages.length;
+        el.textContent = funMessages[msgIdx];
+      }, 1800);
+    });
     syncCarriers();
     syncSubmit();
   }
@@ -653,6 +729,28 @@
   });
   zone.addEventListener('drop', function (e) {
     if (e.dataTransfer && e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+  });
+
+  /* ---------- Proceed to checkout: add to cart then redirect ---------- */
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = form.querySelector('[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Adding to cart…'; }
+      var data = new FormData(form);
+      fetch('/cart/add.js', { method: 'POST', body: data })
+        .then(function() { window.location.href = '/checkout'; })
+        .catch(function() { form.submit(); });
+    });
+  }
+
+  /* ---------- Cashback amount: update from dtf:total-updated event ---------- */
+  document.addEventListener('dtf:total-updated', function(e) {
+    var total = (e.detail && e.detail.total) ? parseFloat(e.detail.total) : 0;
+    var cashback = (total * 0.10).toFixed(2);
+    document.querySelectorAll('[data-cashback-amount]').forEach(function(el) {
+      el.textContent = '$' + cashback;
+    });
   });
 
   /* ---------- Pick up artwork handed over from a blank product page ---------- */

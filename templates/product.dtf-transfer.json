@@ -155,7 +155,8 @@
       ],
       "settings": {
         "quick_title": "Popular Sizes & Prices",
-        "quick_sub": "No setup fees · Bulk discounts up to 50% off"
+        "quick_sub": "No setup fees · Bulk discounts up to 50% off",
+        "show_buy_form": true
       }
     },
     "pdp-details": {
