@@ -525,6 +525,7 @@
       {%- comment -%} Artwork is uploaded to Shopify Files via the app proxy and
       travels as a URL in properties[Artwork], so this form posts plain fields. {%- endcomment -%}
       <div class="pdp-form">
+        <span data-artwork-carriers hidden></span>
         <div class="pdp-buy">
           <button type="button" class="btn-checkout" data-checkout-btn
             data-variant-id="gid://shopify/ProductVariant/{{ product.selected_or_first_available_variant.id }}"
