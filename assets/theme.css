@@ -1483,10 +1483,28 @@ body.template-index main { padding-top: 0; }
 
 /* ---------- Editor view (shown after upload) ---------- */
 .editor { display: none; }
-.pdp.is-editing .upload-card { display: none; }
-.pdp.is-editing .editor { display: block; margin-top: 24px; }
+.editor-checkout-heading { display: none; }
 
-.editor-grid { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: start; }
+.pdp.is-editing .pdp-media { display: none; }
+.pdp.is-editing .pdp-inner { grid-template-columns: minmax(0, 1fr); }
+.pdp.is-editing .pdp-info { display: flex; flex-direction: column; }
+.pdp.is-editing .editor { display: block; order: 1; margin-top: 0; }
+.pdp.is-editing .upload-card { order: 3; margin-top: 0; }
+.pdp.is-editing .upload-card .upload-card-head { display: none; }
+.pdp.is-editing .editor-checkout-heading { display: block; order: 2; margin: 32px 0 0; font-size: 1.25rem; font-weight: 700; }
+.pdp.is-editing .editor-checkout-heading span { color: var(--brand, #3E6D8E); }
+.pdp.is-editing .pdp-form { order: 4; }
+.pdp.is-editing .pdp-cashback { order: 5; }
+.pdp.is-editing .pdp-bnpl { order: 6; }
+.pdp.is-editing .pdp-upsell,
+.pdp.is-editing .pdp-title-row,
+.pdp.is-editing .pdp-meta,
+.pdp.is-editing .pdp-features,
+.pdp.is-editing .pdp-strip { display: none; }
+
+.editor .size-step { margin-top: 20px; }
+
+.editor-grid { display: grid; grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.55fr) minmax(0, 0.8fr); gap: 20px; align-items: start; }
 .editor-panel { background: #fff; border-radius: 14px; box-shadow: 0 2px 14px rgba(16,24,40,0.07); padding: 20px; }
 
 .size-guide-inner { background: #F7F8FA; border-radius: 12px; padding: 18px; }

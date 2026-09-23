@@ -370,114 +370,6 @@
             </label>
             <textarea class="design-notes" data-notes name="properties[Design Notes]" rows="3" placeholder="Tell our art team what to change…" hidden></textarea>
           </div>
-
-          <div class="editor-panel size-step" data-sizes>
-            <h2 class="editor-step"><span>Step 2:</span> Choose your Transfer Sizes</h2>
-
-            <div class="size-tabs">
-              <button type="button" class="size-tab is-active" data-size-tab="custom">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2" stroke-dasharray="3 2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l4.5-4.5 3.5 3.5 3-2.5 5 4"/></svg>
-                Custom Size
-              </button>
-              <button type="button" class="size-tab" data-size-tab="popular">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l1.5 3.2 3.3.4-2.4 2.2.6 3.2-3-1.6-3 1.6.6-3.2-2.4-2.2 3.3-.4z"/></svg>
-                Popular Size
-              </button>
-            </div>
-
-            <div class="size-panel" data-size-panel="custom">
-              <p class="size-help">Need help with sizing? Choose a <button type="button" class="size-help-link" data-size-tab="popular">Popular Size</button></p>
-
-              <div class="size-head">
-                <span>Width (inches)</span><span>Height (inches)</span><span>Qty</span><span>Price</span><span>Total</span><span></span><span></span>
-              </div>
-              <div class="size-rows" data-size-rows></div>
-
-              <template data-size-template>
-                <div class="size-row" data-size-row>
-                  <label class="size-field"><span class="size-field-label">Width (inches)</span>
-                    <div class="size-field-inner">
-                      <input type="number" step="0.25" min="{{ section.settings.min_print_size }}" max="{{ section.settings.max_print_width }}" data-size-w>
-                      <span class="size-steppers">
-                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="w:up" aria-label="Increase width"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
-                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="w:dn" aria-label="Decrease width"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
-                      </span>
-                    </div>
-                  </label>
-                  <label class="size-field"><span class="size-field-label">Height (inches)</span>
-                    <div class="size-field-inner">
-                      <input type="number" step="0.25" min="{{ section.settings.min_print_size }}" max="{{ section.settings.max_print_width }}" data-size-h>
-                      <span class="size-steppers">
-                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="h:up" aria-label="Increase height"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
-                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="h:dn" aria-label="Decrease height"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
-                      </span>
-                    </div>
-                  </label>
-                  <label class="size-field size-field--qty"><span class="size-field-label">Qty</span>
-                    <div class="size-field-inner">
-                      <input type="number" step="1" min="1" value="1" data-size-qty>
-                      <span class="size-steppers">
-                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="q:up" aria-label="Increase qty"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
-                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="q:dn" aria-label="Decrease qty"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
-                      </span>
-                    </div>
-                  </label>
-                  <div class="size-cell">
-                    <span class="size-field-label">Price</span>
-                    <s data-size-was></s>
-                    <span class="size-amount"><strong data-size-price>—</strong> <small>ea</small></span>
-                  </div>
-                  <div class="size-cell">
-                    <span class="size-field-label">Total</span>
-                    <s data-size-total-was></s>
-                    <span class="size-amount"><strong data-size-total>—</strong></span>
-                  </div>
-                  <span class="size-off" data-size-off></span>
-                  <button type="button" class="size-remove" data-size-remove aria-label="Remove this size">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-                  </button>
-                </div>
-              </template>
-
-              <button type="button" class="size-add" data-size-add>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-                Add another size of this design
-              </button>
-
-              <div class="precut-option">
-                <h4>Want to save time?</h4>
-                <label class="precut-label">
-                  <input type="checkbox" name="properties[Pre-cut Transfers]" value="yes">
-                  <span>Pre-cut my transfers</span>
-                  <span class="precut-optional">(optional)</span>
-                  <button type="button" class="pdp-info-dot" aria-label="About pre-cut transfers" data-tip="We cut each transfer individually from the sheet so it's ready to press right out of the bag — no trimming needed.">i</button>
-                </label>
-              </div>
-            </div>
-
-            <div class="size-panel" data-size-panel="popular" hidden>
-              <p class="size-help">Select a print area and we'll size it for you.</p>
-              <select class="popular-size-select" data-popular-select aria-label="Popular size">
-                <option value="">Select a popular size</option>
-                <option value="2">2″ × 2″ — Tag Print / Neck Label</option>
-                <option value="3">3″ × 3″ — Small Tag / Sleeve Icon</option>
-                <option value="4">4″ × 2″ — Name Label / Small Chest Text</option>
-                <option value="4">4″ × 4″ — Left-Chest Logo</option>
-                <option value="5">5″ × 3″ — Small Badge Logo</option>
-                <option value="5">5″ × 5″ — Small Chest / Youth Print</option>
-                <option value="6">6″ × 6″ — Standard Left-Chest / Youth</option>
-                <option value="7">7″ × 7″ — Small Front (Adult)</option>
-                <option value="8">8″ × 8″ — Medium Front Print</option>
-                <option value="9">9″ × 9″ — Large Chest / Medium Front</option>
-                <option value="9">9″ × 11″ — Vertical Front / Youth</option>
-                <option value="10">10″ × 10″ — Standard Adult Front</option>
-                <option value="11">11″ × 5″ — Chest Banner / Sleeve</option>
-                <option value="11">11″ × 11″ — Adult Full Front</option>
-                <option value="11">11″ × 14″ — Tall Front / Jersey</option>
-                <option value="12">12″ × 17″ — Oversized Front / Hoodie</option>
-              </select>
-            </div>
-          </div>
           </div>
 
           <aside class="editor-panel discount-card">
@@ -517,7 +409,117 @@
           </aside>
 
         </div>
+
+        <div class="editor-panel size-step" data-sizes>
+          <h2 class="editor-step"><span>Step 2:</span> Choose your Transfer Sizes</h2>
+
+          <div class="size-tabs">
+            <button type="button" class="size-tab is-active" data-size-tab="custom">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2" stroke-dasharray="3 2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l4.5-4.5 3.5 3.5 3-2.5 5 4"/></svg>
+              Custom Size
+            </button>
+            <button type="button" class="size-tab" data-size-tab="popular">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l1.5 3.2 3.3.4-2.4 2.2.6 3.2-3-1.6-3 1.6.6-3.2-2.4-2.2 3.3-.4z"/></svg>
+              Popular Size
+            </button>
+          </div>
+
+          <div class="size-panel" data-size-panel="custom">
+            <p class="size-help">Need help with sizing? Choose a <button type="button" class="size-help-link" data-size-tab="popular">Popular Size</button></p>
+
+            <div class="size-head">
+              <span>Width (inches)</span><span>Height (inches)</span><span>Qty</span><span>Price</span><span>Total</span><span></span><span></span>
+            </div>
+            <div class="size-rows" data-size-rows></div>
+
+            <template data-size-template>
+              <div class="size-row" data-size-row>
+                <label class="size-field"><span class="size-field-label">Width (inches)</span>
+                  <div class="size-field-inner">
+                    <input type="number" step="0.25" min="{{ section.settings.min_print_size }}" max="{{ section.settings.max_print_width }}" data-size-w>
+                    <span class="size-steppers">
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="w:up" aria-label="Increase width"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="w:dn" aria-label="Decrease width"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
+                    </span>
+                  </div>
+                </label>
+                <label class="size-field"><span class="size-field-label">Height (inches)</span>
+                  <div class="size-field-inner">
+                    <input type="number" step="0.25" min="{{ section.settings.min_print_size }}" max="{{ section.settings.max_print_width }}" data-size-h>
+                    <span class="size-steppers">
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="h:up" aria-label="Increase height"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="h:dn" aria-label="Decrease height"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
+                    </span>
+                  </div>
+                </label>
+                <label class="size-field size-field--qty"><span class="size-field-label">Qty</span>
+                  <div class="size-field-inner">
+                    <input type="number" step="1" min="1" value="1" data-size-qty>
+                    <span class="size-steppers">
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="q:up" aria-label="Increase qty"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="q:dn" aria-label="Decrease qty"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
+                    </span>
+                  </div>
+                </label>
+                <div class="size-cell">
+                  <span class="size-field-label">Price</span>
+                  <s data-size-was></s>
+                  <span class="size-amount"><strong data-size-price>—</strong> <small>ea</small></span>
+                </div>
+                <div class="size-cell">
+                  <span class="size-field-label">Total</span>
+                  <s data-size-total-was></s>
+                  <span class="size-amount"><strong data-size-total>—</strong></span>
+                </div>
+                <span class="size-off" data-size-off></span>
+                <button type="button" class="size-remove" data-size-remove aria-label="Remove this size">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+              </div>
+            </template>
+
+            <button type="button" class="size-add" data-size-add>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              Add another size of this design
+            </button>
+
+            <div class="precut-option">
+              <h4>Want to save time?</h4>
+              <label class="precut-label">
+                <input type="checkbox" name="properties[Pre-cut Transfers]" value="yes">
+                <span>Pre-cut my transfers</span>
+                <span class="precut-optional">(optional)</span>
+                <button type="button" class="pdp-info-dot" aria-label="About pre-cut transfers" data-tip="We cut each transfer individually from the sheet so it's ready to press right out of the bag — no trimming needed.">i</button>
+              </label>
+            </div>
+          </div>
+
+          <div class="size-panel" data-size-panel="popular" hidden>
+            <p class="size-help">Select a print area and we'll size it for you.</p>
+            <select class="popular-size-select" data-popular-select aria-label="Popular size">
+              <option value="">Select a popular size</option>
+              <option value="2">2″ × 2″ — Tag Print / Neck Label</option>
+              <option value="3">3″ × 3″ — Small Tag / Sleeve Icon</option>
+              <option value="4">4″ × 2″ — Name Label / Small Chest Text</option>
+              <option value="4">4″ × 4″ — Left-Chest Logo</option>
+              <option value="5">5″ × 3″ — Small Badge Logo</option>
+              <option value="5">5″ × 5″ — Small Chest / Youth Print</option>
+              <option value="6">6″ × 6″ — Standard Left-Chest / Youth</option>
+              <option value="7">7″ × 7″ — Small Front (Adult)</option>
+              <option value="8">8″ × 8″ — Medium Front Print</option>
+              <option value="9">9″ × 9″ — Large Chest / Medium Front</option>
+              <option value="9">9″ × 11″ — Vertical Front / Youth</option>
+              <option value="10">10″ × 10″ — Standard Adult Front</option>
+              <option value="11">11″ × 5″ — Chest Banner / Sleeve</option>
+              <option value="11">11″ × 11″ — Adult Full Front</option>
+              <option value="11">11″ × 14″ — Tall Front / Jersey</option>
+              <option value="12">12″ × 17″ — Oversized Front / Hoodie</option>
+            </select>
+          </div>
+        </div>
       </div>
+
+      <h2 class="editor-step editor-checkout-heading"><span>Add Another Design</span> or Checkout</h2>
 
       {% if section.settings.show_buy_form %}
       {%- comment -%} Artwork is uploaded to Shopify Files via the app proxy and
