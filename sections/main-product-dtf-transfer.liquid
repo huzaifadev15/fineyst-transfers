@@ -38,6 +38,18 @@
   .precut-label input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--brand, #007AFF); flex-shrink: 0; }
   .precut-optional { color: var(--pdp-muted, #888); font-size: 0.82rem; font-weight: 400; }
   .upload-file-progress-msg { font-size: 0.72rem; font-weight: 600; color: var(--brand, #007AFF); margin-left: auto; }
+  /* Size input steppers */
+  .size-field-inner { position: relative; }
+  .size-field-inner input { width: 100%; padding: 10px 28px 10px 12px; border: 1px solid #D6DAE0; border-radius: 8px; font-family: inherit; font-size: 1rem; color: #1A1A1A; -moz-appearance: textfield; }
+  .size-field-inner input::-webkit-inner-spin-button, .size-field-inner input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  .size-field-inner input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(62,109,142,0.15); }
+  .size-steppers { position: absolute; right: 1px; top: 1px; bottom: 1px; display: flex; flex-direction: column; border-left: 1px solid #D6DAE0; border-radius: 0 7px 7px 0; overflow: hidden; width: 22px; }
+  .size-stepper { flex: 1; display: flex; align-items: center; justify-content: center; border: none; background: #fafafa; cursor: pointer; padding: 0; color: #667085; line-height: 1; }
+  .size-stepper:hover { background: #F0F1F4; color: #1A1A1A; }
+  .size-stepper:first-child { border-bottom: 1px solid #D6DAE0; }
+  /* Popular size dropdown */
+  .popular-size-select { width: 100%; padding: 12px 14px; border: 1px solid #D6DAE0; border-radius: 8px; font-family: inherit; font-size: 0.92rem; color: #1A1A1A; background: #fff; cursor: pointer; margin-top: 4px; }
+  .popular-size-select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(62,109,142,0.15); }
 </style>
 
 {%- liquid
@@ -384,13 +396,31 @@
               <template data-size-template>
                 <div class="size-row" data-size-row>
                   <label class="size-field"><span class="size-field-label">Width (inches)</span>
-                    <input type="number" step="0.01" min="{{ section.settings.min_print_size }}" max="{{ section.settings.max_print_width }}" data-size-w>
+                    <div class="size-field-inner">
+                      <input type="number" step="0.25" min="{{ section.settings.min_print_size }}" max="{{ section.settings.max_print_width }}" data-size-w>
+                      <span class="size-steppers">
+                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="w:up" aria-label="Increase width"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
+                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="w:dn" aria-label="Decrease width"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
+                      </span>
+                    </div>
                   </label>
                   <label class="size-field"><span class="size-field-label">Height (inches)</span>
-                    <input type="number" step="0.01" min="{{ section.settings.min_print_size }}" max="{{ section.settings.max_print_width }}" data-size-h>
+                    <div class="size-field-inner">
+                      <input type="number" step="0.25" min="{{ section.settings.min_print_size }}" max="{{ section.settings.max_print_width }}" data-size-h>
+                      <span class="size-steppers">
+                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="h:up" aria-label="Increase height"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
+                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="h:dn" aria-label="Decrease height"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
+                      </span>
+                    </div>
                   </label>
                   <label class="size-field size-field--qty"><span class="size-field-label">Qty</span>
-                    <input type="number" step="1" min="1" value="1" data-size-qty>
+                    <div class="size-field-inner">
+                      <input type="number" step="1" min="1" value="1" data-size-qty>
+                      <span class="size-steppers">
+                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="q:up" aria-label="Increase qty"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
+                        <button type="button" class="size-stepper" tabindex="-1" data-stepper="q:dn" aria-label="Decrease qty"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
+                      </span>
+                    </div>
                   </label>
                   <div class="size-cell">
                     <span class="size-field-label">Price</span>
@@ -426,17 +456,26 @@
             </div>
 
             <div class="size-panel" data-size-panel="popular" hidden>
-              <p class="size-help">Tap a size to add it. Heights follow your artwork's proportions.</p>
-              <div class="popular-sizes">
-                {% for block in section.blocks %}
-                  {% if block.type == 'mockup' %}
-                    <button type="button" class="popular-size" data-popular-size data-width-in="{{ block.settings.width_in }}">
-                      <strong>{{ block.settings.width_in }}"</strong>
-                      <span>{{ block.settings.label }}</span>
-                    </button>
-                  {% endif %}
-                {% endfor %}
-              </div>
+              <p class="size-help">Select a print area and we'll size it for you.</p>
+              <select class="popular-size-select" data-popular-select aria-label="Popular size">
+                <option value="">Select a popular size</option>
+                <option value="2">2″ × 2″ — Tag Print / Neck Label</option>
+                <option value="3">3″ × 3″ — Small Tag / Sleeve Icon</option>
+                <option value="4">4″ × 2″ — Name Label / Small Chest Text</option>
+                <option value="4">4″ × 4″ — Left-Chest Logo</option>
+                <option value="5">5″ × 3″ — Small Badge Logo</option>
+                <option value="5">5″ × 5″ — Small Chest / Youth Print</option>
+                <option value="6">6″ × 6″ — Standard Left-Chest / Youth</option>
+                <option value="7">7″ × 7″ — Small Front (Adult)</option>
+                <option value="8">8″ × 8″ — Medium Front Print</option>
+                <option value="9">9″ × 9″ — Large Chest / Medium Front</option>
+                <option value="9">9″ × 11″ — Vertical Front / Youth</option>
+                <option value="10">10″ × 10″ — Standard Adult Front</option>
+                <option value="11">11″ × 5″ — Chest Banner / Sleeve</option>
+                <option value="11">11″ × 11″ — Adult Full Front</option>
+                <option value="11">11″ × 14″ — Tall Front / Jersey</option>
+                <option value="12">12″ × 17″ — Oversized Front / Hoodie</option>
+              </select>
             </div>
           </div>
           </div>

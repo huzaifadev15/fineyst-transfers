@@ -413,6 +413,17 @@ document.addEventListener('DOMContentLoaded', function () {
           sizeStep.querySelector('[data-size-tab="custom"]').click();
         });
       });
+
+      var popularSelect = sizeStep.querySelector('[data-popular-select]');
+      if (popularSelect) {
+        popularSelect.addEventListener('change', function () {
+          var w = parseFloat(popularSelect.value);
+          if (!w) return;
+          addSizeRow(w, w / artRatio, 1);
+          sizeStep.querySelector('[data-size-tab="custom"]').click();
+          popularSelect.value = '';
+        });
+      }
     }
 
     var notes = editor.querySelector('[data-notes]');
@@ -472,6 +483,29 @@ document.addEventListener('DOMContentLoaded', function () {
       if (qtyInput) qtyInput.addEventListener('input', renderTiers);
     }
   });
+});
+
+/* ================= SIZE INPUT STEPPERS ================= */
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-stepper]');
+  if (!btn) return;
+  var row = btn.closest('[data-size-row]');
+  if (!row) return;
+  var parts = (btn.dataset.stepper || '').split(':');
+  var field = parts[0]; // w, h, or q
+  var dir = parts[1];   // up or dn
+  var sel = field === 'w' ? '[data-size-w]' : field === 'h' ? '[data-size-h]' : '[data-size-qty]';
+  var input = row.querySelector(sel);
+  if (!input) return;
+  var step = parseFloat(input.getAttribute('step')) || 1;
+  var min = parseFloat(input.getAttribute('min')) || 0;
+  var max = parseFloat(input.getAttribute('max')) || 9999;
+  var val = parseFloat(input.value) || 0;
+  var newVal = dir === 'up' ? val + step : val - step;
+  newVal = Math.max(min, Math.min(max, newVal));
+  var dec = (step.toString().split('.')[1] || '').length;
+  input.value = newVal.toFixed(dec);
+  input.dispatchEvent(new Event('input', { bubbles: true }));
 });
 
 /* ================= HEADER BEHAVIOURS (ported from Fineyst Patches) ================= */
