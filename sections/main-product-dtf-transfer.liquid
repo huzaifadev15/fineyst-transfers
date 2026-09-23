@@ -245,33 +245,6 @@
         {% endif %}
       </div>
 
-      {%- comment -%}
-        Popular Sizes & Prices — shown before an upload so shoppers can see real
-        prices without having to pick a file first. Hidden once the editor opens.
-      {%- endcomment -%}
-      {%- assign quick_count = 0 -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'quick_size' -%}{%- assign quick_count = quick_count | plus: 1 -%}{%- endif -%}
-      {%- endfor -%}
-      {%- if quick_count > 0 -%}
-        <div class="quick-sizes">
-          <div class="quick-sizes-head">
-            <h3>{{ section.settings.quick_title | default: 'Popular Sizes &amp; Prices' }}</h3>
-            <p>{{ section.settings.quick_sub | default: 'No setup fees · Bulk discounts up to 50% off' }}</p>
-          </div>
-          <div class="quick-sizes-row">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'quick_size' -%}
-                <div class="quick-size" {{ block.shopify_attributes }}>
-                  <span class="quick-size-dim">{{ block.settings.label }}</span>
-                  <span class="quick-size-note">as low as</span>
-                  <span class="quick-size-price">{{ block.settings.price }}<small>ea</small></span>
-                </div>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-        </div>
-      {%- endif -%}
 
       {%- comment -%} Cross-sell the blanks these transfers press onto. {%- endcomment -%}
       {% render 'pdp-upsell' %}
@@ -474,7 +447,7 @@
 
             <div class="tier-table" data-tiers data-qty="{{ section.settings.default_qty }}" data-bands="{{ section.settings.price_bands | escape }}">
               <div class="tier-head">
-                <span>Total Qty</span><span>Price</span><span>Discount</span>
+                <span>Quantity</span><span>Price</span><span>Qty Discount</span>
               </div>
               <button type="button" class="tier-viewall" data-tier-viewall aria-expanded="false">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
