@@ -467,50 +467,109 @@ document.addEventListener('click', function (e) {
   input.dispatchEvent(new Event('input', { bubbles: true }));
 });
 
-/* ================= DTF CHECKOUT ================= */
+/* ================= CUSTOM CHECKOUT ================= */
 (function () {
   var btn = document.querySelector('[data-checkout-btn]');
   if (!btn) return;
 
   var CHECKOUT_URL = '/apps/gang-sheet-builder/checkout';
+  var originalLabel = btn.textContent.trim();
 
   btn.addEventListener('click', function () {
     btn.disabled = true;
     btn.textContent = 'PROCESSING…';
 
-    var editor = document.querySelector('[data-editor]');
-    var sizeRows = editor ? editor.querySelectorAll('[data-size-row]') : [];
     var variantId = btn.getAttribute('data-variant-id') || '';
     var productTitle = btn.getAttribute('data-product-title') || '';
 
-    // Get the uploaded artwork CDN URL from the carriers (set by the upload flow)
     var carrierInput = document.querySelector('[data-artwork-carriers] input');
     var artworkUrl = carrierInput ? carrierInput.value : '';
 
-    // Get preview from the canvas image as fallback
+    var editor = document.querySelector('[data-editor]');
     var artImg = editor ? editor.querySelector('[data-canvas-art]') : null;
     var previewUrl = artworkUrl || (artImg ? artImg.src : '');
 
     var lineItems = [];
-    sizeRows.forEach(function (row) {
-      var w = parseFloat(row.querySelector('[data-size-w]').value) || 0;
-      var h = parseFloat(row.querySelector('[data-size-h]').value) || 0;
-      var qty = parseInt(row.querySelector('[data-size-qty]').value, 10) || 1;
-      var priceEl = row.querySelector('[data-size-price]');
-      var priceText = priceEl ? priceEl.textContent.replace(/[^0-9.]/g, '') : '';
-      var unitPrice = parseFloat(priceText) || 0;
 
-      lineItems.push({
-        unitPrice: unitPrice,
-        quantity: qty,
-        productTitle: productTitle + ' (' + w.toFixed(2) + '" x ' + h.toFixed(2) + '")',
-        sheetFt: Math.ceil(Math.max(w, h) / 12),
-        film: 'DTF',
-        imageCount: 1,
-        artworkUrl: artworkUrl,
-        previewUrl: previewUrl
+    // --- DTF transfer pages: size rows with custom dimensions/pricing ---
+    var sizeRows = editor ? editor.querySelectorAll('[data-size-row]') : [];
+    if (sizeRows.length) {
+      sizeRows.forEach(function (row) {
+        var w = parseFloat(row.querySelector('[data-size-w]').value) || 0;
+        var h = parseFloat(row.querySelector('[data-size-h]').value) || 0;
+        var qty = parseInt(row.querySelector('[data-size-qty]').value, 10) || 1;
+        var priceEl = row.querySelector('[data-size-price]');
+        var priceText = priceEl ? priceEl.textContent.replace(/[^0-9.]/g, '') : '';
+        var unitPrice = parseFloat(priceText) || 0;
+
+        lineItems.push({
+          unitPrice: unitPrice,
+          quantity: qty,
+          productTitle: productTitle + ' (' + w.toFixed(2) + '" x ' + h.toFixed(2) + '")',
+          sheetFt: Math.ceil(Math.max(w, h) / 12),
+          film: 'DTF',
+          imageCount: 1,
+          artworkUrl: artworkUrl,
+          previewUrl: previewUrl
+        });
       });
-    });
+    }
+
+    // --- Premium DTF / gang sheet pages: single size row ---
+    if (!lineItems.length) {
+      var gangRow = document.querySelector('[data-size-row]');
+      if (gangRow) {
+        var gangPrice = gangRow.querySelector('[data-gang-size-price]');
+        var gangQty = gangRow.querySelector('[data-gang-size-qty]');
+        var priceVal = gangPrice ? parseFloat(gangPrice.textContent.replace(/[^0-9.]/g, '')) || 0 : 0;
+        var qtyVal = gangQty ? parseInt(gangQty.value, 10) || 1 : 1;
+        lineItems.push({
+          unitPrice: priceVal,
+          quantity: qtyVal,
+          productTitle: productTitle,
+          film: 'DTF',
+          artworkUrl: artworkUrl,
+          previewUrl: previewUrl
+        });
+      }
+    }
+
+    // --- Apparel pages (hats/hoodies/tshirts): multi-variant qty grid ---
+    if (!lineItems.length) {
+      var variantInputs = document.querySelectorAll('[data-variant-qty]');
+      variantInputs.forEach(function (input) {
+        var qty = parseInt(input.value, 10) || 0;
+        if (qty < 1) return;
+        var vid = input.getAttribute('data-variant-qty');
+        var priceCents = parseInt(input.getAttribute('data-price'), 10) || 0;
+        var label = input.getAttribute('aria-label') || '';
+        var sizeName = label.replace('Quantity for ', '');
+        lineItems.push({
+          variantId: 'gid://shopify/ProductVariant/' + vid,
+          unitPrice: priceCents / 100,
+          quantity: qty,
+          productTitle: productTitle + (sizeName ? ' - ' + sizeName : '')
+        });
+      });
+    }
+
+    // --- Generic product page: single variant fallback ---
+    if (!lineItems.length) {
+      var fallbackPrice = parseFloat(btn.getAttribute('data-variant-price')) || 0;
+      lineItems.push({
+        variantId: variantId,
+        unitPrice: fallbackPrice,
+        quantity: 1,
+        productTitle: productTitle
+      });
+    }
+
+    if (!lineItems.length) {
+      alert('Please select at least one item.');
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+      return;
+    }
 
     var body = lineItems.length === 1
       ? lineItems[0]
@@ -528,13 +587,13 @@ document.addEventListener('click', function (e) {
       } else {
         alert('Checkout failed. Please try again.');
         btn.disabled = false;
-        btn.textContent = 'PROCEED TO CHECKOUT';
+        btn.textContent = originalLabel;
       }
     })
     .catch(function () {
       alert('Checkout failed. Please try again.');
       btn.disabled = false;
-      btn.textContent = 'PROCEED TO CHECKOUT';
+      btn.textContent = originalLabel;
     });
   });
 })();

@@ -229,6 +229,10 @@
   }
   .gang-film-check { color: var(--color-accent, #0ea5e9); display: flex; align-items: center; }
 
+  .main-product-premium-dtf .btn-checkout { display: block; width: 100%; background: #007AFF; color: #fff; border: none; border-radius: 10px; padding: 18px 24px; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; margin-top: 16px; text-align: center; }
+  .main-product-premium-dtf .btn-checkout:hover:not(:disabled) { background: #0062cc; }
+  .main-product-premium-dtf .btn-checkout:disabled { background: #b0c8e8; cursor: not-allowed; }
+
   @media (max-width: 749px) {
     .main-product-premium-dtf .pdp-features--grid { grid-template-columns: 1fr; }
     .gang-sizes { grid-template-columns: repeat(3, 1fr); }
@@ -424,7 +428,7 @@
         </div>
       {% endif %}
 
-      {% form 'product', product, class: 'pdp-form', id: 'size-select' %}
+      <div class="pdp-form" id="size-select">
         <div class="gang-sheet-form" data-gang-form>
 
           <div class="gang-film-section">
@@ -467,7 +471,7 @@
                 <span>Total</span>
                 <span></span>
               </div>
-              <div class="gang-size-row">
+              <div class="gang-size-row" data-size-row>
                 <div class="gang-size-cell gang-size-width">
                   <span>{{ section.settings.sheet_width }}"</span>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
@@ -491,7 +495,7 @@
                   <span data-gang-size-price>—</span><small>ea.</small>
                 </div>
                 <div class="gang-size-cell">
-                  <input type="number" name="quantity" min="1" value="1" inputmode="numeric" data-gang-size-qty>
+                  <input type="number" min="1" value="1" inputmode="numeric" data-gang-size-qty>
                 </div>
                 <div class="gang-size-cell gang-size-total-cell">
                   <span data-gang-size-total>—</span>
@@ -503,10 +507,19 @@
             </div>
           </div>
 
-          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-gang-variant-input>
+          <input type="hidden" value="{{ product.selected_or_first_available_variant.id }}" data-gang-variant-input>
 
         </div>
-      {% endform %}
+
+        <span data-artwork-carriers hidden></span>
+        <div class="pdp-buy">
+          <button type="button" class="btn-checkout" data-checkout-btn
+            data-variant-id="gid://shopify/ProductVariant/{{ product.selected_or_first_available_variant.id }}"
+            data-product-title="{{ product.title | escape }}">
+            PROCEED TO CHECKOUT
+          </button>
+        </div>
+      </div>
 
       {%- comment -%} Cross-sell the blanks these transfers press onto. {%- endcomment -%}
       {% render 'pdp-upsell' %}

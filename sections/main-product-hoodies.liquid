@@ -421,7 +421,9 @@ rather than hard-coded. {%- endcomment -%}
           <span data-summary-total></span>
         </div>
 
-        <button type="submit" class="pdp-add-to-cart" data-add-to-cart>ADD TO CART</button>
+        <button type="button" class="pdp-add-to-cart" data-checkout-btn
+          data-variant-id="gid://shopify/ProductVariant/{{ product.selected_or_first_available_variant.id }}"
+          data-product-title="{{ product.title | escape }}">PROCEED TO CHECKOUT</button>
         <p class="pdp-cart-msg" data-cart-msg hidden></p>
       </form>
     </div>

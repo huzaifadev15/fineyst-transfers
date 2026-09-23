@@ -1,3 +1,9 @@
+<style>
+  .main-product .btn-checkout { display: block; width: 100%; background: #007AFF; color: #fff; border: none; border-radius: 10px; padding: 18px 24px; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; margin-top: 16px; text-align: center; }
+  .main-product .btn-checkout:hover:not(:disabled) { background: #0062cc; }
+  .main-product .btn-checkout:disabled { background: #b0c8e8; cursor: not-allowed; }
+</style>
+
 <section class="main-product">
   <div class="container product-inner">
     <div class="product-media">
@@ -11,23 +17,29 @@
       <h1>{{ product.title }}</h1>
       <p class="price-note">{{ product.price | money }}</p>
       <div class="product-description">{{ product.description }}</div>
-      {% form 'product', product %}
-        {% unless product.has_only_default_variant %}
-          {% for option in product.options_with_values %}
-            <label>{{ option.name }}
-              <select name="options[{{ option.name }}]">
-                {% for value in option.values %}
-                  <option value="{{ value }}">{{ value }}</option>
-                {% endfor %}
-              </select>
-            </label>
-          {% endfor %}
-        {% endunless %}
-        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-        <button type="submit" class="btn btn-accent" {% unless product.available %}disabled{% endunless %}>
-          {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
-        </button>
-      {% endform %}
+      {% unless product.has_only_default_variant %}
+        {% for option in product.options_with_values %}
+          <label>{{ option.name }}
+            <select name="options[{{ option.name }}]">
+              {% for value in option.values %}
+                <option value="{{ value }}">{{ value }}</option>
+              {% endfor %}
+            </select>
+          </label>
+        {% endfor %}
+      {% endunless %}
+      <div class="pdp-form">
+        <span data-artwork-carriers hidden></span>
+        <div class="pdp-buy">
+          <button type="button" class="btn-checkout" data-checkout-btn
+            data-variant-id="gid://shopify/ProductVariant/{{ product.selected_or_first_available_variant.id }}"
+            data-product-title="{{ product.title | escape }}"
+            data-variant-price="{{ product.price | money_without_currency }}"
+            {% unless product.available %}disabled{% endunless %}>
+            {% if product.available %}PROCEED TO CHECKOUT{% else %}SOLD OUT{% endif %}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
