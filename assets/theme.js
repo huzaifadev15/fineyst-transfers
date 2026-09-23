@@ -472,7 +472,7 @@ document.addEventListener('click', function (e) {
   var btn = document.querySelector('[data-checkout-btn]');
   if (!btn) return;
 
-  var CHECKOUT_URL = 'https://tranfer-gangsheet-app.vercel.app/apps/gang-sheet-builder/checkout';
+  var CHECKOUT_URL = '/apps/gang-sheet-builder/checkout';
 
   btn.addEventListener('click', function () {
     btn.disabled = true;
@@ -483,8 +483,13 @@ document.addEventListener('click', function (e) {
     var variantId = btn.getAttribute('data-variant-id') || '';
     var productTitle = btn.getAttribute('data-product-title') || '';
 
+    // Get the uploaded artwork CDN URL from the carriers (set by the upload flow)
+    var carrierInput = document.querySelector('[data-artwork-carriers] input');
+    var artworkUrl = carrierInput ? carrierInput.value : '';
+
+    // Get preview from the canvas image as fallback
     var artImg = editor ? editor.querySelector('[data-canvas-art]') : null;
-    var artSrc = artImg ? artImg.src : '';
+    var previewUrl = artworkUrl || (artImg ? artImg.src : '');
 
     var lineItems = [];
     sizeRows.forEach(function (row) {
@@ -496,13 +501,14 @@ document.addEventListener('click', function (e) {
       var unitPrice = parseFloat(priceText) || 0;
 
       lineItems.push({
-        variantId: variantId,
-        quantity: qty,
         unitPrice: unitPrice,
-        productTitle: productTitle,
+        quantity: qty,
+        productTitle: productTitle + ' (' + w.toFixed(2) + '" x ' + h.toFixed(2) + '")',
+        sheetFt: Math.ceil(Math.max(w, h) / 12),
         film: 'DTF',
-        artworkUrl: artSrc,
-        previewUrl: artSrc
+        imageCount: 1,
+        artworkUrl: artworkUrl,
+        previewUrl: previewUrl
       });
     });
 
