@@ -13,9 +13,8 @@
 </style>
 
 <style>
-  .btn-checkout { display: block; width: 100%; background: #007AFF; color: #fff; border: none; border-radius: 10px; padding: 18px 24px; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; margin-top: 16px; }
-  .btn-checkout:hover:not(:disabled) { background: #0062cc; }
-  .btn-checkout:disabled { background: #b0c8e8; cursor: not-allowed; }
+  .btn-checkout { display: block; width: 100%; background: #007AFF; color: #fff; border: none; border-radius: 10px; padding: 18px 24px; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; margin-top: 16px; text-align: center; text-decoration: none; box-sizing: border-box; }
+  .btn-checkout:hover { background: #0062cc; color: #fff; }
   .pdp-cashback { display: flex; align-items: center; gap: 6px; font-size: 0.84rem; color: var(--text, #333); margin-top: 12px; flex-wrap: wrap; }
   .pdp-cashback svg { flex-shrink: 0; color: #1a7f37; }
   .pdp-cashback strong { color: #1a7f37; }
@@ -524,31 +523,13 @@
       {% if section.settings.show_buy_form %}
       {%- comment -%} Artwork is uploaded to Shopify Files via the app proxy and
       travels as a URL in properties[Artwork], so this form posts plain fields. {%- endcomment -%}
-      {% form 'product', product, class: 'pdp-form' %}
-        {% unless product.has_only_default_variant %}
-          <div class="pdp-options">
-            {% for option in product.options_with_values %}
-              <label class="pdp-option">
-                <span>{{ option.name }}</span>
-                <select name="options[{{ option.name }}]">
-                  {% for value in option.values %}
-                    <option value="{{ value }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
-                  {% endfor %}
-                </select>
-              </label>
-            {% endfor %}
-          </div>
-        {% endunless %}
-
+      <div class="pdp-form">
         <div class="pdp-buy">
-          <input type="hidden" name="quantity" value="1">
-          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-          <span data-artwork-carriers hidden></span>
-          <button type="submit" class="btn-checkout" {% unless product.available %}disabled{% endunless %}>
-            {% if product.available %}PROCEED TO CHECKOUT{% else %}Sold Out{% endif %}
-          </button>
+          <a href="https://tranfer-gangsheet-app.vercel.app/apps/gang-sheet-builder/checkout" class="btn-checkout">
+            PROCEED TO CHECKOUT
+          </a>
         </div>
-      {% endform %}
+      </div>
 
       <div class="pdp-cashback">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
