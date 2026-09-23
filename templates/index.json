@@ -144,7 +144,7 @@
         "t1": {
           "type": "tile",
           "settings": {
-            "static_video": "dtf-video-1.mp4",
+            "static_video": "fineyst transfers.mp4",
             "caption": "Incredible Image Quality"
           }
         },
@@ -158,7 +158,7 @@
         "t3": {
           "type": "tile",
           "settings": {
-            "static_video": "dtf-video-2.mp4",
+            "static_video": "fineyst transfers 2.mp4",
             "caption": "Works on All Fabrics"
           }
         },
@@ -172,7 +172,7 @@
         "t5": {
           "type": "tile",
           "settings": {
-            "static_video": "dtf-video-8.mp4",
+            "static_video": "fineyst transfers 3.mp4",
             "caption": "No Borders Necessary"
           }
         },
@@ -186,7 +186,7 @@
         "t7": {
           "type": "tile",
           "settings": {
-            "static_video": "dtf-video-10.mp4",
+            "static_video": "fineyst transfers 4.mp4",
             "caption": "100+ Wash Durability"
           }
         },
