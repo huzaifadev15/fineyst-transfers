@@ -170,7 +170,7 @@
         "o2": {
           "type": "option",
           "settings": {
-            "static_image": "dtf-gang-sheet.png",
+            "static_image": "t8.png",
             "badge": "Easily Design & Build Online",
             "title": "Build a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
@@ -598,6 +598,7 @@
           "type": "feature_card",
           "settings": {
             "icon": "lightning",
+            "icon_color": "#0f766e",
             "title": "Fast Turnaround",
             "text": "Quick processing and shipping options."
           }
@@ -606,6 +607,7 @@
           "type": "feature_card",
           "settings": {
             "icon": "box",
+            "icon_color": "#14b8a6",
             "title": "No Minimums",
             "text": "Order what you actually need."
           }
@@ -614,6 +616,7 @@
           "type": "feature_card",
           "settings": {
             "icon": "award",
+            "icon_color": "#22c55e",
             "title": "Premium Quality",
             "text": "Vibrant colors and sharp details."
           }
@@ -622,6 +625,7 @@
           "type": "feature_card",
           "settings": {
             "icon": "truck",
+            "icon_color": "#84cc16",
             "title": "Free Shipping",
             "text": "On qualifying orders."
           }
@@ -630,6 +634,7 @@
           "type": "feature_card",
           "settings": {
             "icon": "shield",
+            "icon_color": "#0891b2",
             "title": "Lab-Tested Durability",
             "text": "Tested to last 100+ washes."
           }
@@ -638,8 +643,89 @@
           "type": "feature_card",
           "settings": {
             "icon": "star",
+            "icon_color": "#16a34a",
             "title": "Free Art Review",
             "text": "Our team cleans up your files."
+          }
+        },
+        "transfer-by-size": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "DTF TRANSFERS BY SIZE",
+            "product_handle": "dtf-transfers",
+            "price_note": "$0.02 per sq. in.",
+            "text": "Press any design on any garment or color.",
+            "fallback_asset": "dtf-transfer-by-size.png"
+          }
+        },
+        "transfer-gang-sheets": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "DTF GANG SHEETS",
+            "product_handle": "premium-dtf-gang-sheets",
+            "price_note": "$0.02 per sq. in.",
+            "text": "Fit more designs per sheet and save.",
+            "fallback_asset": "t8.png"
+          }
+        },
+        "transfer-uv-dtf": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "UV DTF TRANSFERS",
+            "product_handle": "uv-dtf-transfers",
+            "price_note": "$0.06 per sq. in.",
+            "text": "For mugs and hard surfaces - no heat needed.",
+            "fallback_asset": "uv-dtf-transfers.png"
+          }
+        },
+        "transfer-puff": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "PUFF TRANSFERS",
+            "product_handle": "puff-transfers",
+            "price_note": "$0.09 per sq. in.",
+            "text": "Raised 3D texture with a premium finish.",
+            "fallback_asset": "puff-print.png"
+          }
+        },
+        "transfer-glitter": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "GLITTER TRANSFERS",
+            "product_handle": "glitter-transfers",
+            "price_note": "$0.07 per sq. in.",
+            "text": "Sparkle finish that survives the wash.",
+            "fallback_asset": "glitter-print.png"
+          }
+        },
+        "transfer-reflective": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "REFLECTIVE TRANSFERS",
+            "product_handle": "reflective-transfers",
+            "price_note": "$0.11 per sq. in.",
+            "text": "High-visibility shine under direct light.",
+            "fallback_asset": "reflective-dtf.png"
+          }
+        },
+        "transfer-metallic-foil": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "METALLIC FOIL TRANSFERS",
+            "product_handle": "metallic-foil-transfers",
+            "price_note": "$0.10 per sq. in.",
+            "text": "Mirror-bright gold and silver accents.",
+            "fallback_asset": "foil-transfers.png"
+          }
+        },
+        "transfer-sublimation": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "SUBLIMATION TRANSFERS",
+            "product_handle": "sublimation-transfers",
+            "price_note": "$0.05 per sq. in.",
+            "text": "Soft hand feel that dyes into the fabric.",
+            "fallback_asset": "sublimation-transfer.png"
           }
         }
       },
@@ -649,7 +735,15 @@
         "premium-quality",
         "free-shipping",
         "lab-tested-durability",
-        "free-art-review"
+        "free-art-review",
+        "transfer-by-size",
+        "transfer-gang-sheets",
+        "transfer-uv-dtf",
+        "transfer-puff",
+        "transfer-glitter",
+        "transfer-reflective",
+        "transfer-metallic-foil",
+        "transfer-sublimation"
       ],
       "settings": {
         "show_badge": true,

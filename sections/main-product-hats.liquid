@@ -64,7 +64,6 @@
   /* Fixed 28px tracks — with 1fr the swatches stretched into rectangles. */
   .pdp-color-grid { display: flex; flex-wrap: wrap; gap: 8px; }
   .pdp-color-swatch { position: relative; flex: 0 0 28px; width: 28px; height: 28px; border-radius: 8px; border: 1px solid #B1B1B1; padding: 0; cursor: pointer; transition: transform .1s, box-shadow .1s; display: flex; align-items: center; justify-content: center; }
-  .pdp-color-swatch:hover { transform: scale(1.08); }
   .pdp-color-swatch.is-active { box-shadow: 0 0 0 2px #fff, 0 0 0 2px var(--nt-blue); }
   .pdp-color-check { opacity: 0; color: #111827; filter: drop-shadow(0 0 2px rgba(255,255,255,0.9)); }
   .pdp-color-swatch.is-active .pdp-color-check { opacity: 1; }
@@ -82,7 +81,6 @@
   .pdp-size-qty:focus { outline: none; }
   .pdp-qty-arrows { display: flex; flex-direction: column; width: 21px; flex-shrink: 0; border-left: 1px solid var(--nt-line); }
   .pdp-qty-arrows button { flex: 1; border: none; background: #fff; cursor: pointer; padding: 0; color: #7A7A7A; display: flex; align-items: center; justify-content: center; }
-  .pdp-qty-arrows button:hover { background: #EFEFEF; }
   .pdp-qty-arrows button + button { border-top: 1px solid var(--nt-line); }
   .pdp-size-was { font-size: 12px; color: var(--nt-retail); text-decoration: line-through; margin-top: 6px; }
   .pdp-size-price { font-size: 15px; font-weight: 700; color: var(--nt-navy); margin-top: 2px; }
@@ -91,7 +89,6 @@
   .pdp-cart-summary { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; padding: 4px 2px 12px; }
   .pdp-cart-summary[hidden] { display: none; }
   .pdp-add-to-cart { width: 100%; background: var(--nt-blue); color: #fff; border: none; border-radius: 8px; padding: 14px 15px; font-size: 15px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: background .15s; }
-  .pdp-add-to-cart:hover { background: #0286DD; }
   .pdp-add-to-cart:disabled { background: #94A3B8; cursor: default; }
   .pdp-cart-msg { font-size: 0.82rem; margin: 10px 0 0; }
   .pdp-cart-msg.is-error { color: #C92A2A; }
@@ -118,7 +115,6 @@
   .pdp-dtf-title { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
   .pdp-dtf-body p { font-size: 0.8rem; color: #4B5563; margin: 0 0 12px; max-width: 34ch; }
   .pdp-dtf-btn { display: inline-block; background: var(--nt-blue); color: #fff; font-size: 0.85rem; font-weight: 700; padding: 10px 18px; border-radius: 7px; border: none; cursor: pointer; }
-  .pdp-dtf-btn:hover { background: #0286DD; }
   .pdp-dtf-panel.is-dragging { background: #DCF0FF; border-color: var(--nt-blue); }
   .pdp-dtf-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
   .pdp-dtf-chip { font-size: 0.66rem; font-weight: 700; color: #0369A1; background: #fff; border: 1px solid #BAE6FD; border-radius: 4px; padding: 3px 7px; }

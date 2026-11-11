@@ -37,10 +37,8 @@
   .coll-filter-panel { background: #fff; border: 1px solid #EFEFEF; border-radius: 14px; box-shadow: 0 1px 3px rgba(16,24,40,0.04), 0 6px 20px rgba(16,24,40,0.05); padding: 6px 0; overflow: hidden; }
   .filter-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #F0F0F0; }
   .filter-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border: 1px solid var(--coll-line); border-radius: 999px; background: #F7F8FA; font-size: 12px; font-weight: 600; color: #333; cursor: pointer; }
-  .filter-chip:hover { border-color: var(--coll-accent); color: var(--brand-dark); }
   .filter-chip svg { color: #9AA0A6; flex-shrink: 0; }
   .filter-chip-clear { padding: 4px 4px; background: none; border: none; font-size: 12px; font-weight: 700; color: var(--coll-accent); cursor: pointer; }
-  .filter-chip-clear:hover { text-decoration: underline; }
   .filter-count-badge { margin-left: auto; margin-right: 8px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--coll-accent); color: #fff; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
   .filter-group { border-bottom: 1px solid #F0F0F0; }
   .filter-group-hd { width: 100%; display: flex; justify-content: space-between; align-items: center; background: none; border: none; font-size: 13px; font-weight: 700; color: #111; cursor: pointer; padding: 12px 14px; }
@@ -54,18 +52,15 @@
   .filter-check span { flex: 1; min-width: 0; }
   .filter-check small { color: #AAA; font-size: 11px; }
   .filter-show-all { align-self: flex-start; margin-top: 6px; padding: 0; background: none; border: none; font-size: 12px; font-weight: 600; color: var(--coll-accent); cursor: pointer; }
-  .filter-show-all:hover { text-decoration: underline; }
   .filter-item-hidden { display: none; }
   .filter-price-range { display: flex; gap: 10px; padding-top: 4px; }
   .filter-price-range label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #6B7280; flex: 1; }
   .filter-price-range input { padding: 7px 8px; border: 1px solid var(--coll-line); border-radius: 8px; width: 100%; font-size: 13px; }
-  .filter-apply-btn { width: calc(100% - 28px); margin: 14px; padding: 11px; font-size: 13px; font-weight: 700; border: none; border-radius: 10px; background: var(--coll-accent); color: #fff; cursor: pointer; }
-  .filter-apply-btn:hover { background: var(--brand-dark); }
+  .filter-apply-btn { width: calc(100% - 28px); margin: 14px; padding: 11px; font-size: 13px; font-weight: 700; border: none; border-radius: 10px; background: var(--coll-accent); color: #104241; cursor: pointer; }
   .filter-clear-link { display: block; text-align: center; margin: -4px 0 14px; font-size: 12px; color: #6B7280; text-decoration: underline; }
   #collFilterForm .filter-group:last-of-type { border-bottom: none; }
   .filter-swatch-grid { display: grid; grid-template-columns: repeat(6, 28px); gap: 6px; padding-top: 4px; }
   .filter-swatch { width: 28px; height: 28px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.12); cursor: pointer; padding: 0; transition: transform .1s, box-shadow .1s; }
-  .filter-swatch:hover { transform: scale(1.1); }
   .filter-swatch.is-active { box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--coll-accent); }
 
   /* Toolbar */
@@ -85,12 +80,11 @@
   .pc-quickbuy { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; display: flex; align-items: center; justify-content: center; gap: 7px; background: rgba(18,18,18,0.9); color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0; transform: translateY(6px); transition: opacity .18s, transform .18s; z-index: 3; }
   .pc-quickbuy svg { flex-shrink: 0; }
   .product-card:hover .pc-quickbuy, .product-card:focus-within .pc-quickbuy { opacity: 1; transform: translateY(0); }
-  .product-card:hover .pc-quickbuy:hover { background: #000; }
   @media (hover: none) { .pc-quickbuy { display: none; } }
   .product-card-save { position: absolute; top: 8px; left: 8px; background: var(--danger); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 7px; border-radius: 6px; z-index: 2; }
   .product-card-swatches { display: flex; align-items: center; gap: 4px; padding: 10px 10px 0; flex-wrap: wrap; }
   .pc-swatch { width: 16px; height: 16px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; padding: 0; cursor: pointer; }
-  .pc-swatch:hover, .pc-swatch.is-active { box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px var(--coll-accent); }
+  .pc-swatch.is-active { box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px var(--coll-accent); }
   .pc-swatch-more { font-size: 11px; font-weight: 700; color: #6B7280; margin-left: 2px; }
   .product-card-body { padding: 8px 10px 12px; display: flex; flex-direction: column; gap: 3px; }
   .product-card-meta { display: flex; align-items: flex-end; justify-content: space-between; gap: 6px; }
@@ -103,7 +97,7 @@
 
   .coll-pagination { display: flex; justify-content: center; gap: 8px; margin-top: 36px; }
   .coll-page-link { padding: 9px 14px; border: 1px solid var(--coll-line); border-radius: 10px; font-size: 13px; font-weight: 600; }
-  .coll-page-link.is-active { background: var(--coll-accent); border-color: var(--coll-accent); color: #fff; }
+  .coll-page-link.is-active { background: var(--coll-accent); border-color: var(--coll-accent); color: #104241; }
   .coll-empty { padding: 60px 0; text-align: center; color: #6B7280; }
 
   @media (max-width: 1280px) {

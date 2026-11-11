@@ -91,6 +91,10 @@
     line-height: 1.15;
   }
 
+  #shopify-section-{{ section.id }} .shop-heading {
+    color: #104241 !important;
+  }
+
   #shopify-section-{{ section.id }} .benefits-subheading {
     margin: 0;
     color: var(--at-subheading);
@@ -272,12 +276,13 @@
 
       <div class="benefits-grid{% if section.settings.card_layout == 'centered' %} benefits-grid--centered{% endif %}">
         {%- for block in section.blocks -%}
-          <article class="benefit-card" {{ block.shopify_attributes }}>
-            <span class="benefit-icon-tile" aria-hidden="true">
-              {%- if block.settings.image != blank -%}
-                {{ block.settings.image | image_url: width: 176 | image_tag: loading: 'lazy', alt: '' }}
-              {%- else -%}
-                {%- case block.settings.icon -%}
+          {%- if block.type == 'feature_card' -%}
+            <article class="benefit-card" {{ block.shopify_attributes }}>
+              <span class="benefit-icon-tile" style="--at-icon: {{ block.settings.icon_color }};" aria-hidden="true">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 176 | image_tag: loading: 'lazy', alt: '' }}
+                {%- else -%}
+                  {%- case block.settings.icon -%}
                   {%- when 'lightning' -%}
                     <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-13h-7l1-7Z"/></svg>
                   {%- when 'box' -%}
@@ -296,14 +301,15 @@
                     <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
                   {%- when 'check' -%}
                     <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>
-                {%- endcase -%}
-              {%- endif -%}
-            </span>
-            <div class="benefit-copy">
-              <h3 class="benefit-title">{{ block.settings.title | escape }}</h3>
-              <p class="benefit-text">{{ block.settings.text | escape }}</p>
-            </div>
-          </article>
+                  {%- endcase -%}
+                {%- endif -%}
+              </span>
+              <div class="benefit-copy">
+                <h3 class="benefit-title">{{ block.settings.title | escape }}</h3>
+                <p class="benefit-text">{{ block.settings.text | escape }}</p>
+              </div>
+            </article>
+          {%- endif -%}
         {%- endfor -%}
       </div>
 
@@ -323,7 +329,47 @@
     <h2 class="shop-heading">{{ section.settings.grid_heading | default: 'Shop Transfer Types - DTF, UV DTF, Puff, Glitter &amp; More' }}</h2>
 
     <div class="patch-grid">
-      {%- assign transfer_types = "DTF TRANSFERS BY SIZE,dtf-transfers,$0.02 per sq. in.,Press any design on any garment or color.,dtf-transfer-by-size.png|DTF GANG SHEETS,premium-dtf-gang-sheets,$0.02 per sq. in.,Fit more designs per sheet and save.,dtf-gang-sheet.png|UV DTF TRANSFERS,uv-dtf-transfers,$0.06 per sq. in.,For mugs and hard surfaces - no heat needed.,uv-dtf-transfers.png|PUFF TRANSFERS,puff-transfers,$0.09 per sq. in.,Raised 3D texture with a premium finish.,puff-print.png|GLITTER TRANSFERS,glitter-transfers,$0.07 per sq. in.,Sparkle finish that survives the wash.,glitter-print.png|REFLECTIVE TRANSFERS,reflective-transfers,$0.11 per sq. in.,High-visibility shine under direct light.,reflective-dtf.png|METALLIC FOIL TRANSFERS,metallic-foil-transfers,$0.10 per sq. in.,Mirror-bright gold and silver accents.,foil-transfers.png|SUBLIMATION TRANSFERS,sublimation-transfers,$0.05 per sq. in.,Soft hand feel that dyes into the fabric.,sublimation-transfer.png" | split: "|" -%}
+      {%- assign transfer_blocks = section.blocks | where: 'type', 'transfer_type' -%}
+      {%- if transfer_blocks.size > 0 -%}
+        {%- for block in transfer_blocks -%}
+          {%- assign transfer_product = all_products[block.settings.product_handle] -%}
+          {%- if transfer_product != blank -%}
+            {%- assign transfer_url = transfer_product.url -%}
+          {%- elsif block.settings.product_handle != blank -%}
+            {%- assign transfer_url = block.settings.product_handle | prepend: '/products/' -%}
+          {%- else -%}
+            {%- assign transfer_url = '#' -%}
+          {%- endif -%}
+          <article class="patch-card" {{ block.shopify_attributes }}>
+            <a href="{{ transfer_url }}" class="patch-card-link" aria-label="View {{ block.settings.title | escape }}">
+              <figure class="patch-card-fig">
+                <span class="patch-badge">{{ section.settings.badge | default: 'No minimum' }}</span>
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 700, height: 700, crop: 'center' | image_tag: loading: 'lazy', width: 225, height: 225, alt: block.settings.title }}
+                {%- elsif block.settings.fallback_asset != blank -%}
+                  <img src="{{ block.settings.fallback_asset | strip | asset_url }}"
+                       alt="{{ block.settings.title | escape }}"
+                       width="225" height="225" loading="lazy">
+                {%- elsif transfer_product.featured_image != blank -%}
+                  <img
+                    src="{{ transfer_product.featured_image | image_url: width: 700, height: 700, crop: 'center' }}"
+                    alt="{{ transfer_product.featured_image.alt | default: block.settings.title | escape }}"
+                    width="225" height="225" loading="lazy">
+                {%- endif -%}
+              </figure>
+              <div class="patch-card-body">
+                <p class="patch-card-name">{{ block.settings.title | escape }}</p>
+                <p class="patch-card-price">As low as {{ block.settings.price_note | escape }}</p>
+                <p class="patch-card-desc">{{ block.settings.text | escape }}</p>
+                <div class="patch-card-cta">
+                  <span class="patch-card-btn">{{ section.settings.cta_label | default: 'Get a Quote' }}</span>
+                </div>
+              </div>
+            </a>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+      {%- assign transfer_types = "DTF TRANSFERS BY SIZE,dtf-transfers,$0.02 per sq. in.,Press any design on any garment or color.,dtf-transfer-by-size.png|DTF GANG SHEETS,premium-dtf-gang-sheets,$0.02 per sq. in.,Fit more designs per sheet and save.,t8.png|UV DTF TRANSFERS,uv-dtf-transfers,$0.06 per sq. in.,For mugs and hard surfaces - no heat needed.,uv-dtf-transfers.png|PUFF TRANSFERS,puff-transfers,$0.09 per sq. in.,Raised 3D texture with a premium finish.,puff-print.png|GLITTER TRANSFERS,glitter-transfers,$0.07 per sq. in.,Sparkle finish that survives the wash.,glitter-print.png|REFLECTIVE TRANSFERS,reflective-transfers,$0.11 per sq. in.,High-visibility shine under direct light.,reflective-dtf.png|METALLIC FOIL TRANSFERS,metallic-foil-transfers,$0.10 per sq. in.,Mirror-bright gold and silver accents.,foil-transfers.png|SUBLIMATION TRANSFERS,sublimation-transfers,$0.05 per sq. in.,Soft hand feel that dyes into the fabric.,sublimation-transfer.png" | split: "|" -%}
 
       {%- for item in transfer_types -%}
         {%- assign parts = item | split: "," -%}
@@ -360,6 +406,7 @@
           </a>
         </article>
       {%- endfor -%}
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -444,12 +491,25 @@
           "default": "lightning"
         },
         { "type": "image_picker", "id": "image", "label": "Custom icon image", "info": "Optional. When selected, the image replaces the chosen icon." },
+        { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#0f766e" },
         { "type": "text", "id": "title", "label": "Title", "default": "Fast Turnaround" },
         { "type": "textarea", "id": "text", "label": "Description", "default": "Quick processing and shipping options." }
       ]
+    },
+    {
+      "type": "transfer_type",
+      "name": "Transfer type card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Card image", "info": "Choose an image from Shopify. If left blank, the fallback image is used." },
+        { "type": "text", "id": "fallback_asset", "label": "Fallback theme image filename", "info": "Optional. Used when no Shopify image is selected, e.g. t8.png." },
+        { "type": "text", "id": "title", "label": "Title", "default": "DTF TRANSFERS BY SIZE" },
+        { "type": "text", "id": "product_handle", "label": "Product handle", "info": "Used to link the card to a product, e.g. dtf-transfers." },
+        { "type": "text", "id": "price_note", "label": "Price note", "default": "$0.02 per sq. in." },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Press any design on any garment or color." }
+      ]
     }
   ],
-  "max_blocks": 9,
+  "max_blocks": 17,
   "presets": [
     {
       "name": "Affordable Transfers",
@@ -459,7 +519,15 @@
         { "type": "feature_card", "settings": { "icon": "award", "title": "Premium Quality", "text": "Vibrant colors and sharp details." } },
         { "type": "feature_card", "settings": { "icon": "truck", "title": "Free Shipping", "text": "On qualifying orders." } },
         { "type": "feature_card", "settings": { "icon": "shield", "title": "Lab-Tested Durability", "text": "Tested to last 100+ washes." } },
-        { "type": "feature_card", "settings": { "icon": "star", "title": "Free Art Review", "text": "Our team cleans up your files." } }
+        { "type": "feature_card", "settings": { "icon": "star", "title": "Free Art Review", "text": "Our team cleans up your files." } },
+        { "type": "transfer_type", "settings": { "title": "DTF TRANSFERS BY SIZE", "product_handle": "dtf-transfers", "price_note": "$0.02 per sq. in.", "text": "Press any design on any garment or color.", "fallback_asset": "dtf-transfer-by-size.png" } },
+        { "type": "transfer_type", "settings": { "title": "DTF GANG SHEETS", "product_handle": "premium-dtf-gang-sheets", "price_note": "$0.02 per sq. in.", "text": "Fit more designs per sheet and save.", "fallback_asset": "t8.png" } },
+        { "type": "transfer_type", "settings": { "title": "UV DTF TRANSFERS", "product_handle": "uv-dtf-transfers", "price_note": "$0.06 per sq. in.", "text": "For mugs and hard surfaces - no heat needed.", "fallback_asset": "uv-dtf-transfers.png" } },
+        { "type": "transfer_type", "settings": { "title": "PUFF TRANSFERS", "product_handle": "puff-transfers", "price_note": "$0.09 per sq. in.", "text": "Raised 3D texture with a premium finish.", "fallback_asset": "puff-print.png" } },
+        { "type": "transfer_type", "settings": { "title": "GLITTER TRANSFERS", "product_handle": "glitter-transfers", "price_note": "$0.07 per sq. in.", "text": "Sparkle finish that survives the wash.", "fallback_asset": "glitter-print.png" } },
+        { "type": "transfer_type", "settings": { "title": "REFLECTIVE TRANSFERS", "product_handle": "reflective-transfers", "price_note": "$0.11 per sq. in.", "text": "High-visibility shine under direct light.", "fallback_asset": "reflective-dtf.png" } },
+        { "type": "transfer_type", "settings": { "title": "METALLIC FOIL TRANSFERS", "product_handle": "metallic-foil-transfers", "price_note": "$0.10 per sq. in.", "text": "Mirror-bright gold and silver accents.", "fallback_asset": "foil-transfers.png" } },
+        { "type": "transfer_type", "settings": { "title": "SUBLIMATION TRANSFERS", "product_handle": "sublimation-transfers", "price_note": "$0.05 per sq. in.", "text": "Soft hand feel that dyes into the fabric.", "fallback_asset": "sublimation-transfer.png" } }
       ]
     }
   ]
