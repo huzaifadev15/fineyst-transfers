@@ -534,9 +534,78 @@
     },
     "affordable-transfers": {
       "type": "affordable-transfers",
+      "blocks": {
+        "fast-turnaround": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "lightning",
+            "title": "Fast Turnaround",
+            "text": "Quick processing and shipping options."
+          }
+        },
+        "no-minimums": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "box",
+            "title": "No Minimums",
+            "text": "Order what you actually need."
+          }
+        },
+        "premium-quality": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "award",
+            "title": "Premium Quality",
+            "text": "Vibrant colors and sharp details."
+          }
+        },
+        "free-shipping": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "truck",
+            "title": "Free Shipping",
+            "text": "On qualifying orders."
+          }
+        },
+        "lab-tested-durability": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "shield",
+            "title": "Lab-Tested Durability",
+            "text": "Tested to last 100+ washes."
+          }
+        },
+        "free-art-review": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "star",
+            "title": "Free Art Review",
+            "text": "Our team cleans up your files."
+          }
+        }
+      },
+      "block_order": [
+        "fast-turnaround",
+        "no-minimums",
+        "premium-quality",
+        "free-shipping",
+        "lab-tested-durability",
+        "free-art-review"
+      ],
       "settings": {
+        "show_badge": true,
+        "badge_text": "WHY CHOOSE US",
         "heading": "Affordable Custom DTF Transfers",
-        "subheading": "No Minimums, No Setup Fees, Free Shipping",
+        "subheading": "Premium Quality. No Minimums. Fast Turnaround.",
+        "show_divider": true,
+        "columns_desktop": "3",
+        "columns_tablet": "2",
+        "columns_mobile": "1",
+        "card_layout": "side",
+        "card_alignment": "left",
+        "show_seo_content": true,
+        "open_seo_by_default": false,
+        "seo_toggle_label": "More about our custom transfers",
         "grid_heading": "Shop Transfer Types - DTF, UV DTF, Puff, Glitter & More",
         "badge": "No minimum",
         "cta_label": "Get a Quote"
