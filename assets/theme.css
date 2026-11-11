@@ -454,7 +454,7 @@ body.template-index main { padding-top: 0; }
 .quote-glow {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, var(--brand-dark), var(--brand), var(--accent));
+  background: linear-gradient(to right, #E8F5E9, #B6F000);
   border-radius: 30px;
   filter: blur(8px);
   opacity: 0.35;
@@ -465,7 +465,7 @@ body.template-index main { padding-top: 0; }
   position: relative;
   display: inline-flex;
   align-items: center;
-  background: linear-gradient(to right, var(--brand), var(--brand-dark));
+  background: #B6F000;
   border-radius: 30px;
   padding: 2px;
   font-weight: 800;
@@ -473,15 +473,15 @@ body.template-index main { padding-top: 0; }
 }
 .btn-quote-inner { display: flex; align-items: center; }
 .quote-free {
-  color: var(--brand-grad-ink);
+  color: #104241;
   padding: 6px 8px;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.5px;
 }
 .quote-dark {
-  background: #0A0A0A;
-  color: #fff;
+  background: #E8F5E9;
+  color: #104241;
   border-radius: 24px;
   padding: 6px 10px;
   font-size: 11px;
