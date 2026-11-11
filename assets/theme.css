@@ -92,7 +92,7 @@ body.template-index main { padding-top: 0; }
 .site-header * { font-family: var(--font-primary) !important; }
 
 .navbar-bg {
-  background: var(--ink);
+  background: #0B3D2E;
   color: #fff;
   position: relative;
   padding-bottom: 24px;
@@ -138,7 +138,7 @@ body.template-index main { padding-top: 0; }
   gap: 4px;
   transition: color 0.2s;
 }
-.nav-link:hover { color: var(--brand); }
+.nav-link:hover { color: #fff; }
 .chevron { transition: transform 0.2s; }
 .has-mega:hover .chevron { transform: rotate(180deg); }
 
@@ -1677,8 +1677,8 @@ body.template-index main { padding-top: 0; }
 
 /* Announcement strip above the header content */
 .topbar {
-  background: linear-gradient(90deg, var(--brand-dark), var(--brand));
-  color: #fff;
+  background: #E8F5E9;
+  color: #0B3D2E;
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.3px;
