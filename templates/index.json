@@ -2,20 +2,79 @@
   "sections": {
     "hero": {
       "type": "hero",
+      "blocks": {
+        "badge_1": {
+          "type": "badge",
+          "settings": { "text": "No Minimum Orders" }
+        },
+        "badge_2": {
+          "type": "badge",
+          "settings": { "text": "Printed & Shipped in 24 Hours" }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": { "text": "100+ Wash Durability" }
+        },
+        "column_1_image_1": {
+          "type": "column_1",
+          "settings": { "image_alt": "Custom DTF transfer" }
+        },
+        "column_1_image_2": {
+          "type": "column_1",
+          "settings": { "image_alt": "Printed apparel design" }
+        },
+        "column_1_image_3": {
+          "type": "column_1",
+          "settings": { "image_alt": "Finished transfer print" }
+        },
+        "column_2_image_1": {
+          "type": "column_2",
+          "settings": { "image_alt": "DTF printing process" }
+        },
+        "column_2_image_2": {
+          "type": "column_2",
+          "settings": { "image_alt": "Quality checked transfer" }
+        },
+        "column_2_image_3": {
+          "type": "column_2",
+          "settings": { "image_alt": "Custom apparel print" }
+        },
+        "column_3_image_1": {
+          "type": "column_3",
+          "settings": { "image_alt": "Colorful transfer design" }
+        },
+        "column_3_image_2": {
+          "type": "column_3",
+          "settings": { "image_alt": "Printed apparel" }
+        },
+        "column_3_image_3": {
+          "type": "column_3",
+          "settings": { "image_alt": "Ready-to-press transfer" }
+        }
+      },
+      "block_order": [
+        "badge_1",
+        "badge_2",
+        "badge_3",
+        "column_1_image_1",
+        "column_1_image_2",
+        "column_1_image_3",
+        "column_2_image_1",
+        "column_2_image_2",
+        "column_2_image_3",
+        "column_3_image_1",
+        "column_3_image_2",
+        "column_3_image_3"
+      ],
       "settings": {
         "title": "DTF TRANSFERS",
         "subtitle": "No Minimums, Ready to Press, Shipped in 24 Hours",
+        "highlight_word": "24 Hours",
         "description": "Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time.",
-        "rating": "4.9",
-        "rating_note": "from thousands of happy customers",
-        "badges": "No Minimum Orders,Printed & Shipped in 24 Hours,100+ Wash Durability",
         "primary_label": "Order Transfers by Size",
         "primary_link": "/products/dtf-transfers",
         "secondary_label": "Build a Gang Sheet",
-        "secondary_link": "/products/uv-dtf-gang-sheet-builder",
-        "column_1": "carousel-1.png,we-print-apparel.png,carousel-3.png",
-        "column_2": "carousel-2.png,quality-check.png,carousel-1.png",
-        "column_3": "carousel-3.png,we-print-apparel.png,carousel-2.png"
+        "secondary_link": "/products/uv-dtf-gang-sheet-builder"
       }
     },
     "features": {

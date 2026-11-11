@@ -1,125 +1,584 @@
-{%- comment -%}
-  Hero — left copy block follows the Fineyst Patches composition (gradient
-  display title, bold subtitle, lead line, pill CTAs, check badges).
-  Right side is the Fineyst Neon Signs / Ninja Transfers scrolling image wall:
-  three columns that drift vertically at different speeds. Each column's list
-  is rendered twice so the -50% translate loops seamlessly.
-{%- endcomment -%}
+{%- assign column_one_blocks = section.blocks | where: 'type', 'column_1' -%}
+{%- assign column_two_blocks = section.blocks | where: 'type', 'column_2' -%}
+{%- assign column_three_blocks = section.blocks | where: 'type', 'column_3' -%}
+{%- assign mobile_images = column_one_blocks | concat: column_two_blocks | concat: column_three_blocks -%}
+{%- assign title_words = section.settings.title | split: ' ' -%}
+{%- assign hero_sub = section.settings.subtitle | default: 'No Minimums, Ready to Press, Shipped in 24 Hours' -%}
+{%- assign hero_hl = section.settings.highlight_word | strip -%}
 
-{%- assign col1 = section.settings.column_1 | default: 'hero-1.jpg,hero-4.jpg,hero-7.jpg' | split: ',' -%}
-{%- assign col2 = section.settings.column_2 | default: 'hero-2.jpg,hero-5.jpg,hero-1.jpg' | split: ',' -%}
-{%- assign col3 = section.settings.column_3 | default: 'hero-3.jpg,hero-6.jpg,hero-4.jpg' | split: ',' -%}
-
-<section class="hero-section" aria-labelledby="hero-heading" role="banner">
+<section class="hero-section" aria-labelledby="hero-heading-{{ section.id }}">
   <div class="hero-bg-wrap">
     <div class="hero-inner-wrap">
-
-      <!-- Left: copy -->
       <div class="hero-left">
         <div class="hero-inner">
-         
-
-          <header>
-            <h1 id="hero-heading" class="hero-heading">
-              <span class="hero-title-main">{{ section.settings.title | default: 'DTF TRANSFERS' }}</span>
-              <span class="hero-subtitle">{{ section.settings.subtitle | default: 'No Minimums, Ready to Press, Shipped in 24 Hours' }}</span>
+          <header class="hero-heading">
+            <h1 id="hero-heading-{{ section.id }}" class="hero-title-main">
+              {%- for word in title_words -%}
+                {{- word | escape -}}{%- unless forloop.last -%}<br>{%- endunless -%}
+              {%- endfor -%}
             </h1>
+            <div class="hero-subtitle">
+              {%- if hero_hl != blank and hero_sub contains hero_hl -%}
+                {%- assign hero_parts = hero_sub | split: hero_hl -%}
+                {{- hero_parts[0] | escape -}}<mark class="hero-highlight">{{ hero_hl | escape }}</mark>{{- hero_parts[1] | escape -}}
+              {%- else -%}
+                {{- hero_sub | escape -}}
+              {%- endif -%}
+            </div>
           </header>
 
-          <p class="hero-desc">{{ section.settings.description | default: 'Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time.' }}</p>
+          {%- if section.settings.description != blank -%}
+            <div class="hero-desc">{{ section.settings.description | escape | newline_to_br }}</div>
+          {%- endif -%}
 
-          <nav class="hero-btns" aria-label="Primary actions">
-            <a href="{{ section.settings.primary_link | default: '/products/dtf-transfers' }}" class="hero-btn hero-btn--primary">
-              {{ section.settings.primary_label | default: 'Order Transfers by Size' }}
-            </a>
-            <a href="{{ section.settings.secondary_link | default: '/products/uv-dtf-gang-sheet-builder' }}" class="hero-btn hero-btn--secondary">
-              <span class="hero-btn-inner">{{ section.settings.secondary_label | default: 'Build a Gang Sheet' }}
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hero-btn-arrow" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-              </span>
-            </a>
+          <nav class="hero-btns" aria-label="Hero links">
+            {%- if section.settings.primary_label != blank -%}
+              <a href="{{ section.settings.primary_link | default: routes.all_products_collection_url | escape }}" class="hero-btn hero-btn--primary">
+                {{ section.settings.primary_label | escape }}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.show_secondary_button and section.settings.secondary_label != blank -%}
+              <a href="{{ section.settings.secondary_link | default: routes.all_products_collection_url | escape }}" class="hero-btn hero-btn--secondary">
+                <span class="hero-btn-inner">
+                  {{ section.settings.secondary_label | escape }}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hero-btn-arrow" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </span>
+              </a>
+            {%- endif -%}
           </nav>
 
-          <div class="hero-badges">
-            {%- assign badges = section.settings.badges | default: 'No Minimum Orders,Printed & Shipped in 24 Hours,100+ Wash Durability' | split: ',' -%}
-            {%- for badge in badges -%}
-              <span class="badge">
-                <span class="badge-icon" aria-hidden="true">
-                  <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
-                </span>
-                {{ badge | strip }}
-              </span>
-            {%- endfor -%}
-          </div>
-        </div>
-      </div>
-
-      <!-- Right: scrolling image wall (desktop) -->
-      <div class="hero-right" aria-hidden="true">
-        <div class="hero-cols-inner">
-          {%- assign columns = 'up-40,down-35,up-45' | split: ',' -%}
-          {%- for speed in columns -%}
-            {%- if forloop.index0 == 0 -%}{%- assign files = col1 -%}
-            {%- elsif forloop.index0 == 1 -%}{%- assign files = col2 -%}
-            {%- else -%}{%- assign files = col3 -%}{%- endif -%}
-            <div class="hero-col hero-col--{{ speed }}">
-              {%- for pass in (1..2) -%}
-                {%- for file in files -%}
-                  <div class="hero-img-wrap">
-                    <img src="{{ file | strip | asset_url }}"
-                         alt=""
-                         loading="{% if pass == 1 and forloop.first %}eager{% else %}lazy{% endif %}"
-                         width="220" height="295">
-                  </div>
-                {%- endfor -%}
+          {%- if section.settings.show_badges -%}
+            <div class="hero-badges">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'badge' and block.settings.text != blank -%}
+                  <span class="badge" {{ block.shopify_attributes }}>
+                    <span class="badge-icon" aria-hidden="true">
+                      <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                    </span>
+                    {{ block.settings.text | escape }}
+                  </span>
+                {%- endif -%}
               {%- endfor -%}
             </div>
-          {%- endfor -%}
+          {%- endif -%}
         </div>
       </div>
 
+      {%- if section.settings.show_scroll_images -%}
+        <div class="hero-right" aria-label="Featured product images">
+          <div class="hero-cols-inner">
+            <div class="hero-col hero-col--{{ section.settings.column_1_direction }}" style="--column-duration: {{ section.settings.column_1_speed }}s;">
+              {%- for pass in (1..2) -%}
+                {%- if column_one_blocks.size > 0 -%}
+                  {%- for block in column_one_blocks -%}
+                    <div class="hero-img-wrap" {% if pass == 1 %}{{ block.shopify_attributes }}{% else %}aria-hidden="true"{% endif %}>
+                      {%- if block.settings.image != blank -%}
+                        <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.image_alt | default: block.settings.image.alt | escape }}" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}" loading="{% if pass == 1 and forloop.first %}eager{% else %}lazy{% endif %}">
+                      {%- else -%}
+                        {{ 'product-1' | placeholder_svg_tag: 'hero-image-placeholder' }}
+                      {%- endif -%}
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  <div class="hero-img-wrap" aria-hidden="true">{{ 'product-1' | placeholder_svg_tag: 'hero-image-placeholder' }}</div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+            <div class="hero-col hero-col--{{ section.settings.column_2_direction }}" style="--column-duration: {{ section.settings.column_2_speed }}s;">
+              {%- for pass in (1..2) -%}
+                {%- if column_two_blocks.size > 0 -%}
+                  {%- for block in column_two_blocks -%}
+                    <div class="hero-img-wrap" {% if pass == 1 %}{{ block.shopify_attributes }}{% else %}aria-hidden="true"{% endif %}>
+                      {%- if block.settings.image != blank -%}
+                        <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.image_alt | default: block.settings.image.alt | escape }}" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}" loading="{% if pass == 1 and forloop.first %}eager{% else %}lazy{% endif %}">
+                      {%- else -%}
+                        {{ 'product-2' | placeholder_svg_tag: 'hero-image-placeholder' }}
+                      {%- endif -%}
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  <div class="hero-img-wrap" aria-hidden="true">{{ 'product-2' | placeholder_svg_tag: 'hero-image-placeholder' }}</div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+            <div class="hero-col hero-col--{{ section.settings.column_3_direction }}" style="--column-duration: {{ section.settings.column_3_speed }}s;">
+              {%- for pass in (1..2) -%}
+                {%- if column_three_blocks.size > 0 -%}
+                  {%- for block in column_three_blocks -%}
+                    <div class="hero-img-wrap" {% if pass == 1 %}{{ block.shopify_attributes }}{% else %}aria-hidden="true"{% endif %}>
+                      {%- if block.settings.image != blank -%}
+                        <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.image_alt | default: block.settings.image.alt | escape }}" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}" loading="{% if pass == 1 and forloop.first %}eager{% else %}lazy{% endif %}">
+                      {%- else -%}
+                        {{ 'product-3' | placeholder_svg_tag: 'hero-image-placeholder' }}
+                      {%- endif -%}
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  <div class="hero-img-wrap" aria-hidden="true">{{ 'product-3' | placeholder_svg_tag: 'hero-image-placeholder' }}</div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
     </div>
 
-    <!-- Mobile: horizontal marquee rows -->
-    <div class="hero-mobile-media" aria-hidden="true">
-      {%- assign m_row1 = col1 | concat: col2 -%}
-      {%- assign m_row2 = col3 | concat: col2 -%}
-      <div class="hero-mobile-track hero-mobile-track--left">
-        {%- for pass in (1..2) -%}
-          {%- for file in m_row1 -%}
-            <div class="hero-mobile-tile"><img src="{{ file | strip | asset_url }}" alt="" loading="lazy" width="114" height="153"></div>
+    {%- if section.settings.show_scroll_images -%}
+      <div class="hero-mobile-media" aria-label="Featured product images">
+        <div class="hero-mobile-track" style="--mobile-duration: {{ section.settings.mobile_scroll_speed }}s;">
+          {%- for pass in (1..2) -%}
+            {%- if mobile_images.size > 0 -%}
+              {%- for block in mobile_images -%}
+                <div class="hero-mobile-tile" aria-hidden="true">
+                  {%- if block.settings.image != blank -%}
+                    <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.image_alt | default: block.settings.image.alt | escape }}" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}" loading="{% if pass == 1 and forloop.first %}eager{% else %}lazy{% endif %}">
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'hero-image-placeholder' }}
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              <div class="hero-mobile-tile" aria-hidden="true">{{ 'product-1' | placeholder_svg_tag: 'hero-image-placeholder' }}</div>
+            {%- endif -%}
           {%- endfor -%}
-        {%- endfor -%}
+        </div>
       </div>
-      <div class="hero-mobile-track hero-mobile-track--right">
-        {%- for pass in (1..2) -%}
-          {%- for file in m_row2 -%}
-            <div class="hero-mobile-tile"><img src="{{ file | strip | asset_url }}" alt="" loading="lazy" width="114" height="153"></div>
-          {%- endfor -%}
-        {%- endfor -%}
-      </div>
-    </div>
+    {%- endif -%}
   </div>
 </section>
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --hero-dark: {{ section.settings.dark_color }};
+    --hero-lime: {{ section.settings.lime_color }};
+    --hero-title-color: {{ section.settings.title_color }};
+    --hero-subtitle-color: {{ section.settings.subtitle_color }};
+    --hero-highlight-bg: {{ section.settings.highlight_bg_color }};
+    --hero-highlight-text: {{ section.settings.highlight_text_color }};
+    --hero-description: {{ section.settings.description_color }};
+    --hero-button-bg: {{ section.settings.button_bg_color }};
+    --hero-button-text: {{ section.settings.button_text_color }};
+    --hero-secondary-bg: {{ section.settings.secondary_button_bg }};
+    --hero-secondary-text: {{ section.settings.secondary_button_text }};
+    --hero-secondary-border: {{ section.settings.secondary_button_border }};
+    --hero-badge-icon-bg: {{ section.settings.badge_icon_bg }};
+    --hero-badge-icon-color: {{ section.settings.badge_icon_color }};
+    --hero-badge-text: {{ section.settings.badge_text_color }};
+    --hero-badge-divider: {{ section.settings.badge_divider_color }};
+    --hero-gradient-start: {{ section.settings.gradient_start }};
+    --hero-gradient-end: {{ section.settings.gradient_end }};
+    --hero-tile-bg: var(--hero-gradient-start);
+    --hero-bg-image: {% if section.settings.bg_image != blank %}url('{{ section.settings.bg_image | image_url: width: 2000 }}'){% else %}none{% endif %};
+    --hero-bg-position: {{ section.settings.bg_position }};
+    --hero-padding-top: {{ section.settings.padding_top }}px;
+    --hero-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --hero-heading-desktop: {{ section.settings.heading_size_desktop }}px;
+    --hero-heading-mobile: {{ section.settings.heading_size_mobile }}px;
+    --hero-subtitle-desktop: {{ section.settings.subtitle_size_desktop }}px;
+    --hero-subtitle-mobile: {{ section.settings.subtitle_size_mobile }}px;
+    --hero-description-size: {{ section.settings.description_size }}px;
+    --hero-title-weight: {{ section.settings.title_weight }};
+    --hero-title-style: {% if section.settings.title_italic %}italic{% else %}normal{% endif %};
+  }
+
+  #shopify-section-{{ section.id }} .hero-section { width: 100%; font-family: var(--font-primary, sans-serif) !important; }
+  #shopify-section-{{ section.id }} .hero-bg-wrap {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--hero-gradient-start);
+    background-image: var(--hero-bg-image), linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+    background-position: var(--hero-bg-position) center, center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  #shopify-section-{{ section.id }} .hero-bg-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45%;
+    height: 100%;
+    background: var(--hero-lime);
+    clip-path: polygon(40% 0, 100% 0, 100% 18%, 62% 18%);
+    opacity: .35;
+    pointer-events: none;
+  }
+  #shopify-section-{{ section.id }} .hero-bg-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background: var(--hero-dark);
+    clip-path: polygon(100% 78%, 100% 100%, 55% 100%);
+    opacity: .12;
+    pointer-events: none;
+  }
+  #shopify-section-{{ section.id }} .hero-inner-wrap,
+  #shopify-section-{{ section.id }} .hero-mobile-media { position: relative; z-index: 1; }
+  #shopify-section-{{ section.id }} .hero-inner-wrap {
+    max-width: 1340px;
+    margin: 0 auto;
+    padding: calc(var(--nav-bottom, 0px) + var(--hero-padding-top)) 16px var(--hero-padding-bottom);
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 28px;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .hero-left { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+  #shopify-section-{{ section.id }} .hero-inner {
+    position: relative;
+    max-width: 740px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 16px;
+  }
+  #shopify-section-{{ section.id }} .hero-heading { margin: 0 0 12px; }
+  #shopify-section-{{ section.id }} .hero-title-main {
+    display: block;
+    font-family: var(--font-primary, sans-serif) !important;
+    font-style: var(--hero-title-style);
+    font-weight: var(--hero-title-weight);
+    text-transform: uppercase;
+    font-size: var(--hero-heading-desktop);
+    line-height: .88;
+    color: var(--hero-title-color) !important;
+    -webkit-text-fill-color: var(--hero-title-color) !important;
+    background: none !important;
+    margin: 0 0 14px;
+  }
+  #shopify-section-{{ section.id }} .hero-subtitle {
+    display: block;
+    max-width: 700px;
+    font-size: var(--hero-subtitle-desktop);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--hero-subtitle-color) !important;
+    -webkit-text-fill-color: var(--hero-subtitle-color) !important;
+  }
+  #shopify-section-{{ section.id }} .hero-highlight {
+    background: var(--hero-highlight-bg, #b8f23c) !important;
+    color: var(--hero-highlight-text, #0b3d2e) !important;
+    -webkit-text-fill-color: var(--hero-highlight-text, #0b3d2e) !important;
+    padding: 0 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  #shopify-section-{{ section.id }} .hero-desc {
+    max-width: 520px;
+    color: var(--hero-description) !important;
+    font-size: var(--hero-description-size);
+    line-height: 1.55;
+    margin: 4px 0 24px;
+  }
+  #shopify-section-{{ section.id }} .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; }
+  #shopify-section-{{ section.id }} .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 30px;
+    border: 2px solid var(--hero-button-bg);
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+  }
+  #shopify-section-{{ section.id }} .hero-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--hero-dark) 25%, transparent);
+  }
+  #shopify-section-{{ section.id }} .hero-btn--primary {
+    background: var(--hero-button-bg) !important;
+    color: var(--hero-button-text) !important;
+    -webkit-text-fill-color: var(--hero-button-text) !important;
+  }
+  #shopify-section-{{ section.id }} .hero-btn--secondary {
+    background: var(--hero-secondary-bg) !important;
+    color: var(--hero-secondary-text) !important;
+    -webkit-text-fill-color: var(--hero-secondary-text) !important;
+    border-color: var(--hero-secondary-border);
+  }
+  #shopify-section-{{ section.id }} .hero-btn-inner { display: inline-flex; align-items: center; gap: 8px; }
+  #shopify-section-{{ section.id }} .hero-btn-arrow { transition: transform .2s ease; }
+  #shopify-section-{{ section.id }} .hero-btn--secondary:hover .hero-btn-arrow { transform: translateX(3px); }
+  #shopify-section-{{ section.id }} .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 18px;
+    margin-top: 26px;
+  }
+  #shopify-section-{{ section.id }} .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--hero-badge-text) !important;
+    font-size: 13px;
+    font-weight: 600;
+    padding-right: 16px;
+  }
+  #shopify-section-{{ section.id }} .hero-badges .badge + .badge {
+    border-left: 1px solid color-mix(in srgb, var(--hero-badge-divider) 25%, transparent);
+    padding-left: 16px;
+  }
+  #shopify-section-{{ section.id }} .hero-badges .badge:first-child { padding-left: 0; }
+  #shopify-section-{{ section.id }} .hero-badges .badge:last-child { padding-right: 0; }
+  #shopify-section-{{ section.id }} .badge-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--hero-badge-icon-bg);
+    color: var(--hero-badge-icon-color);
+  }
+  #shopify-section-{{ section.id }} .hero-right {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .hero-right::before,
+  #shopify-section-{{ section.id }} .hero-right::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 90px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  #shopify-section-{{ section.id }} .hero-right::before {
+    top: 0;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--hero-dark) 18%, transparent), transparent);
+  }
+  #shopify-section-{{ section.id }} .hero-right::after {
+    bottom: 0;
+    background: linear-gradient(to top, color-mix(in srgb, var(--hero-dark) 18%, transparent), transparent);
+  }
+  #shopify-section-{{ section.id }} .hero-cols-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    height: 600px;
+    width: 100%;
+    padding-left: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .hero-col {
+    flex: 1 1 0%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+  }
+  #shopify-section-{{ section.id }} .hero-col--up { animation: heroScrollUp-{{ section.id }} var(--column-duration) linear infinite; }
+  #shopify-section-{{ section.id }} .hero-col--down { animation: heroScrollDown-{{ section.id }} var(--column-duration) linear infinite; }
+  #shopify-section-{{ section.id }} .hero-right:hover .hero-col { animation-play-state: paused; }
+  #shopify-section-{{ section.id }} .hero-img-wrap {
+    position: relative;
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: var(--hero-tile-bg);
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--hero-dark) 14%, transparent);
+  }
+  #shopify-section-{{ section.id }} .hero-img-wrap img,
+  #shopify-section-{{ section.id }} .hero-mobile-tile img,
+  #shopify-section-{{ section.id }} .hero-image-placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #shopify-section-{{ section.id }} .hero-image-placeholder { background: var(--hero-tile-bg); }
+  #shopify-section-{{ section.id }} .hero-mobile-media { display: none; }
+
+  @keyframes heroScrollUp-{{ section.id }} {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
+  }
+  @keyframes heroScrollDown-{{ section.id }} {
+    from { transform: translateY(-50%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes heroMarquee-{{ section.id }} {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 1100px) {
+    #shopify-section-{{ section.id }} .hero-cols-inner { height: 520px; gap: 12px; padding-left: 12px; }
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .hero-inner-wrap {
+      grid-template-columns: 1fr;
+      padding: calc(var(--nav-bottom, 0px) + var(--hero-padding-top)) 16px 0;
+      gap: 0;
+    }
+    #shopify-section-{{ section.id }} .hero-right { display: none; }
+    #shopify-section-{{ section.id }} .hero-inner { max-width: none; align-items: flex-start; text-align: left; padding-left: 0; }
+    #shopify-section-{{ section.id }} .hero-title-main { font-size: var(--hero-heading-mobile); }
+    #shopify-section-{{ section.id }} .hero-subtitle { font-size: var(--hero-subtitle-mobile); }
+    #shopify-section-{{ section.id }} .hero-desc { margin-bottom: 20px; }
+    #shopify-section-{{ section.id }} .hero-btns { flex-direction: column; align-items: flex-start; width: 100%; }
+    #shopify-section-{{ section.id }} .hero-btn { width: 100%; max-width: 300px; }
+    #shopify-section-{{ section.id }} .hero-badges {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 12px;
+    }
+    #shopify-section-{{ section.id }} .badge {
+      min-width: 0;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      border-left: 0;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+    #shopify-section-{{ section.id }} .hero-badges .badge + .badge {
+      border-left: 0;
+      padding-left: 0;
+    }
+    #shopify-section-{{ section.id }} .hero-badges .badge:first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+    #shopify-section-{{ section.id }} .hero-mobile-media {
+      display: block;
+      margin-top: 28px;
+      padding-bottom: var(--hero-padding-bottom);
+      overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .hero-mobile-track {
+      display: flex;
+      width: max-content;
+      gap: 10px;
+      padding: 0 8px;
+      will-change: transform;
+      animation: heroMarquee-{{ section.id }} var(--mobile-duration) linear infinite;
+    }
+    #shopify-section-{{ section.id }} .hero-mobile-tile {
+      flex: 0 0 auto;
+      width: 7.1rem;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border-radius: 12px;
+      background: var(--hero-tile-bg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .hero-col,
+    #shopify-section-{{ section.id }} .hero-mobile-track,
+    #shopify-section-{{ section.id }} .hero-btn { animation: none !important; transition: none !important; }
+  }
+  #shopify-section-{{ section.id }} .hero-subtitle mark,
+  #shopify-section-{{ section.id }} .hero-highlight {
+    background: var(--hero-highlight-bg, #b8f23c) !important;
+    color: var(--hero-highlight-text, #0b3d2e) !important;
+    -webkit-text-fill-color: var(--hero-highlight-text, #0b3d2e) !important;
+    padding: 0 8px !important;
+    border-radius: 4px !important;
+    display: inline-block !important;
+  }
+  #shopify-section-{{ section.id }} .hero-badges .badge {
+    text-decoration: none !important;
+    border-bottom: 0 !important;
+  }
+</style>
 
 {% schema %}
 {
   "name": "Hero",
   "settings": [
-    { "type": "text", "id": "title", "label": "Display title", "default": "DTF TRANSFERS" },
+    { "type": "text", "id": "title", "label": "Title", "info": "Har word alag line mein show hoga.", "default": "DTF TRANSFERS" },
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "No Minimums, Ready to Press, Shipped in 24 Hours" },
-    { "type": "textarea", "id": "description", "label": "Description" },
-    { "type": "text", "id": "rating", "label": "Rating", "default": "4.9" },
-    { "type": "text", "id": "rating_note", "label": "Rating note", "default": "from thousands of happy customers" },
-    { "type": "text", "id": "badges", "label": "Badges", "info": "Comma separated.", "default": "No Minimum Orders,Printed & Shipped in 24 Hours,100+ Wash Durability" },
+    { "type": "text", "id": "highlight_word", "label": "Subtitle highlight word", "info": "Subtitle ka exact matching text lime highlight hoga.", "default": "24 Hours" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time." },
     { "type": "text", "id": "primary_label", "label": "Primary button label", "default": "Order Transfers by Size" },
     { "type": "url", "id": "primary_link", "label": "Primary button link" },
+    { "type": "checkbox", "id": "show_secondary_button", "label": "Show secondary button", "default": true },
     { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "Build a Gang Sheet" },
     { "type": "url", "id": "secondary_link", "label": "Secondary button link" },
-    { "type": "header", "content": "Scrolling image columns" },
-    { "type": "text", "id": "column_1", "label": "Column 1 files", "info": "Comma-separated filenames from /assets. Scrolls up.", "default": "hero-1.jpg,hero-4.jpg,hero-7.jpg" },
-    { "type": "text", "id": "column_2", "label": "Column 2 files", "info": "Scrolls down.", "default": "hero-2.jpg,hero-5.jpg,hero-1.jpg" },
-    { "type": "text", "id": "column_3", "label": "Column 3 files", "info": "Scrolls up, slower.", "default": "hero-3.jpg,hero-6.jpg,hero-4.jpg" }
+    { "type": "checkbox", "id": "show_badges", "label": "Show badges", "default": true },
+    { "type": "checkbox", "id": "show_scroll_images", "label": "Show scrolling images", "default": true },
+    { "type": "color", "id": "dark_color", "label": "Dark green", "default": "#0B3D2E" },
+    { "type": "color", "id": "lime_color", "label": "Lime", "default": "#B8F23C" },
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#0B3D2E" },
+    { "type": "color", "id": "subtitle_color", "label": "Subtitle color", "default": "#0B3D2E" },
+    { "type": "color", "id": "highlight_bg_color", "label": "Subtitle highlight background", "default": "#B8F23C" },
+    { "type": "color", "id": "highlight_text_color", "label": "Subtitle highlight text", "default": "#0B3D2E" },
+    { "type": "color", "id": "description_color", "label": "Description color", "default": "#1F3B33" },
+    { "type": "color", "id": "button_bg_color", "label": "Primary button background", "default": "#0B3D2E" },
+    { "type": "color", "id": "button_text_color", "label": "Primary button text", "default": "#FFFFFF" },
+    { "type": "color", "id": "secondary_button_bg", "label": "Secondary button background", "default": "#FFFFFF" },
+    { "type": "color", "id": "secondary_button_text", "label": "Secondary button text", "default": "#0B3D2E" },
+    { "type": "color", "id": "secondary_button_border", "label": "Secondary button border", "default": "#0B3D2E" },
+    { "type": "color", "id": "badge_icon_bg", "label": "Badge icon background", "default": "#0B3D2E" },
+    { "type": "color", "id": "badge_icon_color", "label": "Badge icon color", "default": "#FFFFFF" },
+    { "type": "color", "id": "badge_text_color", "label": "Badge text color", "default": "#0B3D2E" },
+    { "type": "color", "id": "badge_divider_color", "label": "Badge divider color", "default": "#0B3D2E" },
+    { "type": "color", "id": "gradient_start", "label": "Fallback gradient start", "default": "#F4FDE8" },
+    { "type": "color", "id": "gradient_end", "label": "Fallback gradient end", "default": "#E2F6C3" },
+    { "type": "image_picker", "id": "bg_image", "label": "Background image" },
+    { "type": "select", "id": "bg_position", "label": "Background image position", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }], "default": "center" },
+    { "type": "range", "id": "padding_top", "label": "Section top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Section bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "heading_size_desktop", "label": "Title size desktop", "min": 40, "max": 140, "step": 2, "unit": "px", "default": 88 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Title size mobile", "min": 32, "max": 80, "step": 2, "unit": "px", "default": 44 },
+    { "type": "select", "id": "title_weight", "label": "Title font weight", "options": [{ "value": "700", "label": "700" }, { "value": "800", "label": "800" }, { "value": "900", "label": "900" }], "default": "900" },
+    { "type": "checkbox", "id": "title_italic", "label": "Italic title", "default": true },
+    { "type": "range", "id": "subtitle_size_desktop", "label": "Subtitle size desktop", "min": 16, "max": 40, "step": 1, "unit": "px", "default": 25 },
+    { "type": "range", "id": "subtitle_size_mobile", "label": "Subtitle size mobile", "min": 16, "max": 32, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "description_size", "label": "Description size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 },
+    { "type": "range", "id": "column_1_speed", "label": "Column 1 duration", "min": 20, "max": 90, "step": 1, "unit": "s", "default": 40 },
+    { "type": "select", "id": "column_1_direction", "label": "Column 1 direction", "options": [{ "value": "up", "label": "Up" }, { "value": "down", "label": "Down" }], "default": "up" },
+    { "type": "range", "id": "column_2_speed", "label": "Column 2 duration", "min": 20, "max": 90, "step": 1, "unit": "s", "default": 35 },
+    { "type": "select", "id": "column_2_direction", "label": "Column 2 direction", "options": [{ "value": "up", "label": "Up" }, { "value": "down", "label": "Down" }], "default": "down" },
+    { "type": "range", "id": "column_3_speed", "label": "Column 3 duration", "min": 20, "max": 90, "step": 1, "unit": "s", "default": 45 },
+    { "type": "select", "id": "column_3_direction", "label": "Column 3 direction", "options": [{ "value": "up", "label": "Up" }, { "value": "down", "label": "Down" }], "default": "up" },
+    { "type": "range", "id": "mobile_scroll_speed", "label": "Mobile slider duration", "min": 15, "max": 60, "step": 1, "unit": "s", "default": 28 }
   ],
-  "presets": [{ "name": "Hero" }]
+  "blocks": [
+    { "type": "badge", "name": "Badge", "limit": 6, "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "No Minimum Orders" }] },
+    { "type": "column_1", "name": "Column 1 image", "limit": 4, "settings": [{ "type": "image_picker", "id": "image", "label": "Image" }, { "type": "text", "id": "image_alt", "label": "Image alt text", "info": "Image ko screen readers ke liye describe karein." }] },
+    { "type": "column_2", "name": "Column 2 image", "limit": 4, "settings": [{ "type": "image_picker", "id": "image", "label": "Image" }, { "type": "text", "id": "image_alt", "label": "Image alt text", "info": "Image ko screen readers ke liye describe karein." }] },
+    { "type": "column_3", "name": "Column 3 image", "limit": 4, "settings": [{ "type": "image_picker", "id": "image", "label": "Image" }, { "type": "text", "id": "image_alt", "label": "Image alt text", "info": "Image ko screen readers ke liye describe karein." }] }
+  ],
+  "max_blocks": 18,
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        { "type": "badge", "settings": { "text": "No Minimum Orders" } },
+        { "type": "badge", "settings": { "text": "Printed & Shipped in 24 Hours" } },
+        { "type": "badge", "settings": { "text": "100+ Wash Durability" } },
+        { "type": "column_1", "settings": { "image_alt": "Custom DTF transfer" } },
+        { "type": "column_1", "settings": { "image_alt": "Printed apparel design" } },
+        { "type": "column_1", "settings": { "image_alt": "Finished transfer print" } },
+        { "type": "column_2", "settings": { "image_alt": "DTF printing process" } },
+        { "type": "column_2", "settings": { "image_alt": "Quality checked transfer" } },
+        { "type": "column_2", "settings": { "image_alt": "Custom apparel print" } },
+        { "type": "column_3", "settings": { "image_alt": "Colorful transfer design" } },
+        { "type": "column_3", "settings": { "image_alt": "Printed apparel" } },
+        { "type": "column_3", "settings": { "image_alt": "Ready-to-press transfer" } }
+      ]
+    }
+  ]
 }
 {% endschema %}
