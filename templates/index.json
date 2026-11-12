@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -5,51 +14,87 @@
       "blocks": {
         "badge_1": {
           "type": "badge",
-          "settings": { "text": "No Minimum Orders", "icon": "layers" }
+          "settings": {
+            "text": "No Minimum Orders",
+            "icon": "check"
+          }
         },
         "badge_2": {
           "type": "badge",
-          "settings": { "text": "Printed & Shipped in 24 Hours", "icon": "lightning" }
+          "settings": {
+            "text": "Printed & Shipped in 24 Hours",
+            "icon": "check"
+          }
         },
         "badge_3": {
           "type": "badge",
-          "settings": { "text": "100+ Wash Durability", "icon": "drop" }
+          "settings": {
+            "text": "100+ Wash Durability",
+            "icon": "check"
+          }
         },
         "column_1_image_1": {
           "type": "column_1",
-          "settings": { "image_alt": "Custom DTF transfer" }
+          "settings": {
+            "image": "shopify://shop_images/t12.webp",
+            "image_alt": "Custom DTF transfer"
+          }
         },
         "column_1_image_2": {
           "type": "column_1",
-          "settings": { "image_alt": "Printed apparel design" }
+          "settings": {
+            "image": "shopify://shop_images/hero_image_6.webp",
+            "image_alt": "Printed apparel design"
+          }
         },
         "column_1_image_3": {
           "type": "column_1",
-          "settings": { "image_alt": "Finished transfer print" }
+          "settings": {
+            "image": "shopify://shop_images/hero_image_2.webp",
+            "image_alt": "Finished transfer print"
+          }
         },
         "column_2_image_1": {
           "type": "column_2",
-          "settings": { "image_alt": "DTF printing process" }
+          "settings": {
+            "image": "shopify://shop_images/hero_image_4.webp",
+            "image_alt": "DTF printing process"
+          }
         },
         "column_2_image_2": {
           "type": "column_2",
-          "settings": { "image_alt": "Quality checked transfer" }
+          "settings": {
+            "image": "shopify://shop_images/hero_image_5.webp",
+            "image_alt": "Quality checked transfer"
+          }
         },
         "column_2_image_3": {
           "type": "column_2",
-          "settings": { "image_alt": "Custom apparel print" }
+          "settings": {
+            "image": "shopify://shop_images/hero_image_3.webp",
+            "image_alt": "Custom apparel print"
+          }
         },
         "column_3_image_1": {
           "type": "column_3",
-          "settings": { "image_alt": "Colorful transfer design" }
+          "settings": {
+            "image": "shopify://shop_images/hero_img3.webp",
+            "image_alt": "Colorful transfer design"
+          }
         },
         "column_3_image_2": {
           "type": "column_3",
-          "settings": { "image_alt": "Printed apparel" }
+          "settings": {
+            "image": "shopify://shop_images/hero_img4.png",
+            "image_alt": "Printed apparel"
+          }
         },
         "column_3_image_3": {
           "type": "column_3",
-          "settings": { "image_alt": "Ready-to-press transfer" }
+          "settings": {
+            "image": "shopify://shop_images/t12.webp",
+            "image_alt": "Ready-to-press transfer"
+          }
         }
       },
       "block_order": [
@@ -68,17 +113,240 @@
       ],
       "settings": {
         "eyebrow": "PREMIUM CUSTOM TRANSFERS",
-        "eyebrow_color": "#182C27",
+        "eyebrow_color": "#182c27",
         "title": "DTF Transfers",
         "title_accent_word": "Transfers",
-        "lime_color": "#82C341",
         "subtitle": "No Minimums, Ready to Press, Shipped in 24 Hours",
         "highlight_word": "24 Hours",
         "description": "Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time.",
         "primary_label": "Order Transfers by Size",
         "primary_link": "/products/dtf-transfers",
+        "show_secondary_button": true,
         "secondary_label": "Build a Gang Sheet",
-        "secondary_link": "/products/uv-dtf-gang-sheet-builder"
+        "secondary_link": "/products/uv-dtf-gang-sheet-builder",
+        "show_badges": true,
+        "show_scroll_images": true,
+        "lime_color": "#82c341",
+        "title_color": "#104241",
+        "subtitle_color": "#1f2937",
+        "highlight_bg_color": "#b8f23c",
+        "highlight_text_color": "#0b3d2e",
+        "description_color": "#4b5563",
+        "button_bg_color": "#104241",
+        "button_text_color": "#ffffff",
+        "secondary_button_bg": "#ffffff",
+        "secondary_button_text": "#104241",
+        "secondary_button_border": "#104241",
+        "badge_icon_bg": "#e8f5e9",
+        "badge_icon_color": "#104241",
+        "badge_text_color": "#1f2937",
+        "badge_divider_color": "#dde6e1",
+        "gradient_start": "#ffffff",
+        "padding_top": 36,
+        "padding_bottom": 0,
+        "heading_size_desktop": 88,
+        "heading_size_mobile": 64,
+        "title_weight": "900",
+        "subtitle_size_desktop": 22,
+        "subtitle_size_mobile": 20,
+        "description_size": 16
+      }
+    },
+    "affordable-transfers": {
+      "type": "affordable-transfers",
+      "blocks": {
+        "fast-turnaround": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "lightning",
+            "icon_color": "#0f766e",
+            "title": "Fast Turnaround",
+            "text": "Quick processing and shipping options."
+          }
+        },
+        "no-minimums": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "box",
+            "icon_color": "#14b8a6",
+            "title": "No Minimums",
+            "text": "Order what you actually need."
+          }
+        },
+        "premium-quality": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "award",
+            "icon_color": "#22c55e",
+            "title": "Premium Quality",
+            "text": "Vibrant colors and sharp details."
+          }
+        },
+        "free-shipping": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "truck",
+            "icon_color": "#84cc16",
+            "title": "Free Shipping",
+            "text": "On qualifying orders."
+          }
+        },
+        "lab-tested-durability": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "shield",
+            "icon_color": "#0891b2",
+            "title": "Lab-Tested Durability",
+            "text": "Tested to last 100+ washes."
+          }
+        },
+        "free-art-review": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "star",
+            "icon_color": "#16a34a",
+            "title": "Free Art Review",
+            "text": "Our team cleans up your files."
+          }
+        },
+        "transfer-by-size": {
+          "type": "transfer_type",
+          "settings": {
+            "fallback_asset": "dtf-transfer-by-size.png",
+            "title": "DTF TRANSFERS BY SIZE",
+            "product_handle": "dtf-transfers",
+            "price_note": "$0.02 per sq. in.",
+            "text": "Press any design on any garment or color."
+          }
+        },
+        "transfer-gang-sheets": {
+          "type": "transfer_type",
+          "settings": {
+            "fallback_asset": "t8.webp",
+            "title": "DTF GANG SHEETS",
+            "product_handle": "premium-dtf-gang-sheets",
+            "price_note": "$0.02 per sq. in.",
+            "text": "Fit more designs per sheet and save."
+          }
+        },
+        "transfer-uv-dtf": {
+          "type": "transfer_type",
+          "settings": {
+            "fallback_asset": "uv-dtf-transfers.png",
+            "title": "UV DTF TRANSFERS",
+            "product_handle": "uv-dtf-transfers",
+            "price_note": "$0.06 per sq. in.",
+            "text": "For mugs and hard surfaces - no heat needed."
+          }
+        },
+        "transfer-puff": {
+          "type": "transfer_type",
+          "settings": {
+            "fallback_asset": "puff-print.png",
+            "title": "PUFF TRANSFERS",
+            "product_handle": "puff-transfers",
+            "price_note": "$0.09 per sq. in.",
+            "text": "Raised 3D texture with a premium finish."
+          }
+        },
+        "transfer-glitter": {
+          "type": "transfer_type",
+          "settings": {
+            "fallback_asset": "t4.png",
+            "title": "GLITTER TRANSFERS",
+            "product_handle": "glitter-transfers",
+            "price_note": "$0.07 per sq. in.",
+            "text": "Sparkle finish that survives the wash."
+          }
+        },
+        "transfer-reflective": {
+          "type": "transfer_type",
+          "settings": {
+            "fallback_asset": "reflective-dtf.png",
+            "title": "REFLECTIVE TRANSFERS",
+            "product_handle": "reflective-transfers",
+            "price_note": "$0.11 per sq. in.",
+            "text": "High-visibility shine under direct light."
+          }
+        },
+        "transfer-metallic-foil": {
+          "type": "transfer_type",
+          "settings": {
+            "fallback_asset": "foil-transfers.png",
+            "title": "METALLIC FOIL TRANSFERS",
+            "product_handle": "metallic-foil-transfers",
+            "price_note": "$0.10 per sq. in.",
+            "text": "Mirror-bright gold and silver accents."
+          }
+        },
+        "transfer-sublimation": {
+          "type": "transfer_type",
+          "settings": {
+            "fallback_asset": "sublimation-transfer.png",
+            "title": "SUBLIMATION TRANSFERS",
+            "product_handle": "sublimation-transfers",
+            "price_note": "$0.05 per sq. in.",
+            "text": "Soft hand feel that dyes into the fabric."
+          }
+        }
+      },
+      "block_order": [
+        "fast-turnaround",
+        "no-minimums",
+        "premium-quality",
+        "free-shipping",
+        "lab-tested-durability",
+        "free-art-review",
+        "transfer-by-size",
+        "transfer-gang-sheets",
+        "transfer-uv-dtf",
+        "transfer-puff",
+        "transfer-glitter",
+        "transfer-reflective",
+        "transfer-metallic-foil",
+        "transfer-sublimation"
+      ],
+      "settings": {
+        "show_badge": true,
+        "badge_text": "WHY CHOOSE US",
+        "heading": "Affordable Custom DTF Transfers",
+        "subheading": "Premium Quality. No Minimums. Fast Turnaround.",
+        "show_divider": true,
+        "columns_desktop": "3",
+        "columns_tablet": "2",
+        "columns_mobile": "1",
+        "card_layout": "side",
+        "card_alignment": "left",
+        "section_bg": "#ffffff",
+        "outer_card_bg": "#ffffff",
+        "outer_card_border": "#e5e7eb",
+        "heading_color": "#104241",
+        "subheading_color": "#6b7280",
+        "badge_bg": "#d9f3df",
+        "badge_text_color": "#15803d",
+        "feature_card_bg": "#f1f9f1",
+        "feature_card_border": "#e1eee1",
+        "icon_color": "#15803d",
+        "icon_tile_bg": "#ffffff",
+        "feature_title_color": "#104241",
+        "feature_text_color": "#6b7280",
+        "heading_size_desktop": 40,
+        "heading_size_mobile": 30,
+        "feature_title_size": 18,
+        "feature_text_size": 14,
+        "feature_card_radius": 14,
+        "grid_gap": 20,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "container_max_width": 1200,
+        "feature_card_padding": 20,
+        "show_seo_content": true,
+        "open_seo_by_default": false,
+        "seo_toggle_label": "More about our custom transfers",
+        "seo_content": "<p>Looking for the best place to order custom DTF transfers that are vibrant, durable, and delivered fast? You have found it. At Fineyst Transfers, we are your go-to source for press-ready transfers with no order minimums, expert support, and no setup fees.</p><p><strong>HERE'S WHAT YOU SHOULD KNOW RIGHT AWAY:</strong></p><ul><li><strong>TURNAROUND TIME:</strong> Most orders are printed and shipped within 24 hours, with same-day options available.</li><li><strong>TRANSFER TYPES WE PRINT:</strong> Choose from <a href=\"/products/dtf-transfers\">DTF by size</a>, <a href=\"/products/uv-dtf-gang-sheet-builder\">gang sheets</a>, <a href=\"/products/uv-dtf-perma-stickers\">UV DTF</a>, <a href=\"/collections/puff-transfers\">puff</a>, <a href=\"/collections/glitter-transfers\">glitter</a>, and <a href=\"/collections/reflective-transfers\">reflective transfers</a> - all press-ready.</li><li><strong>COMMON USES:</strong> Perfect for t-shirts, hoodies, hats, tote bags, team merch, uniforms, event apparel, and more.</li><li><strong>WHAT FABRICS WORK?</strong> Cotton, polyester, blends, canvas, denim, nylon, and more - light or dark, no special prep needed.</li><li><strong>DESIGN HELP & FILE PREP:</strong> Send a PNG, PDF, or AI file and we will handle the rest. Not print-ready? Our team will clean it up free.</li><li><strong>ARE DTF TRANSFERS EXPENSIVE? NOT HERE.</strong> You get wholesale pricing, volume discounts, free shipping, and no hidden fees.</li></ul><p><strong>Ready to Get Started?</strong></p><p>Upload your artwork today - it is fast, free to quote, and fully supported by real humans who care about print quality.</p>",
+        "grid_heading": "Shop Transfer Types - DTF, UV DTF, Puff, Glitter & More",
+        "badge": "No minimum",
+        "cta_label": "Get a Quote"
       }
     },
     "features": {
@@ -133,7 +401,14 @@
           }
         }
       },
-      "block_order": ["f1", "f2", "f3", "f4", "f5", "f6"],
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5",
+        "f6"
+      ],
       "settings": {
         "heading": "The Leader in Custom DTF Transfers"
       }
@@ -142,7 +417,61 @@
       "type": "what-is-dtf",
       "settings": {
         "heading": "What is DTF?",
-        "text": "<p>Direct to Film (DTF) Transfers are incredibly vivid, high quality transfers that can be applied to almost any product, material, and color with just a heat press, Cricut, or iron. Millions trust DTF Transfers for their events, team merch, crafts, gifts, and more — DTF saves you money and time, and lets you customize products the way you want.</p>"
+        "text": "<p>Direct to Film (DTF) Transfers are incredibly vivid, high quality transfers that can be applied to almost any product, material, and color with just a heat press, Cricut, or iron. Millions trust DTF Transfers for their events, team merch, crafts, gifts, and more — DTF saves you money and time, and lets you customize products the way you want.</p>",
+        "cta_label": "",
+        "cta_link": ""
+      }
+    },
+    "bulk-orders": {
+      "type": "bulk-orders",
+      "settings": {
+        "heading": "DTF Transfers — Single Prints & Bulk Gang Sheets, Any Quantity",
+        "description": "Our production floor runs a fleet of industry-leading DTF printers, so we handle orders of any size with 24-hour turnaround. From a one-off tee to thousands of gang sheets, every transfer comes off the line with the same color accuracy and wash durability.",
+        "trust_text": "25,000+ Trusted Customers",
+        "cta_text": "Get Started",
+        "cta_url": "/products/dtf-transfers",
+        "static_image": "quality-check.png"
+      }
+    },
+    "process": {
+      "type": "process",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "static_image": "",
+            "static_video": "dtf-video-4.mp4",
+            "title": "Upload Your Design & Order Online",
+            "text": "From simple graphics to high-detail artwork, upload any design with unlimited colors. We convert it into a high-quality DTF transfer, ready to press."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "static_image": "",
+            "static_video": "dtf-video-5.mp4",
+            "title": "Printed & Shipped in 24–48 Hours",
+            "text": "We produce your transfer for sharp detail, vibrant color, and consistent, professional-grade results."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "static_image": "",
+            "static_video": "dtf-video3.mp4",
+            "title": "Heat Press or Iron when Ready",
+            "text": "Press at 310°F / 155°C with medium pressure for 12–15 seconds. Repress for 5 seconds for maximum durability. Unused transfers store long-term without loss of quality."
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "heading": "The Fineyst DTF Process",
+        "tagline": "Faster. Simpler. Satisfaction Guaranteed."
       }
     },
     "pressing": {
@@ -152,8 +481,9 @@
         "text": "<p>With our proprietary fast-peel process, our DTF Transfers give you professional results in just 13 seconds. Now you can press on anything!</p>",
         "cta_label": "See Pressing Instructions",
         "cta_link": "/pages/pressing-instructions",
-        "media_position": "right",
-        "static_video": "dtf-video-6.mp4"
+        "static_image": "",
+        "static_video": "dtf-video-6.mp4",
+        "media_position": "right"
       }
     },
     "product-options": {
@@ -162,7 +492,8 @@
         "o1": {
           "type": "option",
           "settings": {
-            "static_image": "dtf-transfer-by-size.png",
+            "static_image": "t1.webp",
+            "static_video": "",
             "badge": "Most Popular",
             "title": "DTF Transfers By Size",
             "price_note": "As low as $0.02 per sq. inch",
@@ -174,7 +505,8 @@
         "o2": {
           "type": "option",
           "settings": {
-            "static_image": "t8.png",
+            "static_image": "t2.webp",
+            "static_video": "",
             "badge": "Easily Design & Build Online",
             "title": "Build a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
@@ -186,7 +518,8 @@
         "o3": {
           "type": "option",
           "settings": {
-            "static_image": "step-1-send-design.png",
+            "static_image": "t8.webp",
+            "static_video": "",
             "badge": "For Pros - Print Ready Files",
             "title": "Upload a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
@@ -196,7 +529,11 @@
           }
         }
       },
-      "block_order": ["o1", "o2", "o3"],
+      "block_order": [
+        "o1",
+        "o2",
+        "o3"
+      ],
       "settings": {
         "heading": "Select the DTF Product That Works Best for You"
       }
@@ -207,98 +544,89 @@
         "t1": {
           "type": "tile",
           "settings": {
+            "static_image": "",
             "static_video": "fineyst transfers.mp4",
-            "caption": "Incredible Image Quality"
+            "caption": "Incredible Image Quality",
+            "link": ""
           }
         },
         "t2": {
           "type": "tile",
           "settings": {
             "static_image": "sharp-fine-print.png",
-            "caption": "Super Fine Details"
+            "static_video": "",
+            "caption": "Super Fine Details",
+            "link": ""
           }
         },
         "t3": {
           "type": "tile",
           "settings": {
+            "static_image": "",
             "static_video": "fineyst transfers 2.mp4",
-            "caption": "Works on All Fabrics"
+            "caption": "Works on All Fabrics",
+            "link": ""
           }
         },
         "t4": {
           "type": "tile",
           "settings": {
             "static_image": "true-to-color.png",
-            "caption": "Any Design on Any Color"
+            "static_video": "",
+            "caption": "Any Design on Any Color",
+            "link": ""
           }
         },
         "t5": {
           "type": "tile",
           "settings": {
+            "static_image": "",
             "static_video": "fineyst transfers 3.mp4",
-            "caption": "No Borders Necessary"
+            "caption": "No Borders Necessary",
+            "link": ""
           }
         },
         "t6": {
           "type": "tile",
           "settings": {
             "static_image": "whites-stay-white.png",
-            "caption": "Crisp Bright Whites"
+            "static_video": "",
+            "caption": "Crisp Bright Whites",
+            "link": ""
           }
         },
         "t7": {
           "type": "tile",
           "settings": {
+            "static_image": "",
             "static_video": "fineyst transfers 4.mp4",
-            "caption": "100+ Wash Durability"
+            "caption": "100+ Wash Durability",
+            "link": ""
           }
         },
         "t8": {
           "type": "tile",
           "settings": {
             "static_image": "dtf-6.avif",
-            "caption": "9 Color Printing"
+            "static_video": "",
+            "caption": "9 Color Printing",
+            "link": ""
           }
         }
       },
-      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8"],
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6",
+        "t7",
+        "t8"
+      ],
       "settings": {
         "heading": "Features of our DTF Transfers",
         "subheading": "No more second guessing your artwork, style, or colors. Our premium DTF transfers are brighter, sharper, stretchier, and more durable."
-      }
-    },
-    "process": {
-      "type": "process",
-      "blocks": {
-        "s1": {
-          "type": "step",
-          "settings": {
-            "static_video": "dtf-video-4.mp4",
-            "title": "Upload Your Design & Order Online",
-            "text": "From simple graphics to high-detail artwork, upload any design with unlimited colors. We convert it into a high-quality DTF transfer, ready to press."
-          }
-        },
-        "s2": {
-          "type": "step",
-          "settings": {
-            "static_video": "dtf-video-5.mp4",
-            "title": "Printed & Shipped in 24–48 Hours",
-            "text": "We produce your transfer for sharp detail, vibrant color, and consistent, professional-grade results."
-          }
-        },
-        "s3": {
-          "type": "step",
-          "settings": {
-            "static_video": "dtf-video3.mp4",
-            "title": "Heat Press or Iron when Ready",
-            "text": "Press at 310°F / 155°C with medium pressure for 12–15 seconds. Repress for 5 seconds for maximum durability. Unused transfers store long-term without loss of quality."
-          }
-        }
-      },
-      "block_order": ["s1", "s2", "s3"],
-      "settings": {
-        "heading": "The Fineyst DTF Process",
-        "tagline": "Faster. Simpler. Satisfaction Guaranteed."
       }
     },
     "fleet-banner": {
@@ -307,9 +635,161 @@
         "eyebrow": "We Understand Consistency, Quality, and Speed Matter Most",
         "heading": "The Largest Linearized Fleet of 100+ DTF Printers",
         "subtext": "G7 Color Standardized",
+        "cta_label": "",
+        "cta_link": "",
+        "static_image": "",
+        "static_video": "dtf-video-9.mp4",
         "overlay": 55,
-        "height": 420,
-        "static_video": "dtf-video-9.mp4"
+        "height": 420
+      }
+    },
+    "things-to-know": {
+      "type": "things-to-know",
+      "blocks": {
+        "k1": {
+          "type": "item",
+          "settings": {
+            "label": "Print Process",
+            "question": "How do DTF transfers work?",
+            "answer": "Your artwork is printed onto a PET film with pigment ink, backed with a hot-melt adhesive powder, and cured. You lay the film on your garment, press it, and peel. No weeding, no cutting, no screens - the design bonds straight into the fabric with a soft, flexible finish."
+          }
+        },
+        "k2": {
+          "type": "item",
+          "settings": {
+            "label": "Types",
+            "question": "What types of transfers can I order?",
+            "answer": "Standard DTF for everyday apparel, gang sheets to fit many designs on one sheet, UV DTF for mugs and hard surfaces, puff for a raised 3D effect, glitter and metallic foil for decorative accents, reflective for high-visibility workwear, and sublimation for a dye-in-the-fabric hand feel on polyester."
+          }
+        },
+        "k3": {
+          "type": "item",
+          "settings": {
+            "label": "Uses",
+            "question": "What are DTF transfers used for?",
+            "answer": "Team and event merch, company uniforms and workwear, small-batch clothing brands, school and club apparel, promotional giveaways, and craft or Etsy shops. Because they press onto almost anything, one order can cover tees, hoodies, hats, tote bags, and aprons at once."
+          }
+        },
+        "k4": {
+          "type": "item",
+          "settings": {
+            "label": "Materials",
+            "question": "What fabrics do DTF transfers work on?",
+            "answer": "Cotton, polyester, cotton-poly blends, tri-blends, canvas, denim, nylon, leather, and most performance fabrics. Light or dark garments both work because every transfer is printed with a white ink underbase, so colors stay accurate on black just as they do on white."
+          }
+        },
+        "k5": {
+          "type": "item",
+          "settings": {
+            "label": "Pressing",
+            "question": "What settings should I press at?",
+            "answer": "Most transfers press at 300-320°F for 10-15 seconds with medium pressure, then peel. Whether you peel hot or cold depends on the transfer type - the exact setting ships with every order, and full guidance lives on our pressing instructions page."
+          }
+        }
+      },
+      "block_order": [
+        "k1",
+        "k2",
+        "k3",
+        "k4",
+        "k5"
+      ],
+      "settings": {
+        "eyebrow": "Things to Know",
+        "image_top_file": "hero img 1.webp",
+        "image_middle_file": "hero img2.png",
+        "image_bottom_file": "hero img4.png"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is a DTF transfer?",
+            "answer": "<p>A direct-to-film transfer is your artwork printed onto film and heat-applied to fabric. It gives vivid full-color detail with a soft, flexible finish and strong wash durability.</p>"
+          }
+        },
+        "q2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is there a minimum order?",
+            "answer": "<p>No minimum, ever. Order a single transfer or thousands - the price per square inch stays the same, and volume discounts kick in automatically as your order grows.</p>"
+          }
+        },
+        "q3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What equipment do I need?",
+            "answer": "<p>A heat press gives the most consistent results, but a household iron or a Cricut EasyPress works too. You need steady heat, even pressure, and about 15 seconds.</p>"
+          }
+        },
+        "q4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long do transfers last?",
+            "answer": "<p>Our transfers are lab-tested past 100 wash cycles without cracking, peeling, or fading. Wash inside out in cold water to get the most life out of them.</p>"
+          }
+        },
+        "q5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What file format should I upload?",
+            "answer": "<p>PNG with a transparent background at 300 DPI is ideal. We also accept PDF, AI, SVG, TIFF, and JPG. If a file is not print-ready, our art team cleans it up free of charge.</p>"
+          }
+        },
+        "q6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How fast is production?",
+            "answer": "<p>Most orders are printed and shipped within 24 hours. Order before the daily cutoff and your transfers leave the building the next business day.</p>"
+          }
+        },
+        "q7": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What payment methods do you accept?",
+            "answer": "<p>All major credit cards, PayPal, Shop Pay, Apple Pay, and Google Pay. Every transaction is encrypted and processed securely at checkout.</p>"
+          }
+        },
+        "q8": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes, we ship worldwide. Shipping is free on qualifying US orders. International rates and delivery windows vary by destination and are calculated at checkout.</p>"
+          }
+        },
+        "q9": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I put multiple designs on one sheet?",
+            "answer": "<p>That is exactly what a gang sheet is for. Use the Gang Sheet Builder to arrange as many designs as you can fit, and you only pay for the sheet space you use.</p>"
+          }
+        },
+        "q10": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I track my order?",
+            "answer": "<p>You will get a tracking number by email as soon as your order ships, and you can follow it in real time from your account or the carrier's site.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7",
+        "q8",
+        "q9",
+        "q10"
+      ],
+      "settings": {
+        "heading": "DTF Transfers FAQ",
+        "subheading": "Find answers to common questions about our transfers and services"
       }
     },
     "reviews": {
@@ -502,333 +982,6 @@
         "heading": "DTF Transfer Reviews — Verified Feedback from Real Customers",
         "subheading": "Verified Feedback from Authentic Customers",
         "speed": 120
-      }
-    },
-    "faq": {
-      "type": "faq",
-      "blocks": {
-        "q1": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What is a DTF transfer?",
-            "answer": "<p>A direct-to-film transfer is your artwork printed onto film and heat-applied to fabric. It gives vivid full-color detail with a soft, flexible finish and strong wash durability.</p>"
-          }
-        },
-        "q2": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Is there a minimum order?",
-            "answer": "<p>No minimum, ever. Order a single transfer or thousands - the price per square inch stays the same, and volume discounts kick in automatically as your order grows.</p>"
-          }
-        },
-        "q3": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What equipment do I need?",
-            "answer": "<p>A heat press gives the most consistent results, but a household iron or a Cricut EasyPress works too. You need steady heat, even pressure, and about 15 seconds.</p>"
-          }
-        },
-        "q4": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How long do transfers last?",
-            "answer": "<p>Our transfers are lab-tested past 100 wash cycles without cracking, peeling, or fading. Wash inside out in cold water to get the most life out of them.</p>"
-          }
-        },
-        "q5": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What file format should I upload?",
-            "answer": "<p>PNG with a transparent background at 300 DPI is ideal. We also accept PDF, AI, SVG, TIFF, and JPG. If a file is not print-ready, our art team cleans it up free of charge.</p>"
-          }
-        },
-        "q6": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How fast is production?",
-            "answer": "<p>Most orders are printed and shipped within 24 hours. Order before the daily cutoff and your transfers leave the building the next business day.</p>"
-          }
-        },
-        "q7": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What payment methods do you accept?",
-            "answer": "<p>All major credit cards, PayPal, Shop Pay, Apple Pay, and Google Pay. Every transaction is encrypted and processed securely at checkout.</p>"
-          }
-        },
-        "q8": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Do you ship internationally?",
-            "answer": "<p>Yes, we ship worldwide. Shipping is free on qualifying US orders. International rates and delivery windows vary by destination and are calculated at checkout.</p>"
-          }
-        },
-        "q9": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Can I put multiple designs on one sheet?",
-            "answer": "<p>That is exactly what a gang sheet is for. Use the Gang Sheet Builder to arrange as many designs as you can fit, and you only pay for the sheet space you use.</p>"
-          }
-        },
-        "q10": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How do I track my order?",
-            "answer": "<p>You will get a tracking number by email as soon as your order ships, and you can follow it in real time from your account or the carrier's site.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "q1",
-        "q2",
-        "q3",
-        "q4",
-        "q5",
-        "q6",
-        "q7",
-        "q8",
-        "q9",
-        "q10"
-      ],
-      "settings": {
-        "heading": "DTF Transfers FAQ",
-        "subheading": "Find answers to common questions about our transfers and services"
-      }
-    },
-    "affordable-transfers": {
-      "type": "affordable-transfers",
-      "blocks": {
-        "fast-turnaround": {
-          "type": "feature_card",
-          "settings": {
-            "icon": "lightning",
-            "icon_color": "#0f766e",
-            "title": "Fast Turnaround",
-            "text": "Quick processing and shipping options."
-          }
-        },
-        "no-minimums": {
-          "type": "feature_card",
-          "settings": {
-            "icon": "box",
-            "icon_color": "#14b8a6",
-            "title": "No Minimums",
-            "text": "Order what you actually need."
-          }
-        },
-        "premium-quality": {
-          "type": "feature_card",
-          "settings": {
-            "icon": "award",
-            "icon_color": "#22c55e",
-            "title": "Premium Quality",
-            "text": "Vibrant colors and sharp details."
-          }
-        },
-        "free-shipping": {
-          "type": "feature_card",
-          "settings": {
-            "icon": "truck",
-            "icon_color": "#84cc16",
-            "title": "Free Shipping",
-            "text": "On qualifying orders."
-          }
-        },
-        "lab-tested-durability": {
-          "type": "feature_card",
-          "settings": {
-            "icon": "shield",
-            "icon_color": "#0891b2",
-            "title": "Lab-Tested Durability",
-            "text": "Tested to last 100+ washes."
-          }
-        },
-        "free-art-review": {
-          "type": "feature_card",
-          "settings": {
-            "icon": "star",
-            "icon_color": "#16a34a",
-            "title": "Free Art Review",
-            "text": "Our team cleans up your files."
-          }
-        },
-        "transfer-by-size": {
-          "type": "transfer_type",
-          "settings": {
-            "title": "DTF TRANSFERS BY SIZE",
-            "product_handle": "dtf-transfers",
-            "price_note": "$0.02 per sq. in.",
-            "text": "Press any design on any garment or color.",
-            "fallback_asset": "dtf-transfer-by-size.png"
-          }
-        },
-        "transfer-gang-sheets": {
-          "type": "transfer_type",
-          "settings": {
-            "title": "DTF GANG SHEETS",
-            "product_handle": "premium-dtf-gang-sheets",
-            "price_note": "$0.02 per sq. in.",
-            "text": "Fit more designs per sheet and save.",
-            "fallback_asset": "t8.png"
-          }
-        },
-        "transfer-uv-dtf": {
-          "type": "transfer_type",
-          "settings": {
-            "title": "UV DTF TRANSFERS",
-            "product_handle": "uv-dtf-transfers",
-            "price_note": "$0.06 per sq. in.",
-            "text": "For mugs and hard surfaces - no heat needed.",
-            "fallback_asset": "uv-dtf-transfers.png"
-          }
-        },
-        "transfer-puff": {
-          "type": "transfer_type",
-          "settings": {
-            "title": "PUFF TRANSFERS",
-            "product_handle": "puff-transfers",
-            "price_note": "$0.09 per sq. in.",
-            "text": "Raised 3D texture with a premium finish.",
-            "fallback_asset": "puff-print.png"
-          }
-        },
-        "transfer-glitter": {
-          "type": "transfer_type",
-          "settings": {
-            "title": "GLITTER TRANSFERS",
-            "product_handle": "glitter-transfers",
-            "price_note": "$0.07 per sq. in.",
-            "text": "Sparkle finish that survives the wash.",
-            "fallback_asset": "glitter-print.png"
-          }
-        },
-        "transfer-reflective": {
-          "type": "transfer_type",
-          "settings": {
-            "title": "REFLECTIVE TRANSFERS",
-            "product_handle": "reflective-transfers",
-            "price_note": "$0.11 per sq. in.",
-            "text": "High-visibility shine under direct light.",
-            "fallback_asset": "reflective-dtf.png"
-          }
-        },
-        "transfer-metallic-foil": {
-          "type": "transfer_type",
-          "settings": {
-            "title": "METALLIC FOIL TRANSFERS",
-            "product_handle": "metallic-foil-transfers",
-            "price_note": "$0.10 per sq. in.",
-            "text": "Mirror-bright gold and silver accents.",
-            "fallback_asset": "foil-transfers.png"
-          }
-        },
-        "transfer-sublimation": {
-          "type": "transfer_type",
-          "settings": {
-            "title": "SUBLIMATION TRANSFERS",
-            "product_handle": "sublimation-transfers",
-            "price_note": "$0.05 per sq. in.",
-            "text": "Soft hand feel that dyes into the fabric.",
-            "fallback_asset": "sublimation-transfer.png"
-          }
-        }
-      },
-      "block_order": [
-        "fast-turnaround",
-        "no-minimums",
-        "premium-quality",
-        "free-shipping",
-        "lab-tested-durability",
-        "free-art-review",
-        "transfer-by-size",
-        "transfer-gang-sheets",
-        "transfer-uv-dtf",
-        "transfer-puff",
-        "transfer-glitter",
-        "transfer-reflective",
-        "transfer-metallic-foil",
-        "transfer-sublimation"
-      ],
-      "settings": {
-        "show_badge": true,
-        "badge_text": "WHY CHOOSE US",
-        "heading": "Affordable Custom DTF Transfers",
-        "subheading": "Premium Quality. No Minimums. Fast Turnaround.",
-        "show_divider": true,
-        "columns_desktop": "3",
-        "columns_tablet": "2",
-        "columns_mobile": "1",
-        "card_layout": "side",
-        "card_alignment": "left",
-        "show_seo_content": true,
-        "open_seo_by_default": false,
-        "seo_toggle_label": "More about our custom transfers",
-        "grid_heading": "Shop Transfer Types - DTF, UV DTF, Puff, Glitter & More",
-        "badge": "No minimum",
-        "cta_label": "Get a Quote"
-      }
-    },
-    "bulk-orders": {
-      "type": "bulk-orders",
-      "settings": {
-        "heading": "DTF Transfers — Single Prints & Bulk Gang Sheets, Any Quantity",
-        "description": "Our production floor runs a fleet of industry-leading DTF printers, so we handle orders of any size with 24-hour turnaround. From a one-off tee to thousands of gang sheets, every transfer comes off the line with the same color accuracy and wash durability.",
-        "trust_text": "25,000+ Trusted Customers",
-        "cta_text": "Get Started",
-        "cta_url": "/products/dtf-transfers",
-        "static_image": "quality-check.png"
-      }
-    },
-    "things-to-know": {
-      "type": "things-to-know",
-      "blocks": {
-        "k1": {
-          "type": "item",
-          "settings": {
-            "label": "Print Process",
-            "question": "How do DTF transfers work?",
-            "answer": "Your artwork is printed onto a PET film with pigment ink, backed with a hot-melt adhesive powder, and cured. You lay the film on your garment, press it, and peel. No weeding, no cutting, no screens - the design bonds straight into the fabric with a soft, flexible finish."
-          }
-        },
-        "k2": {
-          "type": "item",
-          "settings": {
-            "label": "Types",
-            "question": "What types of transfers can I order?",
-            "answer": "Standard DTF for everyday apparel, gang sheets to fit many designs on one sheet, UV DTF for mugs and hard surfaces, puff for a raised 3D effect, glitter and metallic foil for decorative accents, reflective for high-visibility workwear, and sublimation for a dye-in-the-fabric hand feel on polyester."
-          }
-        },
-        "k3": {
-          "type": "item",
-          "settings": {
-            "label": "Uses",
-            "question": "What are DTF transfers used for?",
-            "answer": "Team and event merch, company uniforms and workwear, small-batch clothing brands, school and club apparel, promotional giveaways, and craft or Etsy shops. Because they press onto almost anything, one order can cover tees, hoodies, hats, tote bags, and aprons at once."
-          }
-        },
-        "k4": {
-          "type": "item",
-          "settings": {
-            "label": "Materials",
-            "question": "What fabrics do DTF transfers work on?",
-            "answer": "Cotton, polyester, cotton-poly blends, tri-blends, canvas, denim, nylon, leather, and most performance fabrics. Light or dark garments both work because every transfer is printed with a white ink underbase, so colors stay accurate on black just as they do on white."
-          }
-        },
-        "k5": {
-          "type": "item",
-          "settings": {
-            "label": "Pressing",
-            "question": "What settings should I press at?",
-            "answer": "Most transfers press at 300-320°F for 10-15 seconds with medium pressure, then peel. Whether you peel hot or cold depends on the transfer type - the exact setting ships with every order, and full guidance lives on our pressing instructions page."
-          }
-        }
-      },
-      "block_order": ["k1", "k2", "k3", "k4", "k5"],
-      "settings": {
-        "eyebrow": "Things to Know",
-        "image_top_file": "carousel-1.png",
-        "image_middle_file": "carousel-2.png",
-        "image_bottom_file": "carousel-3.png"
       }
     }
   },

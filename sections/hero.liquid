@@ -22,7 +22,7 @@
             <h1 id="hero-heading-{{ section.id }}" class="hero-title-main">
               {%- for word in title_words -%}
                 {%- assign title_word_lower = word | downcase -%}
-                <span{% if title_word_lower == hero_title_accent %} class="hero-title-accent"{% endif %}>{{- word | escape -}}</span>{%- unless forloop.last -%}<br>{%- endunless -%}
+                <span{% if title_word_lower == hero_title_accent %} class="hero-title-accent"{% endif %}>{{- word | escape -}}</span>{%- unless forloop.last -%}&nbsp;<br>{%- endunless -%}
               {%- endfor -%}
             </h1>
             <div class="hero-subtitle">
@@ -447,7 +447,8 @@
     }
     #shopify-section-{{ section.id }} .hero-right { display: none; }
     #shopify-section-{{ section.id }} .hero-inner { max-width: none; align-items: flex-start; text-align: left; padding-left: 0; }
-    #shopify-section-{{ section.id }} .hero-title-main { font-size: var(--hero-heading-mobile); }
+    #shopify-section-{{ section.id }} .hero-title-main { font-size: min(var(--hero-heading-mobile), 14vw); white-space: nowrap; }
+    #shopify-section-{{ section.id }} .hero-title-main br { display: none; }
     #shopify-section-{{ section.id }} .hero-subtitle { font-size: var(--hero-subtitle-mobile); }
     #shopify-section-{{ section.id }} .hero-eyebrow { margin-bottom: 18px; font-size: 9px; letter-spacing: 0.22em; }
     #shopify-section-{{ section.id }} .hero-eyebrow-line { width: 38px; }
