@@ -843,7 +843,7 @@ body.template-index main { padding-top: 0; }
 @media (min-width: 900px) { .ft-brand { align-items: flex-start; padding-right: 24px; } }
 .ft-logo-wrap { display: flex; flex-direction: column; align-items: center; }
 @media (min-width: 900px) { .ft-logo-wrap { align-items: flex-start; } }
-.ft-logo { height: 54px; width: auto; object-fit: contain; display: block; margin-bottom: 14px; transition: opacity 0.2s; }
+.ft-logo { height: 72px; width: auto; object-fit: contain; display: block; margin-bottom: 14px; transition: opacity 0.2s; }
 .ft-logo:hover { opacity: 0.8; }
 .ft-tagline { color: #d1d5db; font-size: 14px; font-weight: 600; text-align: center; }
 @media (min-width: 900px) { .ft-tagline { text-align: left; } }
