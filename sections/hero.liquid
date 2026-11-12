@@ -42,7 +42,10 @@
           <nav class="hero-btns" aria-label="Hero links">
             {%- if section.settings.primary_label != blank -%}
               <a href="{{ section.settings.primary_link | default: routes.all_products_collection_url | escape }}" class="hero-btn hero-btn--primary">
-                {{ section.settings.primary_label | escape }}
+                <span class="hero-btn-inner">
+                  {{ section.settings.primary_label | escape }}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hero-btn-arrow hero-btn-arrow--mobile" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </span>
               </a>
             {%- endif -%}
             {%- if section.settings.show_secondary_button and section.settings.secondary_label != blank -%}
@@ -330,6 +333,7 @@
   }
   #shopify-section-{{ section.id }} .hero-btn-inner { display: inline-flex; align-items: center; gap: 8px; }
   #shopify-section-{{ section.id }} .hero-btn-arrow { transition: transform .2s ease; }
+  #shopify-section-{{ section.id }} .hero-btn-arrow--mobile { display: none; }
   #shopify-section-{{ section.id }} .hero-btn--secondary:hover .hero-btn-arrow { transform: translateX(3px); }
   #shopify-section-{{ section.id }} .hero-badges {
     display: flex;
@@ -448,8 +452,9 @@
     #shopify-section-{{ section.id }} .hero-eyebrow { margin-bottom: 18px; font-size: 9px; letter-spacing: 0.22em; }
     #shopify-section-{{ section.id }} .hero-eyebrow-line { width: 38px; }
     #shopify-section-{{ section.id }} .hero-desc { margin-bottom: 20px; }
-    #shopify-section-{{ section.id }} .hero-btns { flex-direction: row; align-items: center; width: 100%; gap: 12px; margin-bottom: 22px; }
-    #shopify-section-{{ section.id }} .hero-btn { width: auto; max-width: none; padding: 12px 18px; font-size: 13px; }
+    #shopify-section-{{ section.id }} .hero-btns { flex-direction: column; align-items: stretch; width: 100%; gap: 12px; margin-bottom: 22px; }
+    #shopify-section-{{ section.id }} .hero-btn { width: 100%; max-width: none; min-height: 54px; padding: 14px 18px; border-radius: 12px; font-size: 16px; }
+    #shopify-section-{{ section.id }} .hero-btn-arrow--mobile { display: block; }
     #shopify-section-{{ section.id }} .hero-badges {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
