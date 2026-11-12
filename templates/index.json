@@ -50,7 +50,7 @@
         "column_1_image_3": {
           "type": "column_1",
           "settings": {
-            "image": "shopify://shop_images/hero_image_2.webp",
+            "image": "shopify://shop_images/cr_img2.webp",
             "image_alt": "Finished transfer print"
           }
         },
@@ -71,7 +71,7 @@
         "column_2_image_3": {
           "type": "column_2",
           "settings": {
-            "image": "shopify://shop_images/hero_image_3.webp",
+            "image": "shopify://shop_images/cr_img7.webp",
             "image_alt": "Custom apparel print"
           }
         },
@@ -264,7 +264,7 @@
         "transfer-reflective": {
           "type": "transfer_type",
           "settings": {
-            "fallback_asset": "reflective-dtf.png",
+            "fallback_asset": "reflactive transfers.webp",
             "title": "REFLECTIVE TRANSFERS",
             "product_handle": "reflective-transfers",
             "price_note": "$0.11 per sq. in.",
