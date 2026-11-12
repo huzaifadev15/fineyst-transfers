@@ -250,10 +250,6 @@
       {%- if product.handle == 'premium-dtf-gang-sheets' -%}
         {%- assign use_custom_gallery = true -%}
         {%- assign gallery_image_count = custom_gallery_assets.size -%}
-      {%- elsif product.handle == 'uv-dtf-gang-sheet-builder' -%}
-        {%- assign use_custom_gallery = true -%}
-        {%- assign custom_gallery_assets = 'dtf upload 1.webp|dtf upload 1.webp|t2.webp' | split: '|' -%}
-        {%- assign gallery_image_count = custom_gallery_assets.size -%}
       {%- else -%}
         {%- assign gallery_image_count = image_count -%}
         {%- if image_count > 0 -%}
@@ -283,6 +279,8 @@
               {%- assign slide_image_src = image | image_url: width: 1400 -%}
               {%- if image.src contains '22c9aa73-9f2b-459c-902f-6d6da73398ce' -%}
                 {%- assign slide_image_src = 't1.webp' | asset_url -%}
+              {%- elsif image.src contains 'UV-premium-DTF-gangsheet-V3.avif' -%}
+                {%- assign slide_image_src = 't15.webp' | asset_url -%}
               {%- elsif image.src contains 'dtf-p-2.jpg' -%}
                 {%- assign slide_image_src = 'dtf images 1.webp' | asset_url -%}
               {%- elsif image.src contains 'dtf-p-4.jpg' -%}
@@ -342,6 +340,8 @@
             {%- assign thumb_image_src = image | image_url: width: 200 -%}
             {%- if image.src contains '22c9aa73-9f2b-459c-902f-6d6da73398ce' -%}
               {%- assign thumb_image_src = 't1.webp' | asset_url -%}
+            {%- elsif image.src contains 'UV-premium-DTF-gangsheet-V3.avif' -%}
+              {%- assign thumb_image_src = 't15.webp' | asset_url -%}
             {%- elsif image.src contains 'dtf-p-2.jpg' -%}
               {%- assign thumb_image_src = 'dtf images 1.webp' | asset_url -%}
             {%- elsif image.src contains 'dtf-p-4.jpg' -%}

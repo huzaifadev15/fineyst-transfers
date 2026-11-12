@@ -268,7 +268,7 @@
           "type": "item",
           "settings": {
             "handle": "silver-foil-dtf",
-            "static_image": "dtf-5.avif",
+            "static_image": "t3.webp",
             "title": "Silver Foil DTF",
             "text": "Silver Foil DTF brings crisp, reflective metallic detail effortlessly",
             "price": "As low as $0.03 per sq. inch",
@@ -280,7 +280,7 @@
           "type": "item",
           "settings": {
             "handle": "glow-in-the-dark-dtf",
-            "static_image": "dtf-6.avif",
+            "static_image": "t2.webp",
             "title": "Glow in the Dark DTF",
             "text": "Glow coatings create bold, high-contrast designs that shine brilliantly",
             "price": "As low as $0.03 per sq. inch",
@@ -292,7 +292,7 @@
           "type": "item",
           "settings": {
             "handle": "glitter-puff-transfers",
-            "static_image": "dtf-8.avif",
+            "static_image": "t1.webp",
             "title": "3D Glitter Puff Transfers",
             "text": "Glitter Puff transfers deliver vibrant, raised sparkle effects beautifully",
             "price": "As low as $0.02 per sq. inch",
@@ -304,7 +304,7 @@
           "type": "item",
           "settings": {
             "handle": "names-numbers-gang-sheet",
-            "static_image": "hero-3.jpg",
+            "static_image": "cr img3.webp",
             "title": "Names & Numbers Gang Sheet",
             "text": "Easily create a Names & Numbers DTF gang sheet with our Gang Sheet Builder",
             "price": "As low as $0.02 per sq. inch",

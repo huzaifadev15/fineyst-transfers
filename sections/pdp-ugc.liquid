@@ -9,7 +9,7 @@
     <h2 class="pdp-ugc-title">{{ section.settings.heading | default: 'Fineyst Transfers Customer Feedback' }}</h2>
 
     <div class="pdp-ugc-strip">
-      {%- assign files = section.settings.files | default: 'hero-1.jpg,hero-2.jpg,hero-3.jpg,hero-4.jpg,hero-5.jpg,hero-6.jpg,hero-7.jpg' | split: ',' -%}
+      {%- assign files = section.settings.files | default: 'cr img1.webp,cr img2.webp,cr img3.webp,cr img4.webp,cr img5.webp,cr img6.webp,cr img7.webp' | split: ',' -%}
       {%- for file in files -%}
         {%- assign f = file | strip -%}
         <figure class="pdp-ugc-tile">
@@ -32,7 +32,7 @@
   "name": "PDP Customer Feedback",
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Fineyst Transfers Customer Feedback" },
-    { "type": "textarea", "id": "files", "label": "Tile files", "info": "Comma-separated filenames from /assets. .mp4 renders as a video tile.", "default": "hero-1.jpg,hero-2.jpg,hero-3.jpg,hero-4.jpg,hero-5.jpg,hero-6.jpg,hero-7.jpg" }
+    { "type": "textarea", "id": "files", "label": "Tile files", "info": "Comma-separated filenames from /assets. .mp4 renders as a video tile.", "default": "cr img1.webp,cr img2.webp,cr img3.webp,cr img4.webp,cr img5.webp,cr img6.webp,cr img7.webp" }
   ],
   "presets": [{ "name": "PDP Customer Feedback" }]
 }

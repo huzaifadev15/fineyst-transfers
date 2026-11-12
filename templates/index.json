@@ -57,14 +57,14 @@
         "column_2_image_1": {
           "type": "column_2",
           "settings": {
-            "image": "shopify://shop_images/hero_image_4.webp",
+            "image": "shopify://shop_images/cr_img5.webp",
             "image_alt": "DTF printing process"
           }
         },
         "column_2_image_2": {
           "type": "column_2",
           "settings": {
-            "image": "shopify://shop_images/hero_image_5.webp",
+            "image": "shopify://shop_images/cr_img4.webp",
             "image_alt": "Quality checked transfer"
           }
         },
@@ -78,7 +78,7 @@
         "column_3_image_1": {
           "type": "column_3",
           "settings": {
-            "image": "shopify://shop_images/hero_img3.webp",
+            "image": "shopify://shop_images/cr_img1.webp",
             "image_alt": "Colorful transfer design"
           }
         },
@@ -92,7 +92,7 @@
         "column_3_image_3": {
           "type": "column_3",
           "settings": {
-            "image": "shopify://shop_images/t12.webp",
+            "image": "shopify://shop_images/cr_img6.webp",
             "image_alt": "Ready-to-press transfer"
           }
         }
@@ -609,7 +609,7 @@
         "t8": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-6.avif",
+            "static_image": "t2.webp",
             "static_video": "",
             "caption": "9 Color Printing",
             "link": ""
