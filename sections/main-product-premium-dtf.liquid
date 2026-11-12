@@ -250,6 +250,10 @@
       {%- if product.handle == 'premium-dtf-gang-sheets' -%}
         {%- assign use_custom_gallery = true -%}
         {%- assign gallery_image_count = custom_gallery_assets.size -%}
+      {%- elsif product.handle == 'uv-dtf-gang-sheet-builder' -%}
+        {%- assign use_custom_gallery = true -%}
+        {%- assign custom_gallery_assets = 'dtf upload 1.webp|dtf upload 1.webp|t2.webp' | split: '|' -%}
+        {%- assign gallery_image_count = custom_gallery_assets.size -%}
       {%- else -%}
         {%- assign gallery_image_count = image_count -%}
         {%- if image_count > 0 -%}
