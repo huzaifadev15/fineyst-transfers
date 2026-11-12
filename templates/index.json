@@ -5,15 +5,15 @@
       "blocks": {
         "badge_1": {
           "type": "badge",
-          "settings": { "text": "No Minimum Orders" }
+          "settings": { "text": "No Minimum Orders", "icon": "layers" }
         },
         "badge_2": {
           "type": "badge",
-          "settings": { "text": "Printed & Shipped in 24 Hours" }
+          "settings": { "text": "Printed & Shipped in 24 Hours", "icon": "lightning" }
         },
         "badge_3": {
           "type": "badge",
-          "settings": { "text": "100+ Wash Durability" }
+          "settings": { "text": "100+ Wash Durability", "icon": "drop" }
         },
         "column_1_image_1": {
           "type": "column_1",
@@ -67,7 +67,11 @@
         "column_3_image_3"
       ],
       "settings": {
-        "title": "DTF TRANSFERS",
+        "eyebrow": "PREMIUM CUSTOM TRANSFERS",
+        "eyebrow_color": "#182C27",
+        "title": "DTF Transfers",
+        "title_accent_word": "Transfers",
+        "lime_color": "#82C341",
         "subtitle": "No Minimums, Ready to Press, Shipped in 24 Hours",
         "highlight_word": "24 Hours",
         "description": "Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time.",

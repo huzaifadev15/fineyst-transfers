@@ -112,7 +112,7 @@ body.template-index main { padding-top: 0; }
 .logo-wrap { display: flex; justify-content: flex-start; flex-shrink: 0; }
 @media (max-width: 768px) { .logo-wrap { flex: 1; justify-content: center; } }
 .logo { display: flex; align-items: center; flex-shrink: 0; }
-.navbar-logo { height: 42px; width: auto; object-fit: contain; }
+.logo .navbar-logo { height: 94px; width: auto; object-fit: contain; }
 
 /* Desktop nav */
 .desktop-nav {
@@ -576,12 +576,10 @@ body.template-index main { padding-top: 0; }
 .capsule-tab.is-active {
   position: relative;
   overflow: hidden;
-  background: var(--brand-grad);
-  background-size: var(--brand-grad-size);
-  animation: brand-flow 6s ease-in-out infinite;
-  color: var(--brand-grad-ink);
+  background: linear-gradient(100deg, #104241 0%, #B6F000 10%, #E8F5E9 45%, #B6F000 90%, #104241 100%);
+  color: #104241;
   padding: 10px 28px;
-  box-shadow: 0 8px 18px rgba(62, 109, 142, 0.35);
+  box-shadow: 0 8px 18px rgba(16, 66, 65, 0.25);
   margin: 4px 0 4px 4px;
 }
 .capsule-tab.is-active::after {
@@ -643,7 +641,7 @@ body.template-index main { padding-top: 0; }
 /* Between the mobile breakpoint and ~1200px the six nav items plus the logo are
    wider than the bar, so tighten the nav and ease the logo back a little. */
 @media (min-width: 769px) and (max-width: 1200px) {
-  .navbar-logo { height: 36px; }
+  .logo .navbar-logo { height: 76px; }
   .nav-link { font-size: 11.5px; padding: 8px 5px; letter-spacing: 0; }
   .desktop-nav { gap: 0; }
   .header-actions { gap: 6px; }
@@ -657,6 +655,7 @@ body.template-index main { padding-top: 0; }
 }
 
 @media (max-width: 768px) {
+  .logo .navbar-logo { height: 64px; }
   .mobile-only { display: flex; }
   .desktop-nav { display: none; }
   .header-actions .quote-wrap,

@@ -5,6 +5,7 @@
 {%- assign title_words = section.settings.title | split: ' ' -%}
 {%- assign hero_sub = section.settings.subtitle | default: 'No Minimums, Ready to Press, Shipped in 24 Hours' -%}
 {%- assign hero_hl = section.settings.highlight_word | strip -%}
+{%- assign hero_title_accent = section.settings.title_accent_word | downcase -%}
 
 <section class="hero-section" aria-labelledby="hero-heading-{{ section.id }}">
   <div class="hero-bg-wrap">
@@ -12,9 +13,16 @@
       <div class="hero-left">
         <div class="hero-inner">
           <header class="hero-heading">
+            {%- if section.settings.eyebrow != blank -%}
+              <p class="hero-eyebrow">
+                <span>{{ section.settings.eyebrow | escape }}</span>
+                <span class="hero-eyebrow-line" aria-hidden="true"></span>
+              </p>
+            {%- endif -%}
             <h1 id="hero-heading-{{ section.id }}" class="hero-title-main">
               {%- for word in title_words -%}
-                {{- word | escape -}}{%- unless forloop.last -%}<br>{%- endunless -%}
+                {%- assign title_word_lower = word | downcase -%}
+                <span{% if title_word_lower == hero_title_accent %} class="hero-title-accent"{% endif %}>{{- word | escape -}}</span>{%- unless forloop.last -%}<br>{%- endunless -%}
               {%- endfor -%}
             </h1>
             <div class="hero-subtitle">
@@ -53,7 +61,16 @@
                 {%- if block.type == 'badge' and block.settings.text != blank -%}
                   <span class="badge" {{ block.shopify_attributes }}>
                     <span class="badge-icon" aria-hidden="true">
-                      <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                      {%- case block.settings.icon -%}
+                        {%- when 'layers' -%}
+                          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m12 3 9 5-9 5-9-5 9-5Z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>
+                        {%- when 'lightning' -%}
+                          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m13 2-3 8h7l-6 12 1-9H5l8-11Z"/></svg>
+                        {%- when 'drop' -%}
+                          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3s7 7.2 7 12a7 7 0 1 1-14 0c0-4.8 7-12 7-12Z"/></svg>
+                        {%- else -%}
+                          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 13 4 4L19 7"/></svg>
+                      {%- endcase -%}
                     </span>
                     {{ block.settings.text | escape }}
                   </span>
@@ -67,7 +84,7 @@
       {%- if section.settings.show_scroll_images -%}
         <div class="hero-right" aria-label="Featured product images">
           <div class="hero-cols-inner">
-            <div class="hero-col hero-col--{{ section.settings.column_1_direction }}" style="--column-duration: {{ section.settings.column_1_speed }}s;">
+            <div class="hero-col hero-col--up" style="--column-duration: 40s;">
               {%- for pass in (1..2) -%}
                 {%- if column_one_blocks.size > 0 -%}
                   {%- for block in column_one_blocks -%}
@@ -84,7 +101,7 @@
                 {%- endif -%}
               {%- endfor -%}
             </div>
-            <div class="hero-col hero-col--{{ section.settings.column_2_direction }}" style="--column-duration: {{ section.settings.column_2_speed }}s;">
+            <div class="hero-col hero-col--down" style="--column-duration: 35s;">
               {%- for pass in (1..2) -%}
                 {%- if column_two_blocks.size > 0 -%}
                   {%- for block in column_two_blocks -%}
@@ -101,7 +118,7 @@
                 {%- endif -%}
               {%- endfor -%}
             </div>
-            <div class="hero-col hero-col--{{ section.settings.column_3_direction }}" style="--column-duration: {{ section.settings.column_3_speed }}s;">
+            <div class="hero-col hero-col--up" style="--column-duration: 45s;">
               {%- for pass in (1..2) -%}
                 {%- if column_three_blocks.size > 0 -%}
                   {%- for block in column_three_blocks -%}
@@ -125,7 +142,7 @@
 
     {%- if section.settings.show_scroll_images -%}
       <div class="hero-mobile-media" aria-label="Featured product images">
-        <div class="hero-mobile-track" style="--mobile-duration: {{ section.settings.mobile_scroll_speed }}s;">
+        <div class="hero-mobile-track" style="--mobile-duration: 28s;">
           {%- for pass in (1..2) -%}
             {%- if mobile_images.size > 0 -%}
               {%- for block in mobile_images -%}
@@ -149,9 +166,11 @@
 
 <style>
   #shopify-section-{{ section.id }} {
-    --hero-dark: {{ section.settings.dark_color }};
+    --hero-dark: #104241;
     --hero-lime: {{ section.settings.lime_color }};
     --hero-title-color: {{ section.settings.title_color }};
+    --hero-title-accent: var(--hero-lime);
+    --hero-eyebrow-color: {{ section.settings.eyebrow_color }};
     --hero-subtitle-color: {{ section.settings.subtitle_color }};
     --hero-highlight-bg: {{ section.settings.highlight_bg_color }};
     --hero-highlight-text: {{ section.settings.highlight_text_color }};
@@ -166,10 +185,10 @@
     --hero-badge-text: {{ section.settings.badge_text_color }};
     --hero-badge-divider: {{ section.settings.badge_divider_color }};
     --hero-gradient-start: {{ section.settings.gradient_start }};
-    --hero-gradient-end: {{ section.settings.gradient_end }};
+    --hero-gradient-end: #FBFEF9;
     --hero-tile-bg: var(--hero-gradient-start);
     --hero-bg-image: {% if section.settings.bg_image != blank %}url('{{ section.settings.bg_image | image_url: width: 2000 }}'){% else %}none{% endif %};
-    --hero-bg-position: {{ section.settings.bg_position }};
+    --hero-bg-position: center;
     --hero-padding-top: {{ section.settings.padding_top }}px;
     --hero-padding-bottom: {{ section.settings.padding_bottom }}px;
     --hero-heading-desktop: {{ section.settings.heading_size_desktop }}px;
@@ -178,42 +197,23 @@
     --hero-subtitle-mobile: {{ section.settings.subtitle_size_mobile }}px;
     --hero-description-size: {{ section.settings.description_size }}px;
     --hero-title-weight: {{ section.settings.title_weight }};
-    --hero-title-style: {% if section.settings.title_italic %}italic{% else %}normal{% endif %};
   }
 
   #shopify-section-{{ section.id }} .hero-section { width: 100%; font-family: var(--font-primary, sans-serif) !important; }
   #shopify-section-{{ section.id }} .hero-bg-wrap {
     position: relative;
     overflow: hidden;
-    background-color: var(--hero-gradient-start);
-    background-image: var(--hero-bg-image), linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
-    background-position: var(--hero-bg-position) center, center center;
+    background-color: #fff;
+    background-image: url('{{ 'bg3.png' | asset_url }}');
+    background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
   }
   #shopify-section-{{ section.id }} .hero-bg-wrap::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 45%;
-    height: 100%;
-    background: var(--hero-lime);
-    clip-path: polygon(40% 0, 100% 0, 100% 18%, 62% 18%);
-    opacity: .35;
-    pointer-events: none;
+    content: none;
   }
   #shopify-section-{{ section.id }} .hero-bg-wrap::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 40%;
-    height: 100%;
-    background: var(--hero-dark);
-    clip-path: polygon(100% 78%, 100% 100%, 55% 100%);
-    opacity: .12;
-    pointer-events: none;
+    content: none;
   }
   #shopify-section-{{ section.id }} .hero-inner-wrap,
   #shopify-section-{{ section.id }} .hero-mobile-media { position: relative; z-index: 1; }
@@ -236,24 +236,46 @@
     padding-left: 16px;
   }
   #shopify-section-{{ section.id }} .hero-heading { margin: 0 0 12px; }
+  #shopify-section-{{ section.id }} .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 22px;
+    color: var(--hero-eyebrow-color);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .hero-eyebrow-line {
+    width: 50px;
+    height: 2px;
+    background: var(--hero-lime);
+  }
   #shopify-section-{{ section.id }} .hero-title-main {
     display: block;
     font-family: var(--font-primary, sans-serif) !important;
-    font-style: var(--hero-title-style);
     font-weight: var(--hero-title-weight);
-    text-transform: uppercase;
+    text-transform: none;
     font-size: var(--hero-heading-desktop);
-    line-height: .88;
+    line-height: .9;
+    letter-spacing: -0.045em;
     color: var(--hero-title-color) !important;
     -webkit-text-fill-color: var(--hero-title-color) !important;
     background: none !important;
-    margin: 0 0 14px;
+    margin: 0 0 10px;
+  }
+  #shopify-section-{{ section.id }} .hero-title-accent {
+    color: var(--hero-title-accent) !important;
+    -webkit-text-fill-color: var(--hero-title-accent) !important;
+    font-style: normal;
   }
   #shopify-section-{{ section.id }} .hero-subtitle {
     display: block;
     max-width: 700px;
     font-size: var(--hero-subtitle-desktop);
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1.3;
     color: var(--hero-subtitle-color) !important;
     -webkit-text-fill-color: var(--hero-subtitle-color) !important;
@@ -313,17 +335,17 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 12px 18px;
-    margin-top: 26px;
+    gap: 12px 0;
+    margin-top: 20px;
   }
   #shopify-section-{{ section.id }} .badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     color: var(--hero-badge-text) !important;
     font-size: 13px;
     font-weight: 600;
-    padding-right: 16px;
+    padding-right: 18px;
   }
   #shopify-section-{{ section.id }} .hero-badges .badge + .badge {
     border-left: 1px solid color-mix(in srgb, var(--hero-badge-divider) 25%, transparent);
@@ -335,13 +357,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 24px;
-    width: 24px;
-    height: 24px;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background: var(--hero-badge-icon-bg);
     color: var(--hero-badge-icon-color);
   }
+  #shopify-section-{{ section.id }} .badge-icon svg { width: 20px; height: 20px; }
   #shopify-section-{{ section.id }} .hero-right {
     position: relative;
     min-width: 0;
@@ -429,46 +452,44 @@
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} .hero-inner-wrap {
       grid-template-columns: 1fr;
-      padding: calc(var(--nav-bottom, 0px) + var(--hero-padding-top)) 16px 0;
+      padding: calc(var(--nav-bottom, 0px) + var(--hero-padding-top)) 16px var(--hero-padding-bottom);
       gap: 0;
     }
     #shopify-section-{{ section.id }} .hero-right { display: none; }
     #shopify-section-{{ section.id }} .hero-inner { max-width: none; align-items: flex-start; text-align: left; padding-left: 0; }
     #shopify-section-{{ section.id }} .hero-title-main { font-size: var(--hero-heading-mobile); }
     #shopify-section-{{ section.id }} .hero-subtitle { font-size: var(--hero-subtitle-mobile); }
+    #shopify-section-{{ section.id }} .hero-eyebrow { margin-bottom: 18px; font-size: 9px; letter-spacing: 0.22em; }
+    #shopify-section-{{ section.id }} .hero-eyebrow-line { width: 38px; }
     #shopify-section-{{ section.id }} .hero-desc { margin-bottom: 20px; }
-    #shopify-section-{{ section.id }} .hero-btns { flex-direction: column; align-items: flex-start; width: 100%; }
-    #shopify-section-{{ section.id }} .hero-btn { width: 100%; max-width: 300px; }
+    #shopify-section-{{ section.id }} .hero-btns { flex-direction: row; align-items: center; width: 100%; gap: 12px; margin-bottom: 22px; }
+    #shopify-section-{{ section.id }} .hero-btn { width: auto; max-width: none; padding: 12px 18px; font-size: 13px; }
     #shopify-section-{{ section.id }} .hero-badges {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-      gap: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: start;
+      gap: 10px;
     }
     #shopify-section-{{ section.id }} .badge {
       min-width: 0;
       max-width: 100%;
       margin: 0;
-      padding: 0;
-      border-left: 0;
-      font-size: 12px;
-      overflow-wrap: anywhere;
+      padding: 0 8px;
+      font-size: 10px;
+      line-height: 1.35;
+      white-space: normal;
+      overflow-wrap: normal;
     }
     #shopify-section-{{ section.id }} .hero-badges .badge + .badge {
-      border-left: 0;
-      padding-left: 0;
+      border-left: 1px solid color-mix(in srgb, var(--hero-badge-divider) 20%, transparent);
+      padding-left: 10px;
     }
     #shopify-section-{{ section.id }} .hero-badges .badge:first-child {
-      border-left: 0;
       padding-left: 0;
     }
-    #shopify-section-{{ section.id }} .hero-mobile-media {
-      display: block;
-      margin-top: 28px;
-      padding-bottom: var(--hero-padding-bottom);
-      overflow: hidden;
-    }
+    #shopify-section-{{ section.id }} .badge-icon { flex-basis: 34px; width: 34px; height: 34px; }
+    #shopify-section-{{ section.id }} .badge-icon svg { width: 18px; height: 18px; }
+    #shopify-section-{{ section.id }} .hero-mobile-media { display: none; }
     #shopify-section-{{ section.id }} .hero-mobile-track {
       display: flex;
       width: max-content;
@@ -510,7 +531,10 @@
 {
   "name": "Hero",
   "settings": [
-    { "type": "text", "id": "title", "label": "Title", "info": "Har word alag line mein show hoga.", "default": "DTF TRANSFERS" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "PREMIUM CUSTOM TRANSFERS" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow text color", "default": "#182C27" },
+    { "type": "text", "id": "title", "label": "Title", "info": "Har word alag line mein show hoga.", "default": "DTF Transfers" },
+    { "type": "text", "id": "title_accent_word", "label": "Accent title word", "default": "Transfers" },
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "No Minimums, Ready to Press, Shipped in 24 Hours" },
     { "type": "text", "id": "highlight_word", "label": "Subtitle highlight word", "info": "Subtitle ka exact matching text lime highlight hoga.", "default": "24 Hours" },
     { "type": "textarea", "id": "description", "label": "Description", "default": "Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time." },
@@ -521,45 +545,34 @@
     { "type": "url", "id": "secondary_link", "label": "Secondary button link" },
     { "type": "checkbox", "id": "show_badges", "label": "Show badges", "default": true },
     { "type": "checkbox", "id": "show_scroll_images", "label": "Show scrolling images", "default": true },
-    { "type": "color", "id": "dark_color", "label": "Dark green", "default": "#0B3D2E" },
-    { "type": "color", "id": "lime_color", "label": "Lime", "default": "#B8F23C" },
-    { "type": "color", "id": "title_color", "label": "Title color", "default": "#0B3D2E" },
-    { "type": "color", "id": "subtitle_color", "label": "Subtitle color", "default": "#0B3D2E" },
+    { "type": "color", "id": "lime_color", "label": "Title accent and background glow", "default": "#82C341" },
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#104241" },
+    { "type": "color", "id": "subtitle_color", "label": "Subtitle color", "default": "#1F2937" },
     { "type": "color", "id": "highlight_bg_color", "label": "Subtitle highlight background", "default": "#B8F23C" },
     { "type": "color", "id": "highlight_text_color", "label": "Subtitle highlight text", "default": "#0B3D2E" },
-    { "type": "color", "id": "description_color", "label": "Description color", "default": "#1F3B33" },
-    { "type": "color", "id": "button_bg_color", "label": "Primary button background", "default": "#0B3D2E" },
+    { "type": "color", "id": "description_color", "label": "Description color", "default": "#4B5563" },
+    { "type": "color", "id": "button_bg_color", "label": "Primary button background", "default": "#104241" },
     { "type": "color", "id": "button_text_color", "label": "Primary button text", "default": "#FFFFFF" },
     { "type": "color", "id": "secondary_button_bg", "label": "Secondary button background", "default": "#FFFFFF" },
-    { "type": "color", "id": "secondary_button_text", "label": "Secondary button text", "default": "#0B3D2E" },
-    { "type": "color", "id": "secondary_button_border", "label": "Secondary button border", "default": "#0B3D2E" },
-    { "type": "color", "id": "badge_icon_bg", "label": "Badge icon background", "default": "#0B3D2E" },
-    { "type": "color", "id": "badge_icon_color", "label": "Badge icon color", "default": "#FFFFFF" },
-    { "type": "color", "id": "badge_text_color", "label": "Badge text color", "default": "#0B3D2E" },
-    { "type": "color", "id": "badge_divider_color", "label": "Badge divider color", "default": "#0B3D2E" },
-    { "type": "color", "id": "gradient_start", "label": "Fallback gradient start", "default": "#F4FDE8" },
-    { "type": "color", "id": "gradient_end", "label": "Fallback gradient end", "default": "#E2F6C3" },
+    { "type": "color", "id": "secondary_button_text", "label": "Secondary button text", "default": "#104241" },
+    { "type": "color", "id": "secondary_button_border", "label": "Secondary button border", "default": "#104241" },
+    { "type": "color", "id": "badge_icon_bg", "label": "Badge icon background", "default": "#E8F5E9" },
+    { "type": "color", "id": "badge_icon_color", "label": "Badge icon color", "default": "#104241" },
+    { "type": "color", "id": "badge_text_color", "label": "Badge text color", "default": "#1F2937" },
+    { "type": "color", "id": "badge_divider_color", "label": "Badge divider color", "default": "#DDE6E1" },
+    { "type": "color", "id": "gradient_start", "label": "Fallback gradient start", "default": "#FFFFFF" },
     { "type": "image_picker", "id": "bg_image", "label": "Background image" },
-    { "type": "select", "id": "bg_position", "label": "Background image position", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }], "default": "center" },
     { "type": "range", "id": "padding_top", "label": "Section top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
     { "type": "range", "id": "padding_bottom", "label": "Section bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 48 },
     { "type": "range", "id": "heading_size_desktop", "label": "Title size desktop", "min": 40, "max": 140, "step": 2, "unit": "px", "default": 88 },
-    { "type": "range", "id": "heading_size_mobile", "label": "Title size mobile", "min": 32, "max": 80, "step": 2, "unit": "px", "default": 44 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Title size mobile", "min": 32, "max": 80, "step": 2, "unit": "px", "default": 64 },
     { "type": "select", "id": "title_weight", "label": "Title font weight", "options": [{ "value": "700", "label": "700" }, { "value": "800", "label": "800" }, { "value": "900", "label": "900" }], "default": "900" },
-    { "type": "checkbox", "id": "title_italic", "label": "Italic title", "default": true },
-    { "type": "range", "id": "subtitle_size_desktop", "label": "Subtitle size desktop", "min": 16, "max": 40, "step": 1, "unit": "px", "default": 25 },
+    { "type": "range", "id": "subtitle_size_desktop", "label": "Subtitle size desktop", "min": 16, "max": 40, "step": 1, "unit": "px", "default": 22 },
     { "type": "range", "id": "subtitle_size_mobile", "label": "Subtitle size mobile", "min": 16, "max": 32, "step": 1, "unit": "px", "default": 20 },
-    { "type": "range", "id": "description_size", "label": "Description size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 },
-    { "type": "range", "id": "column_1_speed", "label": "Column 1 duration", "min": 20, "max": 90, "step": 1, "unit": "s", "default": 40 },
-    { "type": "select", "id": "column_1_direction", "label": "Column 1 direction", "options": [{ "value": "up", "label": "Up" }, { "value": "down", "label": "Down" }], "default": "up" },
-    { "type": "range", "id": "column_2_speed", "label": "Column 2 duration", "min": 20, "max": 90, "step": 1, "unit": "s", "default": 35 },
-    { "type": "select", "id": "column_2_direction", "label": "Column 2 direction", "options": [{ "value": "up", "label": "Up" }, { "value": "down", "label": "Down" }], "default": "down" },
-    { "type": "range", "id": "column_3_speed", "label": "Column 3 duration", "min": 20, "max": 90, "step": 1, "unit": "s", "default": 45 },
-    { "type": "select", "id": "column_3_direction", "label": "Column 3 direction", "options": [{ "value": "up", "label": "Up" }, { "value": "down", "label": "Down" }], "default": "up" },
-    { "type": "range", "id": "mobile_scroll_speed", "label": "Mobile slider duration", "min": 15, "max": 60, "step": 1, "unit": "s", "default": 28 }
+    { "type": "range", "id": "description_size", "label": "Description size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 }
   ],
   "blocks": [
-    { "type": "badge", "name": "Badge", "limit": 6, "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "No Minimum Orders" }] },
+    { "type": "badge", "name": "Badge", "limit": 6, "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "No Minimum Orders" }, { "type": "select", "id": "icon", "label": "Icon", "options": [{ "value": "check", "label": "Check" }, { "value": "layers", "label": "Layers" }, { "value": "lightning", "label": "Lightning" }, { "value": "drop", "label": "Drop" }], "default": "check" }] },
     { "type": "column_1", "name": "Column 1 image", "limit": 4, "settings": [{ "type": "image_picker", "id": "image", "label": "Image" }, { "type": "text", "id": "image_alt", "label": "Image alt text", "info": "Image ko screen readers ke liye describe karein." }] },
     { "type": "column_2", "name": "Column 2 image", "limit": 4, "settings": [{ "type": "image_picker", "id": "image", "label": "Image" }, { "type": "text", "id": "image_alt", "label": "Image alt text", "info": "Image ko screen readers ke liye describe karein." }] },
     { "type": "column_3", "name": "Column 3 image", "limit": 4, "settings": [{ "type": "image_picker", "id": "image", "label": "Image" }, { "type": "text", "id": "image_alt", "label": "Image alt text", "info": "Image ko screen readers ke liye describe karein." }] }
@@ -569,9 +582,9 @@
     {
       "name": "Hero",
       "blocks": [
-        { "type": "badge", "settings": { "text": "No Minimum Orders" } },
-        { "type": "badge", "settings": { "text": "Printed & Shipped in 24 Hours" } },
-        { "type": "badge", "settings": { "text": "100+ Wash Durability" } },
+        { "type": "badge", "settings": { "text": "No Minimum Orders", "icon": "layers" } },
+        { "type": "badge", "settings": { "text": "Printed & Shipped in 24 Hours", "icon": "lightning" } },
+        { "type": "badge", "settings": { "text": "100+ Wash Durability", "icon": "drop" } },
         { "type": "column_1", "settings": { "image_alt": "Custom DTF transfer" } },
         { "type": "column_1", "settings": { "image_alt": "Printed apparel design" } },
         { "type": "column_1", "settings": { "image_alt": "Finished transfer print" } },
