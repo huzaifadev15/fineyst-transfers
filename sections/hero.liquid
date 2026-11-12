@@ -475,7 +475,12 @@
     }
     #shopify-section-{{ section.id }} .badge-icon { flex-basis: 34px; width: 34px; height: 34px; }
     #shopify-section-{{ section.id }} .badge-icon svg { width: 18px; height: 18px; }
-    #shopify-section-{{ section.id }} .hero-mobile-media { display: none; }
+    #shopify-section-{{ section.id }} .hero-mobile-media {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      overflow: hidden;
+    }
     #shopify-section-{{ section.id }} .hero-mobile-track {
       display: flex;
       width: max-content;
