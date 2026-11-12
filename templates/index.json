@@ -2,20 +2,83 @@
   "sections": {
     "hero": {
       "type": "hero",
+      "blocks": {
+        "badge_1": {
+          "type": "badge",
+          "settings": { "text": "No Minimum Orders", "icon": "layers" }
+        },
+        "badge_2": {
+          "type": "badge",
+          "settings": { "text": "Printed & Shipped in 24 Hours", "icon": "lightning" }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": { "text": "100+ Wash Durability", "icon": "drop" }
+        },
+        "column_1_image_1": {
+          "type": "column_1",
+          "settings": { "image_alt": "Custom DTF transfer" }
+        },
+        "column_1_image_2": {
+          "type": "column_1",
+          "settings": { "image_alt": "Printed apparel design" }
+        },
+        "column_1_image_3": {
+          "type": "column_1",
+          "settings": { "image_alt": "Finished transfer print" }
+        },
+        "column_2_image_1": {
+          "type": "column_2",
+          "settings": { "image_alt": "DTF printing process" }
+        },
+        "column_2_image_2": {
+          "type": "column_2",
+          "settings": { "image_alt": "Quality checked transfer" }
+        },
+        "column_2_image_3": {
+          "type": "column_2",
+          "settings": { "image_alt": "Custom apparel print" }
+        },
+        "column_3_image_1": {
+          "type": "column_3",
+          "settings": { "image_alt": "Colorful transfer design" }
+        },
+        "column_3_image_2": {
+          "type": "column_3",
+          "settings": { "image_alt": "Printed apparel" }
+        },
+        "column_3_image_3": {
+          "type": "column_3",
+          "settings": { "image_alt": "Ready-to-press transfer" }
+        }
+      },
+      "block_order": [
+        "badge_1",
+        "badge_2",
+        "badge_3",
+        "column_1_image_1",
+        "column_1_image_2",
+        "column_1_image_3",
+        "column_2_image_1",
+        "column_2_image_2",
+        "column_2_image_3",
+        "column_3_image_1",
+        "column_3_image_2",
+        "column_3_image_3"
+      ],
       "settings": {
-        "title": "DTF TRANSFERS",
+        "eyebrow": "PREMIUM CUSTOM TRANSFERS",
+        "eyebrow_color": "#182C27",
+        "title": "DTF Transfers",
+        "title_accent_word": "Transfers",
+        "lime_color": "#82C341",
         "subtitle": "No Minimums, Ready to Press, Shipped in 24 Hours",
+        "highlight_word": "24 Hours",
         "description": "Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time.",
-        "rating": "4.9",
-        "rating_note": "from thousands of happy customers",
-        "badges": "No Minimum Orders,Printed & Shipped in 24 Hours,100+ Wash Durability",
         "primary_label": "Order Transfers by Size",
         "primary_link": "/products/dtf-transfers",
         "secondary_label": "Build a Gang Sheet",
-        "secondary_link": "/products/uv-dtf-gang-sheet-builder",
-        "column_1": "carousel-1.png,we-print-apparel.png,carousel-3.png",
-        "column_2": "carousel-2.png,quality-check.png,carousel-1.png",
-        "column_3": "carousel-3.png,we-print-apparel.png,carousel-2.png"
+        "secondary_link": "/products/uv-dtf-gang-sheet-builder"
       }
     },
     "features": {
@@ -111,7 +174,7 @@
         "o2": {
           "type": "option",
           "settings": {
-            "static_image": "dtf-gang-sheet.png",
+            "static_image": "t8.png",
             "badge": "Easily Design & Build Online",
             "title": "Build a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
@@ -534,9 +597,172 @@
     },
     "affordable-transfers": {
       "type": "affordable-transfers",
+      "blocks": {
+        "fast-turnaround": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "lightning",
+            "icon_color": "#0f766e",
+            "title": "Fast Turnaround",
+            "text": "Quick processing and shipping options."
+          }
+        },
+        "no-minimums": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "box",
+            "icon_color": "#14b8a6",
+            "title": "No Minimums",
+            "text": "Order what you actually need."
+          }
+        },
+        "premium-quality": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "award",
+            "icon_color": "#22c55e",
+            "title": "Premium Quality",
+            "text": "Vibrant colors and sharp details."
+          }
+        },
+        "free-shipping": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "truck",
+            "icon_color": "#84cc16",
+            "title": "Free Shipping",
+            "text": "On qualifying orders."
+          }
+        },
+        "lab-tested-durability": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "shield",
+            "icon_color": "#0891b2",
+            "title": "Lab-Tested Durability",
+            "text": "Tested to last 100+ washes."
+          }
+        },
+        "free-art-review": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "star",
+            "icon_color": "#16a34a",
+            "title": "Free Art Review",
+            "text": "Our team cleans up your files."
+          }
+        },
+        "transfer-by-size": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "DTF TRANSFERS BY SIZE",
+            "product_handle": "dtf-transfers",
+            "price_note": "$0.02 per sq. in.",
+            "text": "Press any design on any garment or color.",
+            "fallback_asset": "dtf-transfer-by-size.png"
+          }
+        },
+        "transfer-gang-sheets": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "DTF GANG SHEETS",
+            "product_handle": "premium-dtf-gang-sheets",
+            "price_note": "$0.02 per sq. in.",
+            "text": "Fit more designs per sheet and save.",
+            "fallback_asset": "t8.png"
+          }
+        },
+        "transfer-uv-dtf": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "UV DTF TRANSFERS",
+            "product_handle": "uv-dtf-transfers",
+            "price_note": "$0.06 per sq. in.",
+            "text": "For mugs and hard surfaces - no heat needed.",
+            "fallback_asset": "uv-dtf-transfers.png"
+          }
+        },
+        "transfer-puff": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "PUFF TRANSFERS",
+            "product_handle": "puff-transfers",
+            "price_note": "$0.09 per sq. in.",
+            "text": "Raised 3D texture with a premium finish.",
+            "fallback_asset": "puff-print.png"
+          }
+        },
+        "transfer-glitter": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "GLITTER TRANSFERS",
+            "product_handle": "glitter-transfers",
+            "price_note": "$0.07 per sq. in.",
+            "text": "Sparkle finish that survives the wash.",
+            "fallback_asset": "glitter-print.png"
+          }
+        },
+        "transfer-reflective": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "REFLECTIVE TRANSFERS",
+            "product_handle": "reflective-transfers",
+            "price_note": "$0.11 per sq. in.",
+            "text": "High-visibility shine under direct light.",
+            "fallback_asset": "reflective-dtf.png"
+          }
+        },
+        "transfer-metallic-foil": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "METALLIC FOIL TRANSFERS",
+            "product_handle": "metallic-foil-transfers",
+            "price_note": "$0.10 per sq. in.",
+            "text": "Mirror-bright gold and silver accents.",
+            "fallback_asset": "foil-transfers.png"
+          }
+        },
+        "transfer-sublimation": {
+          "type": "transfer_type",
+          "settings": {
+            "title": "SUBLIMATION TRANSFERS",
+            "product_handle": "sublimation-transfers",
+            "price_note": "$0.05 per sq. in.",
+            "text": "Soft hand feel that dyes into the fabric.",
+            "fallback_asset": "sublimation-transfer.png"
+          }
+        }
+      },
+      "block_order": [
+        "fast-turnaround",
+        "no-minimums",
+        "premium-quality",
+        "free-shipping",
+        "lab-tested-durability",
+        "free-art-review",
+        "transfer-by-size",
+        "transfer-gang-sheets",
+        "transfer-uv-dtf",
+        "transfer-puff",
+        "transfer-glitter",
+        "transfer-reflective",
+        "transfer-metallic-foil",
+        "transfer-sublimation"
+      ],
       "settings": {
+        "show_badge": true,
+        "badge_text": "WHY CHOOSE US",
         "heading": "Affordable Custom DTF Transfers",
-        "subheading": "No Minimums, No Setup Fees, Free Shipping",
+        "subheading": "Premium Quality. No Minimums. Fast Turnaround.",
+        "show_divider": true,
+        "columns_desktop": "3",
+        "columns_tablet": "2",
+        "columns_mobile": "1",
+        "card_layout": "side",
+        "card_alignment": "left",
+        "show_seo_content": true,
+        "open_seo_by_default": false,
+        "seo_toggle_label": "More about our custom transfers",
         "grid_heading": "Shop Transfer Types - DTF, UV DTF, Puff, Glitter & More",
         "badge": "No minimum",
         "cta_label": "Get a Quote"
