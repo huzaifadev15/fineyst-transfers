@@ -6,6 +6,9 @@
 {%- assign hero_sub = section.settings.subtitle | default: 'No Minimums, Ready to Press, Shipped in 24 Hours' -%}
 {%- assign hero_hl = section.settings.highlight_word | strip -%}
 {%- assign hero_title_accent = section.settings.title_accent_word | downcase -%}
+{%- assign hero_rotating_words_text = section.settings.rotating_words | default: 'Businesses, Brands, Customers, Creators' -%}
+{%- assign hero_rotating_words = hero_rotating_words_text | split: ',' -%}
+{%- assign hero_first_rotating_word = hero_rotating_words.first | strip -%}
 
 <section class="hero-section" aria-labelledby="hero-heading-{{ section.id }}">
   <div class="hero-bg-wrap">
@@ -20,10 +23,15 @@
               </p>
             {%- endif -%}
             <h1 id="hero-heading-{{ section.id }}" class="hero-title-main">
-              {%- for word in title_words -%}
-                {%- assign title_word_lower = word | downcase -%}
-                <span{% if title_word_lower == hero_title_accent %} class="hero-title-accent"{% endif %}>{{- word | escape -}}</span>{%- unless forloop.last -%}&nbsp;<br>{%- endunless -%}
-              {%- endfor -%}
+              <span class="hero-title-line hero-title-line--main">
+                {%- for word in title_words -%}
+                  {%- assign title_word_lower = word | downcase -%}
+                  <span{% if title_word_lower == hero_title_accent %} class="hero-title-accent"{% endif %}>{{- word | escape -}}</span>{%- unless forloop.last -%}&nbsp;{% endunless %}
+                {%- endfor -%}
+              </span>
+              <span class="hero-title-line hero-title-trust-line">
+                {{- section.settings.trust_line_prefix | default: 'Trusted by' | escape -}}&nbsp;<span class="hero-title-accent hero-title-rotating-word" data-hero-rotator data-words="{{ hero_rotating_words_text | escape }}">{{ hero_first_rotating_word | escape }}</span>.
+              </span>
             </h1>
             <div class="hero-subtitle">
               {%- if hero_hl != blank and hero_sub contains hero_hl -%}
@@ -261,19 +269,26 @@
     font-family: var(--font-primary, sans-serif) !important;
     font-weight: var(--hero-title-weight);
     text-transform: none;
-    font-size: var(--hero-heading-desktop);
-    line-height: .9;
-    letter-spacing: -0.045em;
+    font-size: min(var(--hero-heading-desktop), clamp(32px, 3.2vw, 48px));
+    line-height: 1.2;
+    letter-spacing: -0.02em;
     color: var(--hero-title-color) !important;
     -webkit-text-fill-color: var(--hero-title-color) !important;
     background: none !important;
     margin: 0 0 10px;
+  }
+  #shopify-section-{{ section.id }} .hero-title-line { display: block; white-space: nowrap; }
+  #shopify-section-{{ section.id }} .hero-title-line--main > span:not(:last-child) { margin-right: -0.1em; }
+  #shopify-section-{{ section.id }} .hero-title-line--main .hero-title-accent {
+    color: var(--hero-title-color) !important;
+    -webkit-text-fill-color: var(--hero-title-color) !important;
   }
   #shopify-section-{{ section.id }} .hero-title-accent {
     color: var(--hero-title-accent) !important;
     -webkit-text-fill-color: var(--hero-title-accent) !important;
     font-style: normal;
   }
+  #shopify-section-{{ section.id }} .hero-title-rotating-word { display: inline-block; min-width: 10ch; }
   #shopify-section-{{ section.id }} .hero-subtitle {
     display: block;
     max-width: 700px;
@@ -447,8 +462,7 @@
     }
     #shopify-section-{{ section.id }} .hero-right { display: none; }
     #shopify-section-{{ section.id }} .hero-inner { max-width: none; align-items: flex-start; text-align: left; padding-left: 0; }
-    #shopify-section-{{ section.id }} .hero-title-main { font-size: min(var(--hero-heading-mobile), 14vw); white-space: nowrap; }
-    #shopify-section-{{ section.id }} .hero-title-main br { display: none; }
+    #shopify-section-{{ section.id }} .hero-title-main { font-size: min(var(--hero-heading-mobile), clamp(22px, 7vw, 32px)); }
     #shopify-section-{{ section.id }} .hero-subtitle { font-size: var(--hero-subtitle-mobile); }
     #shopify-section-{{ section.id }} .hero-eyebrow { margin-bottom: 18px; font-size: 9px; letter-spacing: 0.22em; }
     #shopify-section-{{ section.id }} .hero-eyebrow-line { width: 38px; }
@@ -530,8 +544,10 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "PREMIUM CUSTOM TRANSFERS" },
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow text color", "default": "#182C27" },
-    { "type": "text", "id": "title", "label": "Title", "info": "Har word alag line mein show hoga.", "default": "DTF Transfers" },
+    { "type": "text", "id": "title", "label": "Title", "info": "Main heading line.", "default": "Custom DTF Transfers" },
     { "type": "text", "id": "title_accent_word", "label": "Accent title word", "default": "Transfers" },
+    { "type": "text", "id": "trust_line_prefix", "label": "Rotating headline prefix", "default": "Trusted by" },
+    { "type": "text", "id": "rotating_words", "label": "Rotating headline words", "info": "Comma-separated words; changes every 2 seconds.", "default": "Businesses, Brands, Customers, Creators" },
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "No Minimums, Ready to Press, Shipped in 24 Hours" },
     { "type": "text", "id": "highlight_word", "label": "Subtitle highlight word", "info": "Subtitle ka exact matching text lime highlight hoga.", "default": "24 Hours" },
     { "type": "textarea", "id": "description", "label": "Description", "default": "Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time." },
@@ -563,7 +579,7 @@
     { "type": "range", "id": "padding_bottom", "label": "Section bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 48 },
     { "type": "range", "id": "heading_size_desktop", "label": "Title size desktop", "min": 40, "max": 140, "step": 2, "unit": "px", "default": 88 },
     { "type": "range", "id": "heading_size_mobile", "label": "Title size mobile", "min": 32, "max": 80, "step": 2, "unit": "px", "default": 64 },
-    { "type": "select", "id": "title_weight", "label": "Title font weight", "options": [{ "value": "700", "label": "700" }, { "value": "800", "label": "800" }, { "value": "900", "label": "900" }], "default": "900" },
+    { "type": "select", "id": "title_weight", "label": "Title font weight", "options": [{ "value": "600", "label": "600" }, { "value": "700", "label": "700" }, { "value": "800", "label": "800" }, { "value": "900", "label": "900" }], "default": "600" },
     { "type": "range", "id": "subtitle_size_desktop", "label": "Subtitle size desktop", "min": 16, "max": 40, "step": 1, "unit": "px", "default": 22 },
     { "type": "range", "id": "subtitle_size_mobile", "label": "Subtitle size mobile", "min": 16, "max": 32, "step": 1, "unit": "px", "default": 20 },
     { "type": "range", "id": "description_size", "label": "Description size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 }

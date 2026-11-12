@@ -69,16 +69,33 @@
         image carousel.
       {%- endcomment -%}
       {%- assign image_count = product.images.size -%}
+      {%- assign custom_gallery_assets = 't3.webp|t11.webp|dtf images 1.webp|dtf images 2.webp|dtf image 3.webp|dtf image 4.webp|upload dtf.webp' | split: '|' -%}
+      {%- assign use_custom_gallery = false -%}
+      {%- if product.handle == 'dtf-transfers' -%}
+        {%- assign use_custom_gallery = true -%}
+        {%- assign gallery_image_count = custom_gallery_assets.size -%}
+      {%- else -%}
+        {%- assign gallery_image_count = image_count -%}
+      {%- endif -%}
 
       <div class="product-gallery" data-gallery>
-        {%- if image_count > 1 -%}
+        {%- if gallery_image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
         {%- endif -%}
 
         <div class="gallery-main" data-gallery-main>
-          {%- if image_count > 0 -%}
+          {%- if use_custom_gallery -%}
+            {%- for asset in custom_gallery_assets -%}
+              <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
+                <img src="{{ asset | asset_url }}"
+                     alt="DTF transfer image {{ forloop.index }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     sizes="(min-width: 990px) 45vw, 100vw">
+              </div>
+            {%- endfor -%}
+          {%- elsif image_count > 0 -%}
             {%- for image in product.images -%}
               <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
                 <img src="{{ image | image_url: width: 1400 }}"
@@ -92,22 +109,32 @@
           {%- endif -%}
         </div>
 
-        {%- if image_count > 1 -%}
+        {%- if gallery_image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
           </button>
         {%- endif -%}
       </div>
 
-      {%- if image_count > 1 -%}
+      {%- if gallery_image_count > 1 -%}
         <div class="gallery-thumbs">
-          {%- for image in product.images -%}
-            <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
-                    data-gallery-thumb data-index="{{ forloop.index0 }}"
-                    aria-label="View image {{ forloop.index }}">
-              <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
-            </button>
-          {%- endfor -%}
+          {%- if use_custom_gallery -%}
+            {%- for asset in custom_gallery_assets -%}
+              <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                      data-gallery-thumb data-index="{{ forloop.index0 }}"
+                      aria-label="View image {{ forloop.index }}">
+                <img src="{{ asset | asset_url }}" alt="" loading="lazy">
+              </button>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for image in product.images -%}
+              <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                      data-gallery-thumb data-index="{{ forloop.index0 }}"
+                      aria-label="View image {{ forloop.index }}">
+                <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
+              </button>
+            {%- endfor -%}
+          {%- endif -%}
         </div>
       {%- endif -%}
 

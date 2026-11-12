@@ -1,3 +1,39 @@
+/* Rotate the homepage trust-line words, including when Shopify reloads a section. */
+(function () {
+  function initializeHeroRotators(root) {
+    if (!root || !root.querySelectorAll) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    root.querySelectorAll('[data-hero-rotator]').forEach(function (rotator) {
+      if (rotator.hasAttribute('data-rotator-initialized')) return;
+
+      var words = (rotator.getAttribute('data-words') || '').split(',').map(function (word) {
+        return word.trim();
+      }).filter(Boolean);
+      if (words.length < 2) return;
+
+      var index = 0;
+      rotator.setAttribute('data-rotator-initialized', 'true');
+      rotator.textContent = words[index];
+      window.setInterval(function () {
+        index = (index + 1) % words.length;
+        rotator.textContent = words[index];
+      }, 2000);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      initializeHeroRotators(document);
+    });
+  } else {
+    initializeHeroRotators(document);
+  }
+  document.addEventListener('shopify:section:load', function (event) {
+    initializeHeroRotators(event.target);
+  });
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.mega-tabs').forEach(function (tabBar) {
     var panelGroup = tabBar.parentElement;

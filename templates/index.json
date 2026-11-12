@@ -114,8 +114,10 @@
       "settings": {
         "eyebrow": "PREMIUM CUSTOM TRANSFERS",
         "eyebrow_color": "#182c27",
-        "title": "DTF Transfers",
+        "title": "Custom DTF Transfers",
         "title_accent_word": "Transfers",
+        "trust_line_prefix": "Trusted by",
+        "rotating_words": "Businesses, Brands, Customers, Creators",
         "subtitle": "No Minimums, Ready to Press, Shipped in 24 Hours",
         "highlight_word": "24 Hours",
         "description": "Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time.",
@@ -146,7 +148,7 @@
         "padding_bottom": 0,
         "heading_size_desktop": 88,
         "heading_size_mobile": 64,
-        "title_weight": "900",
+        "title_weight": "600",
         "subtitle_size_desktop": 22,
         "subtitle_size_mobile": 20,
         "description_size": 16

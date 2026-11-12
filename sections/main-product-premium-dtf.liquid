@@ -245,45 +245,123 @@
 
     <div class="pdp-media">
       {%- assign image_count = product.images.size -%}
+      {%- assign custom_gallery_assets = 'dtf images 1.webp|dtf images 2.webp|dtf image 3.webp|dtf image 4.webp|upload dtf.webp|t3.webp' | split: '|' -%}
+      {%- assign use_custom_gallery = false -%}
+      {%- if product.handle == 'premium-dtf-gang-sheets' -%}
+        {%- assign use_custom_gallery = true -%}
+        {%- assign gallery_image_count = custom_gallery_assets.size -%}
+      {%- else -%}
+        {%- assign gallery_image_count = image_count -%}
+        {%- if image_count > 0 -%}
+          {%- assign gallery_image_count = image_count | plus: 2 -%}
+        {%- endif -%}
+      {%- endif -%}
 
       <div class="product-gallery" data-gallery>
-        {%- if image_count > 1 -%}
+        {%- if gallery_image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
         {%- endif -%}
 
         <div class="gallery-main" data-gallery-main>
-          {%- if image_count > 0 -%}
-            {%- for image in product.images -%}
+          {%- if use_custom_gallery -%}
+            {%- for asset in custom_gallery_assets -%}
               <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
-                <img src="{{ image | image_url: width: 1400 }}"
+                <img src="{{ asset | asset_url }}"
+                     alt="DTF gang sheet image {{ forloop.index }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     sizes="(min-width: 990px) 45vw, 100vw">
+              </div>
+            {%- endfor -%}
+          {%- elsif image_count > 0 -%}
+            {%- for image in product.images -%}
+              {%- assign slide_image_src = image | image_url: width: 1400 -%}
+              {%- if image.src contains '22c9aa73-9f2b-459c-902f-6d6da73398ce' -%}
+                {%- assign slide_image_src = 't1.webp' | asset_url -%}
+              {%- elsif image.src contains 'dtf-p-2.jpg' -%}
+                {%- assign slide_image_src = 'dtf images 1.webp' | asset_url -%}
+              {%- elsif image.src contains 'dtf-p-4.jpg' -%}
+                {%- assign slide_image_src = 'dtf images 2.webp' | asset_url -%}
+              {%- elsif image.src contains 'dtf-p-3.jpg' -%}
+                {%- assign slide_image_src = 'dtf image 3.webp' | asset_url -%}
+              {%- elsif image.src contains 'dtf-p-5.jpg' -%}
+                {%- assign slide_image_src = 'dtf image 4.webp' | asset_url -%}
+              {%- elsif image.src contains 'gangsheet-mixmatch.jpg' -%}
+                {%- assign slide_image_src = 'upload dtf.webp' | asset_url -%}
+              {%- endif -%}
+              <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
+                <img src="{{ slide_image_src }}"
                      alt="{{ image.alt | escape }}"
                      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
                      sizes="(min-width: 990px) 45vw, 100vw">
               </div>
             {%- endfor -%}
+            {%- assign upload_dtf_index = image_count -%}
+            {%- assign t3_index = image_count | plus: 1 -%}
+            <div class="gallery-slide" data-gallery-slide>
+              <img src="{{ 'upload dtf.webp' | asset_url }}"
+                   alt="DTF gang sheet upload"
+                   loading="lazy"
+                   sizes="(min-width: 990px) 45vw, 100vw">
+            </div>
+            <div class="gallery-slide" data-gallery-slide>
+              <img src="{{ 't3.webp' | asset_url }}"
+                   alt="DTF transfer print"
+                   loading="lazy"
+                   sizes="(min-width: 990px) 45vw, 100vw">
+            </div>
           {%- else -%}
             <div class="hero-media-placeholder"></div>
           {%- endif -%}
         </div>
 
-        {%- if image_count > 1 -%}
+        {%- if gallery_image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
           </button>
         {%- endif -%}
       </div>
 
-      {%- if image_count > 1 -%}
+      {%- if gallery_image_count > 1 -%}
         <div class="gallery-thumbs">
+          {%- if use_custom_gallery -%}
+            {%- for asset in custom_gallery_assets -%}
+              <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                      data-gallery-thumb data-index="{{ forloop.index0 }}"
+                      aria-label="View image {{ forloop.index }}">
+                <img src="{{ asset | asset_url }}" alt="" loading="lazy">
+              </button>
+            {%- endfor -%}
+          {%- else -%}
           {%- for image in product.images -%}
+            {%- assign thumb_image_src = image | image_url: width: 200 -%}
+            {%- if image.src contains '22c9aa73-9f2b-459c-902f-6d6da73398ce' -%}
+              {%- assign thumb_image_src = 't1.webp' | asset_url -%}
+            {%- elsif image.src contains 'dtf-p-2.jpg' -%}
+              {%- assign thumb_image_src = 'dtf images 1.webp' | asset_url -%}
+            {%- elsif image.src contains 'dtf-p-4.jpg' -%}
+              {%- assign thumb_image_src = 'dtf images 2.webp' | asset_url -%}
+            {%- elsif image.src contains 'dtf-p-3.jpg' -%}
+              {%- assign thumb_image_src = 'dtf image 3.webp' | asset_url -%}
+            {%- elsif image.src contains 'dtf-p-5.jpg' -%}
+              {%- assign thumb_image_src = 'dtf image 4.webp' | asset_url -%}
+            {%- elsif image.src contains 'gangsheet-mixmatch.jpg' -%}
+              {%- assign thumb_image_src = 'upload dtf.webp' | asset_url -%}
+            {%- endif -%}
             <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
                     data-gallery-thumb data-index="{{ forloop.index0 }}"
                     aria-label="View image {{ forloop.index }}">
-              <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
+              <img src="{{ thumb_image_src }}" alt="" loading="lazy">
             </button>
           {%- endfor -%}
+          <button class="gallery-thumb" type="button" data-gallery-thumb data-index="{{ upload_dtf_index }}" aria-label="View image {{ upload_dtf_index | plus: 1 }}">
+            <img src="{{ 'upload dtf.webp' | asset_url }}" alt="" loading="lazy">
+          </button>
+          <button class="gallery-thumb" type="button" data-gallery-thumb data-index="{{ t3_index }}" aria-label="View image {{ t3_index | plus: 1 }}">
+            <img src="{{ 't3.webp' | asset_url }}" alt="" loading="lazy">
+          </button>
+          {%- endif -%}
         </div>
       {%- endif -%}
 
