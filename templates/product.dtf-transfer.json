@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -6,6 +15,7 @@
         "mockup-1": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/tshirt_blank_cd5403db-fa39-437c-854f-91ba11be11a9.png",
             "label": "T-Shirt",
             "width_in": 11,
             "art_width": 45,
@@ -57,6 +67,34 @@
             "art_top": 40
           }
         },
+        "quick-1": {
+          "type": "quick_size",
+          "settings": {
+            "label": "3\" x 3\"",
+            "price": "$0.18"
+          }
+        },
+        "quick-2": {
+          "type": "quick_size",
+          "settings": {
+            "label": "5\" x 2\"",
+            "price": "$0.55"
+          }
+        },
+        "quick-3": {
+          "type": "quick_size",
+          "settings": {
+            "label": "8\" x 8\"",
+            "price": "$2.14"
+          }
+        },
+        "quick-4": {
+          "type": "quick_size",
+          "settings": {
+            "label": "12\" x 9\"",
+            "price": "$3.69"
+          }
+        },
         "tier-0": {
           "type": "tier",
           "settings": {
@@ -106,34 +144,6 @@
             "price": "$0.55",
             "discount": "50% off"
           }
-        },
-        "quick-1": {
-          "type": "quick_size",
-          "settings": {
-            "label": "3\" x 3\"",
-            "price": "$0.18"
-          }
-        },
-        "quick-2": {
-          "type": "quick_size",
-          "settings": {
-            "label": "5\" x 2\"",
-            "price": "$0.55"
-          }
-        },
-        "quick-3": {
-          "type": "quick_size",
-          "settings": {
-            "label": "8\" x 8\"",
-            "price": "$2.14"
-          }
-        },
-        "quick-4": {
-          "type": "quick_size",
-          "settings": {
-            "label": "12\" x 9\"",
-            "price": "$3.69"
-          }
         }
       },
       "block_order": [
@@ -154,9 +164,33 @@
         "tier-4"
       ],
       "settings": {
+        "badge_text": "FREE Upgrade to VIVID AF",
+        "unit_price": "$0.02/sq in",
+        "fulfillment_note": "Printed in-house. Ships from us",
+        "rating_value": "4.9",
+        "rating_count": "22,837",
+        "wash_count": "100",
+        "volume_text": "Buy More & Save Up To 50%",
+        "volume_link": "",
+        "cutoff_hour": 17,
+        "max_files": 25,
+        "phone_upload_link": "",
         "quick_title": "Popular Sizes & Prices",
         "quick_sub": "No setup fees · Bulk discounts up to 50% off",
-        "show_buy_form": true
+        "show_ai_tools": false,
+        "show_buy_form": true,
+        "feature_video": "",
+        "feature_link": "",
+        "size_guide_title": "Size Guide",
+        "swatch_colors": "#FFFFFF, #1A1A1A, #C7CBD1, #E0332B, #F2A626, #F4E04D, #63C132, #CBE8D2, #1D5FD4",
+        "print_dpi": 300,
+        "max_print_width": 22,
+        "min_print_size": "0.25",
+        "discount_note": "We count every DTF Transfer & UV DTF Sticker in your order to ensure you receive the maximum discount per piece.",
+        "price_bands": "1-9:0.37, 10-19:1.09, 20-29:1.90, 30-39:2.28, 40-49:3.33, 50-59:3.96, 60-69:4.28, 70-79:5.43, 80-89:5.81, 90-99:6.34, 100-109:7.39, 110-119:8.12, 120-129:8.65, 130-139:9.17, 140-149:9.70, 150-159:10.01, 160-169:10.26, 170-179:10.79, 180-189:11.31, 190-199:11.84, 200-209:12.36, 210-219:12.89, 220-229:13.41, 230-239:13.94, 240-249:14.46, 250-259:14.99, 260-269:15.51, 270-279:16.04, 280-309:16.56, 310-349:17.09, 350-389:17.61, 390-429:18.14, 430-469:18.66, 470-509:19.19",
+        "default_qty": 22,
+        "guarantee_title": "Our Guarantee:",
+        "guarantee_text": "Perfect Prints · Free Art Review · No Extra Fees!"
       }
     },
     "pdp-details": {
@@ -229,7 +263,12 @@
         "d7",
         "d8"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Product Details",
+        "body": "<p>Experience professional-grade DTF printing made effortless with Fineyst Transfers. Every transfer is produced using our VIVID+ DTF process, featuring an expanded CMYK + RGBO + White ink system that delivers dramatically brighter colors, smoother gradients, and sharper detail - at no extra cost. From vibrant colors and clean whites to fine lines and complex gradients, our high-quality DTF transfers give shops, brands, and creators the freedom to print virtually any design on any garment with consistently standout results.</p>",
+        "subheading": "Super Vivid Prints. No Upcharge.",
+        "subbody": "<p>Most DTF providers still use 5-color printing as their standard. Accessing 9-color printing typically requires a paid upgrade, often increasing costs by up to 50%.</p><p>Fineyst includes 9-color VIVID+ printing on every DTF order at no additional cost.</p>"
+      }
     },
     "pdp-comparison": {
       "type": "pdp-comparison",
@@ -269,7 +308,18 @@
         "c3",
         "c4"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "The Next Generation of DTF Transfers",
+        "intro": "",
+        "image_ours": "dtf-2.jpg",
+        "label_ours": "VIVID+ 9-Color DTF",
+        "image_theirs": "dtf-3.jpg",
+        "label_theirs": "Industry Standard 5-Color DTF",
+        "ours_title": "Fineyst Standard DTF",
+        "ours_sub": "VIVID+, 9-Color Printing",
+        "theirs_title": "Competitor's Standard DTF",
+        "theirs_sub": "Basic, 5-Color Printing"
+      }
     },
     "pdp-benefits": {
       "type": "feature-tiles",
@@ -278,28 +328,36 @@
           "type": "tile",
           "settings": {
             "static_image": "dtf-1.jpg",
-            "caption": "Works on Any Fabric or Color"
+            "static_video": "",
+            "caption": "Works on Any Fabric or Color",
+            "link": ""
           }
         },
         "b2": {
           "type": "tile",
           "settings": {
+            "static_image": "",
             "static_video": "dtf-video-1.mp4",
-            "caption": "Unrivaled Color Spectrum & Brighter Whites"
+            "caption": "Unrivaled Color Spectrum & Brighter Whites",
+            "link": ""
           }
         },
         "b3": {
           "type": "tile",
           "settings": {
             "static_image": "dtf-2.jpg",
-            "caption": "Stretchability Means Durability"
+            "static_video": "",
+            "caption": "Stretchability Means Durability",
+            "link": ""
           }
         },
         "b4": {
           "type": "tile",
           "settings": {
             "static_image": "dtf-3.jpg",
-            "caption": "Sharper Details & Cleaner Edges"
+            "static_video": "",
+            "caption": "Sharper Details & Cleaner Edges",
+            "link": ""
           }
         }
       },
@@ -321,14 +379,16 @@
         "text": "<p>Thanks to our proprietary Fineyst Peel Technology, our DTF transfers deliver professional results in just 13 seconds - making it easier than ever to press on anything!</p>",
         "cta_label": "View DTF Pressing Guide",
         "cta_link": "/pages/pressing-instructions",
-        "media_position": "left",
-        "static_video": "dtf-video-6.mp4"
+        "static_image": "",
+        "static_video": "dtf-video-6.mp4",
+        "media_position": "left"
       }
     },
     "pdp-ugc": {
       "type": "pdp-ugc",
       "settings": {
-        "heading": "Fineyst Transfers Customer Feedback"
+        "heading": "Fineyst Transfers Customer Feedback",
+        "files": "hero-1.jpg,hero-2.jpg,hero-3.jpg,hero-4.jpg,hero-5.jpg,hero-6.jpg,hero-7.jpg"
       }
     },
     "pdp-related": {
@@ -441,7 +501,9 @@
         "p7",
         "p8"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Shop More Popular Products"
+      }
     },
     "pdp-reviews": {
       "type": "pdp-reviews",
@@ -514,7 +576,15 @@
         "r4",
         "r5"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Customer Reviews",
+        "per_page": 5,
+        "average": "4.9",
+        "total_reviews": "22860",
+        "breakdown": "21792,752,139,72,106",
+        "summary": "",
+        "topics": "quality,colors,look,transfers,design,size,results,service"
+      }
     },
     "pdp-qa": {
       "type": "pdp-qa",
@@ -572,12 +642,19 @@
         "q4",
         "q5"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Questions & Answers",
+        "ask_label": "Ask a question",
+        "ask_link": "",
+        "brand": "Fineyst Transfers"
+      }
     },
     "partner-banner": {
       "type": "partner-banner",
       "settings": {
-        "text": "Official Printing Partner of the Sandy Creek Athletics Program"
+        "text": "Official Printing Partner of the Sandy Creek Athletics Program",
+        "static_logo": "",
+        "static_bg": ""
       }
     }
   },
