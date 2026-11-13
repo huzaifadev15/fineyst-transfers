@@ -633,6 +633,7 @@
     },
     "fleet-banner": {
       "type": "media-banner",
+      "disabled": true,
       "settings": {
         "eyebrow": "We Understand Consistency, Quality, and Speed Matter Most",
         "heading": "The Largest Linearized Fleet of 100+ DTF Printers",

@@ -2240,7 +2240,7 @@ body.template-index main { padding-top: 0; }
 .pdp-nextgen-shot--ours .pdp-nextgen-tag { background: linear-gradient(90deg, var(--brand), #7FD4FF); color: #04223a; }
 
 .pdp-compare { border: 1px solid #E3E7EC; border-radius: 12px; overflow: hidden; }
-.pdp-compare-head { display: grid; grid-template-columns: 1fr 1fr; background: #101828; }
+.pdp-compare-head { display: grid; grid-template-columns: 1fr 1fr; background: #104241; }
 .pdp-compare-col { padding: 14px 18px; display: flex; flex-direction: column; gap: 2px; }
 .pdp-compare-col strong { font-size: 0.9rem; font-weight: 800; color: #fff; }
 .pdp-compare-col span { font-size: 0.74rem; color: #9AA3B2; }

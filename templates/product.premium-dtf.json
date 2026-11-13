@@ -180,7 +180,7 @@
         "b4": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-3.jpg",
+            "static_image": "spt 1.webp",
             "caption": "Sharper Details & Cleaner Edges"
           }
         }
@@ -244,7 +244,7 @@
           "type": "item",
           "settings": {
             "handle": "spangle-transfers",
-            "static_image": "dtf-3.jpg",
+            "static_image": "spt 1.webp",
             "title": "Spangle Transfers",
             "text": "Durable, holographic Spangle Transfers make any design instantly pop",
             "price": "As low as $0.04 per sq. inch",
