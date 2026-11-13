@@ -278,15 +278,214 @@ document.addEventListener('DOMContentLoaded', function () {
       if (morePanel) morePanel.hidden = expanded;
     });
 
-    var stage = editor.querySelector('[data-preview-stage]');
+    var mockupImages = [];
+    var selectedGarmentColor = '#ffffff';
+    var initialSwatch = editor.querySelector('[data-swatch].is-active');
+    if (initialSwatch) selectedGarmentColor = initialSwatch.getAttribute('data-color') || selectedGarmentColor;
+
+    function parseSwatchColor(color) {
+      var match = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec((color || '').trim());
+      if (!match) return null;
+      var hex = match[1];
+      if (hex.length === 3) hex = hex.replace(/(.)/g, '$1$1');
+      return [
+        parseInt(hex.slice(0, 2), 16),
+        parseInt(hex.slice(2, 4), 16),
+        parseInt(hex.slice(4, 6), 16)
+      ];
+    }
+
+    function tintMockup(mockup, color) {
+      var rgb = parseSwatchColor(color);
+      if (!rgb) {
+        console.error('Invalid garment swatch color:', color);
+        return;
+      }
+
+      var source = mockup.source.data;
+      var output = mockup.context.createImageData(mockup.source.width, mockup.source.height);
+      for (var i = 0; i < source.length; i += 4) {
+        var brightness = (source[i] * 0.2126 + source[i + 1] * 0.7152 + source[i + 2] * 0.0722) / 255;
+        output.data[i] = Math.round(rgb[0] * brightness);
+        output.data[i + 1] = Math.round(rgb[1] * brightness);
+        output.data[i + 2] = Math.round(rgb[2] * brightness);
+        output.data[i + 3] = source[i + 3];
+      }
+
+      mockup.context.putImageData(output, 0, 0);
+      mockup.img.src = mockup.canvas.toDataURL('image/png');
+    }
+
+    function cacheMockupImage(img) {
+      if (img.dataset.mockupCached || !img.naturalWidth) return;
+      img.dataset.mockupCached = 'true';
+
+      var canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      var context = canvas.getContext('2d', { willReadFrequently: true });
+      if (!context) {
+        console.error('Unable to create a canvas for garment color preview.');
+        return;
+      }
+
+      try {
+        context.drawImage(img, 0, 0);
+        var source = context.getImageData(0, 0, canvas.width, canvas.height);
+        var mockup = { img: img, canvas: canvas, context: context, source: source };
+        mockupImages.push(mockup);
+        tintMockup(mockup, selectedGarmentColor);
+      } catch (error) {
+        console.error('Unable to recolor this mockup. Use a Shopify-hosted image with a transparent background.', error);
+      }
+    }
+
+    editor.querySelectorAll('.mockup-product').forEach(function (img) {
+      if (img.complete) {
+        cacheMockupImage(img);
+      } else {
+        img.addEventListener('load', function () { cacheMockupImage(img); }, { once: true });
+      }
+    });
+
+    function activateSwatch(activeSwatch, color) {
+      editor.querySelectorAll('[data-swatch], .swatch--multi').forEach(function (swatch) {
+        swatch.classList.toggle('is-active', swatch === activeSwatch);
+      });
+      selectedGarmentColor = color || '#ffffff';
+      mockupImages.forEach(function (mockup) {
+        tintMockup(mockup, selectedGarmentColor);
+      });
+    }
+
     editor.querySelectorAll('[data-swatch]').forEach(function (swatch) {
       swatch.addEventListener('click', function () {
-        editor.querySelectorAll('[data-swatch]').forEach(function (s) {
-          s.classList.toggle('is-active', s === swatch);
-        });
-        if (stage) stage.style.setProperty('--preview-color', swatch.getAttribute('data-color') || '#fff');
+        activateSwatch(swatch, swatch.getAttribute('data-color'));
       });
     });
+
+    var pickerRoot = editor.querySelector('[data-custom-picker]');
+    if (pickerRoot) {
+      var pickerButton = pickerRoot.querySelector('[data-custom-toggle]');
+      var picker = pickerRoot.querySelector('[data-color-picker]');
+      var plane = pickerRoot.querySelector('[data-color-plane]');
+      var pointer = pickerRoot.querySelector('[data-color-pointer]');
+      var hueInput = pickerRoot.querySelector('[data-color-hue]');
+      var hexInput = pickerRoot.querySelector('[data-color-hex]');
+      var pickerHsv = { h: 0, s: 0, v: 1 };
+
+      function hexToHsv(hex) {
+        var rgb = parseSwatchColor(hex);
+        if (!rgb) return null;
+        var r = rgb[0] / 255;
+        var g = rgb[1] / 255;
+        var b = rgb[2] / 255;
+        var max = Math.max(r, g, b);
+        var min = Math.min(r, g, b);
+        var delta = max - min;
+        var h = 0;
+        if (delta) {
+          if (max === r) h = 60 * (((g - b) / delta) % 6);
+          else if (max === g) h = 60 * ((b - r) / delta + 2);
+          else h = 60 * ((r - g) / delta + 4);
+        }
+        return { h: (h + 360) % 360, s: max ? delta / max : 0, v: max };
+      }
+
+      function hsvToHex(h, s, v) {
+        var hue = ((h % 360) + 360) % 360;
+        var chroma = v * s;
+        var x = chroma * (1 - Math.abs((hue / 60) % 2 - 1));
+        var m = v - chroma;
+        var rgb = hue < 60 ? [chroma, x, 0] :
+          hue < 120 ? [x, chroma, 0] :
+            hue < 180 ? [0, chroma, x] :
+              hue < 240 ? [0, x, chroma] :
+                hue < 300 ? [x, 0, chroma] : [chroma, 0, x];
+        return '#' + rgb.map(function (channel) {
+          return ('0' + Math.round((channel + m) * 255).toString(16)).slice(-2);
+        }).join('');
+      }
+
+      function updatePicker(color) {
+        var hsv = hexToHsv(color);
+        if (!hsv) return;
+        pickerHsv = hsv;
+        hueInput.value = String(Math.round(hsv.h) % 360);
+        plane.style.backgroundColor = 'hsl(' + hsv.h + ', 100%, 50%)';
+        pointer.style.left = (hsv.s * 100) + '%';
+        pointer.style.top = ((1 - hsv.v) * 100) + '%';
+        hexInput.value = hsvToHex(hsv.h, hsv.s, hsv.v);
+      }
+
+      function applyPickerColor(color) {
+        if (!parseSwatchColor(color)) return;
+        updatePicker(color);
+        activateSwatch(pickerButton, color);
+      }
+
+      function closePicker() {
+        picker.hidden = true;
+        pickerButton.setAttribute('aria-expanded', 'false');
+      }
+
+      pickerButton.addEventListener('click', function () {
+        if (picker.hidden) {
+          updatePicker(selectedGarmentColor);
+          picker.hidden = false;
+          pickerButton.setAttribute('aria-expanded', 'true');
+          activateSwatch(pickerButton, selectedGarmentColor);
+        } else {
+          closePicker();
+        }
+      });
+
+      hueInput.addEventListener('input', function () {
+        applyPickerColor(hsvToHex(Number(hueInput.value), pickerHsv.s, pickerHsv.v));
+      });
+
+      hexInput.addEventListener('input', function () {
+        if (/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(hexInput.value.trim())) {
+          applyPickerColor(hexInput.value.trim());
+        }
+      });
+
+      function setColorFromPointer(event) {
+        var bounds = plane.getBoundingClientRect();
+        pickerHsv.s = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+        pickerHsv.v = 1 - Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
+        applyPickerColor(hsvToHex(pickerHsv.h, pickerHsv.s, pickerHsv.v));
+      }
+
+      plane.addEventListener('pointerdown', function (event) {
+        event.preventDefault();
+        plane.setPointerCapture(event.pointerId);
+        setColorFromPointer(event);
+      });
+      plane.addEventListener('pointermove', function (event) {
+        if (plane.hasPointerCapture(event.pointerId)) setColorFromPointer(event);
+      });
+      plane.addEventListener('keydown', function (event) {
+        var amount = event.shiftKey ? 0.1 : 0.02;
+        if (event.key === 'ArrowLeft') pickerHsv.s = Math.max(0, pickerHsv.s - amount);
+        else if (event.key === 'ArrowRight') pickerHsv.s = Math.min(1, pickerHsv.s + amount);
+        else if (event.key === 'ArrowUp') pickerHsv.v = Math.min(1, pickerHsv.v + amount);
+        else if (event.key === 'ArrowDown') pickerHsv.v = Math.max(0, pickerHsv.v - amount);
+        else return;
+        event.preventDefault();
+        applyPickerColor(hsvToHex(pickerHsv.h, pickerHsv.s, pickerHsv.v));
+      });
+
+      document.addEventListener('pointerdown', function (event) {
+        if (!pickerRoot.contains(event.target)) closePicker();
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && !picker.hidden) {
+          closePicker();
+          pickerButton.focus();
+        }
+      });
+    }
 
     // --- Step 2: transfer sizes ---
     var sizeStep = editor.querySelector('[data-sizes]');

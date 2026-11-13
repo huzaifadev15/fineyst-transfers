@@ -18,6 +18,7 @@
             "label": "T-Shirt",
             "width_in": 11,
             "art_width": 45,
+            "art_left": 50,
             "art_top": 30
           }
         },
@@ -27,6 +28,7 @@
             "label": "Cap",
             "width_in": 5,
             "art_width": 34,
+            "art_left": 50,
             "art_top": 38
           }
         },
@@ -35,7 +37,8 @@
           "settings": {
             "label": "Polo",
             "width_in": 3.5,
-            "art_width": 22,
+            "art_width": 14,
+            "art_left": 64,
             "art_top": 30
           }
         },
@@ -45,6 +48,7 @@
             "label": "Tote",
             "width_in": 7,
             "art_width": 40,
+            "art_left": 50,
             "art_top": 36
           }
         },
@@ -54,6 +58,7 @@
             "label": "Hoodie",
             "width_in": 11,
             "art_width": 45,
+            "art_left": 50,
             "art_top": 34
           }
         },
@@ -63,6 +68,7 @@
             "label": "Apron",
             "width_in": 5,
             "art_width": 30,
+            "art_left": 50,
             "art_top": 40
           }
         },

@@ -303,11 +303,11 @@
                       <figcaption class="mockup-size" data-mockup-size>{{ block.settings.width_in }}"</figcaption>
                       <div class="mockup-tile">
                         {% if block.settings.image %}
-                          {{ block.settings.image | image_url: width: 400 | image_tag: loading: 'lazy', alt: block.settings.label }}
+                          <img class="mockup-product" src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.label | escape }}" loading="lazy" crossorigin="anonymous" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}">
                         {% else %}
                           <span class="mockup-placeholder">{{ block.settings.label }}</span>
                         {% endif %}
-                        <img class="mockup-art" data-mockup-art alt="" style="width: {{ block.settings.art_width }}%; top: {{ block.settings.art_top }}%;">
+                        <img class="mockup-art" data-mockup-art alt="" style="width: {{ block.settings.art_width }}%; left: {{ block.settings.art_left | default: 50 }}%; top: {{ block.settings.art_top }}%;">
                       </div>
                     </figure>
                   {% endif %}
@@ -320,7 +320,19 @@
                   {% assign hex = color | strip %}
                   <button type="button" class="swatch {% if forloop.first %}is-active{% endif %}" data-swatch data-color="{{ hex }}" style="--swatch: {{ hex }}" aria-label="Preview color {{ hex }}"></button>
                 {% endfor %}
-                <button type="button" class="swatch swatch--multi" data-swatch data-color="" aria-label="Original color"></button>
+                <div class="custom-picker" data-custom-picker>
+                  <button type="button" class="swatch swatch--multi" data-custom-toggle aria-label="Choose a custom garment color" aria-expanded="false"></button>
+                  <div class="custom-color-picker" data-color-picker hidden>
+                    <div class="custom-color-plane" data-color-plane tabindex="0" aria-label="Choose color saturation and brightness">
+                      <span class="custom-color-pointer" data-color-pointer></span>
+                    </div>
+                    <input class="custom-color-hue" type="range" min="0" max="359" value="0" data-color-hue aria-label="Choose color hue">
+                    <label class="custom-color-hex">
+                      <span>HEX</span>
+                      <input type="text" value="#ffffff" maxlength="7" data-color-hex aria-label="Custom color hex value">
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
           </aside>
@@ -865,10 +877,11 @@
       "type": "mockup",
       "name": "Size preview",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Blank product image" },
+        { "type": "image_picker", "id": "image", "label": "Blank product image", "info": "For garment color previews, use a neutral mockup with a transparent background." },
         { "type": "text", "id": "label", "label": "Product name", "default": "T-Shirt" },
         { "type": "range", "id": "width_in", "label": "Print width (in)", "min": 1, "max": 22, "step": 0.5, "default": 11 },
         { "type": "range", "id": "art_width", "label": "Artwork width on preview (%)", "min": 10, "max": 90, "step": 1, "default": 45 },
+        { "type": "range", "id": "art_left", "label": "Artwork horizontal position (%)", "min": 10, "max": 90, "step": 1, "default": 50 },
         { "type": "range", "id": "art_top", "label": "Artwork top offset (%)", "min": 5, "max": 80, "step": 1, "default": 32 }
       ]
     },
@@ -898,7 +911,7 @@
       "blocks": [
         { "type": "mockup", "settings": { "label": "T-Shirt", "width_in": 11, "art_width": 45, "art_top": 30 } },
         { "type": "mockup", "settings": { "label": "Cap", "width_in": 5, "art_width": 34, "art_top": 38 } },
-        { "type": "mockup", "settings": { "label": "Polo", "width_in": 3.5, "art_width": 22, "art_top": 30 } },
+        { "type": "mockup", "settings": { "label": "Polo", "width_in": 3.5, "art_width": 14, "art_left": 64, "art_top": 30 } },
         { "type": "mockup", "settings": { "label": "Tote", "width_in": 7, "art_width": 40, "art_top": 36 } },
         { "type": "mockup", "settings": { "label": "Hoodie", "width_in": 11, "art_width": 45, "art_top": 34 } },
         { "type": "mockup", "settings": { "label": "Apron", "width_in": 5, "art_width": 30, "art_top": 40 } },
