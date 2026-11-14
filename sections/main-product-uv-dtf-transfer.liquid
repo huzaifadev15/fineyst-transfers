@@ -295,9 +295,11 @@
                       <div class="mockup-tile">
                         {% if block.settings.image %}
                           <img class="mockup-product" src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.label | escape }}" loading="lazy" crossorigin="anonymous" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}">
-                        {% else %}
-                          <span class="mockup-placeholder">{{ block.settings.label }}</span>
-                        {% endif %}
+                           {% elsif block.settings.asset_name != blank %}
+                            <img class="mockup-product" src="{{ block.settings.asset_name | asset_url }}" alt="{{ block.settings.label | escape }}" loading="lazy" crossorigin="anonymous">
+                              {% else %}
+                            <span class="mockup-placeholder">{{ block.settings.label }}</span>
+                         {% endif %}
                         <img class="mockup-art" data-mockup-art alt="" style="width: {{ block.settings.art_width }}%; left: {{ block.settings.art_left | default: 50 }}%; top: {{ block.settings.art_top }}%;">
                       </div>
                     </figure>
@@ -873,8 +875,8 @@
         { "type": "range", "id": "width_in", "label": "Print width (in)", "min": 1, "max": 22, "step": 0.5, "default": 11 },
         { "type": "range", "id": "art_width", "label": "Artwork width on preview (%)", "min": 10, "max": 90, "step": 1, "default": 45 },
         { "type": "range", "id": "art_left", "label": "Artwork horizontal position (%)", "min": 10, "max": 90, "step": 1, "default": 50 },
-        { "type": "range", "id": "art_top", "label": "Artwork top offset (%)", "min": 5, "max": 80, "step": 1, "default": 32 }
-      ]
+        { "type": "range", "id": "art_top", "label": "Artwork top offset (%)", "min": 5, "max": 80, "step": 1, "default": 32 },
+        { "type": "text", "id": "asset_name", "label": "Asset filename (fallback)", "info": "e.g. uv-blank.png from the assets folder" } 
     },
     {
       "type": "quick_size",

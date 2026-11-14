@@ -13,71 +13,60 @@
       "type": "main-product-uv-dtf-transfer",
       "blocks": {
         "mockup-1": {
-          "type": "mockup",
-          "settings": {
-            "image": "shopify://shop_images/tshirt_blank_cd5403db-fa39-437c-854f-91ba11be11a9.png",
-            "label": "T-Shirt",
-            "width_in": 11,
-            "art_width": 45,
-            "art_left": 50,
-            "art_top": 30
-          }
-        },
-        "mockup-2": {
-          "type": "mockup",
-          "settings": {
-            "image": "shopify://shop_images/cap_blank.png",
-            "label": "Cap",
-            "width_in": 5,
-            "art_width": 34,
-            "art_left": 50,
-            "art_top": 38
-          }
-        },
-        "mockup-3": {
-          "type": "mockup",
-          "settings": {
-            "image": "shopify://shop_images/polo_black.png",
-            "label": "Polo",
-            "width_in": 3.5,
-            "art_width": 14,
-            "art_left": 64,
-            "art_top": 30
-          }
-        },
-        "mockup-4": {
-          "type": "mockup",
-          "settings": {
-            "image": "shopify://shop_images/teto_blank.png",
-            "label": "Tote",
-            "width_in": 7,
-            "art_width": 40,
-            "art_left": 50,
-            "art_top": 36
-          }
-        },
-        "mockup-5": {
-          "type": "mockup",
-          "settings": {
-            "image": "shopify://shop_images/hodie_blank.png",
-            "label": "Hoodie",
-            "width_in": 11,
-            "art_width": 45,
-            "art_left": 50,
-            "art_top": 34
-          }
-        },
-        "mockup-6": {
-          "type": "mockup",
-          "settings": {
-            "image": "shopify://shop_images/apron_blank.png",
-            "label": "Apron",
-            "width_in": 5,
-            "art_width": 30,
-            "art_left": 50,
-            "art_top": 40
-          }
-        },
+  "type": "mockup",
+  "settings": {
+    "asset_name": "uv-blank.png",
+    "label": "Item 1",
+    "width_in": 3,
+    "art_width": 40,
+    "art_left": 50,
+    "art_top": 45
+  }
+},
+"mockup-2": {
+  "type": "mockup",
+  "settings": {
+    "asset_name": "uv-blank1.png",
+    "label": "Item 2",
+    "width_in": 3,
+    "art_width": 40,
+    "art_left": 50,
+    "art_top": 45
+  }
+},
+"mockup-3": {
+  "type": "mockup",
+  "settings": {
+    "asset_name": "uv-blank2.png",
+    "label": "Item 3",
+    "width_in": 3,
+    "art_width": 40,
+    "art_left": 50,
+    "art_top": 45
+  }
+},
+"mockup-4": {
+  "type": "mockup",
+  "settings": {
+    "asset_name": "uv-blank3.png",
+    "label": "Item 4",
+    "width_in": 3,
+    "art_width": 40,
+    "art_left": 50,
+    "art_top": 45
+  }
+},
+"mockup-5": {
+  "type": "mockup",
+  "settings": {
+    "asset_name": "uv-blank4.png",
+    "label": "Item 5",
+    "width_in": 3,
+    "art_width": 40,
+    "art_left": 50,
+    "art_top": 45
+  }
+},
         "tier-0": {
           "type": "tier",
           "settings": {
@@ -163,7 +152,6 @@
         "mockup-3",
         "mockup-4",
         "mockup-5",
-        "mockup-6",
         "quick-1",
         "quick-2",
         "quick-3",
