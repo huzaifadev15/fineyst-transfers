@@ -1,0 +1,918 @@
+<style>
+  .upload-dropzone.is-dragging { border-color: var(--brand); background: var(--brand-tint); }
+  .upload-file-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .upload-file-item { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--pdp-line); border-radius: 8px; padding: 8px 12px; font-size: 0.82rem; }
+  .upload-file-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload-file-size { color: var(--pdp-muted); font-size: 0.75rem; }
+  .upload-file-ok { font-size: 0.72rem; font-weight: 700; color: var(--success); margin-left: auto; }
+  .upload-file-err { font-size: 0.72rem; font-weight: 700; color: #C92A2A; margin-left: auto; }
+  .upload-file-progress { font-size: 0.72rem; font-weight: 600; color: var(--pdp-muted); margin-left: auto; }
+  .upload-file-item.is-error { border-color: #F3C6C6; background: #FFF6F6; }
+  .upload-file-remove { border: none; background: none; font-size: 1.1rem; line-height: 1; color: var(--pdp-muted); cursor: pointer; padding: 0 2px; }
+</style>
+
+<style>
+  .btn-checkout { display: block; width: 100%; background: #007AFF; color: #fff; border: none; border-radius: 10px; padding: 18px 24px; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; margin-top: 16px; text-align: center; }
+  .btn-checkout:disabled { background: #b0c8e8; cursor: not-allowed; }
+  .pdp-cashback { display: flex; align-items: center; gap: 6px; font-size: 0.84rem; color: var(--text, #333); margin-top: 12px; flex-wrap: wrap; }
+  .pdp-cashback svg { flex-shrink: 0; color: #1a7f37; }
+  .pdp-cashback strong { color: #1a7f37; }
+  .pdp-cashback-sep { color: var(--pdp-muted, #888); margin: 0 2px; }
+  .pdp-cashback-learn { color: var(--brand-text, #82C341); text-decoration: none; margin-left: 4px; white-space: nowrap; }
+  .pdp-cashback-learn:hover { text-decoration: underline; }
+  .pdp-bnpl { margin-top: 18px; text-align: center; border-top: 1px solid var(--pdp-line, #e8e8e8); padding-top: 16px; }
+  .pdp-bnpl-label { font-size: 0.82rem; color: var(--pdp-muted, #888); margin: 0 0 10px; }
+  .pdp-bnpl-logos { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+  .bnpl-logo { font-size: 0.78rem; font-weight: 700; padding: 5px 10px; border-radius: 6px; white-space: nowrap; line-height: 1; }
+  .bnpl-shoppay { background: #5A31F4; color: #fff; }
+  .bnpl-afterpay { background: #B2FCE4; color: #000; }
+  .bnpl-klarna { background: #FFB3C7; color: #000; }
+  .bnpl-sezzle { background: #392558; color: #fff; }
+  .bnpl-affirm { background: #fff; color: #0FA0CE; border: 1px solid #e0e0e0; }
+  .pdp-bnpl-legal { font-size: 0.65rem; color: var(--pdp-muted, #888); margin: 10px 0 0; line-height: 1.5; }
+  .precut-option { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--pdp-line, #e8e8e8); }
+  .precut-option h4 { font-size: 0.85rem; font-weight: 600; margin: 0 0 8px; }
+  .precut-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; }
+  .precut-label input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--brand, #007AFF); flex-shrink: 0; }
+  .precut-optional { color: var(--pdp-muted, #888); font-size: 0.82rem; font-weight: 400; }
+  .upload-file-progress-msg { font-size: 0.72rem; font-weight: 600; color: var(--brand-text, #82C341); margin-left: auto; }
+  /* Size input steppers */
+  .size-field-inner { position: relative; }
+  .size-field-inner input { width: 100%; padding: 10px 28px 10px 12px; border: 1px solid #D6DAE0; border-radius: 8px; font-family: inherit; font-size: 1rem; color: #1A1A1A; -moz-appearance: textfield; }
+  .size-field-inner input::-webkit-inner-spin-button, .size-field-inner input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  .size-field-inner input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(62,109,142,0.15); }
+  .size-steppers { position: absolute; right: 1px; top: 1px; bottom: 1px; display: flex; flex-direction: column; border-left: 1px solid #D6DAE0; border-radius: 0 7px 7px 0; overflow: hidden; width: 22px; }
+  .size-stepper { flex: 1; display: flex; align-items: center; justify-content: center; border: none; background: #fafafa; cursor: pointer; padding: 0; color: #667085; line-height: 1; }
+  .size-stepper:first-child { border-bottom: 1px solid #D6DAE0; }
+  /* Popular size dropdown */
+  .popular-size-select { width: 100%; padding: 12px 14px; border: 1px solid #D6DAE0; border-radius: 8px; font-family: inherit; font-size: 0.92rem; color: #1A1A1A; background: #fff; cursor: pointer; margin-top: 4px; }
+  .popular-size-select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(62,109,142,0.15); }
+</style>
+
+{%- liquid
+  assign rating = product.metafields.reviews.rating | default: section.settings.rating_value
+  assign rating_count = product.metafields.reviews.rating_count | default: section.settings.rating_count
+-%}
+
+<section class="main-product main-product-dtf-transfer main-product-uv-dtf-transfer pdp">
+  <div class="container pdp-inner">
+
+    <div class="pdp-media">
+      {%- comment -%}
+        The full image list travels on the gallery element so the arrows work
+        even when there is no thumbnail row (single-image products), and so the
+        arrows can be hidden outright when there is nothing to page through.
+      {%- endcomment -%}
+      {%- comment -%}
+        Gallery carries images only. Product videos render below the thumbnails
+        in the promo slot, matching the Ninja layout, rather than sitting in the
+        image carousel.
+      {%- endcomment -%}
+      {%- assign image_count = product.images.size -%}
+      {%- assign custom_gallery_assets = '' | split: '|' -%}
+      {%- assign use_custom_gallery = false -%}
+      {%- assign gallery_image_count = image_count -%}
+
+      <div class="product-gallery" data-gallery>
+        {%- if gallery_image_count > 1 -%}
+          <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+        {%- endif -%}
+
+        <div class="gallery-main" data-gallery-main>
+          {%- if use_custom_gallery -%}
+            {%- for asset in custom_gallery_assets -%}
+              <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
+                <img src="{{ asset | asset_url }}"
+                     alt="DTF transfer image {{ forloop.index }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     sizes="(min-width: 990px) 45vw, 100vw">
+              </div>
+            {%- endfor -%}
+          {%- elsif image_count > 0 -%}
+            {%- for image in product.images -%}
+              <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
+                <img src="{{ image | image_url: width: 1400 }}"
+                     alt="{{ image.alt | escape }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     sizes="(min-width: 990px) 45vw, 100vw">
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="hero-media-placeholder"></div>
+          {%- endif -%}
+        </div>
+
+        {%- if gallery_image_count > 1 -%}
+          <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        {%- endif -%}
+      </div>
+
+      {%- if gallery_image_count > 1 -%}
+        <div class="gallery-thumbs">
+          {%- if use_custom_gallery -%}
+            {%- for asset in custom_gallery_assets -%}
+              <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                      data-gallery-thumb data-index="{{ forloop.index0 }}"
+                      aria-label="View image {{ forloop.index }}">
+                <img src="{{ asset | asset_url }}" alt="" loading="lazy">
+              </button>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for image in product.images -%}
+              <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                      data-gallery-thumb data-index="{{ forloop.index0 }}"
+                      aria-label="View image {{ forloop.index }}">
+                <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
+              </button>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Product videos sit here, under the thumbnails. {%- endcomment -%}
+      {%- assign product_videos = product.media | where: 'media_type', 'video' -%}
+      {%- if product_videos.size > 0 -%}
+        <div class="gallery-videos">
+          {%- for media in product_videos -%}
+            <div class="gallery-video">
+              {{ media | video_tag: image_size: '1200x', controls: true, muted: true, playsinline: true }}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {% if section.settings.feature_video != blank or section.settings.feature_image %}
+        <a class="gallery-feature" href="{{ section.settings.feature_link | default: '#' }}">
+          {% if section.settings.feature_video != blank %}
+            <video autoplay muted loop playsinline preload="metadata"
+                   {% if section.settings.feature_image %}poster="{{ section.settings.feature_image | image_url: width: 900 }}"{% endif %}>
+              <source src="{{ section.settings.feature_video | file_url }}" type="video/mp4">
+            </video>
+          {% else %}
+            {{ section.settings.feature_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'See VIVID AF in action' }}
+          {% endif %}
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="pdp-info">
+      <div class="pdp-title-row">
+        <h1>{{ product.title }}</h1>
+        {% if section.settings.badge_text != blank %}
+          <span class="pdp-flag">{{ section.settings.badge_text }}</span>
+        {% endif %}
+      </div>
+
+      <div class="pdp-meta">
+        <span class="pdp-meta-item pdp-meta-price">
+          <strong>As Low As</strong>
+          {% if section.settings.unit_price != blank %}
+            {{ section.settings.unit_price }}
+          {% else %}
+            {{ product.price | money }}
+          {% endif %}
+        </span>
+        {% if section.settings.fulfillment_note != blank %}
+          <span class="pdp-meta-item">{{ section.settings.fulfillment_note }}</span>
+        {% endif %}
+        {% if rating_count != blank %}
+          <span class="pdp-meta-item pdp-meta-rating">
+            <span class="pdp-stars" aria-hidden="true">★★★★★</span>
+            <a href="#reviews">{{ rating_count }} Reviews</a>
+          </span>
+        {% endif %}
+      </div>
+
+      <ul class="pdp-features">
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3l3 2 3-2 5 3-2 4-2-1v12H8V9L6 10 4 6z"/></svg>
+          <span>Sticks to Glass, Metal, Plastic &amp; Wood</span>
+        </li>
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4"/><path d="M8 6.5h2"/></svg>
+          <span>Waterproof &amp; Scratch Resistant</span>
+          <button type="button" class="pdp-info-dot" aria-label="More about wash testing" data-tip="Independently lab-tested through {{ section.settings.wash_count }} home wash and dry cycles with no cracking or peeling.">i</button>
+        </li>
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M18 16l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>
+          <span>Vibrant Colors &amp; Ultra-fine Details</span>
+        </li>
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>100% Satisfaction Guaranteed</span>
+        </li>
+      </ul>
+
+      <div class="pdp-strip">
+        <a class="pdp-strip-link" href="{{ section.settings.volume_link | default: '#pricing' }}">{{ section.settings.volume_text }}</a>
+        <span class="pdp-strip-item pdp-delivery" data-delivery data-cutoff-hour="{{ section.settings.cutoff_hour }}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.5L12 12.5l8.7-5M12 21.5v-9"/></svg>
+          Fastest Delivery <strong data-delivery-date>—</strong> order in <strong data-delivery-countdown>—</strong>
+        </span>
+        <span class="pdp-strip-item">No Minimum, Setup or Art Fees</span>
+      </div>
+
+      <div class="upload-card">
+        <div class="upload-card-head">
+          <h2>Upload Your Artwork</h2>
+          <div class="upload-tabs">
+            <button type="button" class="upload-tab is-active">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+              Upload
+            </button>
+            <a class="upload-tab" href="/pages/design-library">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M4 17l5-5 4 4 3-2 4 4"/></svg>
+              Previous Designs
+            </a>
+            <a class="upload-tab" href="/pages/ai-tools">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></svg>
+              Create with AI
+            </a>
+            <a class="upload-tab" href="/pages/design-studio">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+              Design Studio
+            </a>
+          </div>
+        </div>
+
+        <div class="upload-card-body">
+          <div class="upload-dropzone" data-upload-dropzone>
+            <span class="upload-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.95 5.5 5.5 0 0 1 10.7-1.6A3.75 3.75 0 0 1 17.5 18"/><path d="M12 21v-8M9 15.5l3-3 3 3"/></svg>
+            </span>
+            <p class="upload-title">Upload your files (up to {{ section.settings.max_files }})</p>
+            <p class="upload-sub">Drag and drop files here or click to browse</p>
+            <input type="file" accept="image/*,.pdf,.ai,.eps,.svg,.psd" multiple hidden data-upload-input>
+            <button type="button" class="btn-blue" data-upload-browse>Browse</button>
+            <ul class="upload-file-list" data-upload-file-list></ul>
+          </div>
+
+          <a class="upload-phone" href="{{ section.settings.phone_upload_link | default: '#' }}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M17 20h4M14 20h1"/></svg>
+            Upload from your phone
+          </a>
+        </div>
+
+        {% if section.settings.show_ai_tools %}
+        <div class="ai-tools-panel">
+          <span class="ai-tools-label">AI Tools</span>
+          <div class="ai-tools-row">
+            <span>Remove Background</span>
+            <button type="button" class="ai-toggle" data-ai-toggle aria-pressed="false" aria-label="Remove background"></button>
+          </div>
+          <div class="ai-tools-row">
+            <span>Upscale Image</span>
+            <button type="button" class="ai-toggle" data-ai-toggle aria-pressed="false" aria-label="Upscale image"></button>
+          </div>
+          <a class="ai-edit-btn" href="/pages/ai-tools">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/></svg>
+            More AI Edit Tools
+          </a>
+        </div>
+        {% endif %}
+      </div>
+
+
+      {%- comment -%} Cross-sell the blanks these transfers press onto. {%- endcomment -%}
+      {% render 'pdp-upsell' %}
+
+      <div class="editor" data-editor data-dpi="{{ section.settings.print_dpi }}" data-max-width="{{ section.settings.max_print_width }}">
+        <div class="editor-grid">
+
+          <aside class="editor-panel size-guide">
+            <div class="size-guide-inner">
+              <h3>{{ section.settings.size_guide_title }}</h3>
+              <p class="size-guide-sub">Hover over any image to enlarge</p>
+              <div class="size-guide-grid" data-preview-stage>
+                {% for block in section.blocks %}
+                  {% if block.type == 'mockup' %}
+                    <figure class="mockup" {{ block.shopify_attributes }} data-mockup data-width-in="{{ block.settings.width_in }}">
+                      <figcaption class="mockup-size" data-mockup-size>{{ block.settings.width_in }}"</figcaption>
+                      <div class="mockup-tile">
+                        {% if block.settings.image %}
+                          <img class="mockup-product" src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.label | escape }}" loading="lazy" crossorigin="anonymous" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}">
+                        {% else %}
+                          <span class="mockup-placeholder">{{ block.settings.label }}</span>
+                        {% endif %}
+                        <img class="mockup-art" data-mockup-art alt="" style="width: {{ block.settings.art_width }}%; left: {{ block.settings.art_left | default: 50 }}%; top: {{ block.settings.art_top }}%;">
+                      </div>
+                    </figure>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <p class="swatch-label">Change your preview items to any color below:</p>
+              <div class="swatches" data-swatches>
+                {% assign swatch_colors = section.settings.swatch_colors | split: ',' %}
+                {% for color in swatch_colors %}
+                  {% assign hex = color | strip %}
+                  <button type="button" class="swatch {% if forloop.first %}is-active{% endif %}" data-swatch data-color="{{ hex }}" style="--swatch: {{ hex }}" aria-label="Preview color {{ hex }}"></button>
+                {% endfor %}
+                <div class="custom-picker" data-custom-picker>
+                  <button type="button" class="swatch swatch--multi" data-custom-toggle aria-label="Choose a custom garment color" aria-expanded="false"></button>
+                  <div class="custom-color-picker" data-color-picker hidden>
+                    <div class="custom-color-plane" data-color-plane tabindex="0" aria-label="Choose color saturation and brightness">
+                      <span class="custom-color-pointer" data-color-pointer></span>
+                    </div>
+                    <input class="custom-color-hue" type="range" min="0" max="359" value="0" data-color-hue aria-label="Choose color hue">
+                    <label class="custom-color-hex">
+                      <span>HEX</span>
+                      <input type="text" value="#ffffff" maxlength="7" data-color-hex aria-label="Custom color hex value">
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <div class="editor-mid">
+          <div class="editor-panel editor-stage">
+            <h2 class="editor-step"><span>Step 1:</span> Customize Your Image</h2>
+
+            <div class="editor-body">
+              <div class="editor-rail">
+                <span class="rail-label">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                  AI Tools
+                </span>
+
+                <div class="rail-tool rail-tool--open" data-rail-tool>
+                  <div class="rail-tool-head">
+                    <span>Remove Background</span>
+                    <button type="button" class="ai-toggle" data-ai-toggle data-controls="bg-options" aria-pressed="true" aria-label="Remove background"></button>
+                  </div>
+                  <div class="rail-options" data-bg-options>
+                    {% for i in (1..3) %}
+                      <button type="button" class="rail-option {% if forloop.first %}is-active{% endif %}" data-rail-option data-index="{{ forloop.index }}">
+                        <span class="rail-option-thumb">
+                          <img data-option-art alt="">
+                          <span class="rail-spinner" aria-hidden="true"></span>
+                        </span>
+                        <span class="rail-option-label">Option {{ forloop.index }}</span>
+                      </button>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="rail-tool">
+                  <div class="rail-tool-head">
+                    <span>Upscale</span>
+                    <button type="button" class="ai-toggle" data-ai-toggle aria-pressed="false" aria-label="Upscale image"></button>
+                  </div>
+                </div>
+
+                <button type="button" class="rail-more" data-rail-more aria-expanded="false">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/></svg>
+                  AI Edit Tools
+                  <svg class="rail-more-caret" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="rail-more-panel" data-rail-more-panel hidden>
+                  <a href="/pages/ai-tools">Recolor artwork</a>
+                  <a href="/pages/ai-tools">Sharpen edges</a>
+                  <a href="/pages/ai-tools">Remove white box</a>
+                  <a href="/pages/design-studio">Open Design Studio</a>
+                </div>
+              </div>
+
+              <div class="editor-canvas-wrap">
+                <div class="canvas-dim canvas-dim--w"><span data-dim-w>—</span></div>
+                <div class="canvas-dim canvas-dim--h"><span data-dim-h>—</span></div>
+                <div class="editor-canvas" data-canvas>
+                  <button type="button" class="canvas-btn canvas-btn--delete" data-canvas-delete aria-label="Remove artwork">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>
+                  </button>
+                  <button type="button" class="canvas-btn canvas-btn--zoom" data-canvas-zoom aria-label="Zoom artwork">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8.5v5M8.5 11h5"/></svg>
+                  </button>
+                  <img class="canvas-art" data-canvas-art alt="Your uploaded artwork">
+                </div>
+              </div>
+            </div>
+
+            <label class="design-notes-toggle">
+              <input type="checkbox" data-notes-toggle>
+              <span>
+                <strong>Need more than AI Edits? Add Design Notes</strong>
+                We'll handle the rest before printing
+              </span>
+            </label>
+            <textarea class="design-notes" data-notes name="properties[Design Notes]" rows="3" placeholder="Tell our art team what to change…" hidden></textarea>
+          </div>
+          </div>
+
+          <aside class="editor-panel discount-card">
+            <h3 class="discount-title">Buy More &amp; Save w/ <span>Cumulative Discounts</span></h3>
+            <p class="discount-sub">{{ section.settings.discount_note }}</p>
+
+            <div class="tier-table" data-tiers data-qty="{{ section.settings.default_qty }}" data-bands="{{ section.settings.price_bands | escape }}">
+              <div class="tier-head">
+                <span>Quantity</span><span>Price</span><span>Qty Discount</span>
+              </div>
+              <button type="button" class="tier-viewall" data-tier-viewall aria-expanded="false">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+                View All
+              </button>
+              <div class="tier-rows" data-tier-rows>
+                {% for block in section.blocks %}
+                  {% if block.type == 'tier' %}
+                    <div class="tier-row" {{ block.shopify_attributes }} data-tier data-min="{{ block.settings.min_qty }}" data-max="{{ block.settings.max_qty }}" data-pct="{{ block.settings.pct }}">
+                      <div class="tier-cells">
+                        <span class="tier-qty">{{ block.settings.min_qty }}{% if block.settings.max_qty > 0 %}-{{ block.settings.max_qty }}{% else %}+{% endif %}</span>
+                        <span class="tier-price"><span data-tier-price>{{ block.settings.price }}</span> <small>ea</small></span>
+                        <span class="tier-discount">{{ block.settings.discount }}</span>
+                      </div>
+                      <p class="tier-hint" data-tier-hint hidden></p>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+
+            {% if section.settings.guarantee_text != blank %}
+              <div class="guarantee">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6 .8-4.4 4.2 1.1 6-5.3-3-5.3 3 1.1-6L3.4 9.4l6-.8z"/></svg>
+                <p><strong>{{ section.settings.guarantee_title }}</strong> <em>{{ section.settings.guarantee_text }}</em></p>
+              </div>
+            {% endif %}
+          </aside>
+
+        </div>
+
+        <div class="editor-panel size-step" data-sizes>
+          <h2 class="editor-step"><span>Step 2:</span> Choose your Transfer Sizes</h2>
+
+          <div class="size-tabs">
+            <button type="button" class="size-tab is-active" data-size-tab="custom">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2" stroke-dasharray="3 2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l4.5-4.5 3.5 3.5 3-2.5 5 4"/></svg>
+              Custom Size
+            </button>
+            <button type="button" class="size-tab" data-size-tab="popular">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l1.5 3.2 3.3.4-2.4 2.2.6 3.2-3-1.6-3 1.6.6-3.2-2.4-2.2 3.3-.4z"/></svg>
+              Popular Size
+            </button>
+          </div>
+
+          <div class="size-panel" data-size-panel="custom">
+            <p class="size-help">Need help with sizing? Choose a <button type="button" class="size-help-link" data-size-tab="popular">Popular Size</button></p>
+
+            <div class="size-head">
+              <span>Width (inches)</span><span>Height (inches)</span><span>Qty</span><span>Price</span><span>Total</span><span></span><span></span>
+            </div>
+            <div class="size-rows" data-size-rows></div>
+
+            <template data-size-template>
+              <div class="size-row" data-size-row>
+                <label class="size-field"><span class="size-field-label">Width (inches)</span>
+                  <div class="size-field-inner">
+                    <input type="number" step="0.25" min="{{ section.settings.min_print_size }}" max="{{ section.settings.max_print_width }}" data-size-w>
+                    <span class="size-steppers">
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="w:up" aria-label="Increase width"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="w:dn" aria-label="Decrease width"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
+                    </span>
+                  </div>
+                </label>
+                <label class="size-field"><span class="size-field-label">Height (inches)</span>
+                  <div class="size-field-inner">
+                    <input type="number" step="0.25" min="{{ section.settings.min_print_size }}" max="{{ section.settings.max_print_width }}" data-size-h>
+                    <span class="size-steppers">
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="h:up" aria-label="Increase height"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="h:dn" aria-label="Decrease height"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
+                    </span>
+                  </div>
+                </label>
+                <label class="size-field size-field--qty"><span class="size-field-label">Qty</span>
+                  <div class="size-field-inner">
+                    <input type="number" step="1" min="1" value="1" data-size-qty>
+                    <span class="size-steppers">
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="q:up" aria-label="Increase qty"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4L4 1 7 4"/></svg></button>
+                      <button type="button" class="size-stepper" tabindex="-1" data-stepper="q:dn" aria-label="Decrease qty"><svg width="7" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L4 4 7 1"/></svg></button>
+                    </span>
+                  </div>
+                </label>
+                <div class="size-cell">
+                  <span class="size-field-label">Price</span>
+                  <s data-size-was></s>
+                  <span class="size-amount"><strong data-size-price>—</strong> <small>ea</small></span>
+                </div>
+                <div class="size-cell">
+                  <span class="size-field-label">Total</span>
+                  <s data-size-total-was></s>
+                  <span class="size-amount"><strong data-size-total>—</strong></span>
+                </div>
+                <span class="size-off" data-size-off></span>
+                <button type="button" class="size-remove" data-size-remove aria-label="Remove this size">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+              </div>
+            </template>
+
+            <button type="button" class="size-add" data-size-add>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              Add another size of this design
+            </button>
+
+            <div class="precut-option">
+              <h4>Want to save time?</h4>
+              <label class="precut-label">
+                <input type="checkbox" name="properties[Pre-cut Transfers]" value="yes">
+                <span>Die-cut my stickers</span>
+                <span class="precut-optional">(optional)</span>
+                <button type="button" class="pdp-info-dot" aria-label="About pre-cut transfers" data-tip="We cut each transfer individually from the sheet so it's ready to press right out of the bag — no trimming needed.">i</button>
+              </label>
+            </div>
+          </div>
+
+          <div class="size-panel" data-size-panel="popular" hidden>
+            <p class="size-help">Select a print area and we'll size it for you.</p>
+            <select class="popular-size-select" data-popular-select aria-label="Popular size">
+              <option value="">Select a popular size</option>
+              <option value="2">2″ × 2″ — Tag Print / Neck Label</option>
+              <option value="3">3″ × 3″ — Small Tag / Sleeve Icon</option>
+              <option value="4">4″ × 2″ — Name Label / Small Chest Text</option>
+              <option value="4">4″ × 4″ — Left-Chest Logo</option>
+              <option value="5">5″ × 3″ — Small Badge Logo</option>
+              <option value="5">5″ × 5″ — Small Chest / Youth Print</option>
+              <option value="6">6″ × 6″ — Standard Left-Chest / Youth</option>
+              <option value="7">7″ × 7″ — Small Front (Adult)</option>
+              <option value="8">8″ × 8″ — Medium Front Print</option>
+              <option value="9">9″ × 9″ — Large Chest / Medium Front</option>
+              <option value="9">9″ × 11″ — Vertical Front / Youth</option>
+              <option value="10">10″ × 10″ — Standard Adult Front</option>
+              <option value="11">11″ × 5″ — Chest Banner / Sleeve</option>
+              <option value="11">11″ × 11″ — Adult Full Front</option>
+              <option value="11">11″ × 14″ — Tall Front / Jersey</option>
+              <option value="12">12″ × 17″ — Oversized Front / Hoodie</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="editor-step editor-checkout-heading"><span>Add Another Design</span> or Checkout</h2>
+
+      {% if section.settings.show_buy_form %}
+      {%- comment -%} Artwork is uploaded to Shopify Files via the app proxy and
+      travels as a URL in properties[Artwork], so this form posts plain fields. {%- endcomment -%}
+      <div class="pdp-form">
+        <span data-artwork-carriers hidden></span>
+        <div class="pdp-buy">
+          <button type="button" class="btn-checkout" data-checkout-btn
+            data-variant-id="gid://shopify/ProductVariant/{{ product.selected_or_first_available_variant.id }}"
+            data-product-title="{{ product.title | escape }}">
+            PROCEED TO CHECKOUT
+          </button>
+        </div>
+      </div>
+
+      <div class="pdp-cashback">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        Earn up to <strong data-cashback-amount>$0.00</strong> on this item
+        <span class="pdp-cashback-sep">|</span>
+        Fineyst Rewards · up to 10% cashback
+        <a class="pdp-cashback-learn" href="/pages/rewards">Learn &rarr;</a>
+      </div>
+
+      <div class="pdp-bnpl">
+        <p class="pdp-bnpl-label">Finance with Buy Now Pay Later options</p>
+        <div class="pdp-bnpl-logos">
+          <span class="bnpl-logo bnpl-shoppay">Shop<span style="font-weight:400">Pay</span></span>
+          <span class="bnpl-logo bnpl-afterpay">afterpay&gt;</span>
+          <span class="bnpl-logo bnpl-klarna">Klarna.</span>
+          <span class="bnpl-logo bnpl-sezzle">Sezzle</span>
+          <span class="bnpl-logo bnpl-affirm">affirm</span>
+        </div>
+        <p class="pdp-bnpl-legal">Monthly financing through Klarna issued by WebBank. Subject to credit approval. Other CA resident loans made or arranged pursuant to a California Financing Law license.</p>
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  var zone = document.querySelector('[data-upload-dropzone]');
+  if (!zone) return;
+
+  var input = zone.querySelector('[data-upload-input]');
+  var browse = zone.querySelector('[data-upload-browse]');
+  var list = zone.querySelector('[data-upload-file-list]');
+  var carriers = document.querySelector('[data-artwork-carriers]');
+  var form = carriers ? carriers.closest('form') : null;
+  var submitBtn = form ? form.querySelector('[type="submit"]') : null;
+
+  var UPLOAD_URL = '/apps/gang-sheet-builder/upload';
+  var maxFiles = {{ section.settings.max_files | default: 5 }};
+  var MAX_BYTES = 20 * 1024 * 1024;
+
+  var funMessages = [
+    'Sharpening the pixels…',
+    'Mixing the inks…',
+    'Checking color accuracy…',
+    'Warming up the printer…',
+    'Reviewing your artwork…',
+    'Optimizing for DTF…',
+    'Counting the colors…',
+    'Prepping the film…',
+    'Adding the vibrance…',
+    'Almost there…'
+  ];
+  var msgTimers = {};
+
+  // entries: { file, name, size, status: 'uploading'|'done'|'error', url, error }
+  var entries = [];
+
+  function humanSize(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1048576) return (n / 1024).toFixed(0) + ' KB';
+    return (n / 1048576).toFixed(1) + ' MB';
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function render() {
+    if (!list) return;
+    // Clear old fun-message timers
+    Object.keys(msgTimers).forEach(function(k) { clearInterval(msgTimers[k]); });
+    msgTimers = {};
+    list.innerHTML = entries.map(function (e, i) {
+      var status = e.status === 'done'
+        ? '<span class="upload-file-ok">Uploaded</span>'
+        : e.status === 'error'
+          ? '<span class="upload-file-err">' + esc(e.error || 'Failed') + '</span>'
+          : '<span class="upload-file-progress-msg" data-fun-msg="' + i + '">Uploading…</span>';
+      return '<li class="upload-file-item' + (e.status === 'error' ? ' is-error' : '') + '">' +
+        '<span class="upload-file-name">' + esc(e.name) + '</span>' +
+        status +
+        '<span class="upload-file-size">' + humanSize(e.size) + '</span>' +
+        '<button type="button" class="upload-file-remove" data-remove="' + i + '" aria-label="Remove file">&times;</button>' +
+      '</li>';
+    }).join('');
+    // Start fun-message cycling for any uploading entries
+    entries.forEach(function(e, i) {
+      if (e.status !== 'uploading') return;
+      var msgIdx = 0;
+      msgTimers[i] = setInterval(function() {
+        var el = list.querySelector('[data-fun-msg="' + i + '"]');
+        if (!el) { clearInterval(msgTimers[i]); return; }
+        msgIdx = (msgIdx + 1) % funMessages.length;
+        el.textContent = funMessages[msgIdx];
+      }, 1800);
+    });
+    syncCarriers();
+    syncSubmit();
+  }
+
+  // Uploaded artwork travels as a line-item property holding the Shopify CDN
+  // URL returned by the app proxy — a stable link for production, rather than
+  // re-posting the bytes through the cart.
+  function syncCarriers() {
+    if (!carriers) return;
+    carriers.innerHTML = '';
+    entries.filter(function (e) { return e.status === 'done' && e.url; })
+      .forEach(function (e, i) {
+        var el = document.createElement('input');
+        el.type = 'hidden';
+        el.name = 'properties[Artwork' + (i === 0 ? '' : ' ' + (i + 1)) + ']';
+        el.value = e.url;
+        carriers.appendChild(el);
+      });
+  }
+
+  // Block checkout while an upload is still in flight, so artwork can't be
+  // dropped from the order by a fast click.
+  function syncSubmit() {
+    if (!submitBtn) return;
+    var pending = entries.some(function (e) { return e.status === 'uploading'; });
+    submitBtn.disabled = pending;
+    submitBtn.dataset.uploadPending = pending ? '1' : '';
+  }
+
+  function uploadEntry(entry) {
+    var body = new FormData();
+    body.append('file', entry.file, entry.name);
+
+    return fetch(UPLOAD_URL, { method: 'POST', body: body })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok || !data.url) {
+            throw new Error(data.error || 'Upload failed (' + res.status + ')');
+          }
+          return data;
+        });
+      })
+      .then(function (data) {
+        entry.status = 'done';
+        entry.url = data.url;
+      })
+      .catch(function (err) {
+        entry.status = 'error';
+        entry.error = err.message;
+      })
+      .then(render);
+  }
+
+  function addFiles(incoming) {
+    var firstImage = null;
+    Array.prototype.forEach.call(incoming, function (f) {
+      if (entries.length >= maxFiles) return;
+      if (f.size > MAX_BYTES) {
+        entries.push({ file: f, name: f.name, size: f.size, status: 'error', error: 'Over 20MB' });
+        return;
+      }
+      var dupe = entries.some(function (x) { return x.name === f.name && x.size === f.size; });
+      if (dupe) return;
+      var entry = { file: f, name: f.name, size: f.size, status: 'uploading' };
+      entries.push(entry);
+      uploadEntry(entry);
+      if (!firstImage && f.type.indexOf('image/') === 0) firstImage = f;
+    });
+    render();
+    if (firstImage) {
+      zone.dispatchEvent(new CustomEvent('dtf:artwork-ready', {
+        bubbles: true,
+        detail: { file: firstImage }
+      }));
+    }
+  }
+
+  if (browse) browse.addEventListener('click', function () { input.click(); });
+  if (input) input.addEventListener('change', function () { addFiles(input.files); input.value = ''; });
+
+  if (list) {
+    list.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-remove]');
+      if (!btn) return;
+      entries.splice(parseInt(btn.dataset.remove, 10), 1);
+      render();
+    });
+  }
+
+  ['dragenter', 'dragover'].forEach(function (evt) {
+    zone.addEventListener(evt, function (e) { e.preventDefault(); zone.classList.add('is-dragging'); });
+  });
+  ['dragleave', 'drop'].forEach(function (evt) {
+    zone.addEventListener(evt, function (e) {
+      e.preventDefault();
+      if (evt === 'dragleave' && zone.contains(e.relatedTarget)) return;
+      zone.classList.remove('is-dragging');
+    });
+  });
+  zone.addEventListener('drop', function (e) {
+    if (e.dataTransfer && e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+  });
+
+  /* ---------- Proceed to checkout: add to cart then redirect ---------- */
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = form.querySelector('[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Adding to cart…'; }
+      var data = new FormData(form);
+      fetch('/cart/add.js', { method: 'POST', body: data })
+        .then(function() { window.location.href = '/checkout'; })
+        .catch(function() { form.submit(); });
+    });
+  }
+
+  /* ---------- Cashback amount: update from dtf:total-updated event ---------- */
+  document.addEventListener('dtf:total-updated', function(e) {
+    var total = (e.detail && e.detail.total) ? parseFloat(e.detail.total) : 0;
+    var cashback = (total * 0.10).toFixed(2);
+    document.querySelectorAll('[data-cashback-amount]').forEach(function(el) {
+      el.textContent = '$' + cashback;
+    });
+  });
+
+  /* ---------- Pick up artwork handed over from a blank product page ---------- */
+  (function claimHandoff() {
+    if (!window.indexedDB) return;
+    var req = indexedDB.open('fineyst-dtf', 1);
+    req.onupgradeneeded = function () {
+      var db = req.result;
+      if (!db.objectStoreNames.contains('files')) db.createObjectStore('files');
+    };
+    req.onsuccess = function () {
+      var db = req.result;
+      if (!db.objectStoreNames.contains('files')) return;
+      var tx = db.transaction('files', 'readwrite');
+      var store = tx.objectStore('files');
+      var get = store.get('pending');
+      get.onsuccess = function () {
+        var rec = get.result;
+        if (!rec || !rec.blob) return;
+        // Keep the record so the gang sheet builder can still ingest it if the
+        // customer continues there; the flag stops a refresh re-adding it here.
+        if (rec.seenOnProduct) return;
+        rec.seenOnProduct = true;
+        store.put(rec, 'pending');
+
+        var file = rec.blob instanceof File
+          ? rec.blob
+          : new File([rec.blob], rec.name || 'artwork', { type: rec.type || '' });
+        addFiles([file]);
+        zone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+    };
+  })();
+})();
+</script>
+
+
+{% schema %}
+{
+  "name": "UV DTF Product",
+  "settings": [
+    { "type": "text", "id": "badge_text", "label": "Title flag", "default": "FREE Upgrade to VIVID AF" },
+    { "type": "text", "id": "unit_price", "label": "\"As low as\" price", "default": "$0.02/sq in" },
+    { "type": "text", "id": "fulfillment_note", "label": "Fulfillment note", "default": "Printed in-house. Ships from us" },
+    { "type": "text", "id": "rating_value", "label": "Fallback rating", "default": "4.9" },
+    { "type": "text", "id": "rating_count", "label": "Fallback review count", "default": "22,837" },
+    { "type": "text", "id": "wash_count", "label": "Certified wash count", "default": "100" },
+    { "type": "text", "id": "volume_text", "label": "Volume discount text", "default": "Buy More & Save Up To 50%" },
+    { "type": "url", "id": "volume_link", "label": "Volume discount link" },
+    { "type": "range", "id": "cutoff_hour", "label": "Same-day cutoff hour (24h)", "min": 0, "max": 23, "step": 1, "default": 17 },
+    { "type": "range", "id": "max_files", "label": "Max files per upload", "min": 1, "max": 50, "step": 1, "default": 25 },
+    { "type": "url", "id": "phone_upload_link", "label": "Phone upload link" },
+    { "type": "text", "id": "quick_title", "label": "Popular sizes title", "default": "Popular Sizes & Prices" },
+    { "type": "text", "id": "quick_sub", "label": "Popular sizes subtitle", "default": "No setup fees · Bulk discounts up to 50% off" },
+    { "type": "checkbox", "id": "show_ai_tools", "label": "Show AI tools panel", "default": false },
+    { "type": "checkbox", "id": "show_buy_form", "label": "Show quantity & add to cart", "default": false },
+
+    { "type": "header", "content": "Gallery feature card" },
+    { "type": "image_picker", "id": "feature_image", "label": "Feature image / video poster" },
+    { "type": "text", "id": "feature_video", "label": "Feature video filename", "info": "MP4 uploaded to Content > Files, e.g. dtf-video-1.mp4" },
+    { "type": "url", "id": "feature_link", "label": "Feature card link" },
+
+    { "type": "header", "content": "Editor (after upload)" },
+    { "type": "text", "id": "size_guide_title", "label": "Size guide title", "default": "Size Guide" },
+    { "type": "text", "id": "swatch_colors", "label": "Preview colors (comma separated)", "default": "#FFFFFF, #1A1A1A, #C7CBD1, #E0332B, #F2A626, #F4E04D, #63C132, #CBE8D2, #1D5FD4" },
+    { "type": "range", "id": "print_dpi", "label": "Artwork DPI", "min": 150, "max": 400, "step": 25, "default": 300 },
+    { "type": "range", "id": "max_print_width", "label": "Max print width (in)", "min": 4, "max": 30, "step": 1, "default": 22 },
+    { "type": "text", "id": "min_print_size", "label": "Min print size (in)", "info": "Decimals allowed, e.g. 0.25", "default": "0.25" },
+    { "type": "text", "id": "discount_note", "label": "Discount note", "default": "We count every DTF Transfer & UV DTF Sticker in your order to ensure you receive the maximum discount per piece." },
+    { "type": "textarea", "id": "price_bands", "label": "Price bands (sq in range : base price)", "info": "Area is rounded up to the next whole square inch, then matched to a band. Tier discounts apply on top.", "default": "1-9:0.37, 10-19:1.09, 20-29:1.90, 30-39:2.28, 40-49:3.33, 50-59:3.96, 60-69:4.28, 70-79:5.43, 80-89:5.81, 90-99:6.34, 100-109:7.39, 110-119:8.12, 120-129:8.65, 130-139:9.17, 140-149:9.70, 150-159:10.01, 160-169:10.26, 170-179:10.79, 180-189:11.31, 190-199:11.84, 200-209:12.36, 210-219:12.89, 220-229:13.41, 230-239:13.94, 240-249:14.46, 250-259:14.99, 260-269:15.51, 270-279:16.04, 280-309:16.56, 310-349:17.09, 350-389:17.61, 390-429:18.14, 430-469:18.66, 470-509:19.19" },
+    { "type": "range", "id": "default_qty", "label": "Assumed starting quantity", "min": 1, "max": 100, "step": 1, "default": 22 },
+    { "type": "text", "id": "guarantee_title", "label": "Guarantee title", "default": "Our Guarantee:" },
+    { "type": "text", "id": "guarantee_text", "label": "Guarantee text", "default": "Perfect Prints · Free Art Review · No Extra Fees!" }
+  ],
+  "blocks": [
+    {
+      "type": "mockup",
+      "name": "Size preview",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Blank product image", "info": "For garment color previews, use a neutral mockup with a transparent background." },
+        { "type": "text", "id": "label", "label": "Product name", "default": "T-Shirt" },
+        { "type": "range", "id": "width_in", "label": "Print width (in)", "min": 1, "max": 22, "step": 0.5, "default": 11 },
+        { "type": "range", "id": "art_width", "label": "Artwork width on preview (%)", "min": 10, "max": 90, "step": 1, "default": 45 },
+        { "type": "range", "id": "art_left", "label": "Artwork horizontal position (%)", "min": 10, "max": 90, "step": 1, "default": 50 },
+        { "type": "range", "id": "art_top", "label": "Artwork top offset (%)", "min": 5, "max": 80, "step": 1, "default": 32 }
+      ]
+    },
+    {
+      "type": "quick_size",
+      "name": "Popular size (pre-upload)",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Size label", "default": "3\" x 3\"" },
+        { "type": "text", "id": "price", "label": "Price each", "default": "$0.18" }
+      ]
+    },
+    {
+      "type": "tier",
+      "name": "Discount tier",
+      "settings": [
+        { "type": "number", "id": "min_qty", "label": "Min quantity", "default": 15 },
+        { "type": "number", "id": "max_qty", "label": "Max quantity (0 = no limit)", "default": 49 },
+        { "type": "number", "id": "pct", "label": "Discount %", "default": 20 },
+        { "type": "text", "id": "price", "label": "Fallback price each (before upload)", "default": "$0.88" },
+        { "type": "text", "id": "discount", "label": "Discount label", "default": "20% off" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DTF Product",
+      "blocks": [
+        { "type": "mockup", "settings": { "label": "T-Shirt", "width_in": 11, "art_width": 45, "art_top": 30 } },
+        { "type": "mockup", "settings": { "label": "Cap", "width_in": 5, "art_width": 34, "art_top": 38 } },
+        { "type": "mockup", "settings": { "label": "Polo", "width_in": 3.5, "art_width": 14, "art_left": 64, "art_top": 30 } },
+        { "type": "mockup", "settings": { "label": "Tote", "width_in": 7, "art_width": 40, "art_top": 36 } },
+        { "type": "mockup", "settings": { "label": "Hoodie", "width_in": 11, "art_width": 45, "art_top": 34 } },
+        { "type": "mockup", "settings": { "label": "Apron", "width_in": 5, "art_width": 30, "art_top": 40 } },
+        { "type": "tier", "settings": { "min_qty": 1, "max_qty": 14, "pct": 0, "price": "$1.09", "discount": "—" } },
+        { "type": "tier", "settings": { "min_qty": 15, "max_qty": 49, "pct": 20, "price": "$0.88", "discount": "20% off" } },
+        { "type": "tier", "settings": { "min_qty": 50, "max_qty": 99, "pct": 30, "price": "$0.77", "discount": "30% off" } },
+        { "type": "tier", "settings": { "min_qty": 100, "max_qty": 249, "pct": 40, "price": "$0.66", "discount": "40% off" } },
+        { "type": "tier", "settings": { "min_qty": 250, "max_qty": 0, "pct": 50, "price": "$0.55", "discount": "50% off" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

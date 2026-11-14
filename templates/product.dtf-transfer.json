@@ -15,6 +15,7 @@
         "mockup-1": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/tshirt_blank_cd5403db-fa39-437c-854f-91ba11be11a9.png",
             "label": "T-Shirt",
             "width_in": 11,
             "art_width": 45,
@@ -25,6 +26,7 @@
         "mockup-2": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/cap_blank.png",
             "label": "Cap",
             "width_in": 5,
             "art_width": 34,
@@ -35,6 +37,7 @@
         "mockup-3": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/polo_black.png",
             "label": "Polo",
             "width_in": 3.5,
             "art_width": 14,
@@ -45,6 +48,7 @@
         "mockup-4": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/teto_blank.png",
             "label": "Tote",
             "width_in": 7,
             "art_width": 40,
@@ -55,6 +59,7 @@
         "mockup-5": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/hodie_blank.png",
             "label": "Hoodie",
             "width_in": 11,
             "art_width": 45,
@@ -65,6 +70,7 @@
         "mockup-6": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/apron_blank.png",
             "label": "Apron",
             "width_in": 5,
             "art_width": 30,
