@@ -12,24 +12,24 @@
     "main": {
       "type": "main-product-uv-dtf-transfer",
       "blocks": {
-        "mockup-1": {
+       "mockup-1": {
   "type": "mockup",
   "settings": {
     "asset_name": "uv-blank.png",
-    "label": "Item 1",
-    "width_in": 3,
-    "art_width": 40,
+    "label": "Cooler",
+    "width_in": 7.5,
+    "art_width": 45,
     "art_left": 50,
-    "art_top": 45
+    "art_top": 38
   }
 },
 "mockup-2": {
   "type": "mockup",
   "settings": {
     "asset_name": "uv-blank1.png",
-    "label": "Item 2",
-    "width_in": 3,
-    "art_width": 40,
+    "label": "Glass",
+    "width_in": 2.5,
+    "art_width": 30,
     "art_left": 50,
     "art_top": 45
   }
@@ -38,33 +38,33 @@
   "type": "mockup",
   "settings": {
     "asset_name": "uv-blank2.png",
-    "label": "Item 3",
+    "label": "Mug",
     "width_in": 3,
-    "art_width": 40,
-    "art_left": 50,
-    "art_top": 45
+    "art_width": 32,
+    "art_left": 42,
+    "art_top": 42
   }
 },
 "mockup-4": {
   "type": "mockup",
   "settings": {
     "asset_name": "uv-blank3.png",
-    "label": "Item 4",
+    "label": "Bottle",
     "width_in": 3,
-    "art_width": 40,
+    "art_width": 26,
     "art_left": 50,
-    "art_top": 45
+    "art_top": 50
   }
 },
 "mockup-5": {
   "type": "mockup",
   "settings": {
     "asset_name": "uv-blank4.png",
-    "label": "Item 5",
-    "width_in": 3,
+    "label": "Van",
+    "width_in": 11,
     "art_width": 40,
     "art_left": 50,
-    "art_top": 45
+    "art_top": 38
   }
 },
         "tier-0": {
