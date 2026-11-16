@@ -15,45 +15,44 @@
         "mockup-1": {
           "type": "mockup",
           "settings": {
-            "image": "shopify://shop_images/500_x_615_T-shirt_blank_5e9c57be-8799-4bce-a597-7bf30a452bf2.png",
+            "image": null,
+            "image_asset": "500 x 615 T-shirt blank.png",
             "label": "T-Shirt",
             "width_in": 11,
             "art_width": 45,
-            "art_left": 50,
-            "art_top": 30
+            "art_top": 50
           }
         },
         "mockup-2": {
           "type": "mockup",
           "settings": {
-            "image": "shopify://shop_images/500_x_615_cap_blank.png",
+            "image": "shopify://shop_images/cap_blank.png",
             "label": "Cap",
             "width_in": 5,
-            "art_width": 34,
+            "art_width": 20,
             "art_left": 50,
-            "art_top": 38
+            "art_top": 40
           }
         },
         "mockup-3": {
           "type": "mockup",
           "settings": {
-            "image": "shopify://shop_images/500_x_615_polo_blank.png",
+            "image": "shopify://shop_images/polo_black.png",
             "label": "Polo",
             "width_in": 3.5,
-            "art_width": 22,
-            "art_left": 50,
+            "art_width": 14,
+            "art_left": 64,
             "art_top": 30
           }
         },
         "mockup-4": {
           "type": "mockup",
           "settings": {
-            "image": "shopify://shop_images/500x615tetoblank.png",
+            "image": "shopify://shop_images/teto_blank.png",
             "label": "Tote",
             "width_in": 7,
             "art_width": 40,
-            "art_left": 50,
-            "art_top": 36
+            "art_top": 70
           }
         },
         "mockup-5": {
@@ -62,20 +61,19 @@
             "image": "shopify://shop_images/hodie_blank.png",
             "label": "Hoodie",
             "width_in": 11,
-            "art_width": 45,
+            "art_width": 35,
             "art_left": 50,
-            "art_top": 34
+            "art_top": 50
           }
         },
         "mockup-6": {
           "type": "mockup",
           "settings": {
-            "image": "shopify://shop_images/500_x_615apron_blank.png",
+            "image": "shopify://shop_images/apron_blank.png",
             "label": "Apron",
             "width_in": 5,
             "art_width": 30,
-            "art_left": 50,
-            "art_top": 40
+            "art_top": 50
           }
         },
         "quick-1": {
