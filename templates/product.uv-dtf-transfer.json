@@ -20,7 +20,7 @@
     "width_in": 7.5,
     "art_width": 45,
     "art_left": 50,
-    "art_top": 38
+    "art_top": 55
   }
 },
 "mockup-2": {
@@ -29,7 +29,7 @@
     "asset_name": "uv-blank1.png",
     "label": "Glass",
     "width_in": 2.5,
-    "art_width": 30,
+    "art_width": 35,
     "art_left": 50,
     "art_top": 45
   }
@@ -42,29 +42,40 @@
     "width_in": 3,
     "art_width": 32,
     "art_left": 42,
-    "art_top": 42
+    "art_top": 50
   }
 },
 "mockup-4": {
   "type": "mockup",
   "settings": {
-    "asset_name": "uv-blank3.png",
+    "asset_name": "500x615bottle.png",
     "label": "Bottle",
     "width_in": 3,
-    "art_width": 26,
+    "art_width": 30,
     "art_left": 50,
-    "art_top": 50
+    "art_top": 30
   }
 },
 "mockup-5": {
   "type": "mockup",
   "settings": {
-    "asset_name": "uv-blank4.png",
+    "asset_name": "500x615-phone.png",
     "label": "Van",
     "width_in": 11,
     "art_width": 40,
     "art_left": 50,
-    "art_top": 38
+    "art_top": 50
+  }
+},
+  "mockup-6": {
+  "type": "mockup",
+  "settings": {
+    "asset_name": "500x615-ambulance.png",
+    "label": "Van",
+    "width_in": 11,
+    "art_width": 25,
+    "art_left": 35,
+    "art_top": 65
   }
 },
         "tier-0": {
@@ -152,6 +163,7 @@
         "mockup-3",
         "mockup-4",
         "mockup-5",
+        "mockup-6",
         "quick-1",
         "quick-2",
         "quick-3",
@@ -521,7 +533,8 @@
         "r2",
         "r3",
         "r4",
-        "r5"
+        "r5",
+         "r6"
       ],
       "settings": {}
     },
@@ -579,7 +592,8 @@
         "q2",
         "q3",
         "q4",
-        "q5"
+        "q5",
+        "q6"
       ],
       "settings": {}
     },
