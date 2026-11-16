@@ -344,23 +344,12 @@
             <h2 class="editor-step"><span>Step 1:</span> Customize Your Image</h2>
 
             <div class="editor-body">
-              <div class="editor-rail">
-                <span class="rail-label">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-                  AI Tools
-                </span>
+              <div class="editor-rail edit-tools">
+                <span class="rail-label">Fineyst Edit Tools</span>
 
-                <div class="rail-tool">
-                  <div class="rail-tool-head">
-                    <span>Upscale</span>
-                    <button type="button" class="ai-toggle" data-ai-toggle aria-pressed="false" aria-label="Upscale image"></button>
-                  </div>
-                </div>
-
-                <button type="button" class="rail-more" data-rail-more aria-expanded="false">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/></svg>
-                  AI Edit Tools
-                  <svg class="rail-more-caret" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                <button type="button" class="et-row" data-rail-more aria-expanded="false">
+                  <span class="et-ic et-ic--ai"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/></svg></span>
+                  Edit with AI
                 </button>
                 <div class="rail-more-panel" data-rail-more-panel hidden>
                   <a href="/pages/ai-tools">Recolor artwork</a>
@@ -368,6 +357,39 @@
                   <a href="/pages/ai-tools">Remove white box</a>
                   <a href="/pages/design-studio">Open Design Studio</a>
                 </div>
+
+                <button type="button" class="et-row" data-edit-tool="swap">
+                  <span class="et-ic et-ic--swap"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-1-.9-1.4-.9-2.4 0-.9.7-1.6 1.7-1.6H17a4 4 0 0 0 4-4C21 7 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10.5" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></svg></span>
+                  Swap Colors
+                </button>
+
+                <button type="button" class="et-row" data-edit-tool="text">
+                  <span class="et-ic et-ic--text"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></svg></span>
+                  Add Text
+                </button>
+
+                <div class="rail-tool">
+                  <div class="rail-tool-head">
+                    <span class="et-ic et-ic--up"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+                    <span class="et-label">Upscale</span>
+                    <button type="button" class="ai-toggle" data-ai-toggle aria-pressed="false" aria-label="Upscale image"></button>
+                  </div>
+                </div>
+
+                <button type="button" class="et-row" data-edit-tool="crop">
+                  <span class="et-ic et-ic--crop"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14M2 6h14a2 2 0 0 1 2 2v14"/></svg></span>
+                  Crop
+                </button>
+
+                <button type="button" class="et-row" data-edit-tool="erase">
+                  <span class="et-ic et-ic--erase"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H9L4 15a2 2 0 0 1 0-2.8L12 4a2 2 0 0 1 2.8 0l5.2 5.2a2 2 0 0 1 0 2.8L13 19"/></svg></span>
+                  Eraser
+                </button>
+
+                <button type="button" class="et-row" data-edit-tool="filters">
+                  <span class="et-ic et-ic--filt"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="5"/><circle cx="15" cy="9" r="5"/><circle cx="12" cy="15" r="5"/></svg></span>
+                  Filters
+                </button>
               </div>
 
               <div class="editor-canvas-wrap">
@@ -603,6 +625,7 @@
   </div>
 </section>
 
+<script src="{{ 'design-tools.js' | asset_url }}" defer></script>
 <script>
 (function () {
   var zone = document.querySelector('[data-upload-dropzone]');
@@ -753,6 +776,15 @@
       }));
     }
   }
+
+  // Edited artwork (Swap Colors / Text / Crop / Eraser / Filters) replaces the original upload
+  document.addEventListener('dtf:artwork-edited', function (e) {
+    var f = e.detail && e.detail.file;
+    if (!f) return;
+    var idx = entries.findIndex(function (x) { return x.file && x.file.type.indexOf('image/') === 0; });
+    if (idx > -1) entries.splice(idx, 1);
+    addFiles([f]);
+  });
 
   if (browse) browse.addEventListener('click', function () { input.click(); });
   if (input) input.addEventListener('change', function () { addFiles(input.files); input.value = ''; });
