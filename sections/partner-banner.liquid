@@ -4,7 +4,7 @@
   "Official Partner" strip.
 {%- endcomment -%}
 
-<section class="partner-banner"{% if section.settings.static_bg != blank %} style="background-image: linear-gradient(rgba(4,20,44,0.86), rgba(4,20,44,0.86)), url('{{ section.settings.static_bg | strip | asset_url }}');"{% endif %}>
+<section class="partner-banner"{% if section.settings.static_bg != blank %} style="background-image: linear-gradient(rgba(6,40,27,0.86), rgba(6,40,27,0.86)), url('{{ section.settings.static_bg | strip | asset_url }}');"{% endif %}>
   <div class="partner-banner-inner">
     {%- if section.settings.logo != blank -%}
       <img class="partner-banner-logo" src="{{ section.settings.logo | image_url: width: 160 }}" alt="{{ section.settings.text | escape }}" loading="lazy" width="72" height="72">

@@ -6,7 +6,7 @@
     --nt-price:   #16A34A;   /* headline price, matches the collection cards */
     --nt-save:    var(--danger, #DB073A);  /* save badge */
     --nt-blue:    var(--brand, #B6F000);   /* add to cart */
-    --nt-navy:    var(--brand-dark, #2A4E66); /* per-size and volume prices */
+    --nt-navy:    var(--brand-dark, #0B3D2E); /* per-size and volume prices */
     --nt-green:   #1A7A3C;   /* recommended "starting at" prices */
     --nt-ink:     #2B2B2B;
     --nt-muted:   #5A5B60;
@@ -17,10 +17,10 @@
   .main-product-tshirts.pdp { padding: 0 0 60px; }
 
   .pdp-topstrip { margin: 12px 0 26px; }
-  .pdp-topstrip-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 0; max-width: 1100px; margin: 0 auto; padding: 11px 24px; background: var(--brand-tint, #EAF4FB); border-left: 3px solid var(--brand); border-right: 3px solid var(--brand); border-radius: 8px; }
-  .pdp-topstrip-item { font-size: 0.78rem; font-weight: 600; color: var(--brand-dark, #2A4E66); display: inline-flex; align-items: center; gap: 6px; padding: 0 18px; }
-  .pdp-topstrip-item + .pdp-topstrip-item { border-left: 1px solid rgba(42,78,102,0.22); }
-  .pdp-topstrip-item--accent { font-weight: 800; color: #1A2E3C; }
+  .pdp-topstrip-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 0; max-width: 1100px; margin: 0 auto; padding: 11px 24px; background: var(--brand-tint, #E8F5E9); border-left: 3px solid var(--brand); border-right: 3px solid var(--brand); border-radius: 8px; }
+  .pdp-topstrip-item { font-size: 0.78rem; font-weight: 600; color: var(--brand-dark, #0B3D2E); display: inline-flex; align-items: center; gap: 6px; padding: 0 18px; }
+  .pdp-topstrip-item + .pdp-topstrip-item { border-left: 1px solid rgba(11,61,46,0.22); }
+  .pdp-topstrip-item--accent { font-weight: 800; color: #104241; }
 
   .pdp-inner { display: grid; grid-template-columns: 1fr 1.15fr; gap: 44px; align-items: start; }
 
@@ -67,8 +67,8 @@
   .pdp-color-menu[hidden] { display: none; }
   .pdp-color-opt { display: flex; align-items: center; gap: 14px; width: 100%; padding: 9px 10px; background: none; border: 0; border-radius: 8px; font: inherit; font-size: 0.85rem; font-weight: 600; color: #1F2937; text-align: left; cursor: pointer; }
   .pdp-color-opt + .pdp-color-opt { border-top: 1px solid #F1F2F4; }
-  .pdp-color-opt:focus-visible { background: var(--brand-tint, #EAF4FB); }
-  .pdp-color-opt.is-active { background: var(--brand-tint, #EAF4FB); }
+  .pdp-color-opt:focus-visible { background: var(--brand-tint, #E8F5E9); }
+  .pdp-color-opt.is-active { background: var(--brand-tint, #E8F5E9); }
   .pdp-color-opt-chip { flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.14); }
   .pdp-color-current-chip { width: 15px; height: 15px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.18); display: inline-block; }
   .pdp-color-caret { color: #6B7280; flex-shrink: 0; }
@@ -129,14 +129,14 @@
   .pdp-mid:not(:has(.pdp-volume)) .pdp-dtf { width: 100%; max-width: 760px; margin: 0 auto; }
   .pdp-dtf-hd { font-size: 1.15rem; font-weight: 800; margin: 0 0 6px; }
   .pdp-dtf-sub { font-size: 0.85rem; color: #6B7280; margin: 0 0 18px; }
-  .pdp-dtf-panel { width: 100%; box-sizing: border-box; position: relative; display: flex; align-items: center; gap: 16px; text-align: left; background: #EFF8FF; border: 2px dashed #7DD3FC; border-radius: 10px; padding: 22px; overflow: hidden; }
+  .pdp-dtf-panel { width: 100%; box-sizing: border-box; position: relative; display: flex; align-items: center; gap: 16px; text-align: left; background: #E8F5E9; border: 2px dashed #12A150; border-radius: 10px; padding: 22px; overflow: hidden; }
   .pdp-dtf-icon { flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%; background: #fff; color: var(--nt-blue); display: flex; align-items: center; justify-content: center; }
   .pdp-dtf-title { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
   .pdp-dtf-body p { font-size: 0.8rem; color: #4B5563; margin: 0 0 12px; max-width: 34ch; }
   .pdp-dtf-btn { display: inline-block; background: var(--nt-blue); color: #104241; font-size: 0.85rem; font-weight: 700; padding: 10px 18px; border-radius: 7px; border: none; cursor: pointer; }
-  .pdp-dtf-panel.is-dragging { background: #DCF0FF; border-color: var(--nt-blue); }
+  .pdp-dtf-panel.is-dragging { background: #DCFCE7; border-color: var(--nt-blue); }
   .pdp-dtf-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-  .pdp-dtf-chip { font-size: 0.66rem; font-weight: 700; color: #0369A1; background: #fff; border: 1px solid #BAE6FD; border-radius: 4px; padding: 3px 7px; }
+  .pdp-dtf-chip { font-size: 0.66rem; font-weight: 700; color: #0B3D2E; background: #fff; border: 1px solid #CDEBD7; border-radius: 4px; padding: 3px 7px; }
   .pdp-dtf-img { width: 45%; max-width: 320px; margin-left: auto; border-radius: 8px; }
 
   /* ---- description + accordions ---- */
@@ -190,7 +190,7 @@
   .pdp-rec-lbl { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #9CA3AF; }
   .pdp-rec-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .pdp-rec-price { font-size: 15px; font-weight: 700; color: var(--nt-green); }
-  .pdp-rec-vendor { font-size: 0.75rem; font-weight: 700; color: #1E3A8A; }
+  .pdp-rec-vendor { font-size: 0.75rem; font-weight: 700; color: #0B3D2E; }
   .pdp-rec-title { font-size: 0.78rem; font-weight: 500; color: #374151; line-height: 1.35; margin-top: 6px; }
 
   @media (max-width: 900px) {
