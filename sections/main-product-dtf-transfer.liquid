@@ -753,7 +753,7 @@
       .then(render);
   }
 
-  function addFiles(incoming) {
+  function addFiles(incoming, silent) {
     var firstImage = null;
     Array.prototype.forEach.call(incoming, function (f) {
       if (entries.length >= maxFiles) return;
@@ -769,7 +769,7 @@
       if (!firstImage && f.type.indexOf('image/') === 0) firstImage = f;
     });
     render();
-    if (firstImage) {
+    if (firstImage && !silent) {
       zone.dispatchEvent(new CustomEvent('dtf:artwork-ready', {
         bubbles: true,
         detail: { file: firstImage }
@@ -784,6 +784,14 @@
     var idx = entries.findIndex(function (x) { return x.file && x.file.type.indexOf('image/') === 0; });
     if (idx > -1) entries.splice(idx, 1);
     addFiles([f]);
+  });
+
+  document.addEventListener('dtf:artwork-replace', function (e) {
+    var f = e.detail && e.detail.file;
+    if (!f) return;
+    var idx = entries.findIndex(function (x) { return x.file && x.file.type.indexOf('image/') === 0; });
+    if (idx > -1) entries.splice(idx, 1);
+    addFiles([f], true);
   });
 
   if (browse) browse.addEventListener('click', function () { input.click(); });

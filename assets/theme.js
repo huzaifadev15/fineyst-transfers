@@ -137,7 +137,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var input = dropzone.querySelector('[data-upload-input]');
     var artworkUrl = null;
+    var originalArtworkFile = null;
+    var optionFiles = [];
+    var optionUrls = [];
+    var activeOptionIndex = 0;
+    var backgroundRunId = 0;
+    var backgroundReplacementTimer = null;
+    var backgroundRemovalModulePromise = null;
+    var backgroundModelLoaded = false;
+    var backgroundRemovalCache = new Map();
+    var backgroundRemovalRequests = new Map();
+    var backgroundToggle = editor && (
+      editor.querySelector('[data-controls="bg-options"]') ||
+      pdp.querySelector('[data-ai-toggle][aria-label="Remove background"]')
+    );
+    var backgroundMessage = null;
     var artRatio = 1;
+
+    if (backgroundToggle) {
+      backgroundMessage = pdp.querySelector('.bg-msg');
+      if (!backgroundMessage) {
+        backgroundMessage = document.createElement('span');
+        backgroundMessage.className = 'bg-msg';
+        backgroundMessage.setAttribute('role', 'status');
+        backgroundMessage.setAttribute('aria-live', 'polite');
+        var messageAnchor = backgroundToggle.closest('.rail-tool-head') ||
+          backgroundToggle.closest('.ai-tools-row') ||
+          backgroundToggle.parentElement;
+        if (messageAnchor && messageAnchor.parentNode) {
+          messageAnchor.parentNode.insertBefore(backgroundMessage, messageAnchor.nextSibling);
+        }
+      }
+    }
 
     function formatInches(value) {
       return parseFloat(value.toFixed(2)) + '"';
@@ -214,39 +245,360 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
+    function isBackgroundEnabled() {
+      return !!backgroundToggle && backgroundToggle.getAttribute('aria-pressed') === 'true';
+    }
+
+    function setBackgroundMessage(message, isError) {
+      if (!backgroundMessage) return;
+      backgroundMessage.textContent = message || '';
+      backgroundMessage.classList.toggle('is-error', !!isError);
+    }
+
+    function setSpinnerProgress(current, total) {
+      var progress = total > 0 && isFinite(current)
+        ? Math.round(current / total * 100) + '%'
+        : '';
+      editor.querySelectorAll('[data-rail-option]').forEach(function (option, index) {
+        var spinner = option.querySelector('.rail-spinner');
+        if (!spinner) return;
+        if (index === activeOptionIndex && progress) spinner.setAttribute('data-progress', progress);
+        else spinner.removeAttribute('data-progress');
+      });
+    }
+
+    function fileKey(file) {
+      return JSON.stringify([file.name, file.size, file.lastModified]);
+    }
+
+    function loadImage(blob) {
+      return new Promise(function (resolve, reject) {
+        var url = URL.createObjectURL(blob);
+        var image = new Image();
+        image.onload = function () {
+          URL.revokeObjectURL(url);
+          resolve(image);
+        };
+        image.onerror = function () {
+          URL.revokeObjectURL(url);
+          reject(new Error('Unable to read the artwork image.'));
+        };
+        image.src = url;
+      });
+    }
+
+    function canvasToPng(canvas) {
+      return new Promise(function (resolve, reject) {
+        canvas.toBlob(function (blob) {
+          if (blob) resolve(blob);
+          else reject(new Error('Unable to create a PNG image.'));
+        }, 'image/png');
+      });
+    }
+
+    function loadBackgroundRemoval() {
+      if (!backgroundRemovalModulePromise) {
+        backgroundRemovalModulePromise = import(
+          'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm'
+        ).then(function (module) {
+          var removeBackground = module.default || module.removeBackground;
+          if (typeof removeBackground !== 'function') {
+            throw new Error('The background-removal library did not load correctly.');
+          }
+          return removeBackground;
+        }).catch(function (error) {
+          backgroundRemovalModulePromise = null;
+          throw error;
+        });
+      }
+      return backgroundRemovalModulePromise;
+    }
+
+    async function removeBg(file) {
+      var sourceKey = fileKey(file);
+      var originalImage = await loadImage(file);
+      var originalWidth = originalImage.naturalWidth;
+      var originalHeight = originalImage.naturalHeight;
+      if (!originalWidth || !originalHeight) throw new Error('The artwork has invalid image dimensions.');
+
+      var scale = Math.min(1, 2000 / Math.max(originalWidth, originalHeight));
+      var inputWidth = Math.max(1, Math.round(originalWidth * scale));
+      var inputHeight = Math.max(1, Math.round(originalHeight * scale));
+      var inputCanvas = document.createElement('canvas');
+      inputCanvas.width = inputWidth;
+      inputCanvas.height = inputHeight;
+      var inputContext = inputCanvas.getContext('2d');
+      if (!inputContext) throw new Error('Canvas is unavailable for background removal.');
+      inputContext.drawImage(originalImage, 0, 0, inputWidth, inputHeight);
+      var inputBlob = await canvasToPng(inputCanvas);
+
+      if (!backgroundModelLoaded) {
+        setBackgroundMessage('Downloading AI model, first time only…');
+      }
+      var removeBackground = await loadBackgroundRemoval();
+      var maskBlob = await removeBackground(inputBlob, {
+        model: 'isnet_fp16',
+        output: { format: 'image/png' },
+        progress: function (key, current, total) {
+          if (!originalArtworkFile || fileKey(originalArtworkFile) !== sourceKey || !isBackgroundEnabled()) return;
+          var message = backgroundModelLoaded
+            ? 'Removing background…'
+            : 'Downloading AI model, first time only…';
+          if (total > 0 && isFinite(current)) {
+            message += ' ' + Math.round(current / total * 100) + '%';
+          }
+          setSpinnerProgress(current, total);
+          setBackgroundMessage(message);
+        }
+      });
+      backgroundModelLoaded = true;
+
+      var maskImage = await loadImage(maskBlob);
+      var outputCanvas = document.createElement('canvas');
+      outputCanvas.width = originalWidth;
+      outputCanvas.height = originalHeight;
+      var outputContext = outputCanvas.getContext('2d', { willReadFrequently: true });
+      if (!outputContext) throw new Error('Canvas is unavailable for applying the background mask.');
+      outputContext.drawImage(originalImage, 0, 0);
+      outputContext.globalCompositeOperation = 'destination-in';
+      outputContext.drawImage(maskImage, 0, 0, originalWidth, originalHeight);
+      outputContext.globalCompositeOperation = 'source-over';
+
+      var imageData = outputContext.getImageData(0, 0, originalWidth, originalHeight);
+      var originalAlpha = new Uint8Array(originalWidth * originalHeight);
+      for (var pixel = 0; pixel < originalAlpha.length; pixel++) {
+        originalAlpha[pixel] = imageData.data[pixel * 4 + 3];
+      }
+
+      var baseName = (file.name || 'artwork').replace(/\.[^.]+$/, '');
+      var optionOne = new File([await canvasToPng(outputCanvas)], baseName + '-background-removed.png', {
+        type: 'image/png'
+      });
+
+      for (var y = 0; y < originalHeight; y++) {
+        for (var x = 0; x < originalWidth; x++) {
+          var offset = y * originalWidth + x;
+          var keep = originalAlpha[offset] > 128;
+          if (keep) {
+            for (var dy = -1; dy <= 1 && keep; dy++) {
+              for (var dx = -1; dx <= 1; dx++) {
+                var neighborX = x + dx;
+                var neighborY = y + dy;
+                if (
+                  neighborX < 0 || neighborX >= originalWidth ||
+                  neighborY < 0 || neighborY >= originalHeight ||
+                  originalAlpha[neighborY * originalWidth + neighborX] <= 128
+                ) {
+                  keep = false;
+                  break;
+                }
+              }
+            }
+          }
+          imageData.data[offset * 4 + 3] = keep ? 255 : 0;
+        }
+      }
+      outputContext.putImageData(imageData, 0, 0);
+      var optionTwo = new File([await canvasToPng(outputCanvas)], baseName + '-sharper-edges.png', {
+        type: 'image/png'
+      });
+
+      for (var alphaIndex = 0; alphaIndex < originalAlpha.length; alphaIndex++) {
+        imageData.data[alphaIndex * 4 + 3] = Math.min(255, Math.round(originalAlpha[alphaIndex] * 1.4));
+      }
+      outputContext.putImageData(imageData, 0, 0);
+      var optionThree = new File([await canvasToPng(outputCanvas)], baseName + '-more-detail.png', {
+        type: 'image/png'
+      });
+
+      inputCanvas.width = 0;
+      inputCanvas.height = 0;
+      outputCanvas.width = 0;
+      outputCanvas.height = 0;
+      return [optionOne, optionTwo, optionThree];
+    }
+
+    function getBackgroundVariants(file) {
+      var key = fileKey(file);
+      if (backgroundRemovalCache.has(key)) return Promise.resolve(backgroundRemovalCache.get(key));
+      if (backgroundRemovalRequests.has(key)) return backgroundRemovalRequests.get(key);
+
+      var request = removeBg(file).then(function (variants) {
+        backgroundRemovalCache.set(key, variants);
+        backgroundRemovalRequests.delete(key);
+        return variants;
+      }, function (error) {
+        backgroundRemovalRequests.delete(key);
+        throw error;
+      });
+      backgroundRemovalRequests.set(key, request);
+      return request;
+    }
+
+    function clearOptionUrls() {
+      optionUrls.forEach(function (url) { URL.revokeObjectURL(url); });
+      optionUrls = [];
+    }
+
+    function setOptionFiles(files) {
+      clearOptionUrls();
+      optionFiles = files;
+      optionUrls = files.map(function (file) { return URL.createObjectURL(file); });
+      editor.querySelectorAll('[data-option-art]').forEach(function (image, index) {
+        image.src = optionUrls[index] || artworkUrl;
+      });
+    }
+
+    function setOriginalOptionFiles(file) {
+      clearOptionUrls();
+      optionFiles = [file, file, file];
+      editor.querySelectorAll('[data-option-art]').forEach(function (image) {
+        image.src = artworkUrl;
+      });
+    }
+
+    function setOptionLoading(isLoading) {
+      editor.querySelectorAll('[data-rail-option]').forEach(function (option) {
+        option.classList.toggle('is-loading', isLoading);
+        option.disabled = isLoading;
+        if (!isLoading) {
+          var spinner = option.querySelector('.rail-spinner');
+          if (spinner) spinner.removeAttribute('data-progress');
+        }
+      });
+    }
+
+    function showArtwork(url) {
+      editor.querySelectorAll('[data-canvas-art], [data-mockup-art]').forEach(function (image) {
+        image.src = url;
+      });
+    }
+
+    function setActiveOption(index) {
+      editor.querySelectorAll('[data-rail-option]').forEach(function (option, optionIndex) {
+        option.classList.toggle('is-active', optionIndex === index);
+      });
+    }
+
+    function cancelBackgroundReplacement() {
+      if (backgroundReplacementTimer) clearTimeout(backgroundReplacementTimer);
+      backgroundReplacementTimer = null;
+    }
+
+    function replaceUploadedArtwork(file) {
+      cancelBackgroundReplacement();
+      backgroundReplacementTimer = setTimeout(function () {
+        backgroundReplacementTimer = null;
+        document.dispatchEvent(new CustomEvent('dtf:artwork-replace', {
+          detail: { file: file }
+        }));
+      }, 300);
+    }
+
+    function selectOption(index, shouldReplace) {
+      if (!optionFiles[index]) return;
+      activeOptionIndex = index;
+      setActiveOption(index);
+      showArtwork(optionUrls[index] || artworkUrl);
+      if (shouldReplace) replaceUploadedArtwork(optionFiles[index]);
+    }
+
+    function showOriginal(shouldReplace) {
+      setActiveOption(-1);
+      showArtwork(artworkUrl);
+      if (shouldReplace && originalArtworkFile) replaceUploadedArtwork(originalArtworkFile);
+    }
+
+    function startBackgroundRemoval(resetSelection) {
+      if (!originalArtworkFile || !isBackgroundEnabled()) return;
+      var file = originalArtworkFile;
+      var runId = ++backgroundRunId;
+      if (resetSelection) activeOptionIndex = 0;
+      setOptionLoading(true);
+      setBackgroundMessage(backgroundModelLoaded
+        ? 'Removing background…'
+        : 'Downloading AI model, first time only…');
+
+      getBackgroundVariants(file).then(function (variants) {
+        if (runId !== backgroundRunId || file !== originalArtworkFile || !isBackgroundEnabled()) return;
+        setOptionFiles(variants);
+        setOptionLoading(false);
+        setBackgroundMessage('');
+        selectOption(Math.min(activeOptionIndex, variants.length - 1), true);
+      }).catch(function (error) {
+        if (runId !== backgroundRunId || file !== originalArtworkFile || !isBackgroundEnabled()) return;
+        setOriginalOptionFiles(file);
+        activeOptionIndex = 0;
+        setActiveOption(0);
+        setOptionLoading(false);
+        showArtwork(artworkUrl);
+        setBackgroundMessage('Background removal failed. Showing the original artwork.', true);
+        console.error('Background removal failed.', error);
+      });
+    }
+
+    function handleBackgroundToggle() {
+      if (!originalArtworkFile) return;
+      if (!isBackgroundEnabled()) {
+        backgroundRunId++;
+        setOptionLoading(false);
+        setBackgroundMessage('');
+        showOriginal(true);
+        return;
+      }
+
+      setOriginalOptionFiles(originalArtworkFile);
+      showArtwork(artworkUrl);
+      if (originalArtworkFile.name.indexOf('artwork-edited-') === 0) {
+        setActiveOption(0);
+        setBackgroundMessage('');
+        return;
+      }
+      startBackgroundRemoval(false);
+    }
+
     function openEditor(file) {
       if (!editor || !file || file.type.indexOf('image/') !== 0) return;
+      backgroundRunId++;
+      cancelBackgroundReplacement();
+      clearOptionUrls();
       if (artworkUrl) URL.revokeObjectURL(artworkUrl);
+      originalArtworkFile = file;
       artworkUrl = URL.createObjectURL(file);
-
-      editor.querySelectorAll('[data-canvas-art], [data-option-art], [data-mockup-art]').forEach(function (img) {
-        img.src = artworkUrl;
-      });
+      setOriginalOptionFiles(file);
+      showArtwork(artworkUrl);
+      setActiveOption(0);
+      setOptionLoading(false);
+      setBackgroundMessage('');
 
       var probe = new Image();
       probe.onload = function () { sizeArtwork(probe.naturalWidth, probe.naturalHeight); };
       probe.src = artworkUrl;
 
-      // The background-removal variants resolve one after another.
-      editor.querySelectorAll('[data-rail-option]').forEach(function (option, index) {
-        if (index === 0) return;
-        option.classList.add('is-loading');
-        setTimeout(function () { option.classList.remove('is-loading'); }, 700 + index * 600);
-      });
-
       pdp.classList.add('is-editing');
       editor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (file.name.indexOf('artwork-edited-') !== 0 && isBackgroundEnabled()) {
+        startBackgroundRemoval(true);
+      }
     }
 
     function closeEditor() {
       pdp.classList.remove('is-editing');
+      backgroundRunId++;
+      cancelBackgroundReplacement();
+      clearOptionUrls();
       if (artworkUrl) URL.revokeObjectURL(artworkUrl);
       artworkUrl = null;
+      originalArtworkFile = null;
+      optionFiles = [];
+      setOptionLoading(false);
+      setBackgroundMessage('');
       if (input) input.value = '';
       if (editor) {
         editor.querySelectorAll('[data-canvas-art], [data-option-art], [data-mockup-art]').forEach(function (img) {
           img.removeAttribute('src');
         });
+        setActiveOption(-1);
       }
     }
 
@@ -263,11 +615,16 @@ document.addEventListener('DOMContentLoaded', function () {
       editor.querySelector('[data-canvas]').classList.toggle('is-zoomed');
     });
 
+    if (backgroundToggle) {
+      backgroundToggle.addEventListener('click', handleBackgroundToggle);
+    }
+
     editor.querySelectorAll('[data-rail-option]').forEach(function (option) {
       option.addEventListener('click', function () {
-        editor.querySelectorAll('[data-rail-option]').forEach(function (o) {
-          o.classList.toggle('is-active', o === option);
-        });
+        if (isBackgroundEnabled()) selectOption(
+          Array.prototype.indexOf.call(editor.querySelectorAll('[data-rail-option]'), option),
+          true
+        );
       });
     });
 
