@@ -147,12 +147,24 @@ document.addEventListener('DOMContentLoaded', function () {
     var backgroundModelLoaded = false;
     var backgroundRemovalCache = new Map();
     var backgroundRemovalRequests = new Map();
-    var backgroundToggle = editor && (
-      editor.querySelector('[data-controls="bg-options"]') ||
+    var aiBgRemovalEnabled = !!(window.DTF_CONFIG && window.DTF_CONFIG.aiBgRemoval === true);
+    var backgroundPanelToggle = editor && editor.querySelector('[data-rail-tool] [data-controls="bg-options"]');
+    var backgroundPanel = backgroundPanelToggle && backgroundPanelToggle.closest('[data-rail-tool]');
+    var backgroundToggle = aiBgRemovalEnabled && editor && (
+      backgroundPanelToggle ||
       pdp.querySelector('[data-ai-toggle][aria-label="Remove background"]')
     );
     var backgroundMessage = null;
     var artRatio = 1;
+
+    if (!aiBgRemovalEnabled) {
+      if (backgroundPanel) backgroundPanel.classList.add('bg-removal-disabled');
+      pdp.querySelectorAll('.ai-tools-row').forEach(function (row) {
+        if (row.querySelector('[data-ai-toggle][aria-label="Remove background"]')) {
+          row.classList.add('bg-removal-disabled');
+        }
+      });
+    }
 
     if (backgroundToggle) {
       backgroundMessage = pdp.querySelector('.bg-msg');
@@ -246,7 +258,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function isBackgroundEnabled() {
-      return !!backgroundToggle && backgroundToggle.getAttribute('aria-pressed') === 'true';
+      return aiBgRemovalEnabled &&
+        !!backgroundToggle &&
+        backgroundToggle.getAttribute('aria-pressed') === 'true';
     }
 
     function setBackgroundMessage(message, isError) {
@@ -510,7 +524,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function startBackgroundRemoval(resetSelection) {
-      if (!originalArtworkFile || !isBackgroundEnabled()) return;
+      if (!aiBgRemovalEnabled || !originalArtworkFile || !isBackgroundEnabled()) return;
       var file = originalArtworkFile;
       var runId = ++backgroundRunId;
       if (resetSelection) activeOptionIndex = 0;
@@ -538,7 +552,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function handleBackgroundToggle() {
-      if (!originalArtworkFile) return;
+      if (!aiBgRemovalEnabled || !originalArtworkFile) return;
       if (!isBackgroundEnabled()) {
         backgroundRunId++;
         setOptionLoading(false);
@@ -577,7 +591,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       pdp.classList.add('is-editing');
       editor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      if (file.name.indexOf('artwork-edited-') !== 0 && isBackgroundEnabled()) {
+      if (aiBgRemovalEnabled && file.name.indexOf('artwork-edited-') !== 0 && isBackgroundEnabled()) {
         startBackgroundRemoval(true);
       }
     }

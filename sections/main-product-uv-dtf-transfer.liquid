@@ -1,5 +1,5 @@
 <style>
-  .upload-dropzone.is-dragging { border-color: var(--brand); background: var(--brand-tint); }
+  .upload-dropzone.is-dragging { border-color: #B6F000; background: var(--brand-tint); }
   .upload-file-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
   .upload-file-item { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--pdp-line); border-radius: 8px; padding: 8px 12px; font-size: 0.82rem; }
   .upload-file-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -598,6 +598,11 @@
   </div>
 </section>
 
+<script>
+  window.DTF_CONFIG = Object.assign(window.DTF_CONFIG || {}, {
+    aiBgRemoval: {{ section.settings.enable_ai_bg_removal | json }}
+  });
+</script>
 <script src="{{ 'design-tools.js' | asset_url }}" defer></script>
 <script>
 (function () {
@@ -868,6 +873,7 @@
     { "type": "text", "id": "quick_title", "label": "Popular sizes title", "default": "Popular Sizes & Prices" },
     { "type": "text", "id": "quick_sub", "label": "Popular sizes subtitle", "default": "No setup fees · Bulk discounts up to 50% off" },
     { "type": "checkbox", "id": "show_ai_tools", "label": "Show AI tools panel", "default": false },
+    { "type": "checkbox", "id": "enable_ai_bg_removal", "label": "Enable AI background removal (requires licence review)", "default": false },
     { "type": "checkbox", "id": "show_buy_form", "label": "Show quantity & add to cart", "default": false },
 
     { "type": "header", "content": "Gallery feature card" },
