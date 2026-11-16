@@ -48,11 +48,11 @@
         "mockup-4": {
           "type": "mockup",
           "settings": {
-            "image": "shopify://shop_images/teto_blank.png",
+            "image": "shopify://shop_images/500x615tetoblank.png",
             "label": "Tote",
             "width_in": 7,
             "art_width": 40,
-            "art_top": 50
+            "art_top": 70
           }
         },
         "mockup-5": {
