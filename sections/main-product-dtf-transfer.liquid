@@ -302,7 +302,9 @@
                     <figure class="mockup" {{ block.shopify_attributes }} data-mockup data-width-in="{{ block.settings.width_in }}">
                       <figcaption class="mockup-size" data-mockup-size>{{ block.settings.width_in }}"</figcaption>
                       <div class="mockup-tile">
-                        {% if block.settings.image %}
+                        {% if block.settings.image_asset != blank %}
+                          <img class="mockup-product" src="{{ block.settings.image_asset | asset_url }}" alt="{{ block.settings.label | escape }}" loading="lazy">
+                        {% elsif block.settings.image %}
                           <img class="mockup-product" src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.label | escape }}" loading="lazy" crossorigin="anonymous" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}">
                         {% else %}
                           <span class="mockup-placeholder">{{ block.settings.label }}</span>
@@ -313,25 +315,25 @@
                   {% endif %}
                 {% endfor %}
               </div>
-              <p class="swatch-label">Change your preview items to any color below:</p>
-              <div class="swatches" data-swatches>
-                {% assign swatch_colors = section.settings.swatch_colors | split: ',' %}
-                {% for color in swatch_colors %}
-                  {% assign hex = color | strip %}
-                  <button type="button" class="swatch {% if forloop.first %}is-active{% endif %}" data-swatch data-color="{{ hex }}" style="--swatch: {{ hex }}" aria-label="Preview color {{ hex }}"></button>
-                {% endfor %}
-                <div class="custom-picker" data-custom-picker>
-                  <button type="button" class="swatch swatch--multi" data-custom-toggle aria-label="Choose a custom garment color" aria-expanded="false"></button>
-                  <div class="custom-color-picker" data-color-picker hidden>
-                    <div class="custom-color-plane" data-color-plane tabindex="0" aria-label="Choose color saturation and brightness">
-                      <span class="custom-color-pointer" data-color-pointer></span>
-                    </div>
-                    <input class="custom-color-hue" type="range" min="0" max="359" value="0" data-color-hue aria-label="Choose color hue">
-                    <label class="custom-color-hex">
-                      <span>HEX</span>
-                      <input type="text" value="#ffffff" maxlength="7" data-color-hex aria-label="Custom color hex value">
-                    </label>
+            </div>
+            <p class="swatch-label">Change your preview items to any color below:</p>
+            <div class="swatches" data-swatches>
+              {% assign swatch_colors = section.settings.swatch_colors | split: ',' %}
+              {% for color in swatch_colors %}
+                {% assign hex = color | strip %}
+                <button type="button" class="swatch {% if forloop.first %}is-active{% endif %}" data-swatch data-color="{{ hex }}" style="--swatch: {{ hex }}" aria-label="Preview color {{ hex }}"></button>
+              {% endfor %}
+              <div class="custom-picker" data-custom-picker>
+                <button type="button" class="swatch swatch--multi" data-custom-toggle aria-label="Choose a custom garment color" aria-expanded="false"></button>
+                <div class="custom-color-picker" data-color-picker hidden>
+                  <div class="custom-color-plane" data-color-plane tabindex="0" aria-label="Choose color saturation and brightness">
+                    <span class="custom-color-pointer" data-color-pointer></span>
                   </div>
+                  <input class="custom-color-hue" type="range" min="0" max="359" value="0" data-color-hue aria-label="Choose color hue">
+                  <label class="custom-color-hex">
+                    <span>HEX</span>
+                    <input type="text" value="#ffffff" maxlength="7" data-color-hex aria-label="Custom color hex value">
+                  </label>
                 </div>
               </div>
             </div>
@@ -347,24 +349,6 @@
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
                   AI Tools
                 </span>
-
-                <div class="rail-tool rail-tool--open" data-rail-tool>
-                  <div class="rail-tool-head">
-                    <span>Remove Background</span>
-                    <button type="button" class="ai-toggle" data-ai-toggle data-controls="bg-options" aria-pressed="true" aria-label="Remove background"></button>
-                  </div>
-                  <div class="rail-options" data-bg-options>
-                    {% for i in (1..3) %}
-                      <button type="button" class="rail-option {% if forloop.first %}is-active{% endif %}" data-rail-option data-index="{{ forloop.index }}">
-                        <span class="rail-option-thumb">
-                          <img data-option-art alt="">
-                          <span class="rail-spinner" aria-hidden="true"></span>
-                        </span>
-                        <span class="rail-option-label">Option {{ forloop.index }}</span>
-                      </button>
-                    {% endfor %}
-                  </div>
-                </div>
 
                 <div class="rail-tool">
                   <div class="rail-tool-head">
@@ -398,6 +382,24 @@
                   </button>
                   <img class="canvas-art" data-canvas-art alt="Your uploaded artwork">
                 </div>
+              </div>
+            </div>
+
+            <div class="rail-tool rail-tool--open" data-rail-tool>
+              <div class="rail-tool-head">
+                <span>Remove Background</span>
+                <button type="button" class="ai-toggle" data-ai-toggle data-controls="bg-options" aria-pressed="true" aria-label="Remove background"></button>
+              </div>
+              <div class="rail-options" data-bg-options>
+                {% for i in (1..3) %}
+                  <button type="button" class="rail-option {% if forloop.first %}is-active{% endif %}" data-rail-option data-index="{{ forloop.index }}">
+                    <span class="rail-option-thumb">
+                      <img data-option-art alt="">
+                      <span class="rail-spinner" aria-hidden="true"></span>
+                    </span>
+                    <span class="rail-option-label">Option {{ forloop.index }}</span>
+                  </button>
+                {% endfor %}
               </div>
             </div>
 
@@ -878,6 +880,7 @@
       "name": "Size preview",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Blank product image", "info": "For garment color previews, use a neutral mockup with a transparent background." },
+        { "type": "text", "id": "image_asset", "label": "Theme asset filename (optional)", "info": "When set, use this file from Assets instead of the image picker." },
         { "type": "text", "id": "label", "label": "Product name", "default": "T-Shirt" },
         { "type": "range", "id": "width_in", "label": "Print width (in)", "min": 1, "max": 22, "step": 0.5, "default": 11 },
         { "type": "range", "id": "art_width", "label": "Artwork width on preview (%)", "min": 10, "max": 90, "step": 1, "default": 45 },

@@ -254,7 +254,7 @@
         "transfer-glitter": {
           "type": "transfer_type",
           "settings": {
-            "fallback_asset": "t4.png",
+            "fallback_asset": "glitter DTF 1.webp",
             "title": "GLITTER TRANSFERS",
             "product_handle": "glitter-transfers",
             "price_note": "$0.07 per sq. in.",
