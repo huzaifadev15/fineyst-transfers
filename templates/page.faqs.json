@@ -1,0 +1,169 @@
+{
+  "sections": {
+    "main": {
+      "type": "faqs",
+      "blocks": {
+        "cat_1": {
+          "type": "category",
+          "settings": {
+            "name": "Ordering Process"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I place an order for DTF transfers?",
+            "answer": "<p>Upload your artwork, choose your transfer size and quantity, then proceed to checkout. You can also use our Gang Sheet Builder to fit several designs on one sheet.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "Is there a minimum order quantity?",
+            "answer": "<p>No. There are <strong>no minimums, setup fees or art fees</strong>. Order one transfer or thousands.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "What file types can I upload?",
+            "answer": "<p>We accept PNG, JPG, JPEG, SVG, PDF, AI, EPS, PSD, TIFF and WEBP files. For the sharpest results, upload artwork at 300 DPI at the final print size.</p>"
+          }
+        },
+        "cat_5": {
+          "type": "category",
+          "settings": {
+            "name": "Shipping & Delivery"
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "settings": {
+            "question": "How fast do you ship?",
+            "answer": "<p>Orders are printed in-house and ship within <strong>24 hours</strong>. Delivery time depends on the shipping option you choose at checkout.</p>"
+          }
+        },
+        "faq_7": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you offer free shipping?",
+            "answer": "<p>Yes, shipping is free on all transfer orders.</p>"
+          }
+        },
+        "cat_8": {
+          "type": "category",
+          "settings": {
+            "name": "Payment Options"
+          }
+        },
+        "faq_9": {
+          "type": "faq",
+          "settings": {
+            "question": "What payment methods do you accept?",
+            "answer": "<p>We accept major credit and debit cards and digital wallets at checkout. Buy now, pay later options such as Shop Pay, Afterpay, Klarna, Sezzle and Affirm are available on eligible orders.</p>"
+          }
+        },
+        "faq_10": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you offer volume discounts?",
+            "answer": "<p>Yes. We count every transfer in your order, and the more you buy the more you save, with discounts of up to 50% per piece.</p>"
+          }
+        },
+        "cat_11": {
+          "type": "category",
+          "settings": {
+            "name": "Product Information"
+          }
+        },
+        "faq_12": {
+          "type": "faq",
+          "settings": {
+            "question": "What fabrics do DTF transfers work on?",
+            "answer": "<p>DTF transfers work on cotton, polyester, blends, nylon, leather and most other fabrics, in any color.</p>"
+          }
+        },
+        "faq_13": {
+          "type": "faq",
+          "settings": {
+            "question": "How many washes will my transfers last?",
+            "answer": "<p>Our transfers are certified for <strong>100+ washes</strong> when applied and cared for as directed.</p>"
+          }
+        },
+        "faq_14": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I apply a DTF transfer?",
+            "answer": "<ol><li>Pre-press the garment for a few seconds to remove moisture</li><li>Position the transfer and press with heat and firm pressure</li><li>Peel the film as directed on your order, then finish with a short second press</li></ol><p>Check your order paperwork for the exact temperature and time for your transfer type.</p>"
+          }
+        },
+        "cat_15": {
+          "type": "category",
+          "settings": {
+            "name": "Returns & Refunds"
+          }
+        },
+        "faq_16": {
+          "type": "faq",
+          "settings": {
+            "question": "What if there is a problem with my order?",
+            "answer": "<p>Every order is backed by our <strong>100% Satisfaction Guarantee</strong>. If something isn't right, contact us and we will make it right.</p>"
+          }
+        },
+        "faq_17": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I cancel or change my order?",
+            "answer": "<p>Orders move into production quickly, so contact us as soon as possible and we will do our best to help before printing begins.</p>"
+          }
+        },
+        "cat_18": {
+          "type": "category",
+          "settings": {
+            "name": "Custom Design"
+          }
+        },
+        "faq_19": {
+          "type": "faq",
+          "settings": {
+            "question": "Can you help me create or fix my artwork?",
+            "answer": "<p>Yes. Use our Design Studio or AI tools, or add Design Notes at checkout and our art team will review your file before printing, with no extra art fees.</p>"
+          }
+        },
+        "faq_20": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I print logos or characters I don't own?",
+            "answer": "<p>No. Please only upload artwork you own or have permission to use. Trademarked or copyrighted designs without a license cannot be printed.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "cat_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "cat_5",
+        "faq_6",
+        "faq_7",
+        "cat_8",
+        "faq_9",
+        "faq_10",
+        "cat_11",
+        "faq_12",
+        "faq_13",
+        "faq_14",
+        "cat_15",
+        "faq_16",
+        "faq_17",
+        "cat_18",
+        "faq_19",
+        "faq_20"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

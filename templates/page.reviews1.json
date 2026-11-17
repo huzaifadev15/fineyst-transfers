@@ -1,0 +1,169 @@
+{
+  "sections": {
+    "main": {
+      "type": "reviews",
+      "blocks": {
+        "photo_1": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "",
+            "alt": "Customer photo 1"
+          }
+        },
+        "photo_2": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "",
+            "alt": "Customer photo 2"
+          }
+        },
+        "photo_3": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "",
+            "alt": "Customer photo 3"
+          }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "",
+            "alt": "Customer photo 4"
+          }
+        },
+        "photo_5": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "",
+            "alt": "Customer photo 5"
+          }
+        },
+        "photo_6": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "",
+            "alt": "Customer photo 6"
+          }
+        },
+        "photo_7": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "",
+            "alt": "Customer photo 7"
+          }
+        },
+        "photo_8": {
+          "type": "photo",
+          "settings": {
+            "image_asset": "",
+            "alt": "Customer photo 8"
+          }
+        },
+        "category_9": {
+          "type": "category",
+          "settings": {
+            "name": "DTF Transfers",
+            "description": "Full-color DTF transfers that press onto any fabric or color.",
+            "link": "",
+            "link_label": "Visit product"
+          }
+        },
+        "review_10": {
+          "type": "review",
+          "settings": {
+            "name": "Customer Name",
+            "rating": 5,
+            "text": "Replace this with a real customer review.",
+            "date": ""
+          }
+        },
+        "review_11": {
+          "type": "review",
+          "settings": {
+            "name": "Customer Name",
+            "rating": 5,
+            "text": "Replace this with a real customer review.",
+            "date": ""
+          }
+        },
+        "category_12": {
+          "type": "category",
+          "settings": {
+            "name": "UV DTF Stickers",
+            "description": "Durable UV DTF stickers for hard goods like cups, bottles and more.",
+            "link": "",
+            "link_label": "Visit product"
+          }
+        },
+        "review_13": {
+          "type": "review",
+          "settings": {
+            "name": "Customer Name",
+            "rating": 5,
+            "text": "Replace this with a real customer review.",
+            "date": ""
+          }
+        },
+        "review_14": {
+          "type": "review",
+          "settings": {
+            "name": "Customer Name",
+            "rating": 5,
+            "text": "Replace this with a real customer review.",
+            "date": ""
+          }
+        },
+        "category_15": {
+          "type": "category",
+          "settings": {
+            "name": "Gang Sheets",
+            "description": "Fit multiple designs on one sheet and save on every order.",
+            "link": "",
+            "link_label": "Visit product"
+          }
+        },
+        "review_16": {
+          "type": "review",
+          "settings": {
+            "name": "Customer Name",
+            "rating": 5,
+            "text": "Replace this with a real customer review.",
+            "date": ""
+          }
+        },
+        "review_17": {
+          "type": "review",
+          "settings": {
+            "name": "Customer Name",
+            "rating": 5,
+            "text": "Replace this with a real customer review.",
+            "date": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4",
+        "photo_5",
+        "photo_6",
+        "photo_7",
+        "photo_8",
+        "category_9",
+        "review_10",
+        "review_11",
+        "category_12",
+        "review_13",
+        "review_14",
+        "category_15",
+        "review_16",
+        "review_17"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
