@@ -6,56 +6,56 @@
         "photo_1": {
           "type": "photo",
           "settings": {
-            "image_asset": "",
+            "image_asset": "cr img7.webp",
             "alt": "Customer photo 1"
           }
         },
         "photo_2": {
           "type": "photo",
           "settings": {
-            "image_asset": "",
+            "image_asset": "hero image 4.png",
             "alt": "Customer photo 2"
           }
         },
         "photo_3": {
           "type": "photo",
           "settings": {
-            "image_asset": "",
+            "image_asset": "hero image 5.png",
             "alt": "Customer photo 3"
           }
         },
         "photo_4": {
           "type": "photo",
           "settings": {
-            "image_asset": "",
+            "image_asset": "hero image 6.png",
             "alt": "Customer photo 4"
           }
         },
         "photo_5": {
           "type": "photo",
           "settings": {
-            "image_asset": "",
+            "image_asset": "cr img1.webp",
             "alt": "Customer photo 5"
           }
         },
         "photo_6": {
           "type": "photo",
           "settings": {
-            "image_asset": "",
+            "image_asset": "cr img2.webp",
             "alt": "Customer photo 6"
           }
         },
         "photo_7": {
           "type": "photo",
           "settings": {
-            "image_asset": "",
+            "image_asset": "cr img3.webp",
             "alt": "Customer photo 7"
           }
         },
         "photo_8": {
           "type": "photo",
           "settings": {
-            "image_asset": "",
+            "image_asset": "cr img4.webp",
             "alt": "Customer photo 8"
           }
         },
@@ -71,7 +71,7 @@
         "review_10": {
           "type": "review",
           "settings": {
-            "name": "Customer Name",
+            "name": "John Doe",
             "rating": 5,
             "text": "Replace this with a real customer review.",
             "date": ""
@@ -80,7 +80,7 @@
         "review_11": {
           "type": "review",
           "settings": {
-            "name": "Customer Name",
+            "name": "Mark Smith",
             "rating": 5,
             "text": "Replace this with a real customer review.",
             "date": ""
@@ -98,7 +98,7 @@
         "review_13": {
           "type": "review",
           "settings": {
-            "name": "Customer Name",
+            "name": "Jane Wick",
             "rating": 5,
             "text": "Replace this with a real customer review.",
             "date": ""
@@ -107,7 +107,7 @@
         "review_14": {
           "type": "review",
           "settings": {
-            "name": "Customer Name",
+            "name": "sarah jones",
             "rating": 5,
             "text": "Replace this with a real customer review.",
             "date": ""
@@ -125,7 +125,7 @@
         "review_16": {
           "type": "review",
           "settings": {
-            "name": "Customer Name",
+            "name": "Adam Smith",
             "rating": 5,
             "text": "Replace this with a real customer review.",
             "date": ""
@@ -134,7 +134,7 @@
         "review_17": {
           "type": "review",
           "settings": {
-            "name": "Customer Name",
+            "name": "Emily Johnson",
             "rating": 5,
             "text": "Replace this with a real customer review.",
             "date": ""
