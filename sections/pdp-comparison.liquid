@@ -17,11 +17,11 @@
       {%- for shot in shots -%}
         {%- assign s = shot | split: ',' -%}
         {%- if forloop.first -%}
-          {%- assign shot_file = section.settings.image_ours | default: 'dtf-2.jpg' -%}
+          {%- assign shot_file = section.settings.image_ours | default: 'comp-img1.jpg' -%}
           {%- assign shot_tag = section.settings.label_ours | default: 'VIVID+ 9-Color DTF' -%}
           {%- assign shot_mod = 'ours' -%}
         {%- else -%}
-          {%- assign shot_file = section.settings.image_theirs | default: 'spt 1.webp' -%}
+          {%- assign shot_file = section.settings.image_theirs | default: 'comp-img2.jpg' -%}
           {%- assign shot_tag = section.settings.label_theirs | default: 'Industry Standard 5-Color DTF' -%}
           {%- assign shot_mod = 'theirs' -%}
         {%- endif -%}
