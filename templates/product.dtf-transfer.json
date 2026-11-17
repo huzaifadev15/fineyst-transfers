@@ -19,6 +19,7 @@
             "label": "T-Shirt",
             "width_in": 11,
             "art_width": 45,
+            "art_left": 50,
             "art_top": 50
           }
         },
@@ -26,6 +27,7 @@
           "type": "mockup",
           "settings": {
             "image": "shopify://shop_images/cap_blank.png",
+            "image_asset": "",
             "label": "Cap",
             "width_in": 5,
             "art_width": 20,
@@ -37,6 +39,7 @@
           "type": "mockup",
           "settings": {
             "image": "shopify://shop_images/polo_black.png",
+            "image_asset": "",
             "label": "Polo",
             "width_in": 3.5,
             "art_width": 14,
@@ -48,9 +51,11 @@
           "type": "mockup",
           "settings": {
             "image": "shopify://shop_images/teto_blank.png",
+            "image_asset": "",
             "label": "Tote",
             "width_in": 7,
             "art_width": 40,
+            "art_left": 50,
             "art_top": 70
           }
         },
@@ -58,6 +63,7 @@
           "type": "mockup",
           "settings": {
             "image": "shopify://shop_images/hodie_blank.png",
+            "image_asset": "",
             "label": "Hoodie",
             "width_in": 11,
             "art_width": 35,
@@ -69,9 +75,11 @@
           "type": "mockup",
           "settings": {
             "image": "shopify://shop_images/apron_blank.png",
+            "image_asset": "",
             "label": "Apron",
             "width_in": 5,
             "art_width": 30,
+            "art_left": 50,
             "art_top": 50
           }
         },
@@ -186,6 +194,7 @@
         "quick_title": "Popular Sizes & Prices",
         "quick_sub": "No setup fees · Bulk discounts up to 50% off",
         "show_ai_tools": false,
+        "enable_ai_bg_removal": false,
         "show_buy_form": true,
         "feature_video": "",
         "feature_link": "",
@@ -319,9 +328,9 @@
       "settings": {
         "heading": "The Next Generation of DTF Transfers",
         "intro": "",
-        "image_ours": "dtf-2.jpg",
+        "image_ours": "compair img1.jpg",
         "label_ours": "VIVID+ 9-Color DTF",
-        "image_theirs": "spt 1.webp",
+        "image_theirs": "compair img2.jpg",
         "label_theirs": "Industry Standard 5-Color DTF",
         "ours_title": "Fineyst Standard DTF",
         "ours_sub": "VIVID+, 9-Color Printing",
