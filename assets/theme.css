@@ -3853,13 +3853,17 @@ input[type="reset"]:not(:disabled):hover,
 
 
 
+
 /* =========================================
    FINEYST - PREMIUM DTF COMPARISON
+   FINAL DESKTOP + MOBILE
    ========================================= */
+
+/* Main Section */
 
 .pdp-nextgen {
   padding: 72px 20px;
-  background: #fff;
+  background: #FFFFFF;
 }
 
 .pdp-nextgen-inner {
@@ -3867,7 +3871,9 @@ input[type="reset"]:not(:disabled):hover,
   margin: 0 auto;
 }
 
-/* Heading */
+/* =========================================
+   HEADING
+   ========================================= */
 
 .pdp-nextgen-head {
   text-align: center;
@@ -3881,15 +3887,20 @@ input[type="reset"]:not(:disabled):hover,
   font-weight: 800;
   line-height: 1.25;
   margin-bottom: 12px;
+  white-space: normal;
 }
 
 .pdp-nextgen-head p {
+  display: block;
   color: #5B6472;
   font-size: 14px;
   line-height: 1.75;
+  margin: 0;
 }
 
-/* Two comparison images */
+/* =========================================
+   COMPARISON IMAGES
+   ========================================= */
 
 .pdp-nextgen-media {
   display: grid;
@@ -3903,6 +3914,7 @@ input[type="reset"]:not(:disabled):hover,
   overflow: hidden;
   border-radius: 12px;
   margin: 0;
+  min-width: 0;
   aspect-ratio: 1.5;
   background: #E8F5E9;
 }
@@ -3914,31 +3926,45 @@ input[type="reset"]:not(:disabled):hover,
   display: block;
 }
 
+/* Image Labels */
+
 .pdp-nextgen-tag {
   position: absolute;
   top: 14px;
   left: 14px;
   z-index: 2;
+  display: inline-block;
   padding: 8px 12px;
   border-radius: 6px;
   font-size: 11px;
   font-weight: 800;
-  color: #fff;
+  line-height: 1.3;
+  color: #FFFFFF;
   background: #0B3D2E;
+}
+
+.pdp-nextgen-shot--ours .pdp-nextgen-tag {
+  background: #0B3D2E;
+  color: #FFFFFF;
 }
 
 .pdp-nextgen-shot--theirs .pdp-nextgen-tag {
   background: #525862;
+  color: #FFFFFF;
 }
 
-/* Comparison table */
+/* =========================================
+   COMPARISON TABLE
+   ========================================= */
 
 .pdp-compare {
   overflow: hidden;
   border: 1px solid #E6EAE8;
   border-radius: 12px;
-  background: #fff;
+  background: #FFFFFF;
 }
+
+/* Always keep two columns */
 
 .pdp-compare-head,
 .pdp-compare-row {
@@ -3946,40 +3972,56 @@ input[type="reset"]:not(:disabled):hover,
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* Table Header */
+
 .pdp-compare-col {
-  padding: 16px 20px;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
+  padding: 16px 20px;
 }
 
 .pdp-compare-col--ours {
   background: #0B3D2E;
-  color: #fff;
+  color: #FFFFFF;
 }
 
 .pdp-compare-col--theirs {
   background: #41464D;
-  color: #fff;
+  color: #FFFFFF;
 }
 
 .pdp-compare-col strong {
+  display: block;
   font-size: 14px;
   font-weight: 800;
+  line-height: 1.4;
+  color: #FFFFFF;
+}
+
+.pdp-compare-col--ours strong,
+.pdp-compare-col--theirs strong {
+  color: #FFFFFF;
 }
 
 .pdp-compare-col span {
+  display: block;
   font-size: 11px;
+  line-height: 1.4;
   opacity: 0.85;
+  color: #FFFFFF;
 }
 
-/* Table rows */
-
-.pdp-compare-row:nth-child(odd) {
-  background: #fff;
-}
+/* =========================================
+   TABLE ROWS
+   ========================================= */
 
 .pdp-compare-row:nth-child(even) {
+  background: #FFFFFF;
+}
+
+.pdp-compare-row:nth-child(odd) {
   background: #F8FAF9;
 }
 
@@ -3987,8 +4029,8 @@ input[type="reset"]:not(:disabled):hover,
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 20px;
   min-width: 0;
+  padding: 14px 20px;
   font-size: 13px;
   line-height: 1.5;
   color: #27323A;
@@ -3997,6 +4039,12 @@ input[type="reset"]:not(:disabled):hover,
 .pdp-compare-cell--yes {
   border-right: 1px solid #E6EAE8;
 }
+
+.pdp-compare-cell--no {
+  border-right: none;
+}
+
+/* Comparison Icons */
 
 .pdp-compare-icon {
   display: inline-flex;
@@ -4013,27 +4061,64 @@ input[type="reset"]:not(:disabled):hover,
   color: #DC3545;
 }
 
-/* Mobile improvements */
+.pdp-compare-icon svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+/* =========================================
+   TABLE TEXT
+   ========================================= */
+
+.pdp-compare-cell span:last-child {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+/* =========================================
+   MOBILE RESPONSIVE
+   ========================================= */
 
 @media (max-width: 767px) {
+
+  /* Section */
+
   .pdp-nextgen {
     padding: 42px 14px;
   }
 
+  .pdp-nextgen-inner {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Heading */
+
   .pdp-nextgen-head {
-    margin-bottom: 22px;
+    margin: 0 auto 22px;
+    text-align: center;
   }
 
   .pdp-nextgen-head h2 {
     font-size: 23px;
+    line-height: 1.3;
+    white-space: normal;
+    margin-bottom: 10px;
   }
 
   .pdp-nextgen-head p {
+    display: block;
     font-size: 12px;
     line-height: 1.65;
+    margin-top: 10px;
   }
 
+  /* Two Images Side By Side */
+
   .pdp-nextgen-media {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     margin-bottom: 12px;
   }
@@ -4041,6 +4126,13 @@ input[type="reset"]:not(:disabled):hover,
   .pdp-nextgen-shot {
     border-radius: 8px;
     aspect-ratio: 1.2;
+    min-width: 0;
+  }
+
+  .pdp-nextgen-shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .pdp-nextgen-tag {
@@ -4051,31 +4143,125 @@ input[type="reset"]:not(:disabled):hover,
     font-size: 9px;
     line-height: 1.2;
     max-width: calc(100% - 14px);
+    white-space: normal;
   }
+
+  /* Table */
+
+  .pdp-compare {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .pdp-compare-head,
+  .pdp-compare-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Table Headers */
 
   .pdp-compare-col {
     padding: 12px 9px;
+    min-width: 0;
+  }
+
+  .pdp-compare-col--ours {
+    background: #0B3D2E;
+    border-bottom: 0;
+  }
+
+  .pdp-compare-col--theirs {
+    background: #41464D;
+    border-bottom: 0;
   }
 
   .pdp-compare-col strong {
     font-size: 11px;
     line-height: 1.4;
+    color: #FFFFFF;
+  }
+
+  .pdp-compare-col--ours strong,
+  .pdp-compare-col--theirs strong {
+    color: #FFFFFF;
   }
 
   .pdp-compare-col span {
     font-size: 10px;
+    line-height: 1.4;
   }
 
+  /* Comparison Cells */
+
   .pdp-compare-cell {
-    padding: 12px 9px;
+    display: flex;
+    align-items: flex-start;
     gap: 6px;
+    padding: 12px 9px;
+    min-width: 0;
     font-size: 11px;
     line-height: 1.45;
-    align-items: flex-start;
+  }
+
+  .pdp-compare-cell--yes {
+    border-right: 1px solid #E6EAE8;
+    border-bottom: 0;
+  }
+
+  .pdp-compare-cell--no {
+    border-right: none;
+  }
+
+  /* Icons */
+
+  .pdp-compare-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
   .pdp-compare-icon svg {
     width: 13px;
     height: 13px;
   }
+
+}
+
+/* =========================================
+   SMALL MOBILE - 360px AND BELOW
+   ========================================= */
+
+@media (max-width: 360px) {
+
+  .pdp-nextgen {
+    padding: 36px 12px;
+  }
+
+  .pdp-nextgen-head h2 {
+    font-size: 21px;
+  }
+
+  .pdp-nextgen-tag {
+    font-size: 8px;
+    padding: 4px 5px;
+  }
+
+  .pdp-compare-col {
+    padding: 10px 7px;
+  }
+
+  .pdp-compare-col strong {
+    font-size: 10px;
+  }
+
+  .pdp-compare-col span {
+    font-size: 9px;
+  }
+
+  .pdp-compare-cell {
+    padding: 10px 7px;
+    font-size: 10px;
+    gap: 5px;
+  }
+
 }
