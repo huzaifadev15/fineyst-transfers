@@ -3435,8 +3435,23 @@ body.template-index main { padding-top: 0; }
 /* ==========================================================================
    PDP Upsell — cross-sell carousel rendered under the sizes block on the
    DTF / UV DTF product pages. See snippets/pdp-upsell.liquid.
-   ========================================================================== */
-.pdp-upsell { margin-top: 28px; }
+   ========================================================================== 
+.pdp-upsell { margin-top: 28px; }*/
+
+
+.pdp-upsell {
+  margin-top: 28px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 767px) {
+  .pdp-upsell {
+    margin-top: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+
 .pdp-upsell-head { margin-bottom: 14px; }
 .pdp-upsell-title { margin: 0; font-size: 1.35rem; font-weight: 800; color: #104241; line-height: 1.25; }
 .pdp-upsell-sub { margin: 4px 0 0; font-size: 0.9rem; color: #6B7280; }
@@ -3811,3 +3826,25 @@ input[type="reset"]:not(:disabled):hover,
   color: #0B3D2E;
 }
 
+
+/* Fineyst checkout spacing - editor view */
+
+.pdp.is-editing .pdp-upsell {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.pdp.is-editing .pdp-form {
+  padding: 24px;
+}
+
+.pdp.is-editing .pdp-cashback,
+.pdp.is-editing .pdp-bnpl {
+  margin-top: 0;
+}
+
+@media (max-width: 767px) {
+  .pdp.is-editing .pdp-form {
+    padding: 16px;
+  }
+}
