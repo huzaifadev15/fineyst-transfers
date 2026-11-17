@@ -249,6 +249,7 @@
         </div>
 
         <div class="upload-card-body">
+        {% comment %}
           <div class="upload-dropzone" data-upload-dropzone>
             <span class="upload-icon">
               <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.95 5.5 5.5 0 0 1 10.7-1.6A3.75 3.75 0 0 1 17.5 18"/><path d="M12 21v-8M9 15.5l3-3 3 3"/></svg>
@@ -259,6 +260,60 @@
             <button type="button" class="btn-blue" data-upload-browse>Browse</button>
             <ul class="upload-file-list" data-upload-file-list></ul>
           </div>
+          {% endcomment %}
+
+
+
+
+
+
+        <div class="upload-dropzone" data-upload-dropzone>
+  <div class="upload-dz-main">
+    <div class="upload-dz-art" aria-hidden="true">
+      <svg width="150" height="120" viewBox="0 0 150 120" fill="none">
+        <rect x="8" y="26" width="84" height="76" rx="10" transform="rotate(-10 50 64)" fill="#EAF7EE" stroke="#CDEBD7" stroke-width="2"/>
+        <rect x="38" y="14" width="84" height="76" rx="10" fill="#fff" stroke="#12A150" stroke-width="3"/>
+        <rect x="50" y="26" width="60" height="52" rx="6" fill="#12A150"/>
+        <circle cx="66" cy="40" r="5" fill="#fff"/>
+        <path d="M50 78L68 54l12 14 8-8 22 18z" fill="#fff"/>
+        <circle cx="108" cy="88" r="20" fill="#12A150" stroke="#fff" stroke-width="4"/>
+        <path d="M108 97V80M101 87l7-7 7 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M126 12l4 9M136 20l-2 8M118 8l1 8" stroke="#12A150" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="upload-dz-divider" aria-hidden="true"></span>
+    <div class="upload-dz-copy">
+      <p class="upload-title">Upload Your Files (up to {{ section.settings.max_files }})</p>
+      <p class="upload-sub">Drag and drop files here or click to browse</p>
+      <input type="file" accept="image/*,.pdf,.ai,.eps,.svg,.psd" multiple hidden data-upload-input>
+      <button type="button" class="btn-blue upload-browse-btn" data-upload-browse>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        Browse Files
+      </button>
+    </div>
+  </div>
+
+  <div class="upload-types">
+    <span class="upload-types-label">Accepted File Types:</span>
+    <span class="upload-type">PNG</span>
+    <span class="upload-type">JPG</span>
+    <span class="upload-type">JPEG</span>
+    <span class="upload-type">SVG</span>
+    <span class="upload-type">PDF</span>
+    <span class="upload-type">AI</span>
+    <span class="upload-type">EPS</span>
+    <span class="upload-type">PSD</span>
+    <span class="upload-type">TIFF</span>
+    <span class="upload-type">WEBP</span>
+  </div>
+
+  <ul class="upload-file-list" data-upload-file-list></ul>
+</div>
+
+
+
+
+
 
           <a class="upload-phone" href="{{ section.settings.phone_upload_link | default: '#' }}">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M17 20h4M14 20h1"/></svg>

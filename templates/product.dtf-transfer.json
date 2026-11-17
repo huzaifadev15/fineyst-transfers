@@ -15,7 +15,6 @@
         "mockup-1": {
           "type": "mockup",
           "settings": {
-            "image": null,
             "image_asset": "500 x 615 T-shirt blank.png",
             "label": "T-Shirt",
             "width_in": 11,

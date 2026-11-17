@@ -12,72 +12,72 @@
     "main": {
       "type": "main-product-uv-dtf-transfer",
       "blocks": {
-       "mockup-1": {
-  "type": "mockup",
-  "settings": {
-    "asset_name": "uv-blank.png",
-    "label": "Cooler",
-    "width_in": 7.5,
-    "art_width": 45,
-    "art_left": 50,
-    "art_top": 55
-  }
-},
-"mockup-2": {
-  "type": "mockup",
-  "settings": {
-    "asset_name": "uv-blank1.png",
-    "label": "Glass",
-    "width_in": 2.5,
-    "art_width": 35,
-    "art_left": 50,
-    "art_top": 45
-  }
-},
-"mockup-3": {
-  "type": "mockup",
-  "settings": {
-    "asset_name": "uv-blank2.png",
-    "label": "Mug",
-    "width_in": 3,
-    "art_width": 32,
-    "art_left": 42,
-    "art_top": 50
-  }
-},
-"mockup-4": {
-  "type": "mockup",
-  "settings": {
-    "asset_name": "500x615bottle.png",
-    "label": "Bottle",
-    "width_in": 3,
-    "art_width": 30,
-    "art_left": 50,
-    "art_top": 30
-  }
-},
-"mockup-5": {
-  "type": "mockup",
-  "settings": {
-    "asset_name": "500x615-phone.png",
-    "label": "Van",
-    "width_in": 11,
-    "art_width": 40,
-    "art_left": 50,
-    "art_top": 50
-  }
-},
-  "mockup-6": {
-  "type": "mockup",
-  "settings": {
-    "asset_name": "500x615-ambulance.png",
-    "label": "Van",
-    "width_in": 11,
-    "art_width": 25,
-    "art_left": 35,
-    "art_top": 65
-  }
-},
+        "mockup-1": {
+          "type": "mockup",
+          "settings": {
+            "label": "Cooler",
+            "width_in": 7.5,
+            "art_width": 45,
+            "art_left": 50,
+            "art_top": 55,
+            "asset_name": "uv-blank.png"
+          }
+        },
+        "mockup-2": {
+          "type": "mockup",
+          "settings": {
+            "label": "Glass",
+            "width_in": 2.5,
+            "art_width": 35,
+            "art_left": 50,
+            "art_top": 45,
+            "asset_name": "uv-blank1.png"
+          }
+        },
+        "mockup-3": {
+          "type": "mockup",
+          "settings": {
+            "label": "Mug",
+            "width_in": 3,
+            "art_width": 32,
+            "art_left": 42,
+            "art_top": 50,
+            "asset_name": "uv-blank2.png"
+          }
+        },
+        "mockup-4": {
+          "type": "mockup",
+          "settings": {
+            "label": "Bottle",
+            "width_in": 3,
+            "art_width": 30,
+            "art_left": 50,
+            "art_top": 30,
+            "asset_name": "500x615bottle.png"
+          }
+        },
+        "mockup-5": {
+          "type": "mockup",
+          "settings": {
+            "label": "Van",
+            "width_in": 11,
+            "art_width": 40,
+            "art_left": 50,
+            "art_top": 50,
+            "asset_name": "500x615-phone.png"
+          }
+        },
+        "mockup-6": {
+          "type": "mockup",
+          "settings": {
+            "label": "Van",
+            "width_in": 11,
+            "art_width": 25,
+            "art_left": 35,
+            "art_top": 65,
+            "asset_name": "500x615-ambulance.png"
+          }
+        },
         "tier-0": {
           "type": "tier",
           "settings": {
@@ -342,8 +342,8 @@
         "text": "<p>Thanks to our proprietary Fineyst Peel Technology, our DTF transfers deliver professional results in just 13 seconds - making it easier than ever to press on anything!</p>",
         "cta_label": "View DTF Pressing Guide",
         "cta_link": "/pages/pressing-instructions",
-        "media_position": "left",
-        "static_video": "dtf-video-6.mp4"
+        "static_video": "dtf-video-6.mp4",
+        "media_position": "left"
       }
     },
     "pdp-ugc": {
@@ -533,8 +533,7 @@
         "r2",
         "r3",
         "r4",
-        "r5",
-         "r6"
+        "r5"
       ],
       "settings": {}
     },
@@ -592,8 +591,7 @@
         "q2",
         "q3",
         "q4",
-        "q5",
-        "q6"
+        "q5"
       ],
       "settings": {}
     },
