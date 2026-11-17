@@ -1260,10 +1260,32 @@ document.addEventListener('DOMContentLoaded', function () {
   /* --- Capsule tab bar: arrow scroll --- */
   var tabsScroll = document.getElementById('capsuleTabsScroll');
   var tabsArrow = document.getElementById('capsuleTabArrow');
+  var tabsArrowBack = document.getElementById('capsuleTabArrowBack');
   if (tabsScroll && tabsArrow) {
+    function updateCapsuleArrowState() {
+      var canScrollLeft = tabsScroll.scrollLeft > 1;
+      tabsScroll.classList.toggle('has-scroll-left', canScrollLeft);
+      var maxScrollLeft = tabsScroll.scrollWidth - tabsScroll.clientWidth;
+      var canScrollRight = maxScrollLeft - tabsScroll.scrollLeft > 1;
+
+      if (tabsArrowBack) {
+        tabsArrowBack.hidden = !canScrollLeft;
+        tabsArrowBack.disabled = !canScrollLeft;
+      }
+      tabsArrow.disabled = !canScrollRight;
+    }
+
     tabsArrow.addEventListener('click', function () {
       tabsScroll.scrollBy({ left: 160, behavior: 'smooth' });
     });
+    if (tabsArrowBack) {
+      tabsArrowBack.addEventListener('click', function () {
+        tabsScroll.scrollBy({ left: -160, behavior: 'smooth' });
+      });
+    }
+    tabsScroll.addEventListener('scroll', updateCapsuleArrowState, { passive: true });
+    window.addEventListener('resize', updateCapsuleArrowState);
+    requestAnimationFrame(updateCapsuleArrowState);
   }
 
   /* --- Search overlay --- */
