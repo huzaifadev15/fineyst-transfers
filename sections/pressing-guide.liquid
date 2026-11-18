@@ -35,8 +35,8 @@
   .prs-source { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 22px 16px; border: 2px solid #E5E7EB; border-radius: 16px; background: #fff; font-family: inherit; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
   .prs-source:hover { border-color: #B6F000; }
   .prs-source.is-active { border-color: #0B3D2E; background: #E8F5E9; }
-  .prs-source-img { width: 100%; max-width: 150px; aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; color: #0B3D2E; }
-  .prs-source-img img { width: 100%; height: 100%; object-fit: contain; }
+  .prs-source-img { width: 100%; max-width: 220px; aspect-ratio: 1.85 / 1; display: flex; align-items: center; justify-content: center; color: #0B3D2E; }
+  .prs-source-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 9px; }
   .prs-source-name { font-size: 1rem; font-weight: 900; color: #0B3D2E; }
   .prs-source-tag { padding: 5px 16px; border-radius: 999px; background: #F2F4F7; font-size: 0.78rem; font-weight: 800; color: #475467; }
   .prs-source.is-active .prs-source-tag { background: #B6F000; color: #0B3D2E; }
@@ -175,7 +175,7 @@
             {%- if section.settings.press_image != blank -%}
               {{ section.settings.press_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: 'Heat press' }}
             {%- else -%}
-              <svg width="96" height="80" viewBox="0 0 96 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="8" width="68" height="20" rx="4"/><path d="M48 28v10"/><rect x="10" y="38" width="76" height="12" rx="3"/><path d="M20 50v22M76 50v22M14 72h12M70 72h12"/></svg>
+              <img src="{{ 'heat-press-real.webp' | asset_url }}" alt="Heat press" loading="lazy" width="500" height="265">
             {%- endif -%}
           </span>
           <span class="prs-source-name">Heat Press</span>
@@ -186,7 +186,7 @@
             {%- if section.settings.iron_image != blank -%}
               {{ section.settings.iron_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: 'Household iron' }}
             {%- else -%}
-              <svg width="96" height="80" viewBox="0 0 96 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 58h64c8 0 12-6 10-14-2-10-10-18-22-18H34c-10 0-16 6-18 16l-6 16z"/><path d="M30 36c6-6 22-6 30 4"/><path d="M10 66h72"/></svg>
+              <img src="{{ 'iron-real.webp' | asset_url }}" alt="Household iron" loading="lazy" width="500" height="265">
             {%- endif -%}
           </span>
           <span class="prs-source-name">Iron</span>
@@ -197,7 +197,7 @@
             {%- if section.settings.craft_image != blank -%}
               {{ section.settings.craft_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: 'Handheld craft press' }}
             {%- else -%}
-              <svg width="96" height="80" viewBox="0 0 96 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="14" width="68" height="30" rx="8"/><path d="M26 44v14c0 6 4 10 10 10h24c6 0 10-4 10-10V44"/><path d="M34 28h28"/></svg>
+              <img src="{{ 'craft-press-real.webp' | asset_url }}" alt="Handheld craft press" loading="lazy" width="500" height="265">
             {%- endif -%}
           </span>
           <span class="prs-source-name">Handheld Craft Press</span>
