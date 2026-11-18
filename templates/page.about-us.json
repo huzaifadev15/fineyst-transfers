@@ -1,0 +1,137 @@
+{
+  "sections": {
+    "main": {
+      "type": "about-us",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "number": "24 hrs",
+            "label": "Printed & shipped"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "number": "100+",
+            "label": "Certified washes"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "number": "$0",
+            "label": "Setup & art fees"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "number": "Up to 50%",
+            "label": "Volume savings"
+          }
+        },
+        "card_5": {
+          "type": "card",
+          "settings": {
+            "title": "DTF Transfers",
+            "text": "Vibrant color, ultra-fine detail on any fabric"
+          }
+        },
+        "card_6": {
+          "type": "card",
+          "settings": {
+            "title": "UV DTF Permastickers",
+            "text": "Durable stickers for cups, bottles and hard goods"
+          }
+        },
+        "card_7": {
+          "type": "card",
+          "settings": {
+            "title": "Gang Sheets",
+            "text": "Fit many designs on one sheet and save"
+          }
+        },
+        "card_8": {
+          "type": "card",
+          "settings": {
+            "title": "Glitter & Foil DTF",
+            "text": "Sparkling and metallic finishes that stand out"
+          }
+        },
+        "card_9": {
+          "type": "card",
+          "settings": {
+            "title": "Puff Transfers",
+            "text": "Raised, textured designs with no weeding"
+          }
+        },
+        "card_10": {
+          "type": "card",
+          "settings": {
+            "title": "Glow in the Dark",
+            "text": "Bold, high-contrast designs that shine"
+          }
+        },
+        "point_11": {
+          "type": "point",
+          "settings": {
+            "text": "Order 1 or 10,000, no minimums"
+          }
+        },
+        "point_12": {
+          "type": "point",
+          "settings": {
+            "text": "Free art review before printing"
+          }
+        },
+        "point_13": {
+          "type": "point",
+          "settings": {
+            "text": "Fast turnaround with dependable deadlines"
+          }
+        },
+        "point_14": {
+          "type": "point",
+          "settings": {
+            "text": "Every transfer checked for quality"
+          }
+        },
+        "point_15": {
+          "type": "point",
+          "settings": {
+            "text": "Free shipping on all transfer orders"
+          }
+        },
+        "point_16": {
+          "type": "point",
+          "settings": {
+            "text": "100% Satisfaction Guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4",
+        "card_5",
+        "card_6",
+        "card_7",
+        "card_8",
+        "card_9",
+        "card_10",
+        "point_11",
+        "point_12",
+        "point_13",
+        "point_14",
+        "point_15",
+        "point_16"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
