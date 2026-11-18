@@ -43,7 +43,7 @@
         "column_1_image_2": {
           "type": "column_1",
           "settings": {
-            "image": "shopify://shop_images/hero_image_6.webp",
+            "image": "shopify://shop_images/review_img.png",
             "image_alt": "Printed apparel design"
           }
         },
@@ -64,7 +64,7 @@
         "column_2_image_2": {
           "type": "column_2",
           "settings": {
-            "image": "shopify://shop_images/cr_img4.webp",
+            "image": "shopify://shop_images/review_img2.png",
             "image_alt": "Quality checked transfer"
           }
         },
