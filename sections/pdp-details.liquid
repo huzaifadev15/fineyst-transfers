@@ -26,6 +26,7 @@
   expanded on load.
 {%- endcomment -%}
 
+
 {%- liquid
   assign dj = product.metafields.custom.details_json.value
   assign dj_rows = nil
@@ -33,7 +34,7 @@
   if dj != blank
     if dj.rows
       assign dj_rows = dj.rows
-    elsif dj.size > 0 and dj.first.label
+    elsif dj.first.label
       assign dj_rows = dj
     endif
   endif
@@ -44,27 +45,50 @@
   endif
 
   assign d_body = section.settings.body
-  if product.description != blank
-    assign d_body = product.description
-  endif
-  if dj.body != blank
-    assign d_body = dj.body
-  endif
-
   assign d_subheading = section.settings.subheading
   assign d_subbody = section.settings.subbody
-  if dj.subheading != blank or dj.subbody != blank
-    assign d_subheading = dj.subheading
-    assign d_subbody = dj.subbody
-  elsif product.description != blank and dj.body == blank
+
+  if product.handle == 'premium-dtf-gang-sheets'
     comment
-      The product description already carries the whole left column, so the
-      static sub-copy from the editor would duplicate it.
+      Gang Sheets: prefer Theme Editor content.
+      Use metafields only when editor fields are empty.
     endcomment
-    assign d_subheading = blank
-    assign d_subbody = blank
+
+    if d_body == blank and dj.body != blank
+      assign d_body = dj.body
+    endif
+
+    if d_subheading == blank and dj.subheading != blank
+      assign d_subheading = dj.subheading
+    endif
+
+    if d_subbody == blank and dj.subbody != blank
+      assign d_subbody = dj.subbody
+    endif
+
+  else
+    comment
+      Other products: preserve existing priority.
+    endcomment
+
+    if product.description != blank
+      assign d_body = product.description
+    endif
+
+    if dj.body != blank
+      assign d_body = dj.body
+    endif
+
+    if dj.subheading != blank or dj.subbody != blank
+      assign d_subheading = dj.subheading
+      assign d_subbody = dj.subbody
+    elsif product.description != blank and dj.body == blank
+      assign d_subheading = blank
+      assign d_subbody = blank
+    endif
   endif
 -%}
+
 
 <section class="pdp-details">
   <div class="pdp-details-inner">

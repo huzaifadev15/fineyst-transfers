@@ -22,7 +22,7 @@
       <!-- Logo -->
       <div class="logo-wrap">
         <a href="/" class="logo">
-          <img src="{{ 'logo.svg' | asset_url }}" alt="{{ shop.name }}" width="260" height="46" class="navbar-logo">
+          <img src="{{ 'logo1.png' | asset_url }}" alt="{{ shop.name }}" width="2151" height="731" class="navbar-logo">
         </a>
       </div>
 
@@ -67,7 +67,7 @@
                   </span>
                 </a>
                 <a href="/products/premium-dtf-gang-sheets" class="mega-card mega-card--row">
-                  <span class="mega-card-thumb" style="background-image:url({{ 'dtf-3.jpg' | asset_url }})"></span>
+                  <span class="mega-card-thumb" style="background-image:url({{ 'spt 1.webp' | asset_url }})"></span>
                   <span class="mega-card-body">
                     <span class="mega-card-badge mega-card-badge--yellow">For Pros</span>
                     <span class="mega-card-title">Upload a Gang Sheet</span>
@@ -111,7 +111,7 @@
                   </span>
                 </a>
                 <a href="/products/uv-dtf-gang-sheet-upload" class="mega-card mega-card--row">
-                  <span class="mega-card-thumb" style="background-image:url({{ 'dtf-3.jpg' | asset_url }})"></span>
+                  <span class="mega-card-thumb" style="background-image:url({{ 'spt 1.webp' | asset_url }})"></span>
                   <span class="mega-card-body">
                     <span class="mega-card-badge mega-card-badge--yellow">For Pros</span>
                     <span class="mega-card-title">Upload a UV DTF Gang Sheet</span>
@@ -382,7 +382,7 @@
       <div class="header-actions">
         <div class="quote-wrap">
           <div class="quote-glow"></div>
-          <a href="{{ section.settings.cta_link | default: '/pages/free-samples' }}" class="btn-quote shine-fill">
+          <a href="{{ section.settings.cta_link | default: '/pages/free-samples' }}" class="btn-quote">
             <div class="btn-quote-inner">
               <span class="quote-free">FREE</span>
               <span class="quote-dark">SAMPLE
@@ -409,6 +409,11 @@
     <!-- Capsule category tabs -->
     <div class="capsule-bar">
       <div class="capsule-tabs-wrap">
+        <button class="capsule-tab-arrow capsule-tab-arrow--left" id="capsuleTabArrowBack" aria-label="Scroll tabs left" hidden>
+          <span class="capsule-arrow-inner">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </span>
+        </button>
         <div class="capsule-tabs-scroll" id="capsuleTabsScroll">
           <div class="capsule-tabs-inner">
             {%- assign tab_links = "By Size,/products/dtf-transfers|Gang Sheets,/products/uv-dtf-gang-sheet-builder|UV DTF,/products/uv-dtf-perma-stickers|Puff,/collections/puff-transfers|Glitter,/collections/glitter-transfers|Reflective,/collections/reflective-transfers|Sublimation,/collections/sublimation|Blanks,/collections/blank-apparel|Supplies,/collections/supplies" | split: "|" -%}
@@ -431,7 +436,7 @@
   <div class="mobile-sidebar" id="mobileSidebar">
     <div class="sidebar-header">
       <a href="/">
-        <img src="{{ 'logo.svg' | asset_url }}" alt="{{ shop.name }}" width="200" height="34" class="navbar-logo">
+        <img src="{{ 'logo1.png' | asset_url }}" alt="{{ shop.name }}" width="2151" height="731" class="navbar-logo">
       </a>
       <button class="sidebar-close" id="mobileMenuClose" aria-label="Close menu">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -457,7 +462,7 @@
   <!-- Search overlay -->
   <div class="search-overlay" id="searchOverlay" aria-hidden="true" role="dialog" aria-label="Search">
     <div class="search-overlay-header">
-      <img src="{{ 'logo.svg' | asset_url }}" alt="{{ shop.name }}" class="search-overlay-logo">
+      <img src="{{ 'logo1.png' | asset_url }}" alt="{{ shop.name }}" width="2151" height="731" class="search-overlay-logo">
       <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>

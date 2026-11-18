@@ -11,7 +11,7 @@
       {% for block in section.blocks %}
         <div class="tile" {{ block.shopify_attributes }}>
           {% if block.settings.video %}
-            {{ block.settings.video | video_tag: image_size: '700x', autoplay: true, loop: true, muted: true, controls: false }}
+            {{ block.settings.video | video_tag: image_size: '700x', autoplay: true, loop: true, muted: true, playsinline: true, controls: false }}
           {% elsif block.settings.image %}
             {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: block.settings.caption }}
           {% elsif block.settings.static_video != blank %}

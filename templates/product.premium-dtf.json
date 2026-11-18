@@ -1,35 +1,185 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product-premium-dtf",
       "blocks": {
-        "size-1ft":     { "type": "sheet_size", "settings": { "label": "1 Foot",   "price": "$16.99",  "compare_price": "",        "discount_pct": "",   "variant_id": "" } },
-        "size-2ft":     { "type": "sheet_size", "settings": { "label": "2 Feet",   "price": "$19.99",  "compare_price": "$33.88",  "discount_pct": "41", "variant_id": "" } },
-        "size-5ft":     { "type": "sheet_size", "settings": { "label": "5 Feet",   "price": "$49.99",  "compare_price": "$84.70",  "discount_pct": "41", "variant_id": "" } },
-        "size-7ft":     { "type": "sheet_size", "settings": { "label": "7 Feet",   "price": "$69.99",  "compare_price": "$118.58", "discount_pct": "41", "variant_id": "" } },
-        "size-10ft":    { "type": "sheet_size", "settings": { "label": "10 Feet",  "price": "$89.99",  "compare_price": "$169.40", "discount_pct": "47", "variant_id": "" } },
-        "size-15ft":    { "type": "sheet_size", "settings": { "label": "15 Feet",  "price": "$109.99", "compare_price": "$254.10", "discount_pct": "57", "variant_id": "" } },
-        "size-20ft":    { "type": "sheet_size", "settings": { "label": "20 Feet",  "price": "$129.99", "compare_price": "$338.80", "discount_pct": "62", "variant_id": "" } },
-        "size-30ft":    { "type": "sheet_size", "settings": { "label": "30 Feet",  "price": "$179.99", "compare_price": "$508.20", "discount_pct": "65", "variant_id": "" } },
-        "size-40ft":    { "type": "sheet_size", "settings": { "label": "40 Feet",  "price": "$210.99", "compare_price": "$677.60", "discount_pct": "68", "variant_id": "" } },
-        "film-vivid":   { "type": "film_style", "settings": { "label": "VIVID AF",         "option_value": "vivid-af",     "swatch_css": "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)", "badge": "FREE UPGRADE" } },
-        "film-glitter": { "type": "film_style", "settings": { "label": "Glitter",          "option_value": "glitter",      "swatch_css": "radial-gradient(circle, #fffde7 30%, #f5c518 100%)",          "badge": "" } },
-        "film-glow":    { "type": "film_style", "settings": { "label": "Glow in the Dark", "option_value": "glow-in-dark", "swatch_css": "#8bc34a",                                                      "badge": "" } },
-        "film-gold":    { "type": "film_style", "settings": { "label": "Gold Foil",        "option_value": "gold-foil",    "swatch_css": "linear-gradient(135deg,#c9a84c,#f5e07a,#c9a84c)",              "badge": "" } },
-        "film-silver":  { "type": "film_style", "settings": { "label": "Silver Foil",      "option_value": "silver-foil",  "swatch_css": "linear-gradient(135deg,#9e9e9e,#e0e0e0,#9e9e9e)",              "badge": "" } }
+        "size-1ft": {
+          "type": "sheet_size",
+          "settings": {
+            "label": "1 Foot",
+            "price": "$16.99",
+            "compare_price": "",
+            "discount_pct": "",
+            "variant_id": ""
+          }
+        },
+        "size-2ft": {
+          "type": "sheet_size",
+          "settings": {
+            "label": "2 Feet",
+            "price": "$19.99",
+            "compare_price": "$33.88",
+            "discount_pct": "41",
+            "variant_id": ""
+          }
+        },
+        "size-5ft": {
+          "type": "sheet_size",
+          "settings": {
+            "label": "5 Feet",
+            "price": "$49.99",
+            "compare_price": "$84.70",
+            "discount_pct": "41",
+            "variant_id": ""
+          }
+        },
+        "size-7ft": {
+          "type": "sheet_size",
+          "settings": {
+            "label": "7 Feet",
+            "price": "$69.99",
+            "compare_price": "$118.58",
+            "discount_pct": "41",
+            "variant_id": ""
+          }
+        },
+        "size-10ft": {
+          "type": "sheet_size",
+          "settings": {
+            "label": "10 Feet",
+            "price": "$89.99",
+            "compare_price": "$169.40",
+            "discount_pct": "47",
+            "variant_id": ""
+          }
+        },
+        "size-15ft": {
+          "type": "sheet_size",
+          "settings": {
+            "label": "15 Feet",
+            "price": "$109.99",
+            "compare_price": "$254.10",
+            "discount_pct": "57",
+            "variant_id": ""
+          }
+        },
+        "size-20ft": {
+          "type": "sheet_size",
+          "settings": {
+            "label": "20 Feet",
+            "price": "$129.99",
+            "compare_price": "$338.80",
+            "discount_pct": "62",
+            "variant_id": ""
+          }
+        },
+        "size-30ft": {
+          "type": "sheet_size",
+          "settings": {
+            "label": "30 Feet",
+            "price": "$179.99",
+            "compare_price": "$508.20",
+            "discount_pct": "65",
+            "variant_id": ""
+          }
+        },
+        "size-40ft": {
+          "type": "sheet_size",
+          "settings": {
+            "label": "40 Feet",
+            "price": "$210.99",
+            "compare_price": "$677.60",
+            "discount_pct": "68",
+            "variant_id": ""
+          }
+        },
+        "film-vivid": {
+          "type": "film_style",
+          "settings": {
+            "label": "VIVID AF",
+            "option_value": "vivid-af",
+            "swatch_css": "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)",
+            "badge": "FREE UPGRADE"
+          }
+        },
+        "film-glitter": {
+          "type": "film_style",
+          "settings": {
+            "label": "Glitter",
+            "option_value": "glitter",
+            "swatch_css": "radial-gradient(circle, #fffde7 30%, #f5c518 100%)",
+            "badge": ""
+          }
+        },
+        "film-glow": {
+          "type": "film_style",
+          "settings": {
+            "label": "Glow in the Dark",
+            "option_value": "glow-in-dark",
+            "swatch_css": "#8bc34a",
+            "badge": ""
+          }
+        },
+        "film-gold": {
+          "type": "film_style",
+          "settings": {
+            "label": "Gold Foil",
+            "option_value": "gold-foil",
+            "swatch_css": "linear-gradient(135deg,#c9a84c,#f5e07a,#c9a84c)",
+            "badge": ""
+          }
+        },
+        "film-silver": {
+          "type": "film_style",
+          "settings": {
+            "label": "Silver Foil",
+            "option_value": "silver-foil",
+            "swatch_css": "linear-gradient(135deg,#9e9e9e,#e0e0e0,#9e9e9e)",
+            "badge": ""
+          }
+        }
       },
       "block_order": [
-        "size-1ft", "size-2ft", "size-5ft", "size-7ft", "size-10ft",
-        "size-15ft", "size-20ft", "size-30ft", "size-40ft",
-        "film-vivid", "film-glitter", "film-glow", "film-gold", "film-silver"
+        "size-1ft",
+        "size-2ft",
+        "size-5ft",
+        "size-7ft",
+        "size-10ft",
+        "size-15ft",
+        "size-20ft",
+        "size-30ft",
+        "size-40ft",
+        "film-vivid",
+        "film-glitter",
+        "film-glow",
+        "film-gold",
+        "film-silver"
       ],
       "settings": {
         "badge_text": "VIVID AF",
         "unit_price": "$0.02/sq in",
         "fulfillment_note": "Ships from us",
+        "rating_value": "4.9",
+        "rating_count": "22,861",
+        "wash_count": "100",
         "volume_text": "Buy More & Save Up To 62%",
+        "volume_link": "",
+        "cutoff_hour": 17,
         "sheet_width": "22",
-        "guarantee_text": "The Fineyst Guarantee"
+        "builder_url": "",
+        "template_url": "",
+        "guarantee_text": "The Fineyst Guarantee",
+        "feature_video": "",
+        "feature_link": ""
       }
     },
     "pdp-details": {
@@ -102,7 +252,12 @@
         "d7",
         "d8"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Product Details",
+        "body": "<p>Experience professional-grade DTF printing made effortless with Fineyst Transfers. Every transfer is produced using our VIVID+ DTF process, featuring an expanded CMYK + RGBO + White ink system that delivers dramatically brighter colors, smoother gradients, and sharper detail - at no extra cost. From vibrant colors and clean whites to fine lines and complex gradients, our high-quality DTF transfers give shops, brands, and creators the freedom to print virtually any design on any garment with consistently standout results.</p>",
+        "subheading": "Super Vivid Prints. No Upcharge.",
+        "subbody": "<p>Most DTF providers still use 5-color printing as their standard. Accessing 9-color printing typically requires a paid upgrade, often increasing costs by up to 50%.</p><p>Fineyst includes 9-color VIVID+ printing on every DTF order at no additional cost.</p>"
+      }
     },
     "pdp-comparison": {
       "type": "pdp-comparison",
@@ -142,7 +297,18 @@
         "c3",
         "c4"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "The Next Generation of DTF Transfers",
+        "intro": "",
+        "image_ours": "comp-img1.jpg",
+        "label_ours": "VIVID+ 9-Color DTF",
+        "image_theirs": "comp-img2.jpg",
+        "label_theirs": "Industry Standard 5-Color DTF",
+        "ours_title": "Fineyst Standard DTF",
+        "ours_sub": "VIVID+, 9-Color Printing",
+        "theirs_title": "Competitor's Standard DTF",
+        "theirs_sub": "Basic, 5-Color Printing"
+      }
     },
     "pdp-benefits": {
       "type": "feature-tiles",
@@ -150,29 +316,37 @@
         "b1": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-1.jpg",
-            "caption": "Works on Any Fabric or Color"
+            "static_image": "any fab img.jpg",
+            "static_video": "",
+            "caption": "Works on Any Fabric or Color",
+            "link": ""
           }
         },
         "b2": {
           "type": "tile",
           "settings": {
-            "static_video": "dtf-video-1.mp4",
-            "caption": "Unrivaled Color Spectrum & Brighter Whites"
+            "static_image": "color-spec.jpg",
+            "static_video": "",
+            "caption": "Unrivaled Color Spectrum & Brighter Whites",
+            "link": ""
           }
         },
         "b3": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-2.jpg",
-            "caption": "Stretchability Means Durability"
+            "static_image": "stretch-duriable.jpg",
+            "static_video": "",
+            "caption": "Stretchability Means Durability",
+            "link": ""
           }
         },
         "b4": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-3.jpg",
-            "caption": "Sharper Details & Cleaner Edges"
+            "static_image": "spt 1.webp",
+            "static_video": "",
+            "caption": "Sharper Details & Cleaner Edges",
+            "link": ""
           }
         }
       },
@@ -194,14 +368,16 @@
         "text": "<p>Thanks to our proprietary Fineyst Peel Technology, our DTF gang sheets deliver professional results in just 13 seconds - making it easier than ever to press on anything!</p>",
         "cta_label": "View DTF Pressing Guide",
         "cta_link": "/pages/pressing-instructions",
-        "media_position": "left",
-        "static_video": "dtf-video-6.mp4"
+        "static_image": "",
+        "static_video": "dtf-video-6.mp4",
+        "media_position": "left"
       }
     },
     "pdp-ugc": {
       "type": "pdp-ugc",
       "settings": {
-        "heading": "Fineyst Transfers Customer Feedback"
+        "heading": "Fineyst Transfers Customer Feedback",
+        "files": "cr img1.webp,cr img2.webp,cr img3.webp,cr img4.webp,cr img5.webp,cr img6.webp,cr img7.webp"
       }
     },
     "pdp-related": {
@@ -235,7 +411,7 @@
           "type": "item",
           "settings": {
             "handle": "spangle-transfers",
-            "static_image": "dtf-3.jpg",
+            "static_image": "spt 1.webp",
             "title": "Spangle Transfers",
             "text": "Durable, holographic Spangle Transfers make any design instantly pop",
             "price": "As low as $0.04 per sq. inch",
@@ -259,7 +435,7 @@
           "type": "item",
           "settings": {
             "handle": "silver-foil-dtf",
-            "static_image": "dtf-5.avif",
+            "static_image": "t3.webp",
             "title": "Silver Foil DTF",
             "text": "Silver Foil DTF brings crisp, reflective metallic detail effortlessly",
             "price": "As low as $0.03 per sq. inch",
@@ -271,7 +447,7 @@
           "type": "item",
           "settings": {
             "handle": "glow-in-the-dark-dtf",
-            "static_image": "dtf-6.avif",
+            "static_image": "t2.webp",
             "title": "Glow in the Dark DTF",
             "text": "Glow coatings create bold, high-contrast designs that shine brilliantly",
             "price": "As low as $0.03 per sq. inch",
@@ -283,7 +459,7 @@
           "type": "item",
           "settings": {
             "handle": "glitter-puff-transfers",
-            "static_image": "dtf-8.avif",
+            "static_image": "t1.webp",
             "title": "3D Glitter Puff Transfers",
             "text": "Glitter Puff transfers deliver vibrant, raised sparkle effects beautifully",
             "price": "As low as $0.02 per sq. inch",
@@ -295,7 +471,7 @@
           "type": "item",
           "settings": {
             "handle": "names-numbers-gang-sheet",
-            "static_image": "hero-3.jpg",
+            "static_image": "cr img3.webp",
             "title": "Names & Numbers Gang Sheet",
             "text": "Easily create a Names & Numbers DTF gang sheet with our Gang Sheet Builder",
             "price": "As low as $0.02 per sq. inch",
@@ -314,7 +490,9 @@
         "p7",
         "p8"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Shop More Popular Products"
+      }
     },
     "pdp-reviews": {
       "type": "pdp-reviews",
@@ -387,7 +565,15 @@
         "r4",
         "r5"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Customer Reviews",
+        "per_page": 5,
+        "average": "4.9",
+        "total_reviews": "22860",
+        "breakdown": "21792,752,139,72,106",
+        "summary": "",
+        "topics": "quality,colors,look,transfers,design,size,results,service"
+      }
     },
     "pdp-qa": {
       "type": "pdp-qa",
@@ -445,12 +631,19 @@
         "q4",
         "q5"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Questions & Answers",
+        "ask_label": "Ask a question",
+        "ask_link": "",
+        "brand": "Fineyst Transfers"
+      }
     },
     "partner-banner": {
       "type": "partner-banner",
       "settings": {
-        "text": "Official Printing Partner of the Sandy Creek Athletics Program"
+        "text": "Official Printing Partner of the Sandy Creek Athletics Program",
+        "static_logo": "",
+        "static_bg": ""
       }
     }
   },

@@ -1,3 +1,39 @@
+/* Rotate the homepage trust-line words, including when Shopify reloads a section. */
+(function () {
+  function initializeHeroRotators(root) {
+    if (!root || !root.querySelectorAll) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    root.querySelectorAll('[data-hero-rotator]').forEach(function (rotator) {
+      if (rotator.hasAttribute('data-rotator-initialized')) return;
+
+      var words = (rotator.getAttribute('data-words') || '').split(',').map(function (word) {
+        return word.trim();
+      }).filter(Boolean);
+      if (words.length < 2) return;
+
+      var index = 0;
+      rotator.setAttribute('data-rotator-initialized', 'true');
+      rotator.textContent = words[index];
+      window.setInterval(function () {
+        index = (index + 1) % words.length;
+        rotator.textContent = words[index];
+      }, 2000);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      initializeHeroRotators(document);
+    });
+  } else {
+    initializeHeroRotators(document);
+  }
+  document.addEventListener('shopify:section:load', function (event) {
+    initializeHeroRotators(event.target);
+  });
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.mega-tabs').forEach(function (tabBar) {
     var panelGroup = tabBar.parentElement;
@@ -101,7 +137,50 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var input = dropzone.querySelector('[data-upload-input]');
     var artworkUrl = null;
+    var originalArtworkFile = null;
+    var optionFiles = [];
+    var optionUrls = [];
+    var activeOptionIndex = 0;
+    var backgroundRunId = 0;
+    var backgroundReplacementTimer = null;
+    var backgroundRemovalModulePromise = null;
+    var backgroundModelLoaded = false;
+    var backgroundRemovalCache = new Map();
+    var backgroundRemovalRequests = new Map();
+    var aiBgRemovalEnabled = !!(window.DTF_CONFIG && window.DTF_CONFIG.aiBgRemoval === true);
+    var backgroundPanelToggle = editor && editor.querySelector('[data-rail-tool] [data-controls="bg-options"]');
+    var backgroundPanel = backgroundPanelToggle && backgroundPanelToggle.closest('[data-rail-tool]');
+    var backgroundToggle = aiBgRemovalEnabled && editor && (
+      backgroundPanelToggle ||
+      pdp.querySelector('[data-ai-toggle][aria-label="Remove background"]')
+    );
+    var backgroundMessage = null;
     var artRatio = 1;
+
+    if (!aiBgRemovalEnabled) {
+      if (backgroundPanel) backgroundPanel.classList.add('bg-removal-disabled');
+      pdp.querySelectorAll('.ai-tools-row').forEach(function (row) {
+        if (row.querySelector('[data-ai-toggle][aria-label="Remove background"]')) {
+          row.classList.add('bg-removal-disabled');
+        }
+      });
+    }
+
+    if (backgroundToggle) {
+      backgroundMessage = pdp.querySelector('.bg-msg');
+      if (!backgroundMessage) {
+        backgroundMessage = document.createElement('span');
+        backgroundMessage.className = 'bg-msg';
+        backgroundMessage.setAttribute('role', 'status');
+        backgroundMessage.setAttribute('aria-live', 'polite');
+        var messageAnchor = backgroundToggle.closest('.rail-tool-head') ||
+          backgroundToggle.closest('.ai-tools-row') ||
+          backgroundToggle.parentElement;
+        if (messageAnchor && messageAnchor.parentNode) {
+          messageAnchor.parentNode.insertBefore(backgroundMessage, messageAnchor.nextSibling);
+        }
+      }
+    }
 
     function formatInches(value) {
       return parseFloat(value.toFixed(2)) + '"';
@@ -178,39 +257,362 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
+    function isBackgroundEnabled() {
+      return aiBgRemovalEnabled &&
+        !!backgroundToggle &&
+        backgroundToggle.getAttribute('aria-pressed') === 'true';
+    }
+
+    function setBackgroundMessage(message, isError) {
+      if (!backgroundMessage) return;
+      backgroundMessage.textContent = message || '';
+      backgroundMessage.classList.toggle('is-error', !!isError);
+    }
+
+    function setSpinnerProgress(current, total) {
+      var progress = total > 0 && isFinite(current)
+        ? Math.round(current / total * 100) + '%'
+        : '';
+      editor.querySelectorAll('[data-rail-option]').forEach(function (option, index) {
+        var spinner = option.querySelector('.rail-spinner');
+        if (!spinner) return;
+        if (index === activeOptionIndex && progress) spinner.setAttribute('data-progress', progress);
+        else spinner.removeAttribute('data-progress');
+      });
+    }
+
+    function fileKey(file) {
+      return JSON.stringify([file.name, file.size, file.lastModified]);
+    }
+
+    function loadImage(blob) {
+      return new Promise(function (resolve, reject) {
+        var url = URL.createObjectURL(blob);
+        var image = new Image();
+        image.onload = function () {
+          URL.revokeObjectURL(url);
+          resolve(image);
+        };
+        image.onerror = function () {
+          URL.revokeObjectURL(url);
+          reject(new Error('Unable to read the artwork image.'));
+        };
+        image.src = url;
+      });
+    }
+
+    function canvasToPng(canvas) {
+      return new Promise(function (resolve, reject) {
+        canvas.toBlob(function (blob) {
+          if (blob) resolve(blob);
+          else reject(new Error('Unable to create a PNG image.'));
+        }, 'image/png');
+      });
+    }
+
+    function loadBackgroundRemoval() {
+      if (!backgroundRemovalModulePromise) {
+        backgroundRemovalModulePromise = import(
+          'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm'
+        ).then(function (module) {
+          var removeBackground = module.default || module.removeBackground;
+          if (typeof removeBackground !== 'function') {
+            throw new Error('The background-removal library did not load correctly.');
+          }
+          return removeBackground;
+        }).catch(function (error) {
+          backgroundRemovalModulePromise = null;
+          throw error;
+        });
+      }
+      return backgroundRemovalModulePromise;
+    }
+
+    async function removeBg(file) {
+      var sourceKey = fileKey(file);
+      var originalImage = await loadImage(file);
+      var originalWidth = originalImage.naturalWidth;
+      var originalHeight = originalImage.naturalHeight;
+      if (!originalWidth || !originalHeight) throw new Error('The artwork has invalid image dimensions.');
+
+      var scale = Math.min(1, 2000 / Math.max(originalWidth, originalHeight));
+      var inputWidth = Math.max(1, Math.round(originalWidth * scale));
+      var inputHeight = Math.max(1, Math.round(originalHeight * scale));
+      var inputCanvas = document.createElement('canvas');
+      inputCanvas.width = inputWidth;
+      inputCanvas.height = inputHeight;
+      var inputContext = inputCanvas.getContext('2d');
+      if (!inputContext) throw new Error('Canvas is unavailable for background removal.');
+      inputContext.drawImage(originalImage, 0, 0, inputWidth, inputHeight);
+      var inputBlob = await canvasToPng(inputCanvas);
+
+      if (!backgroundModelLoaded) {
+        setBackgroundMessage('Downloading AI model, first time only…');
+      }
+      var removeBackground = await loadBackgroundRemoval();
+      var maskBlob = await removeBackground(inputBlob, {
+        model: 'isnet_fp16',
+        output: { format: 'image/png' },
+        progress: function (key, current, total) {
+          if (!originalArtworkFile || fileKey(originalArtworkFile) !== sourceKey || !isBackgroundEnabled()) return;
+          var message = backgroundModelLoaded
+            ? 'Removing background…'
+            : 'Downloading AI model, first time only…';
+          if (total > 0 && isFinite(current)) {
+            message += ' ' + Math.round(current / total * 100) + '%';
+          }
+          setSpinnerProgress(current, total);
+          setBackgroundMessage(message);
+        }
+      });
+      backgroundModelLoaded = true;
+
+      var maskImage = await loadImage(maskBlob);
+      var outputCanvas = document.createElement('canvas');
+      outputCanvas.width = originalWidth;
+      outputCanvas.height = originalHeight;
+      var outputContext = outputCanvas.getContext('2d', { willReadFrequently: true });
+      if (!outputContext) throw new Error('Canvas is unavailable for applying the background mask.');
+      outputContext.drawImage(originalImage, 0, 0);
+      outputContext.globalCompositeOperation = 'destination-in';
+      outputContext.drawImage(maskImage, 0, 0, originalWidth, originalHeight);
+      outputContext.globalCompositeOperation = 'source-over';
+
+      var imageData = outputContext.getImageData(0, 0, originalWidth, originalHeight);
+      var originalAlpha = new Uint8Array(originalWidth * originalHeight);
+      for (var pixel = 0; pixel < originalAlpha.length; pixel++) {
+        originalAlpha[pixel] = imageData.data[pixel * 4 + 3];
+      }
+
+      var baseName = (file.name || 'artwork').replace(/\.[^.]+$/, '');
+      var optionOne = new File([await canvasToPng(outputCanvas)], baseName + '-background-removed.png', {
+        type: 'image/png'
+      });
+
+      for (var y = 0; y < originalHeight; y++) {
+        for (var x = 0; x < originalWidth; x++) {
+          var offset = y * originalWidth + x;
+          var keep = originalAlpha[offset] > 128;
+          if (keep) {
+            for (var dy = -1; dy <= 1 && keep; dy++) {
+              for (var dx = -1; dx <= 1; dx++) {
+                var neighborX = x + dx;
+                var neighborY = y + dy;
+                if (
+                  neighborX < 0 || neighborX >= originalWidth ||
+                  neighborY < 0 || neighborY >= originalHeight ||
+                  originalAlpha[neighborY * originalWidth + neighborX] <= 128
+                ) {
+                  keep = false;
+                  break;
+                }
+              }
+            }
+          }
+          imageData.data[offset * 4 + 3] = keep ? 255 : 0;
+        }
+      }
+      outputContext.putImageData(imageData, 0, 0);
+      var optionTwo = new File([await canvasToPng(outputCanvas)], baseName + '-sharper-edges.png', {
+        type: 'image/png'
+      });
+
+      for (var alphaIndex = 0; alphaIndex < originalAlpha.length; alphaIndex++) {
+        imageData.data[alphaIndex * 4 + 3] = Math.min(255, Math.round(originalAlpha[alphaIndex] * 1.4));
+      }
+      outputContext.putImageData(imageData, 0, 0);
+      var optionThree = new File([await canvasToPng(outputCanvas)], baseName + '-more-detail.png', {
+        type: 'image/png'
+      });
+
+      inputCanvas.width = 0;
+      inputCanvas.height = 0;
+      outputCanvas.width = 0;
+      outputCanvas.height = 0;
+      return [optionOne, optionTwo, optionThree];
+    }
+
+    function getBackgroundVariants(file) {
+      var key = fileKey(file);
+      if (backgroundRemovalCache.has(key)) return Promise.resolve(backgroundRemovalCache.get(key));
+      if (backgroundRemovalRequests.has(key)) return backgroundRemovalRequests.get(key);
+
+      var request = removeBg(file).then(function (variants) {
+        backgroundRemovalCache.set(key, variants);
+        backgroundRemovalRequests.delete(key);
+        return variants;
+      }, function (error) {
+        backgroundRemovalRequests.delete(key);
+        throw error;
+      });
+      backgroundRemovalRequests.set(key, request);
+      return request;
+    }
+
+    function clearOptionUrls() {
+      optionUrls.forEach(function (url) { URL.revokeObjectURL(url); });
+      optionUrls = [];
+    }
+
+    function setOptionFiles(files) {
+      clearOptionUrls();
+      optionFiles = files;
+      optionUrls = files.map(function (file) { return URL.createObjectURL(file); });
+      editor.querySelectorAll('[data-option-art]').forEach(function (image, index) {
+        image.src = optionUrls[index] || artworkUrl;
+      });
+    }
+
+    function setOriginalOptionFiles(file) {
+      clearOptionUrls();
+      optionFiles = [file, file, file];
+      editor.querySelectorAll('[data-option-art]').forEach(function (image) {
+        image.src = artworkUrl;
+      });
+    }
+
+    function setOptionLoading(isLoading) {
+      editor.querySelectorAll('[data-rail-option]').forEach(function (option) {
+        option.classList.toggle('is-loading', isLoading);
+        option.disabled = isLoading;
+        if (!isLoading) {
+          var spinner = option.querySelector('.rail-spinner');
+          if (spinner) spinner.removeAttribute('data-progress');
+        }
+      });
+    }
+
+    function showArtwork(url) {
+      editor.querySelectorAll('[data-canvas-art], [data-mockup-art]').forEach(function (image) {
+        image.src = url;
+      });
+    }
+
+    function setActiveOption(index) {
+      editor.querySelectorAll('[data-rail-option]').forEach(function (option, optionIndex) {
+        option.classList.toggle('is-active', optionIndex === index);
+      });
+    }
+
+    function cancelBackgroundReplacement() {
+      if (backgroundReplacementTimer) clearTimeout(backgroundReplacementTimer);
+      backgroundReplacementTimer = null;
+    }
+
+    function replaceUploadedArtwork(file) {
+      cancelBackgroundReplacement();
+      backgroundReplacementTimer = setTimeout(function () {
+        backgroundReplacementTimer = null;
+        document.dispatchEvent(new CustomEvent('dtf:artwork-replace', {
+          detail: { file: file }
+        }));
+      }, 300);
+    }
+
+    function selectOption(index, shouldReplace) {
+      if (!optionFiles[index]) return;
+      activeOptionIndex = index;
+      setActiveOption(index);
+      showArtwork(optionUrls[index] || artworkUrl);
+      if (shouldReplace) replaceUploadedArtwork(optionFiles[index]);
+    }
+
+    function showOriginal(shouldReplace) {
+      setActiveOption(-1);
+      showArtwork(artworkUrl);
+      if (shouldReplace && originalArtworkFile) replaceUploadedArtwork(originalArtworkFile);
+    }
+
+    function startBackgroundRemoval(resetSelection) {
+      if (!aiBgRemovalEnabled || !originalArtworkFile || !isBackgroundEnabled()) return;
+      var file = originalArtworkFile;
+      var runId = ++backgroundRunId;
+      if (resetSelection) activeOptionIndex = 0;
+      setOptionLoading(true);
+      setBackgroundMessage(backgroundModelLoaded
+        ? 'Removing background…'
+        : 'Downloading AI model, first time only…');
+
+      getBackgroundVariants(file).then(function (variants) {
+        if (runId !== backgroundRunId || file !== originalArtworkFile || !isBackgroundEnabled()) return;
+        setOptionFiles(variants);
+        setOptionLoading(false);
+        setBackgroundMessage('');
+        selectOption(Math.min(activeOptionIndex, variants.length - 1), true);
+      }).catch(function (error) {
+        if (runId !== backgroundRunId || file !== originalArtworkFile || !isBackgroundEnabled()) return;
+        setOriginalOptionFiles(file);
+        activeOptionIndex = 0;
+        setActiveOption(0);
+        setOptionLoading(false);
+        showArtwork(artworkUrl);
+        setBackgroundMessage('Background removal failed. Showing the original artwork.', true);
+        console.error('Background removal failed.', error);
+      });
+    }
+
+    function handleBackgroundToggle() {
+      if (!aiBgRemovalEnabled || !originalArtworkFile) return;
+      if (!isBackgroundEnabled()) {
+        backgroundRunId++;
+        setOptionLoading(false);
+        setBackgroundMessage('');
+        showOriginal(true);
+        return;
+      }
+
+      setOriginalOptionFiles(originalArtworkFile);
+      showArtwork(artworkUrl);
+      if (originalArtworkFile.name.indexOf('artwork-edited-') === 0) {
+        setActiveOption(0);
+        setBackgroundMessage('');
+        return;
+      }
+      startBackgroundRemoval(false);
+    }
+
     function openEditor(file) {
       if (!editor || !file || file.type.indexOf('image/') !== 0) return;
+      backgroundRunId++;
+      cancelBackgroundReplacement();
+      clearOptionUrls();
       if (artworkUrl) URL.revokeObjectURL(artworkUrl);
+      originalArtworkFile = file;
       artworkUrl = URL.createObjectURL(file);
-
-      editor.querySelectorAll('[data-canvas-art], [data-option-art], [data-mockup-art]').forEach(function (img) {
-        img.src = artworkUrl;
-      });
+      setOriginalOptionFiles(file);
+      showArtwork(artworkUrl);
+      setActiveOption(0);
+      setOptionLoading(false);
+      setBackgroundMessage('');
 
       var probe = new Image();
       probe.onload = function () { sizeArtwork(probe.naturalWidth, probe.naturalHeight); };
       probe.src = artworkUrl;
 
-      // The background-removal variants resolve one after another.
-      editor.querySelectorAll('[data-rail-option]').forEach(function (option, index) {
-        if (index === 0) return;
-        option.classList.add('is-loading');
-        setTimeout(function () { option.classList.remove('is-loading'); }, 700 + index * 600);
-      });
-
       pdp.classList.add('is-editing');
       editor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (aiBgRemovalEnabled && file.name.indexOf('artwork-edited-') !== 0 && isBackgroundEnabled()) {
+        startBackgroundRemoval(true);
+      }
     }
 
     function closeEditor() {
       pdp.classList.remove('is-editing');
+      backgroundRunId++;
+      cancelBackgroundReplacement();
+      clearOptionUrls();
       if (artworkUrl) URL.revokeObjectURL(artworkUrl);
       artworkUrl = null;
+      originalArtworkFile = null;
+      optionFiles = [];
+      setOptionLoading(false);
+      setBackgroundMessage('');
       if (input) input.value = '';
       if (editor) {
         editor.querySelectorAll('[data-canvas-art], [data-option-art], [data-mockup-art]').forEach(function (img) {
           img.removeAttribute('src');
         });
+        setActiveOption(-1);
       }
     }
 
@@ -227,11 +629,16 @@ document.addEventListener('DOMContentLoaded', function () {
       editor.querySelector('[data-canvas]').classList.toggle('is-zoomed');
     });
 
+    if (backgroundToggle) {
+      backgroundToggle.addEventListener('click', handleBackgroundToggle);
+    }
+
     editor.querySelectorAll('[data-rail-option]').forEach(function (option) {
       option.addEventListener('click', function () {
-        editor.querySelectorAll('[data-rail-option]').forEach(function (o) {
-          o.classList.toggle('is-active', o === option);
-        });
+        if (isBackgroundEnabled()) selectOption(
+          Array.prototype.indexOf.call(editor.querySelectorAll('[data-rail-option]'), option),
+          true
+        );
       });
     });
 
@@ -242,15 +649,214 @@ document.addEventListener('DOMContentLoaded', function () {
       if (morePanel) morePanel.hidden = expanded;
     });
 
-    var stage = editor.querySelector('[data-preview-stage]');
+    var mockupImages = [];
+    var selectedGarmentColor = '#ffffff';
+    var initialSwatch = editor.querySelector('[data-swatch].is-active');
+    if (initialSwatch) selectedGarmentColor = initialSwatch.getAttribute('data-color') || selectedGarmentColor;
+
+    function parseSwatchColor(color) {
+      var match = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec((color || '').trim());
+      if (!match) return null;
+      var hex = match[1];
+      if (hex.length === 3) hex = hex.replace(/(.)/g, '$1$1');
+      return [
+        parseInt(hex.slice(0, 2), 16),
+        parseInt(hex.slice(2, 4), 16),
+        parseInt(hex.slice(4, 6), 16)
+      ];
+    }
+
+    function tintMockup(mockup, color) {
+      var rgb = parseSwatchColor(color);
+      if (!rgb) {
+        console.error('Invalid garment swatch color:', color);
+        return;
+      }
+
+      var source = mockup.source.data;
+      var output = mockup.context.createImageData(mockup.source.width, mockup.source.height);
+      for (var i = 0; i < source.length; i += 4) {
+        var brightness = (source[i] * 0.2126 + source[i + 1] * 0.7152 + source[i + 2] * 0.0722) / 255;
+        output.data[i] = Math.round(rgb[0] * brightness);
+        output.data[i + 1] = Math.round(rgb[1] * brightness);
+        output.data[i + 2] = Math.round(rgb[2] * brightness);
+        output.data[i + 3] = source[i + 3];
+      }
+
+      mockup.context.putImageData(output, 0, 0);
+      mockup.img.src = mockup.canvas.toDataURL('image/png');
+    }
+
+    function cacheMockupImage(img) {
+      if (img.dataset.mockupCached || !img.naturalWidth) return;
+      img.dataset.mockupCached = 'true';
+
+      var canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      var context = canvas.getContext('2d', { willReadFrequently: true });
+      if (!context) {
+        console.error('Unable to create a canvas for garment color preview.');
+        return;
+      }
+
+      try {
+        context.drawImage(img, 0, 0);
+        var source = context.getImageData(0, 0, canvas.width, canvas.height);
+        var mockup = { img: img, canvas: canvas, context: context, source: source };
+        mockupImages.push(mockup);
+        tintMockup(mockup, selectedGarmentColor);
+      } catch (error) {
+        console.error('Unable to recolor this mockup. Use a Shopify-hosted image with a transparent background.', error);
+      }
+    }
+
+    editor.querySelectorAll('.mockup-product').forEach(function (img) {
+      if (img.complete) {
+        cacheMockupImage(img);
+      } else {
+        img.addEventListener('load', function () { cacheMockupImage(img); }, { once: true });
+      }
+    });
+
+    function activateSwatch(activeSwatch, color) {
+      editor.querySelectorAll('[data-swatch], .swatch--multi').forEach(function (swatch) {
+        swatch.classList.toggle('is-active', swatch === activeSwatch);
+      });
+      selectedGarmentColor = color || '#ffffff';
+      mockupImages.forEach(function (mockup) {
+        tintMockup(mockup, selectedGarmentColor);
+      });
+    }
+
     editor.querySelectorAll('[data-swatch]').forEach(function (swatch) {
       swatch.addEventListener('click', function () {
-        editor.querySelectorAll('[data-swatch]').forEach(function (s) {
-          s.classList.toggle('is-active', s === swatch);
-        });
-        if (stage) stage.style.setProperty('--preview-color', swatch.getAttribute('data-color') || '#fff');
+        activateSwatch(swatch, swatch.getAttribute('data-color'));
       });
     });
+
+    var pickerRoot = editor.querySelector('[data-custom-picker]');
+    if (pickerRoot) {
+      var pickerButton = pickerRoot.querySelector('[data-custom-toggle]');
+      var picker = pickerRoot.querySelector('[data-color-picker]');
+      var plane = pickerRoot.querySelector('[data-color-plane]');
+      var pointer = pickerRoot.querySelector('[data-color-pointer]');
+      var hueInput = pickerRoot.querySelector('[data-color-hue]');
+      var hexInput = pickerRoot.querySelector('[data-color-hex]');
+      var pickerHsv = { h: 0, s: 0, v: 1 };
+
+      function hexToHsv(hex) {
+        var rgb = parseSwatchColor(hex);
+        if (!rgb) return null;
+        var r = rgb[0] / 255;
+        var g = rgb[1] / 255;
+        var b = rgb[2] / 255;
+        var max = Math.max(r, g, b);
+        var min = Math.min(r, g, b);
+        var delta = max - min;
+        var h = 0;
+        if (delta) {
+          if (max === r) h = 60 * (((g - b) / delta) % 6);
+          else if (max === g) h = 60 * ((b - r) / delta + 2);
+          else h = 60 * ((r - g) / delta + 4);
+        }
+        return { h: (h + 360) % 360, s: max ? delta / max : 0, v: max };
+      }
+
+      function hsvToHex(h, s, v) {
+        var hue = ((h % 360) + 360) % 360;
+        var chroma = v * s;
+        var x = chroma * (1 - Math.abs((hue / 60) % 2 - 1));
+        var m = v - chroma;
+        var rgb = hue < 60 ? [chroma, x, 0] :
+          hue < 120 ? [x, chroma, 0] :
+            hue < 180 ? [0, chroma, x] :
+              hue < 240 ? [0, x, chroma] :
+                hue < 300 ? [x, 0, chroma] : [chroma, 0, x];
+        return '#' + rgb.map(function (channel) {
+          return ('0' + Math.round((channel + m) * 255).toString(16)).slice(-2);
+        }).join('');
+      }
+
+      function updatePicker(color) {
+        var hsv = hexToHsv(color);
+        if (!hsv) return;
+        pickerHsv = hsv;
+        hueInput.value = String(Math.round(hsv.h) % 360);
+        plane.style.backgroundColor = 'hsl(' + hsv.h + ', 100%, 50%)';
+        pointer.style.left = (hsv.s * 100) + '%';
+        pointer.style.top = ((1 - hsv.v) * 100) + '%';
+        hexInput.value = hsvToHex(hsv.h, hsv.s, hsv.v);
+      }
+
+      function applyPickerColor(color) {
+        if (!parseSwatchColor(color)) return;
+        updatePicker(color);
+        activateSwatch(pickerButton, color);
+      }
+
+      function closePicker() {
+        picker.hidden = true;
+        pickerButton.setAttribute('aria-expanded', 'false');
+      }
+
+      pickerButton.addEventListener('click', function () {
+        if (picker.hidden) {
+          updatePicker(selectedGarmentColor);
+          picker.hidden = false;
+          pickerButton.setAttribute('aria-expanded', 'true');
+          activateSwatch(pickerButton, selectedGarmentColor);
+        } else {
+          closePicker();
+        }
+      });
+
+      hueInput.addEventListener('input', function () {
+        applyPickerColor(hsvToHex(Number(hueInput.value), pickerHsv.s, pickerHsv.v));
+      });
+
+      hexInput.addEventListener('input', function () {
+        if (/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(hexInput.value.trim())) {
+          applyPickerColor(hexInput.value.trim());
+        }
+      });
+
+      function setColorFromPointer(event) {
+        var bounds = plane.getBoundingClientRect();
+        pickerHsv.s = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+        pickerHsv.v = 1 - Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
+        applyPickerColor(hsvToHex(pickerHsv.h, pickerHsv.s, pickerHsv.v));
+      }
+
+      plane.addEventListener('pointerdown', function (event) {
+        event.preventDefault();
+        plane.setPointerCapture(event.pointerId);
+        setColorFromPointer(event);
+      });
+      plane.addEventListener('pointermove', function (event) {
+        if (plane.hasPointerCapture(event.pointerId)) setColorFromPointer(event);
+      });
+      plane.addEventListener('keydown', function (event) {
+        var amount = event.shiftKey ? 0.1 : 0.02;
+        if (event.key === 'ArrowLeft') pickerHsv.s = Math.max(0, pickerHsv.s - amount);
+        else if (event.key === 'ArrowRight') pickerHsv.s = Math.min(1, pickerHsv.s + amount);
+        else if (event.key === 'ArrowUp') pickerHsv.v = Math.min(1, pickerHsv.v + amount);
+        else if (event.key === 'ArrowDown') pickerHsv.v = Math.max(0, pickerHsv.v - amount);
+        else return;
+        event.preventDefault();
+        applyPickerColor(hsvToHex(pickerHsv.h, pickerHsv.s, pickerHsv.v));
+      });
+
+      document.addEventListener('pointerdown', function (event) {
+        if (!pickerRoot.contains(event.target)) closePicker();
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && !picker.hidden) {
+          closePicker();
+          pickerButton.focus();
+        }
+      });
+    }
 
     // --- Step 2: transfer sizes ---
     var sizeStep = editor.querySelector('[data-sizes]');
@@ -654,10 +1260,32 @@ document.addEventListener('DOMContentLoaded', function () {
   /* --- Capsule tab bar: arrow scroll --- */
   var tabsScroll = document.getElementById('capsuleTabsScroll');
   var tabsArrow = document.getElementById('capsuleTabArrow');
+  var tabsArrowBack = document.getElementById('capsuleTabArrowBack');
   if (tabsScroll && tabsArrow) {
+    function updateCapsuleArrowState() {
+      var canScrollLeft = tabsScroll.scrollLeft > 1;
+      tabsScroll.classList.toggle('has-scroll-left', canScrollLeft);
+      var maxScrollLeft = tabsScroll.scrollWidth - tabsScroll.clientWidth;
+      var canScrollRight = maxScrollLeft - tabsScroll.scrollLeft > 1;
+
+      if (tabsArrowBack) {
+        tabsArrowBack.hidden = !canScrollLeft;
+        tabsArrowBack.disabled = !canScrollLeft;
+      }
+      tabsArrow.disabled = !canScrollRight;
+    }
+
     tabsArrow.addEventListener('click', function () {
       tabsScroll.scrollBy({ left: 160, behavior: 'smooth' });
     });
+    if (tabsArrowBack) {
+      tabsArrowBack.addEventListener('click', function () {
+        tabsScroll.scrollBy({ left: -160, behavior: 'smooth' });
+      });
+    }
+    tabsScroll.addEventListener('scroll', updateCapsuleArrowState, { passive: true });
+    window.addEventListener('resize', updateCapsuleArrowState);
+    requestAnimationFrame(updateCapsuleArrowState);
   }
 
   /* --- Search overlay --- */

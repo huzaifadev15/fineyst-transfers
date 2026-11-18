@@ -1,5 +1,5 @@
 <style>
-  .upload-dropzone.is-dragging { border-color: var(--brand); background: var(--brand-tint); }
+  .upload-dropzone.is-dragging { border-color: #0B3D2E ; background: var(--brand-tint); }
   .upload-file-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
   .upload-file-item { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--pdp-line); border-radius: 8px; padding: 8px 12px; font-size: 0.82rem; }
   .upload-file-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -9,20 +9,55 @@
   .upload-file-progress { font-size: 0.72rem; font-weight: 600; color: var(--pdp-muted); margin-left: auto; }
   .upload-file-item.is-error { border-color: #F3C6C6; background: #FFF6F6; }
   .upload-file-remove { border: none; background: none; font-size: 1.1rem; line-height: 1; color: var(--pdp-muted); cursor: pointer; padding: 0 2px; }
-  .upload-file-remove:hover { color: #C92A2A; }
+
+
+
+@media (max-width: 767px) {
+  .pdp-cashback {
+    margin-top: 12px;
+  }
+
+  .pdp-bnpl {
+    margin-top: 20px;
+    padding-top: 16px;
+  }
+}
+
+
+
 </style>
 
 <style>
-  .btn-checkout { display: block; width: 100%; background: #007AFF; color: #fff; border: none; border-radius: 10px; padding: 18px 24px; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; margin-top: 16px; text-align: center; }
-  .btn-checkout:hover:not(:disabled) { background: #0062cc; }
-  .btn-checkout:disabled { background: #b0c8e8; cursor: not-allowed; }
-  .pdp-cashback { display: flex; align-items: center; gap: 6px; font-size: 0.84rem; color: var(--text, #333); margin-top: 12px; flex-wrap: wrap; }
+  
+  .btn-checkout {display: block;width: 100%;min-height: 54px;background: #0B3D2E; color: #ffffff; border: none;border-radius: 10px;padding: 15px 24px;font-size: 1rem;font-weight: 800;letter-spacing: 0.06em;text-transform: uppercase;cursor: pointer;transition: background 0.15s;margin-top: 0;text-align: center;}.pdp-buy {margin-top: 24px;}@media (max-width: 767px) {.btn-checkout {min-height: 52px;padding: 14px 18px;}.pdp-buy {margin-top: 20px;}}
+  .btn-checkout:disabled { background: #C9D2DE; cursor: not-allowed; }
+
+.pdp-cashback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  font-size: 0.84rem;
+  color: var(--text, #333);
+  margin-top: 14px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .pdp-cashback {
+    margin-top: 12px;
+    gap: 5px;
+    justify-content: center;
+  }
+}
   .pdp-cashback svg { flex-shrink: 0; color: #1a7f37; }
   .pdp-cashback strong { color: #1a7f37; }
   .pdp-cashback-sep { color: var(--pdp-muted, #888); margin: 0 2px; }
-  .pdp-cashback-learn { color: var(--brand, #007AFF); text-decoration: none; margin-left: 4px; white-space: nowrap; }
+  .pdp-cashback-learn { color: var(--brand-text, #82C341); text-decoration: none; margin-left: 4px; white-space: nowrap; }
   .pdp-cashback-learn:hover { text-decoration: underline; }
-  .pdp-bnpl { margin-top: 18px; text-align: center; border-top: 1px solid var(--pdp-line, #e8e8e8); padding-top: 16px; }
+  .pdp-bnpl { margin-top: 24px; text-align: center; border-top: 1px solid var(--pdp-line, #e8e8e8); padding-top: 20px; }
   .pdp-bnpl-label { font-size: 0.82rem; color: var(--pdp-muted, #888); margin: 0 0 10px; }
   .pdp-bnpl-logos { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
   .bnpl-logo { font-size: 0.78rem; font-weight: 700; padding: 5px 10px; border-radius: 6px; white-space: nowrap; line-height: 1; }
@@ -30,26 +65,25 @@
   .bnpl-afterpay { background: #B2FCE4; color: #000; }
   .bnpl-klarna { background: #FFB3C7; color: #000; }
   .bnpl-sezzle { background: #392558; color: #fff; }
-  .bnpl-affirm { background: #fff; color: #0FA0CE; border: 1px solid #e0e0e0; }
+  .bnpl-affirm { background: #fff; color: var(--brand-text, #12A150); border: 1px solid #e0e0e0; }
   .pdp-bnpl-legal { font-size: 0.65rem; color: var(--pdp-muted, #888); margin: 10px 0 0; line-height: 1.5; }
   .precut-option { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--pdp-line, #e8e8e8); }
   .precut-option h4 { font-size: 0.85rem; font-weight: 600; margin: 0 0 8px; }
   .precut-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; }
-  .precut-label input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--brand, #007AFF); flex-shrink: 0; }
+  .precut-label input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--brand, #12A150); flex-shrink: 0; }
   .precut-optional { color: var(--pdp-muted, #888); font-size: 0.82rem; font-weight: 400; }
-  .upload-file-progress-msg { font-size: 0.72rem; font-weight: 600; color: var(--brand, #007AFF); margin-left: auto; }
+  .upload-file-progress-msg { font-size: 0.72rem; font-weight: 600; color: var(--brand-text, #82C341); margin-left: auto; }
   /* Size input steppers */
   .size-field-inner { position: relative; }
   .size-field-inner input { width: 100%; padding: 10px 28px 10px 12px; border: 1px solid #D6DAE0; border-radius: 8px; font-family: inherit; font-size: 1rem; color: #1A1A1A; -moz-appearance: textfield; }
   .size-field-inner input::-webkit-inner-spin-button, .size-field-inner input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-  .size-field-inner input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(62,109,142,0.15); }
+  .size-field-inner input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(18,161,80,0.15); }
   .size-steppers { position: absolute; right: 1px; top: 1px; bottom: 1px; display: flex; flex-direction: column; border-left: 1px solid #D6DAE0; border-radius: 0 7px 7px 0; overflow: hidden; width: 22px; }
   .size-stepper { flex: 1; display: flex; align-items: center; justify-content: center; border: none; background: #fafafa; cursor: pointer; padding: 0; color: #667085; line-height: 1; }
-  .size-stepper:hover { background: #F0F1F4; color: #1A1A1A; }
   .size-stepper:first-child { border-bottom: 1px solid #D6DAE0; }
   /* Popular size dropdown */
   .popular-size-select { width: 100%; padding: 12px 14px; border: 1px solid #D6DAE0; border-radius: 8px; font-family: inherit; font-size: 0.92rem; color: #1A1A1A; background: #fff; cursor: pointer; margin-top: 4px; }
-  .popular-size-select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(62,109,142,0.15); }
+  .popular-size-select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(18,161,80,0.15); }
 </style>
 
 {%- liquid
@@ -72,16 +106,37 @@
         image carousel.
       {%- endcomment -%}
       {%- assign image_count = product.images.size -%}
+      {%- assign custom_gallery_assets = 't3.webp|t11.webp|dtf images 1.webp|dtf images 2.webp|dtf image 3.webp|dtf image 4.webp|upload dtf.webp' | split: '|' -%}
+      {%- assign use_custom_gallery = false -%}
+      {%- if product.handle == 'dtf-transfers' -%}
+        {%- assign use_custom_gallery = true -%}
+        {%- assign gallery_image_count = custom_gallery_assets.size -%}
+      {%- elsif product.handle == 'uv-dtf-perma-stickers' -%}
+        {%- assign use_custom_gallery = true -%}
+        {%- assign custom_gallery_assets = 'uv img1.webp|uv img 2.webp|uv img3.webp|uv img4.webp|uv img5.webp' | split: '|' -%}
+        {%- assign gallery_image_count = custom_gallery_assets.size -%}
+      {%- else -%}
+        {%- assign gallery_image_count = image_count -%}
+      {%- endif -%}
 
       <div class="product-gallery" data-gallery>
-        {%- if image_count > 1 -%}
+        {%- if gallery_image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
         {%- endif -%}
 
         <div class="gallery-main" data-gallery-main>
-          {%- if image_count > 0 -%}
+          {%- if use_custom_gallery -%}
+            {%- for asset in custom_gallery_assets -%}
+              <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
+                <img src="{{ asset | asset_url }}"
+                     alt="DTF transfer image {{ forloop.index }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     sizes="(min-width: 990px) 45vw, 100vw">
+              </div>
+            {%- endfor -%}
+          {%- elsif image_count > 0 -%}
             {%- for image in product.images -%}
               <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
                 <img src="{{ image | image_url: width: 1400 }}"
@@ -95,22 +150,32 @@
           {%- endif -%}
         </div>
 
-        {%- if image_count > 1 -%}
+        {%- if gallery_image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
           </button>
         {%- endif -%}
       </div>
 
-      {%- if image_count > 1 -%}
+      {%- if gallery_image_count > 1 -%}
         <div class="gallery-thumbs">
-          {%- for image in product.images -%}
-            <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
-                    data-gallery-thumb data-index="{{ forloop.index0 }}"
-                    aria-label="View image {{ forloop.index }}">
-              <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
-            </button>
-          {%- endfor -%}
+          {%- if use_custom_gallery -%}
+            {%- for asset in custom_gallery_assets -%}
+              <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                      data-gallery-thumb data-index="{{ forloop.index0 }}"
+                      aria-label="View image {{ forloop.index }}">
+                <img src="{{ asset | asset_url }}" alt="" loading="lazy">
+              </button>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for image in product.images -%}
+              <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                      data-gallery-thumb data-index="{{ forloop.index0 }}"
+                      aria-label="View image {{ forloop.index }}">
+                <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
+              </button>
+            {%- endfor -%}
+          {%- endif -%}
         </div>
       {%- endif -%}
 
@@ -221,6 +286,7 @@
         </div>
 
         <div class="upload-card-body">
+        {% comment %}
           <div class="upload-dropzone" data-upload-dropzone>
             <span class="upload-icon">
               <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.95 5.5 5.5 0 0 1 10.7-1.6A3.75 3.75 0 0 1 17.5 18"/><path d="M12 21v-8M9 15.5l3-3 3 3"/></svg>
@@ -231,6 +297,60 @@
             <button type="button" class="btn-blue" data-upload-browse>Browse</button>
             <ul class="upload-file-list" data-upload-file-list></ul>
           </div>
+          {% endcomment %}
+
+
+
+
+
+
+        <div class="upload-dropzone" data-upload-dropzone>
+  <div class="upload-dz-main">
+    <div class="upload-dz-art" aria-hidden="true">
+      <svg width="150" height="120" viewBox="0 0 150 120" fill="none">
+  <rect x="8" y="26" width="84" height="76" rx="10" transform="rotate(-10 50 64)" fill="#fff" stroke="#B6F000" stroke-width="2"/>
+  <rect x="38" y="14" width="84" height="76" rx="10" fill="#fff" stroke="#0B3D2E" stroke-width="3"/>
+  <rect x="50" y="26" width="60" height="52" rx="6" fill="#0B3D2E"/>
+  <circle cx="66" cy="40" r="5" fill="#B6F000"/>
+  <path d="M50 78L68 54l12 14 8-8 22 18z" fill="#B6F000"/>
+  <circle cx="108" cy="88" r="20" fill="#0B3D2E" stroke="#fff" stroke-width="4"/>
+  <path d="M108 97V80M101 87l7-7 7 7" stroke="#B6F000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M126 12l4 9M136 20l-2 8M118 8l1 8" stroke="#0B3D2E" stroke-width="3" stroke-linecap="round"/>
+</svg>
+    </div>
+    <span class="upload-dz-divider" aria-hidden="true"></span>
+    <div class="upload-dz-copy">
+      <p class="upload-title">Upload Your Files (up to {{ section.settings.max_files }})</p>
+      <p class="upload-sub">Drag and drop files here or click to browse</p>
+      <input type="file" accept="image/*,.pdf,.ai,.eps,.svg,.psd" multiple hidden data-upload-input>
+      <button type="button" class="btn-blue upload-browse-btn" data-upload-browse>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        Browse Files
+      </button>
+    </div>
+  </div>
+
+  <div class="upload-types">
+    <span class="upload-types-label">Accepted File Types:</span>
+    <span class="upload-type">PNG</span>
+    <span class="upload-type">JPG</span>
+    <span class="upload-type">JPEG</span>
+    <span class="upload-type">SVG</span>
+    <span class="upload-type">PDF</span>
+    <span class="upload-type">AI</span>
+    <span class="upload-type">EPS</span>
+    <span class="upload-type">PSD</span>
+    <span class="upload-type">TIFF</span>
+    <span class="upload-type">WEBP</span>
+  </div>
+
+  <ul class="upload-file-list" data-upload-file-list></ul>
+</div>
+
+
+
+
+
 
           <a class="upload-phone" href="{{ section.settings.phone_upload_link | default: '#' }}">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M17 20h4M14 20h1"/></svg>
@@ -274,25 +394,39 @@
                     <figure class="mockup" {{ block.shopify_attributes }} data-mockup data-width-in="{{ block.settings.width_in }}">
                       <figcaption class="mockup-size" data-mockup-size>{{ block.settings.width_in }}"</figcaption>
                       <div class="mockup-tile">
-                        {% if block.settings.image %}
-                          {{ block.settings.image | image_url: width: 400 | image_tag: loading: 'lazy', alt: block.settings.label }}
+                        {% if block.settings.image_asset != blank %}
+                          <img class="mockup-product" src="{{ block.settings.image_asset | asset_url }}" alt="{{ block.settings.label | escape }}" loading="lazy">
+                        {% elsif block.settings.image %}
+                          <img class="mockup-product" src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.label | escape }}" loading="lazy" crossorigin="anonymous" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}">
                         {% else %}
                           <span class="mockup-placeholder">{{ block.settings.label }}</span>
                         {% endif %}
-                        <img class="mockup-art" data-mockup-art alt="" style="width: {{ block.settings.art_width }}%; top: {{ block.settings.art_top }}%;">
+                        <img class="mockup-art" data-mockup-art alt="" style="width: {{ block.settings.art_width }}%; left: {{ block.settings.art_left | default: 50 }}%; top: {{ block.settings.art_top }}%;">
                       </div>
                     </figure>
                   {% endif %}
                 {% endfor %}
               </div>
-              <p class="swatch-label">Change your preview items to any color below:</p>
-              <div class="swatches" data-swatches>
-                {% assign swatch_colors = section.settings.swatch_colors | split: ',' %}
-                {% for color in swatch_colors %}
-                  {% assign hex = color | strip %}
-                  <button type="button" class="swatch {% if forloop.first %}is-active{% endif %}" data-swatch data-color="{{ hex }}" style="--swatch: {{ hex }}" aria-label="Preview color {{ hex }}"></button>
-                {% endfor %}
-                <button type="button" class="swatch swatch--multi" data-swatch data-color="" aria-label="Original color"></button>
+            </div>
+            <p class="swatch-label">Change your preview items to any color below:</p>
+            <div class="swatches" data-swatches>
+              {% assign swatch_colors = section.settings.swatch_colors | split: ',' %}
+              {% for color in swatch_colors %}
+                {% assign hex = color | strip %}
+                <button type="button" class="swatch {% if forloop.first %}is-active{% endif %}" data-swatch data-color="{{ hex }}" style="--swatch: {{ hex }}" aria-label="Preview color {{ hex }}"></button>
+              {% endfor %}
+              <div class="custom-picker" data-custom-picker>
+                <button type="button" class="swatch swatch--multi" data-custom-toggle aria-label="Choose a custom garment color" aria-expanded="false"></button>
+                <div class="custom-color-picker" data-color-picker hidden>
+                  <div class="custom-color-plane" data-color-plane tabindex="0" aria-label="Choose color saturation and brightness">
+                    <span class="custom-color-pointer" data-color-pointer></span>
+                  </div>
+                  <input class="custom-color-hue" type="range" min="0" max="359" value="0" data-color-hue aria-label="Choose color hue">
+                  <label class="custom-color-hex">
+                    <span>HEX</span>
+                    <input type="text" value="#ffffff" maxlength="7" data-color-hex aria-label="Custom color hex value">
+                  </label>
+                </div>
               </div>
             </div>
           </aside>
@@ -302,41 +436,12 @@
             <h2 class="editor-step"><span>Step 1:</span> Customize Your Image</h2>
 
             <div class="editor-body">
-              <div class="editor-rail">
-                <span class="rail-label">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-                  AI Tools
-                </span>
+              <div class="editor-rail edit-tools">
+                <span class="rail-label">Fineyst Edit Tools</span>
 
-                <div class="rail-tool rail-tool--open" data-rail-tool>
-                  <div class="rail-tool-head">
-                    <span>Remove Background</span>
-                    <button type="button" class="ai-toggle" data-ai-toggle data-controls="bg-options" aria-pressed="true" aria-label="Remove background"></button>
-                  </div>
-                  <div class="rail-options" data-bg-options>
-                    {% for i in (1..3) %}
-                      <button type="button" class="rail-option {% if forloop.first %}is-active{% endif %}" data-rail-option data-index="{{ forloop.index }}">
-                        <span class="rail-option-thumb">
-                          <img data-option-art alt="">
-                          <span class="rail-spinner" aria-hidden="true"></span>
-                        </span>
-                        <span class="rail-option-label">Option {{ forloop.index }}</span>
-                      </button>
-                    {% endfor %}
-                  </div>
-                </div>
-
-                <div class="rail-tool">
-                  <div class="rail-tool-head">
-                    <span>Upscale</span>
-                    <button type="button" class="ai-toggle" data-ai-toggle aria-pressed="false" aria-label="Upscale image"></button>
-                  </div>
-                </div>
-
-                <button type="button" class="rail-more" data-rail-more aria-expanded="false">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/></svg>
-                  AI Edit Tools
-                  <svg class="rail-more-caret" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                <button type="button" class="et-row" data-rail-more aria-expanded="false">
+                  <span class="et-ic et-ic--ai"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/></svg></span>
+                  Edit with AI
                 </button>
                 <div class="rail-more-panel" data-rail-more-panel hidden>
                   <a href="/pages/ai-tools">Recolor artwork</a>
@@ -344,6 +449,39 @@
                   <a href="/pages/ai-tools">Remove white box</a>
                   <a href="/pages/design-studio">Open Design Studio</a>
                 </div>
+
+                <button type="button" class="et-row" data-edit-tool="swap">
+                  <span class="et-ic et-ic--swap"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-1-.9-1.4-.9-2.4 0-.9.7-1.6 1.7-1.6H17a4 4 0 0 0 4-4C21 7 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10.5" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></svg></span>
+                  Swap Colors
+                </button>
+
+                <button type="button" class="et-row" data-edit-tool="text">
+                  <span class="et-ic et-ic--text"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></svg></span>
+                  Add Text
+                </button>
+
+                <div class="rail-tool">
+                  <div class="rail-tool-head">
+                    <span class="et-ic et-ic--up"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+                    <span class="et-label">Upscale</span>
+                    <button type="button" class="ai-toggle" data-ai-toggle aria-pressed="false" aria-label="Upscale image"></button>
+                  </div>
+                </div>
+
+                <button type="button" class="et-row" data-edit-tool="crop">
+                  <span class="et-ic et-ic--crop"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14M2 6h14a2 2 0 0 1 2 2v14"/></svg></span>
+                  Crop
+                </button>
+
+                <button type="button" class="et-row" data-edit-tool="erase">
+                  <span class="et-ic et-ic--erase"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H9L4 15a2 2 0 0 1 0-2.8L12 4a2 2 0 0 1 2.8 0l5.2 5.2a2 2 0 0 1 0 2.8L13 19"/></svg></span>
+                  Eraser
+                </button>
+
+                <button type="button" class="et-row" data-edit-tool="filters">
+                  <span class="et-ic et-ic--filt"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="5"/><circle cx="15" cy="9" r="5"/><circle cx="12" cy="15" r="5"/></svg></span>
+                  Filters
+                </button>
               </div>
 
               <div class="editor-canvas-wrap">
@@ -358,6 +496,24 @@
                   </button>
                   <img class="canvas-art" data-canvas-art alt="Your uploaded artwork">
                 </div>
+              </div>
+            </div>
+
+            <div class="rail-tool rail-tool--open" data-rail-tool>
+              <div class="rail-tool-head">
+                <span>Remove Background</span>
+                <button type="button" class="ai-toggle" data-ai-toggle data-controls="bg-options" aria-pressed="true" aria-label="Remove background"></button>
+              </div>
+              <div class="rail-options" data-bg-options>
+                {% for i in (1..3) %}
+                  <button type="button" class="rail-option {% if forloop.first %}is-active{% endif %}" data-rail-option data-index="{{ forloop.index }}">
+                    <span class="rail-option-thumb">
+                      <img data-option-art alt="">
+                      <span class="rail-spinner" aria-hidden="true"></span>
+                    </span>
+                    <span class="rail-option-label">Option {{ forloop.index }}</span>
+                  </button>
+                {% endfor %}
               </div>
             </div>
 
@@ -562,6 +718,12 @@
 </section>
 
 <script>
+  window.DTF_CONFIG = Object.assign(window.DTF_CONFIG || {}, {
+    aiBgRemoval: {{ section.settings.enable_ai_bg_removal | json }}
+  });
+</script>
+<script src="{{ 'design-tools.js' | asset_url }}" defer></script>
+<script>
 (function () {
   var zone = document.querySelector('[data-upload-dropzone]');
   if (!zone) return;
@@ -688,7 +850,7 @@
       .then(render);
   }
 
-  function addFiles(incoming) {
+  function addFiles(incoming, silent) {
     var firstImage = null;
     Array.prototype.forEach.call(incoming, function (f) {
       if (entries.length >= maxFiles) return;
@@ -704,13 +866,30 @@
       if (!firstImage && f.type.indexOf('image/') === 0) firstImage = f;
     });
     render();
-    if (firstImage) {
+    if (firstImage && !silent) {
       zone.dispatchEvent(new CustomEvent('dtf:artwork-ready', {
         bubbles: true,
         detail: { file: firstImage }
       }));
     }
   }
+
+  // Edited artwork (Swap Colors / Text / Crop / Eraser / Filters) replaces the original upload
+  document.addEventListener('dtf:artwork-edited', function (e) {
+    var f = e.detail && e.detail.file;
+    if (!f) return;
+    var idx = entries.findIndex(function (x) { return x.file && x.file.type.indexOf('image/') === 0; });
+    if (idx > -1) entries.splice(idx, 1);
+    addFiles([f]);
+  });
+
+  document.addEventListener('dtf:artwork-replace', function (e) {
+    var f = e.detail && e.detail.file;
+    if (!f) return;
+    var idx = entries.findIndex(function (x) { return x.file && x.file.type.indexOf('image/') === 0; });
+    if (idx > -1) entries.splice(idx, 1);
+    addFiles([f], true);
+  });
 
   if (browse) browse.addEventListener('click', function () { input.click(); });
   if (input) input.addEventListener('change', function () { addFiles(input.files); input.value = ''; });
@@ -813,6 +992,7 @@
     { "type": "text", "id": "quick_title", "label": "Popular sizes title", "default": "Popular Sizes & Prices" },
     { "type": "text", "id": "quick_sub", "label": "Popular sizes subtitle", "default": "No setup fees · Bulk discounts up to 50% off" },
     { "type": "checkbox", "id": "show_ai_tools", "label": "Show AI tools panel", "default": false },
+    { "type": "checkbox", "id": "enable_ai_bg_removal", "label": "Enable AI background removal (requires licence review)", "default": false },
     { "type": "checkbox", "id": "show_buy_form", "label": "Show quantity & add to cart", "default": false },
 
     { "type": "header", "content": "Gallery feature card" },
@@ -837,10 +1017,12 @@
       "type": "mockup",
       "name": "Size preview",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Blank product image" },
+        { "type": "image_picker", "id": "image", "label": "Blank product image", "info": "For garment color previews, use a neutral mockup with a transparent background." },
+        { "type": "text", "id": "image_asset", "label": "Theme asset filename (optional)", "info": "When set, use this file from Assets instead of the image picker." },
         { "type": "text", "id": "label", "label": "Product name", "default": "T-Shirt" },
         { "type": "range", "id": "width_in", "label": "Print width (in)", "min": 1, "max": 22, "step": 0.5, "default": 11 },
         { "type": "range", "id": "art_width", "label": "Artwork width on preview (%)", "min": 10, "max": 90, "step": 1, "default": 45 },
+        { "type": "range", "id": "art_left", "label": "Artwork horizontal position (%)", "min": 10, "max": 90, "step": 1, "default": 50 },
         { "type": "range", "id": "art_top", "label": "Artwork top offset (%)", "min": 5, "max": 80, "step": 1, "default": 32 }
       ]
     },
@@ -870,7 +1052,7 @@
       "blocks": [
         { "type": "mockup", "settings": { "label": "T-Shirt", "width_in": 11, "art_width": 45, "art_top": 30 } },
         { "type": "mockup", "settings": { "label": "Cap", "width_in": 5, "art_width": 34, "art_top": 38 } },
-        { "type": "mockup", "settings": { "label": "Polo", "width_in": 3.5, "art_width": 22, "art_top": 30 } },
+        { "type": "mockup", "settings": { "label": "Polo", "width_in": 3.5, "art_width": 14, "art_left": 64, "art_top": 30 } },
         { "type": "mockup", "settings": { "label": "Tote", "width_in": 7, "art_width": 40, "art_top": 36 } },
         { "type": "mockup", "settings": { "label": "Hoodie", "width_in": 11, "art_width": 45, "art_top": 34 } },
         { "type": "mockup", "settings": { "label": "Apron", "width_in": 5, "art_width": 30, "art_top": 40 } },

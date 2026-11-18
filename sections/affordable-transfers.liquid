@@ -1,49 +1,375 @@
 {%- comment -%}
-  Affordable Transfers — component structure mirrors the Fineyst Patches
-  "Affordable Custom Patches" section: centred header, a collapsible tinted
-  info panel behind a gradient toggle bar, then a 4-up product type grid with
-  corner badge, price line and quote button. Content and palette are Transfers.
+  The editable benefits card sits above the unchanged transfer-type grid.
 {%- endcomment -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --at-section-bg: {{ section.settings.section_bg }};
+    --at-card-bg: {{ section.settings.outer_card_bg }};
+    --at-card-border: {{ section.settings.outer_card_border }};
+    --at-heading: {{ section.settings.heading_color }};
+    --at-subheading: {{ section.settings.subheading_color }};
+    --at-badge-bg: {{ section.settings.badge_bg }};
+    --at-badge-text: {{ section.settings.badge_text_color }};
+    --at-feature-bg: {{ section.settings.feature_card_bg }};
+    --at-feature-border: {{ section.settings.feature_card_border }};
+    --at-icon: {{ section.settings.icon_color }};
+    --at-icon-tile-bg: {{ section.settings.icon_tile_bg }};
+    --at-feature-title: {{ section.settings.feature_title_color }};
+    --at-feature-text: {{ section.settings.feature_text_color }};
+    --at-heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --at-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --at-feature-title-size: {{ section.settings.feature_title_size }}px;
+    --at-feature-text-size: {{ section.settings.feature_text_size }}px;
+    --at-feature-radius: {{ section.settings.feature_card_radius }}px;
+    --at-grid-gap: {{ section.settings.grid_gap }}px;
+    --at-padding-top: {{ section.settings.padding_top }}px;
+    --at-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --at-container-width: {{ section.settings.container_max_width }}px;
+    --at-outer-radius: {{ section.settings.feature_card_radius | plus: 6 }}px;
+    --at-outer-padding: {{ section.settings.feature_card_padding | times: 1.4 }}px;
+    --at-feature-padding: {{ section.settings.feature_card_padding }}px;
+    --at-badge-size: {{ section.settings.feature_text_size | times: 0.857142857 }}px;
+    --at-icon-tile-size: {{ section.settings.feature_card_padding | times: 2.2 }}px;
+    --at-icon-size: {{ section.settings.feature_card_padding | times: 1.2 }}px;
+    --at-icon-tile-radius: {{ section.settings.feature_card_radius | times: 0.7142857 }}px;
+    --at-heading-gap: {{ section.settings.feature_text_size | minus: 2 }}px;
+    --at-badge-gap: {{ section.settings.feature_text_size | plus: 2 }}px;
+    --at-divider-gap: {{ section.settings.feature_card_padding | times: 1.4 }}px;
+    --at-icon-gap: {{ section.settings.feature_text_size }}px;
+    --at-seo-gap: {{ section.settings.feature_card_padding | times: 1.4 }}px;
+    --at-outer-border-width: {{ section.settings.feature_card_padding | divided_by: 20.0 }}px;
+    --at-feature-border-width: {{ section.settings.feature_card_padding | divided_by: 20.0 }}px;
+    --at-divider-width: {{ section.settings.feature_card_padding | divided_by: 20.0 }}px;
+    --at-icon-stroke-width: {{ section.settings.feature_card_padding | divided_by: 10.0 }};
+    --at-columns-desktop: {{ section.settings.columns_desktop }};
+    --at-columns-tablet: {{ section.settings.columns_tablet }};
+    --at-columns-mobile: {{ section.settings.columns_mobile }};
+    --at-content-alignment: {{ section.settings.card_alignment }};
+    background-color: var(--at-section-bg) !important;
+    padding-block: var(--at-padding-top) var(--at-padding-bottom) !important;
+  }
+
+  #shopify-section-{{ section.id }} .affordable-container {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: var(--at-container-width) !important;
+    margin-inline: auto !important;
+  }
+
+  #shopify-section-{{ section.id }} .benefits-panel {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: var(--at-seo-gap);
+    padding: var(--at-outer-padding);
+    border: var(--at-outer-border-width) solid var(--at-card-border);
+    border-radius: var(--at-outer-radius);
+    background-color: var(--at-card-bg);
+  }
+
+  #shopify-section-{{ section.id }} .benefits-header {
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .benefits-badge {
+    display: inline-block;
+    margin-bottom: var(--at-badge-gap);
+    padding: 0.5em 1em;
+    border-radius: calc(var(--at-feature-radius) * 10);
+    background-color: var(--at-badge-bg);
+    color: var(--at-badge-text);
+    font-size: var(--at-badge-size);
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .benefits-heading {
+    margin: 0 0 var(--at-heading-gap);
+    color: var(--at-heading);
+    font-size: var(--at-heading-size-desktop);
+    line-height: 1.15;
+  }
+
+  #shopify-section-{{ section.id }} .shop-heading {
+    color: #104241 !important;
+  }
+
+  #shopify-section-{{ section.id }} .benefits-subheading {
+    margin: 0;
+    color: var(--at-subheading);
+    font-size: var(--at-feature-text-size);
+    line-height: 1.5;
+  }
+
+  #shopify-section-{{ section.id }} .benefits-divider {
+    height: 0;
+    margin: var(--at-divider-gap) 0;
+    border: 0;
+    border-top: var(--at-divider-width) solid var(--at-card-border);
+  }
+
+  #shopify-section-{{ section.id }} .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--at-columns-desktop), minmax(0, 1fr));
+    gap: var(--at-grid-gap);
+  }
+
+  #shopify-section-{{ section.id }} .benefit-card {
+    display: flex;
+    align-items: center;
+    gap: var(--at-icon-gap);
+    min-width: 0;
+    padding: var(--at-feature-padding);
+    border: var(--at-feature-border-width) solid var(--at-feature-border);
+    border-radius: var(--at-feature-radius);
+    background-color: var(--at-feature-bg);
+    text-align: var(--at-content-alignment);
+  }
+
+  #shopify-section-{{ section.id }} .benefit-icon-tile {
+    display: flex;
+    flex: 0 0 var(--at-icon-tile-size);
+    align-items: center;
+    justify-content: center;
+    width: var(--at-icon-tile-size);
+    height: var(--at-icon-tile-size);
+    overflow: hidden;
+    border-radius: var(--at-icon-tile-radius);
+    background-color: var(--at-icon-tile-bg);
+    color: var(--at-icon);
+  }
+
+  #shopify-section-{{ section.id }} .benefit-icon-tile svg,
+  #shopify-section-{{ section.id }} .benefit-icon-tile img {
+    display: block;
+    width: var(--at-icon-size);
+    height: var(--at-icon-size);
+  }
+
+  #shopify-section-{{ section.id }} .benefit-icon-tile svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--at-icon-stroke-width);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  #shopify-section-{{ section.id }} .benefit-icon-tile img {
+    object-fit: contain;
+  }
+
+  #shopify-section-{{ section.id }} .benefit-copy {
+    min-width: 0;
+  }
+
+  #shopify-section-{{ section.id }} .benefit-title {
+    margin: 0 0 0.35em;
+    color: var(--at-feature-title);
+    font-size: var(--at-feature-title-size);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  #shopify-section-{{ section.id }} .benefit-text {
+    margin: 0;
+    color: var(--at-feature-text);
+    font-size: var(--at-feature-text-size);
+    line-height: 1.5;
+  }
+
+  #shopify-section-{{ section.id }} .benefits-grid--centered .benefit-card {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .benefits-grid--centered .benefit-copy {
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .seo-details {
+    margin-top: var(--at-seo-gap);
+  }
+
+  #shopify-section-{{ section.id }} .seo-toggle {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--at-icon-gap);
+    padding: var(--at-feature-padding);
+    border: var(--at-feature-border-width) solid var(--at-feature-border);
+    border-radius: var(--at-feature-radius);
+    background-color: var(--at-feature-bg);
+    color: var(--at-feature-title);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    list-style: none;
+    text-align: left;
+  }
+
+  #shopify-section-{{ section.id }} .seo-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }} .seo-chevron {
+    flex: 0 0 var(--at-icon-size);
+    width: var(--at-icon-size);
+    height: var(--at-icon-size);
+    color: var(--at-icon);
+    transition: transform 180ms ease;
+  }
+
+  #shopify-section-{{ section.id }} .seo-details[open] .seo-chevron {
+    transform: rotate(180deg);
+  }
+
+  #shopify-section-{{ section.id }} .seo-content {
+    padding: var(--at-feature-padding) 0 0;
+    color: var(--at-feature-text);
+    font-size: var(--at-feature-text-size);
+    line-height: 1.6;
+  }
+
+  #shopify-section-{{ section.id }} .seo-content > :first-child {
+    margin-top: 0;
+  }
+
+  #shopify-section-{{ section.id }} .seo-content > :last-child {
+    margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 1024px) {
+    #shopify-section-{{ section.id }} .benefits-grid {
+      grid-template-columns: repeat(var(--at-columns-tablet), minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .benefits-grid {
+      grid-template-columns: repeat(var(--at-columns-mobile), minmax(0, 1fr));
+    }
+
+    #shopify-section-{{ section.id }} .benefits-heading {
+      font-size: var(--at-heading-size-mobile);
+    }
+  }
+</style>
 
 <section class="affordable-section">
   <div class="affordable-container">
-    <div class="affordable-header">
-      <h2 class="affordable-title">{{ section.settings.heading | default: 'Affordable Custom DTF Transfers' }}</h2>
-      <p class="affordable-subtitle">{{ section.settings.subheading | default: 'No Minimums, No Setup Fees, Free Shipping' }}</p>
+    <div class="benefits-panel">
+      <header class="benefits-header">
+        {%- if section.settings.show_badge -%}
+          <span class="benefits-badge">{{ section.settings.badge_text | escape }}</span>
+        {%- endif -%}
+        <h2 class="benefits-heading">{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p class="benefits-subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </header>
 
-      <div class="collapse-wrap">
-        <details class="collapse-details">
-          <summary class="collapse-btn" aria-label="Toggle additional information">
-            <span class="collapse-bar"></span>
-            <span class="collapse-chevron">
-              <svg width="20" height="20" fill="none" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-                <path d="M6 8l4 4 4-4" stroke="#3E6D8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-          </summary>
+      {%- if section.settings.show_divider -%}
+        <hr class="benefits-divider">
+      {%- endif -%}
 
-          <div class="collapse-body">
-            <p class="collapse-text">Looking for the best place to order custom DTF transfers that are vibrant, durable, and delivered fast? You have found it. At Fineyst Transfers, we are your go-to source for press-ready transfers with no order minimums, expert support, and no setup fees.</p>
-            <p class="collapse-heading">HERE'S WHAT YOU SHOULD KNOW RIGHT AWAY:</p>
-            <ul class="collapse-list">
-              <li><strong>TURNAROUND TIME:</strong> Most orders are printed and shipped within 24 hours, with same-day options available.</li>
-              <li><strong>TRANSFER TYPES WE PRINT:</strong> Choose from <a href="/products/dtf-transfers">DTF by size</a>, <a href="/products/uv-dtf-gang-sheet-builder">gang sheets</a>, <a href="/products/uv-dtf-perma-stickers">UV DTF</a>, <a href="/collections/puff-transfers">puff</a>, <a href="/collections/glitter-transfers">glitter</a>, and <a href="/collections/reflective-transfers">reflective transfers</a> - all press-ready.</li>
-              <li><strong>COMMON USES:</strong> Perfect for t-shirts, hoodies, hats, tote bags, team merch, uniforms, event apparel, and more.</li>
-              <li><strong>WHAT FABRICS WORK?</strong> Cotton, polyester, blends, canvas, denim, nylon, and more - light or dark, no special prep needed.</li>
-              <li><strong>DESIGN HELP &amp; FILE PREP:</strong> Send a PNG, PDF, or AI file and we will handle the rest. Not print-ready? Our team will clean it up free.</li>
-              <li><strong>ARE DTF TRANSFERS EXPENSIVE? NOT HERE.</strong> You get wholesale pricing, volume discounts, free shipping, and no hidden fees.</li>
-            </ul>
-            <p class="collapse-ready">Ready to Get Started?</p>
-            <p>Upload your artwork today - it is fast, free to quote, and fully supported by real humans who care about print quality.</p>
-          </div>
-        </details>
+      <div class="benefits-grid{% if section.settings.card_layout == 'centered' %} benefits-grid--centered{% endif %}">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'feature_card' -%}
+            <article class="benefit-card" {{ block.shopify_attributes }}>
+              <span class="benefit-icon-tile" style="--at-icon: {{ block.settings.icon_color }};" aria-hidden="true">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 176 | image_tag: loading: 'lazy', alt: '' }}
+                {%- else -%}
+                  {%- case block.settings.icon -%}
+                  {%- when 'lightning' -%}
+                    <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-13h-7l1-7Z"/></svg>
+                  {%- when 'box' -%}
+                    <svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 8 9 5 9-5"/><path d="M3 8v9l9 5 9-5V8"/><path d="M12 13v9"/></svg>
+                  {%- when 'award' -%}
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="m8.2 13-1.3 9 5.1-3 5.1 3-1.3-9"/></svg>
+                  {%- when 'truck' -%}
+                    <svg viewBox="0 0 24 24"><path d="M3 5h11v12H3z"/><path d="M14 9h4l3 4v4h-7z"/><circle cx="7.5" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></svg>
+                  {%- when 'shield' -%}
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg>
+                  {%- when 'star' -%}
+                    <svg viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg>
+                  {%- when 'clock' -%}
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                  {%- when 'heart' -%}
+                    <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
+                  {%- when 'check' -%}
+                    <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>
+                  {%- endcase -%}
+                {%- endif -%}
+              </span>
+              <div class="benefit-copy">
+                <h3 class="benefit-title">{{ block.settings.title | escape }}</h3>
+                <p class="benefit-text">{{ block.settings.text | escape }}</p>
+              </div>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
+
+      {%- if section.settings.show_seo_content -%}
+        <details class="seo-details"{% if section.settings.open_seo_by_default %} open{% endif %}>
+          <summary class="seo-toggle">
+            <span>{{ section.settings.seo_toggle_label | escape }}</span>
+            <svg class="seo-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="var(--at-icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="seo-content rte">{{ section.settings.seo_content }}</div>
+        </details>
+      {%- endif -%}
     </div>
 
     <h2 class="shop-heading">{{ section.settings.grid_heading | default: 'Shop Transfer Types - DTF, UV DTF, Puff, Glitter &amp; More' }}</h2>
 
     <div class="patch-grid">
-      {%- assign transfer_types = "DTF TRANSFERS BY SIZE,dtf-transfers,$0.02 per sq. in.,Press any design on any garment or color.,dtf-transfer-by-size.png|DTF GANG SHEETS,premium-dtf-gang-sheets,$0.02 per sq. in.,Fit more designs per sheet and save.,dtf-gang-sheet.png|UV DTF TRANSFERS,uv-dtf-transfers,$0.06 per sq. in.,For mugs and hard surfaces - no heat needed.,uv-dtf-transfers.png|PUFF TRANSFERS,puff-transfers,$0.09 per sq. in.,Raised 3D texture with a premium finish.,puff-print.png|GLITTER TRANSFERS,glitter-transfers,$0.07 per sq. in.,Sparkle finish that survives the wash.,glitter-print.png|REFLECTIVE TRANSFERS,reflective-transfers,$0.11 per sq. in.,High-visibility shine under direct light.,reflective-dtf.png|METALLIC FOIL TRANSFERS,metallic-foil-transfers,$0.10 per sq. in.,Mirror-bright gold and silver accents.,foil-transfers.png|SUBLIMATION TRANSFERS,sublimation-transfers,$0.05 per sq. in.,Soft hand feel that dyes into the fabric.,sublimation-transfer.png" | split: "|" -%}
+      {%- assign transfer_blocks = section.blocks | where: 'type', 'transfer_type' -%}
+      {%- if transfer_blocks.size > 0 -%}
+        {%- for block in transfer_blocks -%}
+          {%- assign transfer_product = all_products[block.settings.product_handle] -%}
+          {%- if transfer_product != blank -%}
+            {%- assign transfer_url = transfer_product.url -%}
+          {%- elsif block.settings.product_handle != blank -%}
+            {%- assign transfer_url = block.settings.product_handle | prepend: '/products/' -%}
+          {%- else -%}
+            {%- assign transfer_url = '#' -%}
+          {%- endif -%}
+          <article class="patch-card" {{ block.shopify_attributes }}>
+            <a href="{{ transfer_url }}" class="patch-card-link" aria-label="View {{ block.settings.title | escape }}">
+              <figure class="patch-card-fig">
+                <span class="patch-badge">{{ section.settings.badge | default: 'No minimum' }}</span>
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 700, height: 700, crop: 'center' | image_tag: loading: 'lazy', width: 225, height: 225, alt: block.settings.title }}
+                {%- elsif block.settings.fallback_asset != blank -%}
+                  <img src="{{ block.settings.fallback_asset | strip | asset_url }}"
+                       alt="{{ block.settings.title | escape }}"
+                       width="225" height="225" loading="lazy">
+                {%- elsif transfer_product.featured_image != blank -%}
+                  <img
+                    src="{{ transfer_product.featured_image | image_url: width: 700, height: 700, crop: 'center' }}"
+                    alt="{{ transfer_product.featured_image.alt | default: block.settings.title | escape }}"
+                    width="225" height="225" loading="lazy">
+                {%- endif -%}
+              </figure>
+              <div class="patch-card-body">
+                <p class="patch-card-name">{{ block.settings.title | escape }}</p>
+                <p class="patch-card-price">As low as {{ block.settings.price_note | escape }}</p>
+                <p class="patch-card-desc">{{ block.settings.text | escape }}</p>
+                <div class="patch-card-cta">
+                  <span class="patch-card-btn">{{ section.settings.cta_label | default: 'Get a Quote' }}</span>
+                </div>
+              </div>
+            </a>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+      {%- assign transfer_types = "DTF TRANSFERS BY SIZE,dtf-transfers,$0.02 per sq. in.,Press any design on any garment or color.,dtf-transfer-by-size.png|DTF GANG SHEETS,premium-dtf-gang-sheets,$0.02 per sq. in.,Fit more designs per sheet and save.,t8.png|UV DTF TRANSFERS,uv-dtf-transfers,$0.06 per sq. in.,For mugs and hard surfaces - no heat needed.,uv-dtf-transfers.png|PUFF TRANSFERS,puff-transfers,$0.09 per sq. in.,Raised 3D texture with a premium finish.,puff-print.png|GLITTER TRANSFERS,glitter-transfers,$0.07 per sq. in.,Sparkle finish that survives the wash.,glitter-print.png|REFLECTIVE TRANSFERS,reflective-transfers,$0.11 per sq. in.,High-visibility shine under direct light.,reflective-dtf.png|METALLIC FOIL TRANSFERS,metallic-foil-transfers,$0.10 per sq. in.,Mirror-bright gold and silver accents.,foil-transfers.png|SUBLIMATION TRANSFERS,sublimation-transfers,$0.05 per sq. in.,Soft hand feel that dyes into the fabric.,sublimation-transfer.png" | split: "|" -%}
 
       {%- for item in transfer_types -%}
         {%- assign parts = item | split: "," -%}
@@ -80,6 +406,7 @@
           </a>
         </article>
       {%- endfor -%}
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -88,12 +415,121 @@
 {
   "name": "Affordable Transfers",
   "settings": [
+    { "type": "header", "content": "Benefits heading" },
+    { "type": "checkbox", "id": "show_badge", "label": "Show badge", "default": true },
+    { "type": "text", "id": "badge_text", "label": "Badge text", "default": "WHY CHOOSE US" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Affordable Custom DTF Transfers" },
-    { "type": "text", "id": "subheading", "label": "Subheading", "default": "No Minimums, No Setup Fees, Free Shipping" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Premium Quality. No Minimums. Fast Turnaround." },
+    { "type": "checkbox", "id": "show_divider", "label": "Show divider", "default": true },
+    { "type": "header", "content": "Feature card layout" },
+    { "type": "select", "id": "columns_desktop", "label": "Columns on desktop", "options": [{ "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }], "default": "3" },
+    { "type": "select", "id": "columns_tablet", "label": "Columns on tablet", "options": [{ "value": "1", "label": "1" }, { "value": "2", "label": "2" }], "default": "2" },
+    { "type": "select", "id": "columns_mobile", "label": "Columns on mobile", "options": [{ "value": "1", "label": "1" }, { "value": "2", "label": "2" }], "default": "1" },
+    { "type": "select", "id": "card_layout", "label": "Card layout", "options": [{ "value": "side", "label": "Side icon (left)" }, { "value": "centered", "label": "Centered (icon above)" }], "default": "side" },
+    { "type": "select", "id": "card_alignment", "label": "Card alignment", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }], "default": "left" },
+    { "type": "header", "content": "Feature card colors" },
+    { "type": "color", "id": "section_bg", "label": "Section background", "default": "#ffffff" },
+    { "type": "color", "id": "outer_card_bg", "label": "Outer card background", "default": "#ffffff" },
+    { "type": "color", "id": "outer_card_border", "label": "Outer card border and divider", "default": "#e5e7eb" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#0f766e" },
+    { "type": "color", "id": "subheading_color", "label": "Subheading", "default": "#6b7280" },
+    { "type": "color", "id": "badge_bg", "label": "Badge background", "default": "#d9f3df" },
+    { "type": "color", "id": "badge_text_color", "label": "Badge text", "default": "#15803d" },
+    { "type": "color", "id": "feature_card_bg", "label": "Feature card background", "default": "#f1f9f1" },
+    { "type": "color", "id": "feature_card_border", "label": "Feature card border", "default": "#e1eee1" },
+    { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#15803d" },
+    { "type": "color", "id": "icon_tile_bg", "label": "Icon tile background", "default": "#ffffff" },
+    { "type": "color", "id": "feature_title_color", "label": "Card title", "default": "#1f2937" },
+    { "type": "color", "id": "feature_text_color", "label": "Card text", "default": "#6b7280" },
+    { "type": "header", "content": "Feature card dimensions" },
+    { "type": "range", "id": "heading_size_desktop", "label": "Heading size on desktop (px)", "min": 24, "max": 64, "step": 1, "default": 40 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size on mobile (px)", "min": 20, "max": 48, "step": 1, "default": 30 },
+    { "type": "range", "id": "feature_title_size", "label": "Card title size (px)", "min": 12, "max": 28, "step": 1, "default": 18 },
+    { "type": "range", "id": "feature_text_size", "label": "Card text size (px)", "min": 12, "max": 20, "step": 1, "default": 14 },
+    { "type": "range", "id": "feature_card_radius", "label": "Card radius (px)", "min": 0, "max": 30, "step": 1, "default": 14 },
+    { "type": "range", "id": "grid_gap", "label": "Grid gap (px)", "min": 8, "max": 40, "step": 1, "default": 20 },
+    { "type": "range", "id": "padding_top", "label": "Section padding top (px)", "min": 0, "max": 100, "step": 2, "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Section padding bottom (px)", "min": 0, "max": 100, "step": 2, "default": 48 },
+    { "type": "range", "id": "container_max_width", "label": "Container max width (px)", "min": 800, "max": 1400, "step": 20, "default": 1200 },
+    { "type": "range", "id": "feature_card_padding", "label": "Feature card padding (px)", "min": 8, "max": 40, "step": 1, "default": 20 },
+    { "type": "header", "content": "SEO content" },
+    { "type": "checkbox", "id": "show_seo_content", "label": "Show SEO content", "default": true },
+    { "type": "checkbox", "id": "open_seo_by_default", "label": "Open by default", "default": false },
+    { "type": "text", "id": "seo_toggle_label", "label": "SEO toggle label", "default": "More about our custom transfers" },
+    {
+      "type": "richtext",
+      "id": "seo_content",
+      "label": "SEO content",
+      "info": "Edit the collapsible search-friendly content shown beneath the feature cards.",
+      "default": "<p>Looking for the best place to order custom DTF transfers that are vibrant, durable, and delivered fast? You have found it. At Fineyst Transfers, we are your go-to source for press-ready transfers with no order minimums, expert support, and no setup fees.</p><p><strong>HERE'S WHAT YOU SHOULD KNOW RIGHT AWAY:</strong></p><ul><li><strong>TURNAROUND TIME:</strong> Most orders are printed and shipped within 24 hours, with same-day options available.</li><li><strong>TRANSFER TYPES WE PRINT:</strong> Choose from <a href=\"/products/dtf-transfers\">DTF by size</a>, <a href=\"/products/uv-dtf-gang-sheet-builder\">gang sheets</a>, <a href=\"/products/uv-dtf-perma-stickers\">UV DTF</a>, <a href=\"/collections/puff-transfers\">puff</a>, <a href=\"/collections/glitter-transfers\">glitter</a>, and <a href=\"/collections/reflective-transfers\">reflective transfers</a> - all press-ready.</li><li><strong>COMMON USES:</strong> Perfect for t-shirts, hoodies, hats, tote bags, team merch, uniforms, event apparel, and more.</li><li><strong>WHAT FABRICS WORK?</strong> Cotton, polyester, blends, canvas, denim, nylon, and more - light or dark, no special prep needed.</li><li><strong>DESIGN HELP &amp; FILE PREP:</strong> Send a PNG, PDF, or AI file and we will handle the rest. Not print-ready? Our team will clean it up free.</li><li><strong>ARE DTF TRANSFERS EXPENSIVE? NOT HERE.</strong> You get wholesale pricing, volume discounts, free shipping, and no hidden fees.</li></ul><p><strong>Ready to Get Started?</strong></p><p>Upload your artwork today - it is fast, free to quote, and fully supported by real humans who care about print quality.</p>"
+    },
+    { "type": "header", "content": "Shop transfer types" },
     { "type": "text", "id": "grid_heading", "label": "Grid heading", "default": "Shop Transfer Types - DTF, UV DTF, Puff, Glitter & More" },
     { "type": "text", "id": "badge", "label": "Card badge", "default": "No minimum" },
     { "type": "text", "id": "cta_label", "label": "Card button label", "default": "Get a Quote" }
   ],
-  "presets": [{ "name": "Affordable Transfers" }]
+  "blocks": [
+    {
+      "type": "feature_card",
+      "name": "Feature card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "lightning", "label": "Lightning" },
+            { "value": "box", "label": "Box" },
+            { "value": "award", "label": "Award" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "star", "label": "Star" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "check", "label": "Check" }
+          ],
+          "default": "lightning"
+        },
+        { "type": "image_picker", "id": "image", "label": "Custom icon image", "info": "Optional. When selected, the image replaces the chosen icon." },
+        { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#0f766e" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Fast Turnaround" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Quick processing and shipping options." }
+      ]
+    },
+    {
+      "type": "transfer_type",
+      "name": "Transfer type card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Card image", "info": "Choose an image from Shopify. If left blank, the fallback image is used." },
+        { "type": "text", "id": "fallback_asset", "label": "Fallback theme image filename", "info": "Optional. Used when no Shopify image is selected, e.g. t8.png." },
+        { "type": "text", "id": "title", "label": "Title", "default": "DTF TRANSFERS BY SIZE" },
+        { "type": "text", "id": "product_handle", "label": "Product handle", "info": "Used to link the card to a product, e.g. dtf-transfers." },
+        { "type": "text", "id": "price_note", "label": "Price note", "default": "$0.02 per sq. in." },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Press any design on any garment or color." }
+      ]
+    }
+  ],
+  "max_blocks": 17,
+  "presets": [
+    {
+      "name": "Affordable Transfers",
+      "blocks": [
+        { "type": "feature_card", "settings": { "icon": "lightning", "title": "Fast Turnaround", "text": "Quick processing and shipping options." } },
+        { "type": "feature_card", "settings": { "icon": "box", "title": "No Minimums", "text": "Order what you actually need." } },
+        { "type": "feature_card", "settings": { "icon": "award", "title": "Premium Quality", "text": "Vibrant colors and sharp details." } },
+        { "type": "feature_card", "settings": { "icon": "truck", "title": "Free Shipping", "text": "On qualifying orders." } },
+        { "type": "feature_card", "settings": { "icon": "shield", "title": "Lab-Tested Durability", "text": "Tested to last 100+ washes." } },
+        { "type": "feature_card", "settings": { "icon": "star", "title": "Free Art Review", "text": "Our team cleans up your files." } },
+        { "type": "transfer_type", "settings": { "title": "DTF TRANSFERS BY SIZE", "product_handle": "dtf-transfers", "price_note": "$0.02 per sq. in.", "text": "Press any design on any garment or color.", "fallback_asset": "dtf-transfer-by-size.png" } },
+        { "type": "transfer_type", "settings": { "title": "DTF GANG SHEETS", "product_handle": "premium-dtf-gang-sheets", "price_note": "$0.02 per sq. in.", "text": "Fit more designs per sheet and save.", "fallback_asset": "t8.png" } },
+        { "type": "transfer_type", "settings": { "title": "UV DTF TRANSFERS", "product_handle": "uv-dtf-transfers", "price_note": "$0.06 per sq. in.", "text": "For mugs and hard surfaces - no heat needed.", "fallback_asset": "uv-dtf-transfers.png" } },
+        { "type": "transfer_type", "settings": { "title": "PUFF TRANSFERS", "product_handle": "puff-transfers", "price_note": "$0.09 per sq. in.", "text": "Raised 3D texture with a premium finish.", "fallback_asset": "puff-print.png" } },
+        { "type": "transfer_type", "settings": { "title": "GLITTER TRANSFERS", "product_handle": "glitter-transfers", "price_note": "$0.07 per sq. in.", "text": "Sparkle finish that survives the wash.", "fallback_asset": "glitter-print.png" } },
+        { "type": "transfer_type", "settings": { "title": "REFLECTIVE TRANSFERS", "product_handle": "reflective-transfers", "price_note": "$0.11 per sq. in.", "text": "High-visibility shine under direct light.", "fallback_asset": "reflective-dtf.png" } },
+        { "type": "transfer_type", "settings": { "title": "METALLIC FOIL TRANSFERS", "product_handle": "metallic-foil-transfers", "price_note": "$0.10 per sq. in.", "text": "Mirror-bright gold and silver accents.", "fallback_asset": "foil-transfers.png" } },
+        { "type": "transfer_type", "settings": { "title": "SUBLIMATION TRANSFERS", "product_handle": "sublimation-transfers", "price_note": "$0.05 per sq. in.", "text": "Soft hand feel that dyes into the fabric.", "fallback_asset": "sublimation-transfer.png" } }
+      ]
+    }
+  ]
 }
 {% endschema %}

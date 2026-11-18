@@ -1,0 +1,274 @@
+{
+  "sections": {
+    "main": {
+      "type": "pressing-guide",
+      "blocks": {
+        "material_1": {
+          "type": "material",
+          "settings": {
+            "name": "100% Cotton",
+            "popular": true,
+            "press_temp": "315",
+            "press_time": "12 sec",
+            "press_pressure": "Medium-High",
+            "iron_temp": "Cotton setting, no steam",
+            "iron_time": "30 sec",
+            "iron_pressure": "Firm",
+            "craft_temp": "315",
+            "craft_time": "30 sec",
+            "craft_pressure": "Medium"
+          }
+        },
+        "material_2": {
+          "type": "material",
+          "settings": {
+            "name": "Cotton / Poly Blend",
+            "popular": false,
+            "press_temp": "300",
+            "press_time": "12 sec",
+            "press_pressure": "Medium-High",
+            "iron_temp": "Medium, no steam",
+            "iron_time": "30 sec",
+            "iron_pressure": "Firm",
+            "craft_temp": "300",
+            "craft_time": "30 sec",
+            "craft_pressure": "Medium"
+          }
+        },
+        "material_3": {
+          "type": "material",
+          "settings": {
+            "name": "Polyester",
+            "popular": false,
+            "press_temp": "285",
+            "press_time": "10 sec",
+            "press_pressure": "Medium",
+            "iron_temp": "Not recommended",
+            "iron_time": "–",
+            "iron_pressure": "–",
+            "craft_temp": "285",
+            "craft_time": "25 sec",
+            "craft_pressure": "Medium"
+          }
+        },
+        "material_4": {
+          "type": "material",
+          "settings": {
+            "name": "Nylon",
+            "popular": false,
+            "press_temp": "275",
+            "press_time": "10 sec",
+            "press_pressure": "Light-Medium",
+            "iron_temp": "Not recommended",
+            "iron_time": "–",
+            "iron_pressure": "–",
+            "craft_temp": "275",
+            "craft_time": "20 sec",
+            "craft_pressure": "Light-Medium"
+          }
+        },
+        "material_5": {
+          "type": "material",
+          "settings": {
+            "name": "Tri-Blend",
+            "popular": false,
+            "press_temp": "295",
+            "press_time": "10 sec",
+            "press_pressure": "Medium",
+            "iron_temp": "Low-Medium, no steam",
+            "iron_time": "25 sec",
+            "iron_pressure": "Medium",
+            "craft_temp": "295",
+            "craft_time": "25 sec",
+            "craft_pressure": "Medium"
+          }
+        },
+        "material_6": {
+          "type": "material",
+          "settings": {
+            "name": "Denim",
+            "popular": false,
+            "press_temp": "320",
+            "press_time": "15 sec",
+            "press_pressure": "Medium-High",
+            "iron_temp": "Cotton setting, no steam",
+            "iron_time": "40 sec",
+            "iron_pressure": "Firm",
+            "craft_temp": "320",
+            "craft_time": "35 sec",
+            "craft_pressure": "Medium-High"
+          }
+        },
+        "material_7": {
+          "type": "material",
+          "settings": {
+            "name": "Twill & Canvas",
+            "popular": false,
+            "press_temp": "320",
+            "press_time": "15 sec",
+            "press_pressure": "Medium-High",
+            "iron_temp": "Cotton setting, no steam",
+            "iron_time": "40 sec",
+            "iron_pressure": "Firm",
+            "craft_temp": "320",
+            "craft_time": "35 sec",
+            "craft_pressure": "Medium-High"
+          }
+        },
+        "material_8": {
+          "type": "material",
+          "settings": {
+            "name": "Spandex & Koozies",
+            "popular": false,
+            "press_temp": "270",
+            "press_time": "10 sec",
+            "press_pressure": "Light",
+            "iron_temp": "Not recommended",
+            "iron_time": "–",
+            "iron_pressure": "–",
+            "craft_temp": "270",
+            "craft_time": "20 sec",
+            "craft_pressure": "Light"
+          }
+        },
+        "material_9": {
+          "type": "material",
+          "settings": {
+            "name": "Leather",
+            "popular": false,
+            "press_temp": "275",
+            "press_time": "10 sec",
+            "press_pressure": "Medium",
+            "iron_temp": "Not recommended",
+            "iron_time": "–",
+            "iron_pressure": "–",
+            "craft_temp": "275",
+            "craft_time": "20 sec",
+            "craft_pressure": "Medium"
+          }
+        },
+        "material_10": {
+          "type": "material",
+          "settings": {
+            "name": "Windbreakers",
+            "popular": false,
+            "press_temp": "275",
+            "press_time": "10 sec",
+            "press_pressure": "Light-Medium",
+            "iron_temp": "Not recommended",
+            "iron_time": "–",
+            "iron_pressure": "–",
+            "craft_temp": "275",
+            "craft_time": "20 sec",
+            "craft_pressure": "Light-Medium"
+          }
+        },
+        "material_11": {
+          "type": "material",
+          "settings": {
+            "name": "Beanies",
+            "popular": false,
+            "press_temp": "300",
+            "press_time": "12 sec",
+            "press_pressure": "Medium",
+            "iron_temp": "Medium, no steam",
+            "iron_time": "25 sec",
+            "iron_pressure": "Medium",
+            "craft_temp": "300",
+            "craft_time": "25 sec",
+            "craft_pressure": "Medium"
+          }
+        },
+        "step_12": {
+          "type": "step",
+          "settings": {
+            "title": "Prep Your Garment",
+            "text": "Lay your garment flat on the press. A short pre-press of a few seconds removes moisture and wrinkles, which helps the transfer bond evenly.",
+            "tip": "Pressing a new garment or surface? Do a small test press first to confirm your settings.",
+            "image_asset": "press1.png"
+          }
+        },
+        "step_13": {
+          "type": "step",
+          "settings": {
+            "title": "Position Your Design",
+            "text": "Place the transfer where you want it, adhesive side down, and make sure it lies flat before pressing. Use heat-resistant tape on hats and when pressing with an iron so the transfer can't move.",
+            "tip": "Pressing across seams is fine. Just keep the transfer as flat as you can.",
+            "image_asset": "press2.png"
+          }
+        },
+        "step_14": {
+          "type": "step",
+          "settings": {
+            "title": "Press & Peel",
+            "text": "Press using the settings for your fabric and heat source shown above. Cover the transfer with parchment paper or a silicone garment protector, then let it cool as directed and peel the film in one smooth motion.",
+            "tip": "Check the instructions that came with your order for hot or cold peel guidance.",
+            "image_asset": "press3.png"
+          }
+        },
+        "step_15": {
+          "type": "step",
+          "settings": {
+            "title": "Do a Final Press",
+            "text": "With the film removed, cover the design with parchment paper or a single layer of fabric and press again for a few seconds. This improves durability and softness and reduces shine.",
+            "tip": "Don't skip this step. It makes a real difference to how the print feels and lasts.",
+            "image_asset": "press4.png"
+          }
+        },
+        "issue_16": {
+          "type": "issue",
+          "settings": {
+            "title": "Transfer Not Adhering Properly",
+            "text": "<p>If the transfer isn't sticking to the fabric:</p><ul><li>Lay it back down and press again with a little more pressure and heat (about +15°F)</li><li>If it still lifts, raise the temperature in small steps until it transfers fully</li></ul><p><strong>Remember:</strong> pressing again won't damage the transfer.</p>"
+          }
+        },
+        "issue_17": {
+          "type": "issue",
+          "settings": {
+            "title": "Design Cracking or Peeling After Washing",
+            "text": "<p>If your design cracks or peels after washing:</p><ul><li>Make sure you did the final press after peeling the film</li><li>Turn garments inside out before washing</li><li>Wash in cold water on a gentle cycle and avoid bleach and harsh detergents</li><li>Air dry or tumble dry on low heat</li></ul>"
+          }
+        },
+        "issue_18": {
+          "type": "issue",
+          "settings": {
+            "title": "Transfer Shifting During Application",
+            "text": "<p>If the transfer moves while you press:</p><ul><li>Secure it with heat-resistant tape</li><li>Close the press gently to avoid air movement</li><li>Pre-press the garment to create a flat surface</li><li>Use a placement guide or alignment ruler for repeat jobs</li></ul>"
+          }
+        },
+        "issue_19": {
+          "type": "issue",
+          "settings": {
+            "title": "Wash & Care",
+            "text": "<p>For the best results and longest life, wash the garment inside out in cold water and dry on low heat or hang to dry. Standard settings work fine too, but gentler handling means the print lasts longer.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "material_1",
+        "material_2",
+        "material_3",
+        "material_4",
+        "material_5",
+        "material_6",
+        "material_7",
+        "material_8",
+        "material_9",
+        "material_10",
+        "material_11",
+        "step_12",
+        "step_13",
+        "step_14",
+        "step_15",
+        "issue_16",
+        "issue_17",
+        "issue_18",
+        "issue_19"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

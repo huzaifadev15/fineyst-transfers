@@ -19,52 +19,96 @@
             "label": "T-Shirt",
             "width_in": 11,
             "art_width": 45,
-            "art_top": 30
+            "art_left": 50,
+            "art_top": 50
           }
         },
         "mockup-2": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/cap_blank.png",
+            "image_asset": "",
             "label": "Cap",
             "width_in": 5,
-            "art_width": 34,
-            "art_top": 38
+            "art_width": 20,
+            "art_left": 50,
+            "art_top": 40
           }
         },
         "mockup-3": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/polo_black.png",
+            "image_asset": "",
             "label": "Polo",
             "width_in": 3.5,
-            "art_width": 22,
+            "art_width": 14,
+            "art_left": 64,
             "art_top": 30
           }
         },
         "mockup-4": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/teto_blank.png",
+            "image_asset": "",
             "label": "Tote",
             "width_in": 7,
             "art_width": 40,
-            "art_top": 36
+            "art_left": 50,
+            "art_top": 70
           }
         },
         "mockup-5": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/hodie_blank.png",
+            "image_asset": "",
             "label": "Hoodie",
             "width_in": 11,
-            "art_width": 45,
-            "art_top": 34
+            "art_width": 35,
+            "art_left": 50,
+            "art_top": 50
           }
         },
         "mockup-6": {
           "type": "mockup",
           "settings": {
+            "image": "shopify://shop_images/apron_blank.png",
+            "image_asset": "",
             "label": "Apron",
             "width_in": 5,
             "art_width": 30,
-            "art_top": 40
+            "art_left": 50,
+            "art_top": 50
+          }
+        },
+        "quick-1": {
+          "type": "quick_size",
+          "settings": {
+            "label": "3\" x 3\"",
+            "price": "$0.18"
+          }
+        },
+        "quick-2": {
+          "type": "quick_size",
+          "settings": {
+            "label": "5\" x 2\"",
+            "price": "$0.55"
+          }
+        },
+        "quick-3": {
+          "type": "quick_size",
+          "settings": {
+            "label": "8\" x 8\"",
+            "price": "$2.14"
+          }
+        },
+        "quick-4": {
+          "type": "quick_size",
+          "settings": {
+            "label": "12\" x 9\"",
+            "price": "$3.69"
           }
         },
         "quick-1": {
@@ -327,7 +371,7 @@
         "b1": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-1.jpg",
+            "static_image": "any fab img.jpg",
             "static_video": "",
             "caption": "Works on Any Fabric or Color",
             "link": ""
@@ -336,8 +380,8 @@
         "b2": {
           "type": "tile",
           "settings": {
-            "static_image": "",
-            "static_video": "dtf-video-1.mp4",
+            "static_image": "color-spec.jpg",
+            "static_video": "",
             "caption": "Unrivaled Color Spectrum & Brighter Whites",
             "link": ""
           }
@@ -345,7 +389,7 @@
         "b3": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-2.jpg",
+            "static_image": "stretch-duriable.jpg",
             "static_video": "",
             "caption": "Stretchability Means Durability",
             "link": ""
@@ -354,7 +398,7 @@
         "b4": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-3.jpg",
+            "static_image": "spt 1.webp",
             "static_video": "",
             "caption": "Sharper Details & Cleaner Edges",
             "link": ""
@@ -388,7 +432,7 @@
       "type": "pdp-ugc",
       "settings": {
         "heading": "Fineyst Transfers Customer Feedback",
-        "files": "hero-1.jpg,hero-2.jpg,hero-3.jpg,hero-4.jpg,hero-5.jpg,hero-6.jpg,hero-7.jpg"
+        "files": "cr img1.webp,cr img2.webp,cr img3.webp,cr img4.webp,cr img5.webp,cr img6.webp,cr img7.webp"
       }
     },
     "pdp-related": {
@@ -422,7 +466,7 @@
           "type": "item",
           "settings": {
             "handle": "spangle-transfers",
-            "static_image": "dtf-3.jpg",
+            "static_image": "spt 1.webp",
             "title": "Spangle Transfers",
             "text": "Durable, holographic Spangle Transfers make any design instantly pop",
             "price": "As low as $0.04 per sq. inch",
@@ -446,7 +490,7 @@
           "type": "item",
           "settings": {
             "handle": "silver-foil-dtf",
-            "static_image": "dtf-5.avif",
+            "static_image": "t3.webp",
             "title": "Silver Foil DTF",
             "text": "Silver Foil DTF brings crisp, reflective metallic detail effortlessly",
             "price": "As low as $0.03 per sq. inch",
@@ -458,7 +502,7 @@
           "type": "item",
           "settings": {
             "handle": "glow-in-the-dark-dtf",
-            "static_image": "dtf-6.avif",
+            "static_image": "t2.webp",
             "title": "Glow in the Dark DTF",
             "text": "Glow coatings create bold, high-contrast designs that shine brilliantly",
             "price": "As low as $0.03 per sq. inch",
@@ -470,7 +514,7 @@
           "type": "item",
           "settings": {
             "handle": "glitter-puff-transfers",
-            "static_image": "dtf-8.avif",
+            "static_image": "t1.webp",
             "title": "3D Glitter Puff Transfers",
             "text": "Glitter Puff transfers deliver vibrant, raised sparkle effects beautifully",
             "price": "As low as $0.02 per sq. inch",
@@ -482,7 +526,7 @@
           "type": "item",
           "settings": {
             "handle": "names-numbers-gang-sheet",
-            "static_image": "hero-3.jpg",
+            "static_image": "cr img3.webp",
             "title": "Names & Numbers Gang Sheet",
             "text": "Easily create a Names & Numbers DTF gang sheet with our Gang Sheet Builder",
             "price": "As low as $0.02 per sq. inch",

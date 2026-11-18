@@ -1,100 +1,473 @@
 {%- comment -%}
-  Reviews — structure ported from the Patches "Scrolling Reviews" section:
-  a dark band with two marquee rows travelling in opposite directions. Each
-  row's cards are rendered twice so the -50% translate loops seamlessly.
-  Cards carry stars, name, a verified badge and a 3-line clamped quote.
+  Reviews page — hero with live stats, customer photo wall (grid on desktop,
+  swipe slider on mobile), top review cards per category and a detailed review
+  feed with rating breakdown.
+
+  Blocks:
+    Photo     — one customer photo (image picker or a theme asset filename)
+    Category  — starts a new category; the Review blocks under it belong to it
+    Review    — one customer review
+
+  Ratings, counts and bars are calculated in the browser from the Review blocks,
+  so nothing needs updating by hand when you add reviews.
+  CSS and JS live in this file.
 {%- endcomment -%}
 
-{%- capture star_svg -%}
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-{%- endcapture -%}
+<style>
+  .rvw-page { background: #fff; padding-bottom: 72px; }
+  .rvw-wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
 
-{%- capture verified_svg -%}
-<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
-{%- endcapture -%}
+  /* ---------- Hero ---------- */
+  .rvw-hero { background: linear-gradient(135deg, #E8F5E9 0%, #fff 60%); padding: 56px 0 48px; }
+  .rvw-hero-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: 48px; align-items: center; }
+  .rvw-eyebrow { display: inline-block; margin: 0 0 14px; padding: 6px 14px; border-radius: 999px; background: #0B3D2E; color: #B6F000; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+  .rvw-hero h1 { font-size: clamp(1.9rem, 3.4vw, 2.9rem); font-weight: 900; letter-spacing: -0.02em; line-height: 1.12; color: #0B3D2E; margin: 0 0 14px; }
+  .rvw-hero-text { margin: 0 0 24px; max-width: 560px; font-size: 1rem; line-height: 1.7; color: #475467; }
+  .rvw-hero-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .rvw-btn { display: inline-flex; align-items: center; justify-content: center; padding: 13px 26px; border-radius: 10px; font-size: 0.95rem; font-weight: 800; transition: transform 0.15s; }
+  .rvw-btn--primary { background: #B6F000; color: #0B3D2E; }
+  .rvw-btn--ghost { background: #fff; color: #0B3D2E; border: 1px solid #0B3D2E; }
 
-{%- assign total = section.blocks.size -%}
-{%- assign half = total | plus: 1 | divided_by: 2 -%}
+  .rvw-stats { background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; box-shadow: 0 6px 24px rgba(16, 24, 40, 0.08); padding: 24px; }
+  .rvw-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid #EDEFF3; }
+  .rvw-stat-label { display: block; margin-bottom: 4px; font-size: 0.78rem; font-weight: 700; color: #667085; }
+  .rvw-stat-num { font-size: 2.2rem; font-weight: 900; line-height: 1; color: #0B3D2E; }
+  .rvw-stat-num small { font-size: 1rem; font-weight: 700; color: #667085; }
+  .rvw-stat-note { margin: 14px 0 0; font-size: 0.82rem; color: #667085; line-height: 1.5; }
+  .rvw-top-cats { margin-top: 16px; }
+  .rvw-top-cats ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .rvw-top-cats li { display: flex; justify-content: space-between; gap: 10px; padding: 8px 12px; border-radius: 8px; background: #E8F5E9; font-size: 0.86rem; font-weight: 700; color: #0B3D2E; }
+  .rvw-top-cats li span:last-child { font-weight: 600; color: #475467; }
 
-<section class="scroll-reviews-section" aria-labelledby="reviews-scroll-heading"
-  style="--review-speed: {{ section.settings.speed | default: 120 }}s;">
+  /* ---------- Section headings ---------- */
+  .rvw-sec { padding: 56px 0 0; }
+  .rvw-kicker { margin: 0 0 6px; text-align: center; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #0B3D2E; }
+  .rvw-sec h2 { margin: 0 0 8px; text-align: center; font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 900; letter-spacing: -0.02em; color: #0B3D2E; }
+  .rvw-sec-sub { margin: 0 auto 28px; max-width: 560px; text-align: center; font-size: 0.95rem; color: #667085; }
 
-  <header class="scroll-reviews-header">
-    <h2 id="reviews-scroll-heading" class="scroll-reviews-title">{{ section.settings.heading | default: 'DTF Transfer Reviews — Verified Feedback from Real Customers' }}</h2>
-    <p class="scroll-reviews-sub">{{ section.settings.subheading | default: 'Verified Feedback from Authentic Customers' }}</p>
-  </header>
+  /* ---------- Photo wall ---------- */
+  .rvw-photos { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+  .rvw-photo { margin: 0; aspect-ratio: 1; border-radius: 14px; overflow: hidden; background: #E8F5E9; border: 1px solid #E5E7EB; }
+  .rvw-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+  .rvw-photo:hover img { transform: scale(1.06); }
+  .rvw-photo-ph { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #0B3D2E; opacity: 0.35; }
 
-  {%- for row in (1..2) -%}
-    <div class="scroll-row-wrap">
-      <div class="scroll-row {% if row == 1 %}scroll-left{% else %}scroll-right{% endif %}">
-        {%- for pass in (1..2) -%}
+  /* ---------- Top review cards ---------- */
+  .rvw-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .rvw-card { display: flex; flex-direction: column; padding: 24px; border: 1px solid #E5E7EB; border-radius: 16px; background: #fff; box-shadow: 0 2px 12px rgba(16, 24, 40, 0.05); }
+  .rvw-card h3 { margin: 0 0 8px; font-size: 1.2rem; font-weight: 900; color: #0B3D2E; }
+  .rvw-card-desc { margin: 0 0 16px; font-size: 0.9rem; line-height: 1.6; color: #667085; }
+  .rvw-card-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .rvw-pill { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 999px; background: #B6F000; color: #0B3D2E; font-size: 0.85rem; font-weight: 900; }
+  .rvw-card-count { font-size: 0.85rem; color: #667085; }
+  .rvw-card-count strong { color: #0B3D2E; }
+  .rvw-snap { flex: 1; margin-bottom: 16px; padding: 16px; border-radius: 12px; background: #E8F5E9; }
+  .rvw-snap-label { display: block; margin-bottom: 6px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #0B3D2E; }
+  .rvw-snap p { margin: 0 0 8px; font-size: 0.9rem; line-height: 1.6; color: #344054; }
+  .rvw-snap strong { font-size: 0.85rem; color: #0B3D2E; }
+  .rvw-card-links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .rvw-card-link { font-size: 0.88rem; font-weight: 800; color: #0B3D2E; text-decoration: underline; background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; }
+
+  /* ---------- Review feed ---------- */
+  .rvw-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 28px; }
+  .rvw-tab { padding: 10px 18px; border: 1px solid #E5E7EB; border-radius: 999px; background: #fff; font-family: inherit; font-size: 0.86rem; font-weight: 700; color: #0B3D2E; cursor: pointer; white-space: nowrap; transition: background 0.15s, border-color 0.15s; }
+  .rvw-tab:hover { border-color: #B6F000; }
+  .rvw-tab.is-active { background: #B6F000; border-color: #B6F000; }
+
+  .rvw-panel[hidden] { display: none; }
+  .rvw-summary { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 36px; align-items: center; max-width: 760px; margin: 0 auto 12px; padding: 24px; border: 1px solid #E5E7EB; border-radius: 16px; background: #fff; }
+  .rvw-score { text-align: center; }
+  .rvw-score-num { display: block; font-size: 3rem; font-weight: 900; line-height: 1; color: #0B3D2E; }
+  .rvw-score-stars { margin: 8px 0 4px; letter-spacing: 2px; font-size: 1.05rem; color: #FDB022; }
+  .rvw-score-count { margin: 0; font-size: 0.82rem; color: #667085; }
+  .rvw-bars { display: flex; flex-direction: column; gap: 7px; }
+  .rvw-bar { display: grid; grid-template-columns: 14px minmax(0, 1fr) 28px; gap: 10px; align-items: center; font-size: 0.8rem; color: #667085; }
+  .rvw-bar-track { height: 8px; border-radius: 999px; background: #EDEFF3; overflow: hidden; }
+  .rvw-bar-fill { display: block; height: 100%; width: 0; background: #B6F000; border-radius: 999px; }
+
+  .rvw-list { max-width: 760px; margin: 0 auto; }
+  .rvw-item { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 16px; padding: 22px 0; border-bottom: 1px solid #EDEFF3; }
+  .rvw-avatar { display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: #0B3D2E; color: #B6F000; font-size: 1.15rem; font-weight: 900; }
+  .rvw-item-head { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 12px; margin-bottom: 6px; }
+  .rvw-item-name { font-size: 0.95rem; font-weight: 800; color: #0B3D2E; }
+  .rvw-verified { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 700; color: #0B3D2E; background: #E8F5E9; padding: 3px 9px; border-radius: 999px; }
+  .rvw-item-date { margin-left: auto; font-size: 0.78rem; color: #98A2B3; }
+  .rvw-stars { letter-spacing: 2px; font-size: 0.95rem; color: #FDB022; margin-bottom: 8px; }
+  .rvw-stars .off { color: #D0D5DD; }
+  .rvw-item-body { margin: 0; font-size: 0.93rem; line-height: 1.75; color: #475467; }
+
+  /* ---------- Bottom CTA ---------- */
+  .rvw-cta { margin-top: 56px; padding: 44px 24px; text-align: center; border-radius: 20px; background: #0B3D2E; }
+  .rvw-cta h2 { margin: 0 0 10px; font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 900; color: #fff; }
+  .rvw-cta p { max-width: 620px; margin: 0 auto 24px; font-size: 0.97rem; line-height: 1.7; color: #D1FADF; }
+
+  /* ---------- Tablet / mobile ---------- */
+  @media (max-width: 1000px) {
+    .rvw-hero-grid { grid-template-columns: 1fr; gap: 28px; }
+    .rvw-photos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 768px) {
+    .rvw-wrap { padding: 0 16px; }
+    .rvw-hero { padding: 32px 0 28px; }
+    .rvw-hero-text { margin-bottom: 18px; }
+    .rvw-btn { flex: 1 1 100%; }
+    .rvw-sec { padding-top: 40px; }
+
+    /* Photo wall becomes a swipe slider, 1.5 photos visible */
+    .rvw-photos {
+      display: flex;
+      gap: 12px;
+      margin: 0 -16px;
+      padding: 4px 16px 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-left: 16px;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+    }
+    .rvw-photos::-webkit-scrollbar { display: none; }
+    .rvw-photo { flex: 0 0 calc((100% - 32px - 12px) / 1.5); scroll-snap-align: start; }
+
+    /* Top review cards also swipe */
+    .rvw-cards {
+      display: flex;
+      gap: 14px;
+      margin: 0 -16px;
+      padding: 4px 16px 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-left: 16px;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+    }
+    .rvw-cards::-webkit-scrollbar { display: none; }
+    .rvw-card { flex: 0 0 calc((100% - 32px - 14px) / 1.15); scroll-snap-align: start; padding: 20px; }
+
+    .rvw-tabs { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; margin: 0 -16px 22px; padding: 0 16px 4px; scrollbar-width: none; }
+    .rvw-tabs::-webkit-scrollbar { display: none; }
+    .rvw-tab { flex: 0 0 auto; }
+
+    .rvw-summary { grid-template-columns: 1fr; gap: 18px; padding: 20px; }
+    .rvw-item { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding: 18px 0; }
+    .rvw-avatar { width: 40px; height: 40px; font-size: 1rem; }
+    .rvw-item-date { margin-left: 0; width: 100%; }
+    .rvw-cta { margin-top: 40px; padding: 32px 18px; border-radius: 16px; }
+  }
+</style>
+
+<section class="rvw-page" data-rv>
+
+  {%- comment -%} ===== Hero ===== {%- endcomment -%}
+  <div class="rvw-hero">
+    <div class="rvw-wrap rvw-hero-grid">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<span class="rvw-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h1>{{ section.settings.heading }}</h1>
+        {%- if section.settings.intro != blank -%}<p class="rvw-hero-text">{{ section.settings.intro }}</p>{%- endif -%}
+        <div class="rvw-hero-btns">
+          <a class="rvw-btn rvw-btn--primary" href="#top-reviews">Explore Top Reviews</a>
+          <a class="rvw-btn rvw-btn--ghost" href="{{ section.settings.shop_link | default: '/collections' }}">{{ section.settings.shop_label }}</a>
+        </div>
+      </div>
+
+      <div class="rvw-stats">
+        <div class="rvw-stat-row">
+          <div>
+            <span class="rvw-stat-label">Average rating</span>
+            <span class="rvw-stat-num"><span data-rvw-avg>–</span> <small>/ 5</small></span>
+          </div>
+          <div>
+            <span class="rvw-stat-label">Live reviews</span>
+            <span class="rvw-stat-num" data-rvw-total>–</span>
+          </div>
+        </div>
+        <div class="rvw-top-cats">
+          <span class="rvw-stat-label">Top categories</span>
+          <ul>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'category' -%}
+                <li><span>{{ block.settings.name }}</span><span><span data-rvw-chip-count="{{ block.settings.name | handleize }}">0</span> reviews</span></li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rvw-wrap">
+
+    {%- comment -%} ===== Photo wall ===== {%- endcomment -%}
+    {%- assign photo_count = 0 -%}
+    {%- for block in section.blocks -%}{%- if block.type == 'photo' -%}{%- assign photo_count = photo_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+    {%- if photo_count > 0 -%}
+      <div class="rvw-sec">
+        <p class="rvw-kicker">{{ section.settings.photos_kicker }}</p>
+        <h2>{{ section.settings.photos_heading }}</h2>
+        <p class="rvw-sec-sub">{{ section.settings.photos_sub }}</p>
+
+        <div class="rvw-photos">
           {%- for block in section.blocks -%}
-            {%- if row == 1 and forloop.index > half -%}{%- continue -%}{%- endif -%}
-            {%- if row == 2 and forloop.index <= half -%}{%- continue -%}{%- endif -%}
-            <article class="scroll-card"{% if pass == 2 %} aria-hidden="true"{% endif %} {{ block.shopify_attributes }}>
-              <header class="scroll-card-header">
-                <div class="scroll-stars">
-                  {%- assign rating = block.settings.rating | default: 5 -%}
-                  {%- for i in (1..rating) -%}{{ star_svg }}{%- endfor -%}
-                </div>
-                <p class="scroll-name">{{ block.settings.name }}</p>
-                <div class="scroll-verified">{{ verified_svg }}<span>Verified buyer</span></div>
-              </header>
-              <p class="scroll-text">"{{ block.settings.quote }}"</p>
-            </article>
+            {%- if block.type == 'photo' -%}
+              {%- assign photo_alt = block.settings.alt | default: 'Customer photo' -%}
+              <figure class="rvw-photo" {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: photo_alt, width: 300, height: 300 }}
+                {%- elsif block.settings.image_asset != blank -%}
+                  <img src="{{ block.settings.image_asset | strip | asset_url }}" alt="{{ photo_alt | escape }}" loading="lazy" width="300" height="300">
+                {%- else -%}
+                  <span class="rvw-photo-ph"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-5 4 4 3-2 4 4"/></svg></span>
+                {%- endif -%}
+              </figure>
+            {%- endif -%}
           {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} ===== Top review cards (one per category) ===== {%- endcomment -%}
+    <div class="rvw-sec" id="top-reviews">
+      <p class="rvw-kicker">{{ section.settings.top_kicker }}</p>
+      <h2>{{ section.settings.top_heading }}</h2>
+
+      <div class="rvw-cards">
+        {%- assign need_first = false -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'category' -%}
+            {%- assign cat_name = block.settings.name -%}
+            {%- assign cat_slug = block.settings.name | handleize -%}
+            {%- assign cat_desc = block.settings.description -%}
+            {%- assign cat_link = block.settings.link -%}
+            {%- assign cat_link_label = block.settings.link_label -%}
+            {%- assign need_first = true -%}
+          {%- elsif block.type == 'review' and need_first -%}
+            {%- assign need_first = false -%}
+            <article class="rvw-card">
+              <h3>{{ cat_name }}</h3>
+              {%- if cat_desc != blank -%}<p class="rvw-card-desc">{{ cat_desc }}</p>{%- endif -%}
+              <div class="rvw-card-meta">
+                <span class="rvw-pill">★ <span data-rvw-card-avg="{{ cat_slug }}">–</span></span>
+                <span class="rvw-card-count"><strong data-rvw-card-count="{{ cat_slug }}">0</strong> Reviews</span>
+              </div>
+              <div class="rvw-snap">
+                <span class="rvw-snap-label">Review snapshot</span>
+                <p>{{ block.settings.text }}</p>
+                <strong>{{ block.settings.name }}</strong>
+              </div>
+              <div class="rvw-card-links">
+                <button type="button" class="rvw-card-link" data-rvw-go="{{ cat_slug }}">Read all reviews</button>
+                {%- if cat_link != blank -%}
+                  <a class="rvw-card-link" href="{{ cat_link }}">{{ cat_link_label | default: 'Visit product' }}</a>
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endif -%}
         {%- endfor -%}
       </div>
     </div>
-  {%- endfor -%}
 
+    {%- comment -%} ===== Detailed feed ===== {%- endcomment -%}
+    <div class="rvw-sec" id="rvw-feed">
+      <p class="rvw-kicker">{{ section.settings.feed_kicker }}</p>
+      <h2>{{ section.settings.feed_heading }}</h2>
+
+      <div class="rvw-tabs" role="tablist">
+        {%- assign tab_index = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'category' -%}
+            <button type="button" class="rvw-tab{% if tab_index == 0 %} is-active{% endif %}" data-rvw-tab="{{ block.settings.name | handleize }}">{{ block.settings.name }}</button>
+            {%- assign tab_index = tab_index | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- assign panel_open = false -%}
+      {%- assign panel_index = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'category' -%}
+          {%- if panel_open -%}</div></div>{%- endif -%}
+          <div class="rvw-panel" data-rvw-panel="{{ block.settings.name | handleize }}" {% if panel_index > 0 %}hidden{% endif %}>
+            <div class="rvw-summary">
+              <div class="rvw-score">
+                <span class="rvw-score-num" data-rvw-panel-avg>–</span>
+                <div class="rvw-score-stars" aria-hidden="true">★★★★★</div>
+                <p class="rvw-score-count">Based on <span data-rvw-panel-count>0</span> reviews</p>
+              </div>
+              <div class="rvw-bars">
+                {%- for n in (1..5) reversed -%}
+                  <div class="rvw-bar"><span>{{ n }}</span><span class="rvw-bar-track"><span class="rvw-bar-fill" data-rvw-bar="{{ n }}"></span></span><span data-rvw-bar-count="{{ n }}">0</span></div>
+                {%- endfor -%}
+              </div>
+            </div>
+            <div class="rvw-list">
+          {%- assign panel_open = true -%}
+          {%- assign panel_index = panel_index | plus: 1 -%}
+        {%- elsif block.type == 'review' -%}
+          <article class="rvw-item" data-rvw-item data-rating="{{ block.settings.rating }}" {{ block.shopify_attributes }}>
+            <div class="rvw-avatar" aria-hidden="true">{{ block.settings.name | slice: 0 | upcase }}</div>
+            <div>
+              <div class="rvw-item-head">
+                <span class="rvw-item-name">{{ block.settings.name }}</span>
+                <span class="rvw-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Verified Buyer</span>
+                {%- if block.settings.date != blank -%}<span class="rvw-item-date">{{ block.settings.date }}</span>{%- endif -%}
+              </div>
+              <div class="rvw-stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+                {%- for n in (1..5) -%}{%- if n <= block.settings.rating -%}★{%- else -%}<span class="off">★</span>{%- endif -%}{%- endfor -%}
+              </div>
+              <p class="rvw-item-body">{{ block.settings.text }}</p>
+            </div>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if panel_open -%}</div></div>{%- endif -%}
+    </div>
+
+    {%- comment -%} ===== CTA ===== {%- endcomment -%}
+    <div class="rvw-cta">
+      <h2>{{ section.settings.cta_heading }}</h2>
+      <p>{{ section.settings.cta_text }}</p>
+      <a class="rvw-btn rvw-btn--primary" href="{{ section.settings.cta_link | default: '/collections' }}">{{ section.settings.cta_label }}</a>
+    </div>
+
+  </div>
 </section>
+
+<script>
+(function () {
+  var root = document.querySelector('[data-rv]');
+  if (!root) return;
+
+  function round1(n) { return (Math.round(n * 10) / 10).toFixed(1); }
+  function setAll(selector, value) {
+    root.querySelectorAll(selector).forEach(function (el) { el.textContent = value; });
+  }
+
+  /* ----- Ratings, counts and bars, calculated from the review blocks ----- */
+  var allSum = 0, allCount = 0;
+
+  root.querySelectorAll('[data-rvw-panel]').forEach(function (panel) {
+    var slug = panel.getAttribute('data-rvw-panel');
+    var items = panel.querySelectorAll('[data-rvw-item]');
+    var counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    var sum = 0;
+
+    items.forEach(function (item) {
+      var r = parseInt(item.getAttribute('data-rating'), 10) || 5;
+      counts[r] += 1;
+      sum += r;
+    });
+
+    var n = items.length;
+    var avg = n ? round1(sum / n) : '0.0';
+    allSum += sum;
+    allCount += n;
+
+    panel.querySelector('[data-rvw-panel-avg]').textContent = avg;
+    panel.querySelector('[data-rvw-panel-count]').textContent = n;
+    for (var star = 1; star <= 5; star++) {
+      var fill = panel.querySelector('[data-rvw-bar="' + star + '"]');
+      var num = panel.querySelector('[data-rvw-bar-count="' + star + '"]');
+      if (fill) fill.style.width = (n ? (counts[star] / n) * 100 : 0) + '%';
+      if (num) num.textContent = counts[star];
+    }
+
+    setAll('[data-rvw-card-avg="' + slug + '"]', avg);
+    setAll('[data-rvw-card-count="' + slug + '"]', n);
+    setAll('[data-rvw-chip-count="' + slug + '"]', n);
+  });
+
+  setAll('[data-rvw-avg]', allCount ? round1(allSum / allCount) : '0.0');
+  setAll('[data-rvw-total]', allCount);
+
+  /* ----- Feed tabs ----- */
+  var tabs = root.querySelectorAll('[data-rvw-tab]');
+  var panels = root.querySelectorAll('[data-rvw-panel]');
+
+  function showTab(slug) {
+    tabs.forEach(function (t) { t.classList.toggle('is-active', t.getAttribute('data-rvw-tab') === slug); });
+    panels.forEach(function (p) { p.hidden = p.getAttribute('data-rvw-panel') !== slug; });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { showTab(tab.getAttribute('data-rvw-tab')); });
+  });
+
+  root.querySelectorAll('[data-rvw-go]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      showTab(btn.getAttribute('data-rvw-go'));
+      var feed = document.getElementById('rvw-feed');
+      if (feed) feed.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
+</script>
 
 {% schema %}
 {
   "name": "Reviews",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "DTF Transfer Reviews — Verified Feedback from Real Customers" },
-    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Verified Feedback from Authentic Customers" },
-    { "type": "range", "id": "speed", "label": "Scroll duration (s)", "min": 40, "max": 300, "step": 10, "default": 120 }
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Verified customer feedback across Fineyst Transfers" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Real transfer stories from customers who trusted us with their brand." },
+    { "type": "textarea", "id": "intro", "label": "Intro text", "default": "Browse customer-submitted photos, explore recent feedback, and see what buyers are saying about our transfers." },
+    { "type": "text", "id": "shop_label", "label": "Shop button label", "default": "Shop Transfers" },
+    { "type": "url", "id": "shop_link", "label": "Shop button link" },
+
+    { "type": "header", "content": "Customer photo wall" },
+    { "type": "text", "id": "photos_kicker", "label": "Small label", "default": "Customer photo wall" },
+    { "type": "text", "id": "photos_heading", "label": "Heading", "default": "Transfer results shared by real customers" },
+    { "type": "text", "id": "photos_sub", "label": "Subtext", "default": "A closer, more visual look at the work customers received." },
+
+    { "type": "header", "content": "Top reviews" },
+    { "type": "text", "id": "top_kicker", "label": "Small label", "default": "Top Reviews" },
+    { "type": "text", "id": "top_heading", "label": "Heading", "default": "Highlights from our most reviewed products" },
+
+    { "type": "header", "content": "Review feed" },
+    { "type": "text", "id": "feed_kicker", "label": "Small label", "default": "Detailed review feed" },
+    { "type": "text", "id": "feed_heading", "label": "Heading", "default": "Deeper feedback for our top categories" },
+
+    { "type": "header", "content": "Bottom call to action" },
+    { "type": "text", "id": "cta_heading", "label": "Heading", "default": "Ready to Create Your Custom Transfers?" },
+    { "type": "textarea", "id": "cta_text", "label": "Text", "default": "Our team is ready to bring your vision to life with high-quality custom transfers. Get started today." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Get Started" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
   ],
   "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Customer photo" },
+        { "type": "text", "id": "image_asset", "label": "Theme asset filename (optional)", "info": "Used when no image is picked, e.g. customer-1.webp from Assets." },
+        { "type": "text", "id": "alt", "label": "Alt text", "default": "Customer photo" }
+      ]
+    },
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Category name", "default": "DTF Transfers" },
+        { "type": "textarea", "id": "description", "label": "Short description" },
+        { "type": "url", "id": "link", "label": "Product link" },
+        { "type": "text", "id": "link_label", "label": "Link label", "default": "Visit product" }
+      ]
+    },
     {
       "type": "review",
       "name": "Review",
       "settings": [
-        { "type": "text", "id": "name", "label": "Name" },
-        { "type": "textarea", "id": "quote", "label": "Quote" },
-        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 }
+        { "type": "text", "id": "name", "label": "Customer name", "default": "Customer Name" },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "text", "label": "Review text", "default": "Add a real customer review here." },
+        { "type": "text", "id": "date", "label": "Date" }
       ]
     }
   ],
   "presets": [
-    {
-      "name": "Reviews",
-      "blocks": [
-        { "type": "review", "settings": { "name": "James Cundiff", "quote": "Colors came out exactly like my mockup. Turnaround was prompt and the press was clean on the first try.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Sarah Johnson", "quote": "The transfers exceeded my expectations. Vibrant colors and the fine detail held up perfectly.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Robert Neumann", "quote": "Gang sheets saved me so much money. Everyone at the shop loves the quality.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Jennifer Kim", "quote": "Perfect for our team uniforms. Pressed 60 shirts in an afternoon with zero issues.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "David Chen", "quote": "White underbase is crisp and bright even on black hoodies. Exactly what I needed.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Lisa Thompson", "quote": "These transfers are durable and well made. Still perfect after a dozen washes.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Mark Wilson", "quote": "The art team cleaned up my low-res file for free and it printed beautifully.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Sophia Garcia", "quote": "I've ordered from several DTF companies and these are by far the best quality.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Ryan Murphy", "quote": "Fast peel is real. 13 seconds and it lifts clean every single time.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Olivia Brown", "quote": "Exactly what our booster club needed. The kids love the designs.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Michael Torres", "quote": "Shipped in 24 hours as promised and the packaging kept everything flat.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Jessica White", "quote": "Puff transfers gave our merch a premium feel. Customers noticed immediately.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Brandon Scott", "quote": "I worried about the tiny text in my logo but it came out razor sharp.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Rachel Green", "quote": "So much better than the transfers I was getting from my old supplier.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Tyler Adams", "quote": "The metallic foil option looks incredible on our band tees. Very impressed.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Megan Phillips", "quote": "Our sports team loves the new prints. They look professional and hold up.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Eric Wilson", "quote": "No minimum meant I could test one design before committing. Huge for a small shop.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Samantha Baker", "quote": "I've ordered multiple times and the quality is consistently excellent.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Chris Evans", "quote": "Colors haven't faded at all after repeated washes. Genuinely durable.", "rating": 5 } },
-        { "type": "review", "settings": { "name": "Laura Martinez", "quote": "Perfect for our company uniforms. Everyone is impressed with the finish.", "rating": 5 } }
-      ]
-    }
+    { "name": "Reviews" }
   ]
 }
 {% endschema %}

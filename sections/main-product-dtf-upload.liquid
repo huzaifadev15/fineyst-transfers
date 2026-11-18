@@ -23,7 +23,7 @@
 
   .gang-sizes {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    grid-template-columns: repeat(9, minmax(0, 1fr));
     gap: 8px;
   }
 
@@ -42,10 +42,9 @@
     transition: border-color 0.15s, background 0.15s;
     text-align: center;
   }
-  .gang-size-btn:hover { border-color: var(--color-accent, #0ea5e9); }
   .gang-size-btn.is-active {
-    border-color: var(--color-accent, #0ea5e9);
-    background: color-mix(in srgb, var(--color-accent, #0ea5e9) 8%, transparent);
+    border-color: var(--color-accent, #12A150);
+    background: color-mix(in srgb, var(--color-accent, #12A150) 8%, transparent);
   }
   .gang-size-label { font-size: 13px; font-weight: 600; color: var(--color-text, #111); }
   .gang-size-price { font-size: 12px; color: var(--color-text, #111); }
@@ -78,8 +77,7 @@
     font-weight: 500;
     transition: border-color 0.15s;
   }
-  .gang-film-btn:hover { border-color: var(--color-accent, #0ea5e9); }
-  .gang-film-btn.is-active { border-color: var(--color-accent, #0ea5e9); }
+  .gang-film-btn.is-active { border-color: var(--color-accent, #12A150); }
   .gang-film-swatch {
     width: 16px;
     height: 16px;
@@ -93,7 +91,7 @@
     left: 8px;
     font-size: 9px;
     font-weight: 700;
-    background: var(--color-accent, #0ea5e9);
+    background: var(--color-accent, #12A150);
     color: #fff;
     border-radius: 4px;
     padding: 1px 5px;
@@ -101,7 +99,7 @@
     letter-spacing: 0.04em;
     white-space: nowrap;
   }
-  .gang-film-check { color: var(--color-accent, #0ea5e9); display: flex; align-items: center; }
+  .gang-film-check { color: var(--brand-text, #82C341); display: flex; align-items: center; }
 
   /* Selected size / film / price recap above the builder CTA */
   .gang-selection-summary {
@@ -125,17 +123,21 @@
   .gang-selection-price em { font-style: normal; color: #067647; font-weight: 600; font-size: 12px; }
 
   /* CTA button */
-  .gang-builder-btn {
-    width: 100%;
-    justify-content: center;
-    padding: 16px;
-    font-size: 15px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: 8px;
-  }
+  
+.gang-builder-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 16px;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 8px;
+  background: #0B3D2E !important;
+  color: #FFFFFF !important;
+}
+
 
   /* Rewards */
   /* Rewards bar: filled grey strip with the percentage boxed on the left,
@@ -173,7 +175,7 @@
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.03em;
-    color: var(--brand, #3E6D8E);
+    color: var(--brand-text, #82C341);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
@@ -200,16 +202,37 @@
         thumbnails rather than inside the carousel.
       {%- endcomment -%}
       {%- assign image_count = product.images.size -%}
+      {%- assign custom_gallery_assets = 't2.webp|dtf upload 1.webp|dtf upload 2.webp' | split: '|' -%}
+      {%- assign use_custom_gallery = false -%}
+      {%- if product.handle == 'build-your-own-gang-sheet' -%}
+        {%- assign use_custom_gallery = true -%}
+        {%- assign gallery_image_count = custom_gallery_assets.size -%}
+      {%- elsif product.handle == 'uv-dtf-gang-sheet-builder' -%}
+        {%- assign use_custom_gallery = true -%}
+        {%- assign custom_gallery_assets = 'dtf upload 1.webp|dtf image 3.webp|t2.webp' | split: '|' -%}
+        {%- assign gallery_image_count = custom_gallery_assets.size -%}
+      {%- else -%}
+        {%- assign gallery_image_count = image_count -%}
+      {%- endif -%}
 
       <div class="product-gallery" data-gallery>
-        {%- if image_count > 1 -%}
+        {%- if gallery_image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--prev" aria-label="Previous image">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
         {%- endif -%}
 
         <div class="gallery-main" data-gallery-main>
-          {%- if image_count > 0 -%}
+          {%- if use_custom_gallery -%}
+            {%- for asset in custom_gallery_assets -%}
+              <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
+                <img src="{{ asset | asset_url }}"
+                     alt="Gang sheet image {{ forloop.index }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     sizes="(min-width: 990px) 45vw, 100vw">
+              </div>
+            {%- endfor -%}
+          {%- elsif image_count > 0 -%}
             {%- for image in product.images -%}
               <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
                 <img src="{{ image | image_url: width: 1400 }}"
@@ -223,22 +246,32 @@
           {%- endif -%}
         </div>
 
-        {%- if image_count > 1 -%}
+        {%- if gallery_image_count > 1 -%}
           <button class="gallery-arrow gallery-arrow--next" aria-label="Next image">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
           </button>
         {%- endif -%}
       </div>
 
-      {%- if image_count > 1 -%}
+      {%- if gallery_image_count > 1 -%}
         <div class="gallery-thumbs">
-          {%- for image in product.images -%}
-            <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
-                    data-gallery-thumb data-index="{{ forloop.index0 }}"
-                    aria-label="View image {{ forloop.index }}">
-              <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
-            </button>
-          {%- endfor -%}
+          {%- if use_custom_gallery -%}
+            {%- for asset in custom_gallery_assets -%}
+              <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                      data-gallery-thumb data-index="{{ forloop.index0 }}"
+                      aria-label="View image {{ forloop.index }}">
+                <img src="{{ asset | asset_url }}" alt="" loading="lazy">
+              </button>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for image in product.images -%}
+              <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                      data-gallery-thumb data-index="{{ forloop.index0 }}"
+                      aria-label="View image {{ forloop.index }}">
+                <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
+              </button>
+            {%- endfor -%}
+          {%- endif -%}
         </div>
       {%- endif -%}
 
