@@ -3795,7 +3795,7 @@ input[type="reset"]:not(:disabled):hover,
 /* ===== Upload section: sirf 3 greens (header jaise) ===== */
 .upload-dropzone {
   background: #E8F5E9;
-  border-color: #B6F000;
+  border-color: #0B3D2E;
 }
 .upload-dropzone.is-dragover,
 .upload-dropzone.is-dragging {
