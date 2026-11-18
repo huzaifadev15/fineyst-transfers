@@ -16,6 +16,7 @@
           "type": "mockup",
           "settings": {
             "image": "shopify://shop_images/tshirt_blank_cd5403db-fa39-437c-854f-91ba11be11a9.png",
+            "image_asset": "",
             "label": "T-Shirt",
             "width_in": 11,
             "art_width": 45,
@@ -81,34 +82,6 @@
             "art_width": 30,
             "art_left": 50,
             "art_top": 50
-          }
-        },
-        "quick-1": {
-          "type": "quick_size",
-          "settings": {
-            "label": "3\" x 3\"",
-            "price": "$0.18"
-          }
-        },
-        "quick-2": {
-          "type": "quick_size",
-          "settings": {
-            "label": "5\" x 2\"",
-            "price": "$0.55"
-          }
-        },
-        "quick-3": {
-          "type": "quick_size",
-          "settings": {
-            "label": "8\" x 8\"",
-            "price": "$2.14"
-          }
-        },
-        "quick-4": {
-          "type": "quick_size",
-          "settings": {
-            "label": "12\" x 9\"",
-            "price": "$3.69"
           }
         },
         "quick-1": {
@@ -222,6 +195,7 @@
         "quick_title": "Popular Sizes & Prices",
         "quick_sub": "No setup fees · Bulk discounts up to 50% off",
         "show_ai_tools": false,
+        "enable_ai_bg_removal": false,
         "show_buy_form": true,
         "feature_video": "",
         "feature_link": "",
@@ -355,9 +329,9 @@
       "settings": {
         "heading": "The Next Generation of DTF Transfers",
         "intro": "",
-        "image_ours": "dtf-2.jpg",
+        "image_ours": "comp-img1.jpg",
         "label_ours": "VIVID+ 9-Color DTF",
-        "image_theirs": "dtf-3.jpg",
+        "image_theirs": "comp-img2.jpg",
         "label_theirs": "Industry Standard 5-Color DTF",
         "ours_title": "Fineyst Standard DTF",
         "ours_sub": "VIVID+, 9-Color Printing",
