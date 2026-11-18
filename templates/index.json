@@ -197,7 +197,7 @@
           "type": "feature_card",
           "settings": {
             "icon": "shield",
-            "icon_color": "#12A150",
+            "icon_color": "#12a150",
             "title": "Lab-Tested Durability",
             "text": "Tested to last 100+ washes."
           }
@@ -224,7 +224,7 @@
         "transfer-gang-sheets": {
           "type": "transfer_type",
           "settings": {
-            "fallback_asset": "t8.webp",
+            "fallback_asset": "spt 1.webp",
             "title": "DTF GANG SHEETS",
             "product_handle": "premium-dtf-gang-sheets",
             "price_note": "$0.02 per sq. in.",
@@ -254,7 +254,7 @@
         "transfer-glitter": {
           "type": "transfer_type",
           "settings": {
-            "fallback_asset": "glitter DTF 1.webp",
+            "fallback_asset": "glitter DTF.webp",
             "title": "GLITTER TRANSFERS",
             "product_handle": "glitter-transfers",
             "price_note": "$0.07 per sq. in.",
@@ -795,90 +795,90 @@
         "subheading": "Find answers to common questions about our transfers and services"
       }
     },
-    "reviews": {
-      "type": "reviews",
+    "scrolling_reviews_PG6qLj": {
+      "type": "scrolling-reviews",
       "blocks": {
-        "r1": {
+        "review_wym7QH": {
           "type": "review",
           "settings": {
             "name": "James Cundiff",
-            "quote": "Colors came out exactly like my mockup. Turnaround was prompt and the press was clean on the first try.",
+            "quote": "Colors   came out exactly like my mockup. Turnaround was prompt and the press was   clean on the first try.",
             "rating": 5
           }
         },
-        "r2": {
+        "review_yFKNnP": {
           "type": "review",
           "settings": {
             "name": "Sarah Johnson",
-            "quote": "The transfers exceeded my expectations. Vibrant colors and the fine detail held up perfectly.",
+            "quote": "The   transfers exceeded my expectations. Vibrant colors and the fine detail held   up perfectly.",
             "rating": 5
           }
         },
-        "r3": {
+        "review_MxDbVG": {
           "type": "review",
           "settings": {
             "name": "Robert Neumann",
-            "quote": "Gang sheets saved me so much money. Everyone at the shop loves the quality.",
+            "quote": "Gang   sheets saved me so much money. Everyone at the shop loves the quality.",
             "rating": 5
           }
         },
-        "r4": {
+        "review_VKVqNf": {
           "type": "review",
           "settings": {
             "name": "Jennifer Kim",
-            "quote": "Perfect for our team uniforms. Pressed 60 shirts in an afternoon with zero issues.",
+            "quote": "Perfect   for our team uniforms. Pressed 60 shirts in an afternoon with zero issues.",
             "rating": 5
           }
         },
-        "r5": {
+        "review_qred8F": {
           "type": "review",
           "settings": {
             "name": "David Chen",
-            "quote": "White underbase is crisp and bright even on black hoodies. Exactly what I needed.",
+            "quote": "White   underbase is crisp and bright even on black hoodies. Exactly what I needed.",
             "rating": 5
           }
         },
-        "r6": {
+        "review_DKcjVy": {
           "type": "review",
           "settings": {
             "name": "Lisa Thompson",
-            "quote": "These transfers are durable and well made. Still perfect after a dozen washes.",
+            "quote": "These   transfers are durable and well made. Still perfect after a dozen washes.",
             "rating": 5
           }
         },
-        "r7": {
+        "review_cw8HU4": {
           "type": "review",
           "settings": {
             "name": "Mark Wilson",
-            "quote": "The art team cleaned up my low-res file for free and it printed beautifully.",
+            "quote": "The art   team cleaned up my low-res file for free and it printed beautifully.",
             "rating": 5
           }
         },
-        "r8": {
+        "review_FXUBE8": {
           "type": "review",
           "settings": {
             "name": "Sophia Garcia",
-            "quote": "I've ordered from several DTF companies and these are by far the best quality.",
+            "quote": "I've   ordered from several DTF companies and these are by far the best quality.",
             "rating": 5
           }
         },
-        "r9": {
+        "review_abm9KD": {
           "type": "review",
           "settings": {
             "name": "Ryan Murphy",
-            "quote": "Fast peel is real. 13 seconds and it lifts clean every single time.",
+            "quote": "Fast peel   is real. 13 seconds and it lifts clean every single time.",
             "rating": 5
           }
         },
-        "r10": {
+        "review_EBkdPd": {
           "type": "review",
           "settings": {
             "name": "Olivia Brown",
-            "quote": "Exactly what our booster club needed. The kids love the designs.",
+            "quote": "Exactly   what our booster club needed. The kids love the designs.",
             "rating": 5
           }
         },
-        "r11": {
+        "review_MyXzMA": {
           "type": "review",
           "settings": {
             "name": "Michael Torres",
@@ -886,103 +886,104 @@
             "rating": 5
           }
         },
-        "r12": {
+        "review_jXBCXa": {
           "type": "review",
           "settings": {
             "name": "Jessica White",
-            "quote": "Puff transfers gave our merch a premium feel. Customers noticed immediately.",
+            "quote": "Puff   transfers gave our merch a premium feel. Customers noticed immediately.",
             "rating": 5
           }
         },
-        "r13": {
+        "review_naMRCj": {
           "type": "review",
           "settings": {
             "name": "Brandon Scott",
-            "quote": "I worried about the tiny text in my logo but it came out razor sharp.",
+            "quote": "I   worried about the tiny text in my logo but it came out razor sharp.",
             "rating": 5
           }
         },
-        "r14": {
+        "review_DcEDw8": {
           "type": "review",
           "settings": {
             "name": "Rachel Green",
-            "quote": "So much better than the transfers I was getting from my old supplier.",
+            "quote": "So much   better than the transfers I was getting from my old supplier.",
             "rating": 5
           }
         },
-        "r15": {
+        "review_UnXwPY": {
           "type": "review",
           "settings": {
             "name": "Tyler Adams",
-            "quote": "The metallic foil option looks incredible on our band tees. Very impressed.",
+            "quote": "The   metallic foil option looks incredible on our band tees. Very impressed.",
             "rating": 5
           }
         },
-        "r16": {
+        "review_pnptyh": {
           "type": "review",
           "settings": {
             "name": "Megan Phillips",
-            "quote": "Our sports team loves the new prints. They look professional and hold up.",
+            "quote": "Our   sports team loves the new prints. They look professional and hold up.",
             "rating": 5
           }
         },
-        "r17": {
+        "review_La88Kf": {
           "type": "review",
           "settings": {
             "name": "Eric Wilson",
-            "quote": "No minimum meant I could test one design before committing. Huge for a small shop.",
+            "quote": "No   minimum meant I could test one design before committing. Huge for a small   shop.",
             "rating": 5
           }
         },
-        "r18": {
+        "review_m3hhXd": {
           "type": "review",
           "settings": {
             "name": "Samantha Baker",
-            "quote": "I've ordered multiple times and the quality is consistently excellent.",
+            "quote": "I've   ordered multiple times and the quality is consistently excellent.",
             "rating": 5
           }
         },
-        "r19": {
+        "review_VhCeV3": {
           "type": "review",
           "settings": {
             "name": "Chris Evans",
-            "quote": "Colors haven't faded at all after repeated washes. Genuinely durable.",
+            "quote": "Colors   haven't faded at all after repeated washes. Genuinely durable.",
             "rating": 5
           }
         },
-        "r20": {
+        "review_68BWeK": {
           "type": "review",
           "settings": {
             "name": "Laura Martinez",
-            "quote": "Perfect for our company uniforms. Everyone is impressed with the finish.",
+            "quote": "Perfect for our company uniforms. Everyone is impressed with the   finish.",
             "rating": 5
           }
         }
       },
       "block_order": [
-        "r1",
-        "r2",
-        "r3",
-        "r4",
-        "r5",
-        "r6",
-        "r7",
-        "r8",
-        "r9",
-        "r10",
-        "r11",
-        "r12",
-        "r13",
-        "r14",
-        "r15",
-        "r16",
-        "r17",
-        "r18",
-        "r19",
-        "r20"
+        "review_wym7QH",
+        "review_yFKNnP",
+        "review_MxDbVG",
+        "review_VKVqNf",
+        "review_qred8F",
+        "review_DKcjVy",
+        "review_cw8HU4",
+        "review_FXUBE8",
+        "review_abm9KD",
+        "review_EBkdPd",
+        "review_MyXzMA",
+        "review_jXBCXa",
+        "review_naMRCj",
+        "review_DcEDw8",
+        "review_UnXwPY",
+        "review_pnptyh",
+        "review_La88Kf",
+        "review_m3hhXd",
+        "review_VhCeV3",
+        "review_68BWeK"
       ],
+      "name": "Reviews",
       "settings": {
-        "heading": "DTF Transfer Reviews — Verified Feedback from Real Customers",
+        "heading": "DTF Transfer Reviews — Verified Feedback from Real   Customers",
         "subheading": "Verified Feedback from Authentic Customers",
         "speed": 120
       }
@@ -1001,6 +1002,6 @@
     "fleet-banner",
     "things-to-know",
     "faq",
-    "reviews"
+    "scrolling_reviews_PG6qLj"
   ]
 }

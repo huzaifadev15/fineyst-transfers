@@ -16,6 +16,7 @@
           "type": "sheet_size",
           "settings": {
             "label": "1 Foot",
+            "size_ft": "",
             "price": "$16.99",
             "compare_price": "",
             "discount_pct": "",
@@ -26,6 +27,7 @@
           "type": "sheet_size",
           "settings": {
             "label": "2 Feet",
+            "size_ft": "",
             "price": "$19.99",
             "compare_price": "$33.88",
             "discount_pct": "41",
@@ -36,6 +38,7 @@
           "type": "sheet_size",
           "settings": {
             "label": "5 Feet",
+            "size_ft": "",
             "price": "$49.99",
             "compare_price": "$84.70",
             "discount_pct": "41",
@@ -46,6 +49,7 @@
           "type": "sheet_size",
           "settings": {
             "label": "7 Feet",
+            "size_ft": "",
             "price": "$69.99",
             "compare_price": "$118.58",
             "discount_pct": "41",
@@ -56,6 +60,7 @@
           "type": "sheet_size",
           "settings": {
             "label": "10 Feet",
+            "size_ft": "",
             "price": "$89.99",
             "compare_price": "$169.40",
             "discount_pct": "47",
@@ -66,6 +71,7 @@
           "type": "sheet_size",
           "settings": {
             "label": "15 Feet",
+            "size_ft": "",
             "price": "$109.99",
             "compare_price": "$254.10",
             "discount_pct": "57",
@@ -76,6 +82,7 @@
           "type": "sheet_size",
           "settings": {
             "label": "20 Feet",
+            "size_ft": "",
             "price": "$129.99",
             "compare_price": "$338.80",
             "discount_pct": "62",
@@ -86,6 +93,7 @@
           "type": "sheet_size",
           "settings": {
             "label": "30 Feet",
+            "size_ft": "",
             "price": "$179.99",
             "compare_price": "$508.20",
             "discount_pct": "65",
@@ -96,6 +104,7 @@
           "type": "sheet_size",
           "settings": {
             "label": "40 Feet",
+            "size_ft": "",
             "price": "$210.99",
             "compare_price": "$677.60",
             "discount_pct": "68",
@@ -164,7 +173,28 @@
         "film-gold",
         "film-silver"
       ],
-      "settings": {}
+      "settings": {
+        "badge_text": "FREE Upgrade to VIVID AF",
+        "unit_price": "$0.02/sq in",
+        "fulfillment_note": "Printed by Ninja. Ships from US",
+        "rating_value": "4.9",
+        "rating_count": "22,861",
+        "wash_count": "100",
+        "volume_text": "Buy More & Save Up To 67%",
+        "volume_link": "",
+        "cutoff_hour": 17,
+        "sheet_width": "22",
+        "builder_url": "",
+        "builder_cta": "BUILD YOUR OWN GANG SHEET",
+        "rewards_label": "NINJA REWARDS CASHBACK",
+        "rewards_pct": "10",
+        "rewards_cashback": "Earn up to $2.00 back on this item",
+        "rewards_link": "",
+        "show_bnpl": true,
+        "bnpl_title": "Finance with Buy Now Pay Later options",
+        "bnpl_static_image": "payment.webp",
+        "bnpl_note": ""
+      }
     },
     "pdp-details": {
       "type": "pdp-details",
@@ -237,7 +267,10 @@
         "d8"
       ],
       "settings": {
-        "heading": "Product Details"
+        "heading": "Product Details",
+        "body": "<p>Experience professional-grade DTF printing made effortless with Fineyst Transfers. Every transfer is produced using our VIVID+ DTF process, featuring an expanded CMYK + RGBO + White ink system that delivers dramatically brighter colors, smoother gradients, and sharper detail - at no extra cost. From vibrant colors and clean whites to fine lines and complex gradients, our high-quality DTF transfers give shops, brands, and creators the freedom to print virtually any design on any garment with consistently standout results.</p>",
+        "subheading": "Super Vivid Prints. No Upcharge.",
+        "subbody": "<p>Most DTF providers still use 5-color printing as their standard. Accessing 9-color printing typically requires a paid upgrade, often increasing costs by up to 50%.</p><p>Fineyst includes 9-color VIVID+ printing on every DTF order at no additional cost.</p>"
       }
     },
     "pdp-comparison": {
@@ -278,7 +311,18 @@
         "c3",
         "c4"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "The Next Generation of DTF Transfers",
+        "intro": "",
+        "image_ours": "comp-img1.jpg",
+        "label_ours": "VIVID+ 9-Color DTF",
+        "image_theirs": "comp-img2.jpg",
+        "label_theirs": "Industry Standard 5-Color DTF",
+        "ours_title": "Fineyst Standard DTF",
+        "ours_sub": "VIVID+, 9-Color Printing",
+        "theirs_title": "Competitor's Standard DTF",
+        "theirs_sub": "Basic, 5-Color Printing"
+      }
     },
     "pdp-benefits": {
       "type": "feature-tiles",
@@ -286,29 +330,37 @@
         "b1": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-1.jpg",
-            "caption": "Works on Any Fabric or Color"
+            "static_image": "any fab img.jpg",
+            "static_video": "",
+            "caption": "Works on Any Fabric or Color",
+            "link": ""
           }
         },
         "b2": {
           "type": "tile",
           "settings": {
-            "static_video": "dtf-video-1.mp4",
-            "caption": "Unrivaled Color Spectrum & Brighter Whites"
+            "static_image": "color-spec.jpg",
+            "static_video": "",
+            "caption": "Unrivaled Color Spectrum & Brighter Whites",
+            "link": ""
           }
         },
         "b3": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-2.jpg",
-            "caption": "Stretchability Means Durability"
+            "static_image": "stretch-duriable.jpg",
+            "static_video": "",
+            "caption": "Stretchability Means Durability",
+            "link": ""
           }
         },
         "b4": {
           "type": "tile",
           "settings": {
             "static_image": "spt 1.webp",
-            "caption": "Sharper Details & Cleaner Edges"
+            "static_video": "",
+            "caption": "Sharper Details & Cleaner Edges",
+            "link": ""
           }
         }
       },
@@ -330,14 +382,16 @@
         "text": "<p>Thanks to our proprietary Fineyst Peel Technology, our DTF transfers deliver professional results in just 13 seconds - making it easier than ever to press on anything!</p>",
         "cta_label": "View DTF Pressing Guide",
         "cta_link": "/pages/pressing-instructions",
-        "media_position": "left",
-        "static_video": "dtf-video-6.mp4"
+        "static_image": "",
+        "static_video": "dtf-video-6.mp4",
+        "media_position": "left"
       }
     },
     "pdp-ugc": {
       "type": "pdp-ugc",
       "settings": {
-        "heading": "Fineyst Transfers Customer Feedback"
+        "heading": "Fineyst Transfers Customer Feedback",
+        "files": "cr img1.webp,cr img2.webp,cr img3.webp,cr img4.webp,cr img5.webp,cr img6.webp,cr img7.webp"
       }
     },
     "pdp-related": {
@@ -525,7 +579,15 @@
         "r4",
         "r5"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Customer Reviews",
+        "per_page": 5,
+        "average": "4.9",
+        "total_reviews": "22860",
+        "breakdown": "21792,752,139,72,106",
+        "summary": "",
+        "topics": "quality,colors,look,transfers,design,size,results,service"
+      }
     },
     "pdp-qa": {
       "type": "pdp-qa",
@@ -583,12 +645,19 @@
         "q4",
         "q5"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Questions & Answers",
+        "ask_label": "Ask a question",
+        "ask_link": "",
+        "brand": "Fineyst Transfers"
+      }
     },
     "partner-banner": {
       "type": "partner-banner",
       "settings": {
-        "text": "Official Printing Partner of the Sandy Creek Athletics Program"
+        "text": "Official Printing Partner of the Sandy Creek Athletics Program",
+        "static_logo": "",
+        "static_bg": ""
       }
     }
   },

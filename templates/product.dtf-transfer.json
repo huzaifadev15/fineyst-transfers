@@ -328,9 +328,9 @@
       "settings": {
         "heading": "The Next Generation of DTF Transfers",
         "intro": "",
-        "image_ours": "compair img1.jpg",
+        "image_ours": "comp-img1.jpg",
         "label_ours": "VIVID+ 9-Color DTF",
-        "image_theirs": "compair img2.jpg",
+        "image_theirs": "comp-img2.jpg",
         "label_theirs": "Industry Standard 5-Color DTF",
         "ours_title": "Fineyst Standard DTF",
         "ours_sub": "VIVID+, 9-Color Printing",
@@ -344,7 +344,7 @@
         "b1": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-1.jpg",
+            "static_image": "any fab img.jpg",
             "static_video": "",
             "caption": "Works on Any Fabric or Color",
             "link": ""
@@ -353,8 +353,8 @@
         "b2": {
           "type": "tile",
           "settings": {
-            "static_image": "",
-            "static_video": "dtf-video-1.mp4",
+            "static_image": "color-spec.jpg",
+            "static_video": "",
             "caption": "Unrivaled Color Spectrum & Brighter Whites",
             "link": ""
           }
@@ -362,7 +362,7 @@
         "b3": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-2.jpg",
+            "static_image": "stretch-duriable.jpg",
             "static_video": "",
             "caption": "Stretchability Means Durability",
             "link": ""
