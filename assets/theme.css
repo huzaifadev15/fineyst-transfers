@@ -1342,7 +1342,7 @@ body.template-index main { padding-top: 0; }
 .option-media { position: relative; display: block; width: 100%; margin-bottom: 18px; }
 .option-media img, .option-media-placeholder { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; display: block; }
 .option-media-placeholder { background: linear-gradient(135deg, #A6F4C5, #E8F5E9 55%, #12A150); }
-.option-badge { position: absolute; top: 14px; left: 14px; padding: 7px 14px; border-radius: 999px; background: var(--pdp-blue); color: #104241; font-size: 0.82rem; font-weight: 700; box-shadow: 0 2px 8px rgba(16,24,40,0.18); }
+.option-badge { position: absolute; top: 14px; left: 14px; padding: 7px 14px; border-radius: 999px; background: #B6F000; color: #104241; font-size: 0.82rem; font-weight: 700; box-shadow: 0 2px 8px rgba(16,24,40,0.18); }
 .option-card h3 { margin: 0 0 6px; font-size: 1.15rem; font-weight: 700; }
 .option-price { margin: 0 0 10px; font-size: 0.95rem; font-weight: 700; color: #12A150; }
 .option-text { margin: 0 0 20px; font-size: 0.95rem; line-height: 1.55; color: #5B6472; }
@@ -1452,7 +1452,7 @@ body.template-index main { padding-top: 0; }
 .upload-phone { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #F1F3F6; color: var(--brand-text); font-size: 0.88rem; font-weight: 600; }
 .upload-phone:hover { text-decoration: underline; }
 
-.btn-blue { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 34px; border: none; border-radius: 8px; background: #B6F000; color: #0B3D2E; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-blue { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 34px; border: none; border-radius: 8px; background: #0B3D2E; color: #fff; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
 .btn-blue:disabled { background: #C9D2DE; cursor: not-allowed; }
 .btn-blue--lg { flex: 1; padding: 16px 28px; font-size: 1rem; border-radius: 10px; }
 .pdp-buy-price { opacity: 0.85; font-weight: 500; }
@@ -1873,8 +1873,8 @@ body.template-index main { padding-top: 0; }
 .patch-card-cta { margin-top: 16px; }
 .patch-card-btn {
   display: inline-block;
-  background: #B6F000;
-  color: #104241;
+  background: #0B3D2E;
+  color: #fff;
   font-size: 13px;
   font-weight: 700;
   padding: 9px 20px;
