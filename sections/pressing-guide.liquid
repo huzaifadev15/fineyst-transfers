@@ -1,0 +1,560 @@
+{%- comment -%}
+  DTF Pressing Guide
+  1. Pick a heat source (heat press / iron / handheld craft press)
+  2. Pick the material and see pressure, temperature (°F/°C) and time
+  3. Video tutorial, step-by-step instructions, troubleshooting
+  4. "We'll press it for you" block, since we press transfers in-house
+  Blocks: Material, Step, Issue.   Class prefix: prs-   CSS and JS live here.
+{%- endcomment -%}
+
+<style>
+  .prs-page { background: #fff; padding-bottom: 72px; }
+  .prs-wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .prs-sec { padding: 56px 0 0; scroll-margin-top: 150px; }
+  .prs-sec h2 { margin: 0 0 8px; font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 900; letter-spacing: -0.02em; color: #0B3D2E; }
+  .prs-sub { margin: 0 0 24px; font-size: 0.97rem; line-height: 1.7; color: #667085; }
+  .prs-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .prs-btn { display: inline-flex; align-items: center; justify-content: center; padding: 13px 26px; border-radius: 10px; font-size: 0.95rem; font-weight: 800; transition: transform 0.15s; }
+  .prs-btn--primary { background: #B6F000; color: #0B3D2E; }
+  .prs-btn--ghost { background: #fff; color: #0B3D2E; border: 1px solid #0B3D2E; }
+
+  /* Hero */
+  .prs-hero { background: linear-gradient(135deg, #E8F5E9 0%, #fff 65%); padding: 44px 0 36px; text-align: center; }
+  .prs-crumbs { margin: 0 0 14px; font-size: 0.85rem; color: #667085; }
+  .prs-crumbs a { color: #0B3D2E; font-weight: 700; }
+  .prs-hero h1 { margin: 0 0 10px; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; color: #0B3D2E; }
+  .prs-hero h1 span { background: #B6F000; padding: 0 10px; border-radius: 10px; }
+  .prs-includes { margin: 0 0 20px; font-size: 0.95rem; color: #475467; }
+  .prs-includes strong { color: #0B3D2E; }
+  .prs-press-pill { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 999px; background: #0B3D2E; color: #B6F000; font-size: 0.88rem; font-weight: 800; }
+  .prs-press-pill:hover { background: #104241; }
+
+  /* Step 1: heat source */
+  .prs-step-label { margin: 0 0 6px; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #0B3D2E; }
+  .prs-sources { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .prs-source { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 22px 16px; border: 2px solid #E5E7EB; border-radius: 16px; background: #fff; font-family: inherit; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .prs-source:hover { border-color: #B6F000; }
+  .prs-source.is-active { border-color: #0B3D2E; background: #E8F5E9; }
+  .prs-source-img { width: 100%; max-width: 150px; aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; color: #0B3D2E; }
+  .prs-source-img img { width: 100%; height: 100%; object-fit: contain; }
+  .prs-source-name { font-size: 1rem; font-weight: 900; color: #0B3D2E; }
+  .prs-source-tag { padding: 5px 16px; border-radius: 999px; background: #F2F4F7; font-size: 0.78rem; font-weight: 800; color: #475467; }
+  .prs-source.is-active .prs-source-tag { background: #B6F000; color: #0B3D2E; }
+
+  /* Step 2: material + settings */
+  .prs-mats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+  .prs-mat { position: relative; padding: 10px 18px; border: 1px solid #E5E7EB; border-radius: 999px; background: #fff; font-family: inherit; font-size: 0.88rem; font-weight: 700; color: #0B3D2E; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+  .prs-mat:hover { border-color: #B6F000; }
+  .prs-mat.is-active { background: #B6F000; border-color: #B6F000; }
+  .prs-mat em { margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: #0B3D2E; color: #B6F000; font-size: 0.66rem; font-style: normal; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .prs-result { border-radius: 20px; background: #0B3D2E; padding: 28px; }
+  .prs-result-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+  .prs-result-title { margin: 0; font-size: 1.05rem; font-weight: 800; color: #D1FADF; }
+  .prs-result-title strong { color: #B6F000; }
+  .prs-unit { display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); }
+  .prs-unit button { padding: 6px 14px; border: none; border-radius: 999px; background: none; font-family: inherit; font-size: 0.8rem; font-weight: 800; color: #D1FADF; cursor: pointer; }
+  .prs-unit button.is-active { background: #B6F000; color: #0B3D2E; }
+  .prs-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .prs-stat { padding: 18px 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.08); text-align: center; }
+  .prs-stat-label { display: block; margin-bottom: 6px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #9FD3B5; }
+  .prs-stat-value { display: block; font-size: clamp(1.15rem, 2.4vw, 1.7rem); font-weight: 900; line-height: 1.2; color: #B6F000; }
+  .prs-tips { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .prs-tips[hidden] { display: none; }
+  .prs-tips li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.93rem; line-height: 1.6; color: #fff; }
+  .prs-tips li::before { content: ""; flex: 0 0 auto; width: 8px; height: 8px; margin-top: 8px; border-radius: 50%; background: #B6F000; }
+  .prs-disclaimer { margin: 18px 0 0; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.8rem; line-height: 1.55; color: #9FD3B5; }
+  .prs-jump { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 18px; font-size: 0.9rem; }
+  .prs-jump span { font-weight: 700; color: #667085; }
+  .prs-jump a { font-weight: 800; color: #0B3D2E; text-decoration: underline; }
+
+  /* Video */
+  .prs-video { max-width: 760px; margin: 0 auto; border-radius: 18px; overflow: hidden; background: #0A0A0A; aspect-ratio: 16 / 9; }
+  .prs-video iframe, .prs-video video { width: 100%; height: 100%; border: 0; display: block; }
+  .prs-video-empty { display: flex; align-items: center; justify-content: center; height: 100%; padding: 24px; text-align: center; color: #9FD3B5; font-size: 0.9rem; }
+
+  /* Steps */
+  .prs-steps { display: flex; flex-direction: column; gap: 28px; }
+  .prs-step { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; align-items: center; padding: 28px; border: 1px solid #E5E7EB; border-radius: 20px; background: #fff; }
+  .prs-step:nth-child(even) .prs-step-media { order: 2; }
+  .prs-step-media { aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: #E8F5E9; display: flex; align-items: center; justify-content: center; color: #0B3D2E; }
+  .prs-step-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .prs-step-num { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; margin-bottom: 12px; border-radius: 50%; background: #B6F000; color: #0B3D2E; font-size: 1.05rem; font-weight: 900; }
+  .prs-step h3 { margin: 0 0 10px; font-size: 1.35rem; font-weight: 900; color: #0B3D2E; }
+  .prs-step p { margin: 0 0 12px; font-size: 0.97rem; line-height: 1.75; color: #475467; }
+  .prs-protip { padding: 14px 16px; border-radius: 12px; background: #E8F5E9; border-left: 4px solid #B6F000; font-size: 0.9rem; line-height: 1.65; color: #0B3D2E; }
+  .prs-protip strong { font-weight: 900; }
+
+  /* Troubleshooting */
+  .prs-issues { display: flex; flex-direction: column; gap: 12px; }
+  .prs-issue { border: 1px solid #E5E7EB; border-radius: 12px; background: #fff; overflow: hidden; }
+  .prs-issue[open] { border-color: #B6F000; }
+  .prs-issue summary { display: flex; align-items: center; gap: 14px; padding: 18px 20px; cursor: pointer; list-style: none; font-size: 1rem; font-weight: 800; color: #0B3D2E; }
+  .prs-issue summary::-webkit-details-marker { display: none; }
+  .prs-issue summary span { flex: 1; }
+  .prs-issue summary svg { flex: 0 0 auto; color: #667085; transition: transform 0.25s; }
+  .prs-issue[open] summary svg { transform: rotate(180deg); }
+  .prs-issue-body { padding: 0 20px 20px; font-size: 0.94rem; line-height: 1.75; color: #475467; }
+  .prs-issue-body p { margin: 0 0 10px; }
+  .prs-issue-body ul, .prs-issue-body ol { margin: 0 0 10px; padding-left: 22px; list-style: revert; }
+  .prs-issue-body li { margin-bottom: 4px; }
+  .prs-issue-body strong { color: #101828; }
+
+  /* We'll press it for you */
+  .prs-pf { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 36px; align-items: center; padding: 44px; border-radius: 24px; background: linear-gradient(135deg, #0B3D2E, #104241); }
+  .prs-pf-eyebrow { display: inline-block; margin: 0 0 12px; padding: 5px 14px; border-radius: 999px; background: #B6F000; color: #0B3D2E; font-size: 0.74rem; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; }
+  .prs-pf h2 { color: #fff; margin-bottom: 12px; }
+  .prs-pf p { margin: 0 0 20px; font-size: 0.97rem; line-height: 1.75; color: #D1FADF; }
+  .prs-pf-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .prs-pf-list li { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.08); font-size: 0.94rem; font-weight: 700; line-height: 1.5; color: #fff; }
+  .prs-pf-check { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #B6F000; color: #0B3D2E; }
+  .prs-pf .prs-btn--ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.7); }
+
+  /* Help */
+  .prs-help { margin-top: 56px; padding: 40px 24px; text-align: center; border-radius: 20px; background: #E8F5E9; border: 1px solid #B6F000; }
+  .prs-help h2 { margin: 0 0 8px; font-size: 1.5rem; font-weight: 900; color: #0B3D2E; }
+  .prs-help p { margin: 0 0 20px; font-size: 0.97rem; color: #475467; }
+  .prs-help .prs-btns { justify-content: center; }
+
+  @media (max-width: 820px) {
+    .prs-step { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+    .prs-step:nth-child(even) .prs-step-media { order: 0; }
+    .prs-pf { grid-template-columns: 1fr; gap: 24px; padding: 28px 20px; }
+  }
+  @media (max-width: 640px) {
+    .prs-wrap { padding: 0 16px; }
+    .prs-sec { padding-top: 40px; }
+    .prs-hero { padding: 28px 0 28px; }
+    .prs-sources { gap: 8px; }
+    .prs-source { padding: 14px 6px; gap: 8px; }
+    .prs-source-name { font-size: 0.82rem; text-align: center; }
+    .prs-source-tag { padding: 4px 10px; font-size: 0.68rem; }
+    .prs-mats { gap: 8px; }
+    .prs-mat { padding: 9px 14px; font-size: 0.82rem; }
+    .prs-result { padding: 20px 14px; border-radius: 16px; }
+    .prs-result-top { flex-direction: column; align-items: flex-start; }
+    .prs-stats { gap: 8px; }
+    .prs-stat { padding: 14px 6px; }
+    .prs-stat-label { font-size: 0.64rem; }
+    .prs-btn { flex: 1 1 100%; }
+    .prs-issue summary { padding: 15px 16px; font-size: 0.94rem; }
+    .prs-issue-body { padding: 0 16px 16px; }
+  }
+</style>
+
+<section class="prs-page" data-prs>
+
+  {%- comment -%} ===== Hero ===== {%- endcomment -%}
+  <div class="prs-hero">
+    <div class="prs-wrap">
+      <p class="prs-crumbs"><a href="/">Home</a> / <a href="{{ section.settings.back_link | default: '/pages/faqs' }}">{{ section.settings.back_label }}</a></p>
+      <h1>{{ section.settings.heading }}</h1>
+      {%- if section.settings.includes != blank -%}
+        <p class="prs-includes"><strong>Includes:</strong> {{ section.settings.includes }}</p>
+      {%- endif -%}
+      {%- if section.settings.pf_enabled -%}
+        <a class="prs-press-pill" href="#press-for-you">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/></svg>
+          {{ section.settings.pill_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="prs-wrap">
+
+    {%- comment -%} ===== Step 1 and 2 ===== {%- endcomment -%}
+    <div class="prs-sec" id="settings">
+      <p class="prs-step-label">Step 1</p>
+      <h2>Select your heat source</h2>
+      <p class="prs-sub">Pick the equipment you'll press with and we'll show the right settings.</p>
+
+      <div class="prs-sources" role="group" aria-label="Heat source">
+        <button type="button" class="prs-source is-active" data-prs-src="press" aria-pressed="true">
+          <span class="prs-source-img">
+            {%- if section.settings.press_image != blank -%}
+              {{ section.settings.press_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: 'Heat press' }}
+            {%- else -%}
+              <svg width="96" height="80" viewBox="0 0 96 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="8" width="68" height="20" rx="4"/><path d="M48 28v10"/><rect x="10" y="38" width="76" height="12" rx="3"/><path d="M20 50v22M76 50v22M14 72h12M70 72h12"/></svg>
+            {%- endif -%}
+          </span>
+          <span class="prs-source-name">Heat Press</span>
+          <span class="prs-source-tag">Select</span>
+        </button>
+        <button type="button" class="prs-source" data-prs-src="iron" aria-pressed="false">
+          <span class="prs-source-img">
+            {%- if section.settings.iron_image != blank -%}
+              {{ section.settings.iron_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: 'Household iron' }}
+            {%- else -%}
+              <svg width="96" height="80" viewBox="0 0 96 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 58h64c8 0 12-6 10-14-2-10-10-18-22-18H34c-10 0-16 6-18 16l-6 16z"/><path d="M30 36c6-6 22-6 30 4"/><path d="M10 66h72"/></svg>
+            {%- endif -%}
+          </span>
+          <span class="prs-source-name">Iron</span>
+          <span class="prs-source-tag">Select</span>
+        </button>
+        <button type="button" class="prs-source" data-prs-src="craft" aria-pressed="false">
+          <span class="prs-source-img">
+            {%- if section.settings.craft_image != blank -%}
+              {{ section.settings.craft_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: 'Handheld craft press' }}
+            {%- else -%}
+              <svg width="96" height="80" viewBox="0 0 96 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="14" width="68" height="30" rx="8"/><path d="M26 44v14c0 6 4 10 10 10h24c6 0 10-4 10-10V44"/><path d="M34 28h28"/></svg>
+            {%- endif -%}
+          </span>
+          <span class="prs-source-name">Handheld Craft Press</span>
+          <span class="prs-source-tag">Select</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="prs-sec" style="padding-top: 40px;">
+      <p class="prs-step-label">Step 2</p>
+      <h2>Find your press settings</h2>
+      <p class="prs-sub">Select the material you'll be pressing.</p>
+
+      {%- assign mat_i = 0 -%}
+      <div class="prs-mats" role="group" aria-label="Material">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'material' -%}
+            <button type="button" class="prs-mat{% if mat_i == 0 %} is-active{% endif %}" data-prs-mat="{{ mat_i }}" {{ block.shopify_attributes }}>{{ block.settings.name }}{% if block.settings.popular %}<em>Most popular</em>{% endif %}</button>
+            {%- assign mat_i = mat_i | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="prs-result" aria-live="polite">
+        <div class="prs-result-top">
+          <p class="prs-result-title"><strong data-prs-out="src">Heat Press</strong> settings for <strong data-prs-out="mat">–</strong></p>
+          <div class="prs-unit" role="group" aria-label="Temperature unit">
+            <button type="button" class="is-active" data-prs-unit="F">°F</button>
+            <button type="button" data-prs-unit="C">°C</button>
+          </div>
+        </div>
+
+        <div class="prs-stats">
+          <div class="prs-stat"><span class="prs-stat-label">Pressure</span><span class="prs-stat-value" data-prs-out="pressure">–</span></div>
+          <div class="prs-stat"><span class="prs-stat-label">Temperature</span><span class="prs-stat-value" data-prs-out="temp">–</span></div>
+          <div class="prs-stat"><span class="prs-stat-label">Time</span><span class="prs-stat-value" data-prs-out="time">–</span></div>
+        </div>
+
+        {%- assign tip_sets = 'press,iron,craft' | split: ',' -%}
+        {%- for set in tip_sets -%}
+          {%- case set -%}
+            {%- when 'press' -%}{%- assign tip_text = section.settings.tips_press -%}
+            {%- when 'iron' -%}{%- assign tip_text = section.settings.tips_iron -%}
+            {%- when 'craft' -%}{%- assign tip_text = section.settings.tips_craft -%}
+          {%- endcase -%}
+          {%- assign tip_lines = tip_text | newline_to_br | split: '<br />' -%}
+          <ul class="prs-tips" data-prs-tips="{{ set }}"{% unless forloop.first %} hidden{% endunless %}>
+            {%- for line in tip_lines -%}
+              {%- assign clean = line | strip -%}
+              {%- if clean != blank -%}<li>{{ clean }}</li>{%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endfor -%}
+
+        {%- if section.settings.disclaimer != blank -%}
+          <p class="prs-disclaimer">{{ section.settings.disclaimer }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="prs-jump">
+        <span>Jump to:</span>
+        {%- if section.settings.video != blank -%}<a href="#video">Video Tutorial</a>{%- endif -%}
+        <a href="#steps">Step by Step</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+        {%- if section.settings.pf_enabled -%}<a href="#press-for-you">We'll press it for you</a>{%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} ===== Video ===== {%- endcomment -%}
+    {%- if section.settings.video != blank -%}
+      <div class="prs-sec" id="video" style="text-align:center;">
+        <h2>{{ section.settings.video_heading }}</h2>
+        <p class="prs-sub">{{ section.settings.video_text }}</p>
+        <div class="prs-video">{{ section.settings.video | external_video_tag }}</div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} ===== Steps ===== {%- endcomment -%}
+    <div class="prs-sec" id="steps">
+      <h2>Step by Step Instructions</h2>
+      <p class="prs-sub">{{ section.settings.steps_sub }}</p>
+
+      <div class="prs-steps">
+        {%- assign step_i = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'step' -%}
+            {%- assign step_i = step_i | plus: 1 -%}
+            {%- assign step_alt = block.settings.title | escape -%}
+            <div class="prs-step" {{ block.shopify_attributes }}>
+              <div class="prs-step-media">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: step_alt, width: 400, height: 300 }}
+                {%- elsif block.settings.image_asset != blank -%}
+                  <img src="{{ block.settings.image_asset | strip | asset_url }}" alt="{{ step_alt }}" loading="lazy" width="400" height="300">
+                {%- else -%}
+                  <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-5 4 4 3-2 4 4"/></svg>
+                {%- endif -%}
+              </div>
+              <div>
+                <span class="prs-step-num">{{ step_i }}</span>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.text | newline_to_br }}</p>
+                {%- if block.settings.tip != blank -%}
+                  <div class="prs-protip"><strong>Pro Tip:</strong> {{ block.settings.tip }}</div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment -%} ===== Troubleshooting ===== {%- endcomment -%}
+    <div class="prs-sec" id="troubleshooting">
+      <h2>Troubleshooting Common Issues</h2>
+      <p class="prs-sub">Even with perfect technique, issues can sometimes arise. Here's what to watch out for.</p>
+
+      <div class="prs-issues">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'issue' -%}
+            <details class="prs-issue" {{ block.shopify_attributes }}>
+              <summary>
+                <span>{{ block.settings.title }}</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <div class="prs-issue-body">{{ block.settings.text }}</div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment -%} ===== We'll press it for you ===== {%- endcomment -%}
+    {%- if section.settings.pf_enabled -%}
+      <div class="prs-sec" id="press-for-you">
+        <div class="prs-pf">
+          <div>
+            {%- if section.settings.pf_eyebrow != blank -%}<span class="prs-pf-eyebrow">{{ section.settings.pf_eyebrow }}</span>{%- endif -%}
+            <h2>{{ section.settings.pf_heading }}</h2>
+            <p>{{ section.settings.pf_text }}</p>
+            <div class="prs-btns">
+              {%- if section.settings.pf_btn1_label != blank -%}<a class="prs-btn prs-btn--primary" href="{{ section.settings.pf_btn1_link | default: '/pages/contact-us' }}">{{ section.settings.pf_btn1_label }}</a>{%- endif -%}
+              {%- if section.settings.pf_btn2_label != blank -%}<a class="prs-btn prs-btn--ghost" href="{{ section.settings.pf_btn2_link | default: '/collections' }}">{{ section.settings.pf_btn2_label }}</a>{%- endif -%}
+            </div>
+          </div>
+          <ul class="prs-pf-list">
+            {%- assign pf_lines = section.settings.pf_points | newline_to_br | split: '<br />' -%}
+            {%- for line in pf_lines -%}
+              {%- assign clean = line | strip -%}
+              {%- if clean != blank -%}
+                <li><span class="prs-pf-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><span>{{ clean }}</span></li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} ===== Need help ===== {%- endcomment -%}
+    <div class="prs-help">
+      <h2>{{ section.settings.help_heading }}</h2>
+      <p>{{ section.settings.help_text }}</p>
+      <div class="prs-btns">
+        <a class="prs-btn prs-btn--primary" href="{{ section.settings.help_link | default: '/pages/contact-us' }}">{{ section.settings.help_label }}</a>
+        {%- if section.settings.help_phone != blank -%}
+          <a class="prs-btn prs-btn--ghost" href="tel:{{ section.settings.help_phone | replace: ' ', '' | replace: '-', '' }}">{{ section.settings.help_phone }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+  </div>
+
+  <script type="application/json" data-prs-data>
+    [
+    {%- assign first_mat = true -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'material' -%}
+        {%- unless first_mat -%},{%- endunless -%}
+        {%- assign first_mat = false -%}
+        {
+          "name": {{ block.settings.name | json }},
+          "press": { "temp": {{ block.settings.press_temp | json }}, "time": {{ block.settings.press_time | json }}, "pressure": {{ block.settings.press_pressure | json }} },
+          "iron": { "temp": {{ block.settings.iron_temp | json }}, "time": {{ block.settings.iron_time | json }}, "pressure": {{ block.settings.iron_pressure | json }} },
+          "craft": { "temp": {{ block.settings.craft_temp | json }}, "time": {{ block.settings.craft_time | json }}, "pressure": {{ block.settings.craft_pressure | json }} }
+        }
+      {%- endif -%}
+    {%- endfor -%}
+    ]
+  </script>
+</section>
+
+<script>
+(function () {
+  var root = document.querySelector('[data-prs]');
+  if (!root) return;
+
+  var data = [];
+  try { data = JSON.parse(root.querySelector('[data-prs-data]').textContent); } catch (e) { return; }
+  if (!data.length) return;
+
+  var SRC_NAMES = { press: 'Heat Press', iron: 'Iron', craft: 'Handheld Craft Press' };
+  var state = { src: 'press', mat: 0, unit: 'F' };
+
+  function out(key, value) {
+    root.querySelectorAll('[data-prs-out="' + key + '"]').forEach(function (el) { el.textContent = value; });
+  }
+
+  // Plain numbers or ranges ("310-320") convert between °F and °C; text like
+  // "Cotton setting" is shown exactly as written.
+  function formatTemp(raw) {
+    var text = String(raw || '').trim();
+    if (!text) return '–';
+    if (!/^[\d\s\-–]+$/.test(text)) return text;
+    var nums = text.match(/\d+/g).map(function (n) {
+      n = Number(n);
+      return state.unit === 'F' ? n : Math.round((n - 32) * 5 / 9);
+    });
+    return nums.join('-') + '°' + state.unit;
+  }
+
+  function render() {
+    var m = data[state.mat];
+    var s = m[state.src] || {};
+    out('src', SRC_NAMES[state.src]);
+    out('mat', m.name);
+    out('pressure', s.pressure || '–');
+    out('temp', formatTemp(s.temp));
+    out('time', s.time || '–');
+
+    root.querySelectorAll('[data-prs-tips]').forEach(function (list) {
+      list.hidden = list.getAttribute('data-prs-tips') !== state.src;
+    });
+  }
+
+  root.querySelectorAll('[data-prs-src]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      state.src = btn.getAttribute('data-prs-src');
+      root.querySelectorAll('[data-prs-src]').forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      render();
+    });
+  });
+
+  root.querySelectorAll('[data-prs-mat]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      state.mat = parseInt(btn.getAttribute('data-prs-mat'), 10) || 0;
+      root.querySelectorAll('[data-prs-mat]').forEach(function (b) { b.classList.toggle('is-active', b === btn); });
+      render();
+    });
+  });
+
+  root.querySelectorAll('[data-prs-unit]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      state.unit = btn.getAttribute('data-prs-unit');
+      root.querySelectorAll('[data-prs-unit]').forEach(function (b) { b.classList.toggle('is-active', b === btn); });
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Pressing Guide",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "DTF Pressing Guide" },
+    { "type": "text", "id": "includes", "label": "Includes line", "default": "DTF Transfers, Glitter DTF, Glow in the Dark DTF" },
+    { "type": "text", "id": "back_label", "label": "Breadcrumb label", "default": "Pressing Instructions" },
+    { "type": "url", "id": "back_link", "label": "Breadcrumb link" },
+    { "type": "text", "id": "pill_text", "label": "Press-for-you pill text", "default": "No heat press? We'll press it for you" },
+
+    { "type": "header", "content": "Heat source images (optional)" },
+    { "type": "image_picker", "id": "press_image", "label": "Heat press image" },
+    { "type": "image_picker", "id": "iron_image", "label": "Iron image" },
+    { "type": "image_picker", "id": "craft_image", "label": "Handheld craft press image" },
+
+    { "type": "header", "content": "Tips shown under the settings (one per line)" },
+    { "type": "textarea", "id": "tips_press", "label": "Heat press tips", "default": "Peel after a few seconds, hot or cool, as directed on your order\nAfter peeling, cover the design and press again for a few seconds to improve durability and softness\nUse a silicone garment protector or parchment paper for best results" },
+    { "type": "textarea", "id": "tips_iron", "label": "Iron tips", "default": "Turn steam off and use firm, even pressure\nCover the transfer with parchment paper while ironing\nUse heat-resistant tape to stop the transfer from moving\nAn iron works best on small designs" },
+    { "type": "textarea", "id": "tips_craft", "label": "Craft press tips", "default": "Press each section of the design in turn, with firm pressure\nUse heat-resistant tape to hold the transfer in place\nCover the transfer with parchment paper" },
+    { "type": "textarea", "id": "disclaimer", "label": "Note under the settings", "default": "These settings are a starting point. Always do a small test press on a spare garment first, since fabrics and equipment vary." },
+
+    { "type": "header", "content": "Video tutorial" },
+    { "type": "video_url", "id": "video", "label": "YouTube or Vimeo video", "accept": ["youtube", "vimeo"] },
+    { "type": "text", "id": "video_heading", "label": "Video heading", "default": "Video Tutorial" },
+    { "type": "text", "id": "video_text", "label": "Video text", "default": "Watch our step-by-step pressing tutorial to get a perfect press every time." },
+
+    { "type": "header", "content": "Steps" },
+    { "type": "textarea", "id": "steps_sub", "label": "Steps intro", "default": "Follow these four steps for a smooth, long-lasting press." },
+
+    { "type": "header", "content": "We'll press it for you" },
+    { "type": "checkbox", "id": "pf_enabled", "label": "Show this section", "default": true },
+    { "type": "text", "id": "pf_eyebrow", "label": "Small label", "default": "Done-for-you pressing" },
+    { "type": "text", "id": "pf_heading", "label": "Heading", "default": "Don't Have a Heat Press? We'll Press It for You." },
+    { "type": "textarea", "id": "pf_text", "label": "Text", "default": "We run professional heat presses in-house. Skip the equipment and the learning curve, and get finished, ready-to-wear pieces with transfers applied by our team." },
+    { "type": "textarea", "id": "pf_points", "label": "Points (one per line)", "default": "Professional presses and tested settings for each fabric\nSend us your garments or order blanks from us\nConsistent placement and finish across the whole order\nContact us for pressing options and pricing" },
+    { "type": "text", "id": "pf_btn1_label", "label": "Button 1 label", "default": "Ask About Pressing" },
+    { "type": "url", "id": "pf_btn1_link", "label": "Button 1 link" },
+    { "type": "text", "id": "pf_btn2_label", "label": "Button 2 label", "default": "Shop Blank Apparel" },
+    { "type": "url", "id": "pf_btn2_link", "label": "Button 2 link" },
+
+    { "type": "header", "content": "Need help" },
+    { "type": "text", "id": "help_heading", "label": "Heading", "default": "Need Additional Help?" },
+    { "type": "text", "id": "help_text", "label": "Text", "default": "Our support team is ready to assist with any questions about applying your transfers." },
+    { "type": "text", "id": "help_label", "label": "Button label", "default": "Contact Support" },
+    { "type": "url", "id": "help_link", "label": "Button link" },
+    { "type": "text", "id": "help_phone", "label": "Phone (optional)", "default": "+1-888-499-7708" }
+  ],
+  "blocks": [
+    {
+      "type": "material",
+      "name": "Material",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Material name", "default": "100% Cotton" },
+        { "type": "checkbox", "id": "popular", "label": "Mark as most popular", "default": false },
+        { "type": "header", "content": "Heat press" },
+        { "type": "text", "id": "press_temp", "label": "Temperature (°F number or range)", "info": "Use plain numbers like 315 or 310-320 so the °F/°C switch works.", "default": "315" },
+        { "type": "text", "id": "press_time", "label": "Time", "default": "12 sec" },
+        { "type": "text", "id": "press_pressure", "label": "Pressure", "default": "Medium-High" },
+        { "type": "header", "content": "Iron" },
+        { "type": "text", "id": "iron_temp", "label": "Temperature or setting", "default": "Cotton setting, no steam" },
+        { "type": "text", "id": "iron_time", "label": "Time", "default": "30 sec" },
+        { "type": "text", "id": "iron_pressure", "label": "Pressure", "default": "Firm" },
+        { "type": "header", "content": "Handheld craft press" },
+        { "type": "text", "id": "craft_temp", "label": "Temperature (°F number or range)", "default": "315" },
+        { "type": "text", "id": "craft_time", "label": "Time", "default": "30 sec" },
+        { "type": "text", "id": "craft_pressure", "label": "Pressure", "default": "Medium" }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Step image" },
+        { "type": "text", "id": "image_asset", "label": "Theme asset filename (optional)", "info": "Used when no image is picked, e.g. press-step-1.webp from Assets." },
+        { "type": "text", "id": "title", "label": "Title", "default": "Prep Your Garment" },
+        { "type": "textarea", "id": "text", "label": "Text" },
+        { "type": "text", "id": "tip", "label": "Pro tip (optional)" }
+      ]
+    },
+    {
+      "type": "issue",
+      "name": "Issue",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Transfer Not Adhering Properly" },
+        { "type": "richtext", "id": "text", "label": "Answer", "default": "<p>Add the fix here.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Pressing Guide" }
+  ]
+}
+{% endschema %}
