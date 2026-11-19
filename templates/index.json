@@ -64,6 +64,7 @@
         "column_2_image_2": {
           "type": "column_2",
           "settings": {
+            "image": "shopify://shop_images/review_img2.png",
             "image_alt": "Quality checked transfer"
           }
         },
