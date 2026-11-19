@@ -441,8 +441,8 @@
         "s1": {
           "type": "step",
           "settings": {
-            "static_image": "",
-            "static_video": "dtf-video-4.mp4",
+            "static_image": "Upload.png",
+            "static_video": "",
             "title": "Upload Your Design & Order Online",
             "text": "From simple graphics to high-detail artwork, upload any design with unlimited colors. We convert it into a high-quality DTF transfer, ready to press."
           }
@@ -450,8 +450,8 @@
         "s2": {
           "type": "step",
           "settings": {
-            "static_image": "",
-            "static_video": "dtf-video-5.mp4",
+            "static_image": "spt 1.webp",
+            "static_video": "",
             "title": "Printed & Shipped in 24–48 Hours",
             "text": "We produce your transfer for sharp detail, vibrant color, and consistent, professional-grade results."
           }
@@ -459,8 +459,8 @@
         "s3": {
           "type": "step",
           "settings": {
-            "static_image": "",
-            "static_video": "dtf-video3.mp4",
+            "static_image": "heat-press-real.webp",
+            "static_video": "",
             "title": "Heat Press or Iron when Ready",
             "text": "Press at 310°F / 155°C with medium pressure for 12–15 seconds. Repress for 5 seconds for maximum durability. Unused transfers store long-term without loss of quality."
           }
