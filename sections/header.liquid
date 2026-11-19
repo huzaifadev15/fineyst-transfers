@@ -442,15 +442,65 @@
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>
-    <div class="sidebar-body">
-      {%- assign sidebar_links = "Home,/|DTF Transfers,/products/dtf-transfers|Gang Sheet Builder,/products/uv-dtf-gang-sheet-builder|Blank Apparel,/collections/blank-apparel|Supplies,/collections/supplies|How It Works,/pages/how-it-works|FAQ,/pages/faq|Free Sample Pack,/pages/free-sample|Contact,/pages/contact-us" | split: "|" -%}
-      {%- for link in sidebar_links -%}
-        {%- assign lparts = link | split: "," -%}
-        <a href="{{ lparts[1] }}" class="sidebar-link">{{ lparts[0] }}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-      {%- endfor -%}
-    </div>
+    
+<div class="sidebar-body">
+  {% for link in linklists['main-menu'].links %}
+
+    {% if link.links.size > 0 %}
+      <div class="mobile-nav-group">
+
+        <button
+          type="button"
+          class="sidebar-link mobile-submenu-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-submenu-{{ forloop.index }}"
+        >
+          <span>{{ link.title | escape }}</span>
+
+          <svg width="16" height="16"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2">
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+
+        <div
+          class="mobile-submenu"
+          id="mobile-submenu-{{ forloop.index }}"
+          hidden
+        >
+          {% for child in link.links %}
+            <a href="{{ child.url }}"
+               class="mobile-submenu-link">
+              {{ child.title | escape }}
+            </a>
+          {% endfor %}
+        </div>
+
+      </div>
+
+    {% else %}
+
+      <a href="{{ link.url }}" class="sidebar-link">
+        <span>{{ link.title | escape }}</span>
+
+        <svg width="16" height="16"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2">
+          <path d="M5 12h14"/>
+          <path d="m12 5 7 7-7 7"/>
+        </svg>
+      </a>
+
+    {% endif %}
+
+  {% endfor %}
+</div>
+
     <div class="sidebar-footer">
       <p>Need Help?</p>
       <a href="tel:{{ section.settings.phone | default: '+18884997708' | remove: '-' | remove: ' ' }}">{{ section.settings.phone | default: '1-888-499-7708' }}</a>
@@ -490,6 +540,84 @@
     </div>
   </div>
 </header>
+
+
+
+
+<style>
+@media (max-width: 768px) {
+
+  .mobile-sidebar .mobile-nav-group {
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .mobile-sidebar .mobile-submenu-toggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 16px;
+    margin: 0;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  .mobile-sidebar .mobile-submenu-toggle:hover {
+    background: rgba(255,255,255,0.08) !important;
+  }
+
+  .mobile-sidebar .mobile-submenu-toggle svg {
+    flex-shrink: 0;
+    color: #ffffff;
+    transition: transform 0.2s ease;
+  }
+
+  .mobile-sidebar .mobile-submenu-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .mobile-sidebar .mobile-submenu[hidden] {
+    display: none !important;
+  }
+
+  .mobile-sidebar .mobile-submenu {
+    margin: 0 12px 8px 20px;
+    padding: 4px 0 8px 12px;
+    border-left: 2px solid #B6F000;
+  }
+
+  .mobile-sidebar .mobile-submenu-link {
+    display: block;
+    padding: 12px 14px;
+    color: #dddddd;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .mobile-sidebar .mobile-submenu-link:hover {
+    color: #B6F000;
+  }
+}
+</style>
+
+
+
+
+
+
+
+
+
 
 {% schema %}
 {

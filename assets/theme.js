@@ -1429,3 +1429,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+
+
+
+/* MOBILE SUBMENU TOGGLE */
+
+document.addEventListener("click", function (event) {
+  const toggle = event.target.closest(".mobile-submenu-toggle");
+
+  if (!toggle) return;
+
+  const submenuId = toggle.getAttribute("aria-controls");
+  const submenu = document.getElementById(submenuId);
+
+  if (!submenu) return;
+
+  const isOpen = toggle.getAttribute("aria-expanded") === "true";
+
+  toggle.setAttribute("aria-expanded", String(!isOpen));
+  submenu.hidden = isOpen;
+});
