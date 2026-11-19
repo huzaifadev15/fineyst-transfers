@@ -450,7 +450,7 @@
         "s2": {
           "type": "step",
           "settings": {
-            "static_image": "Printed & Shipped in 24–48 Hours.png",
+            "static_image": "spt 1.webp",
             "static_video": "",
             "title": "Printed & Shipped in 24–48 Hours",
             "text": "We produce your transfer for sharp detail, vibrant color, and consistent, professional-grade results."
@@ -459,7 +459,7 @@
         "s3": {
           "type": "step",
           "settings": {
-            "static_image": "Heat Press or Iron when Ready.png",
+            "static_image": "heat-press-real.webp",
             "static_video": "",
             "title": "Heat Press or Iron when Ready",
             "text": "Press at 310°F / 155°C with medium pressure for 12–15 seconds. Repress for 5 seconds for maximum durability. Unused transfers store long-term without loss of quality."
