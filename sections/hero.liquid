@@ -30,7 +30,7 @@
                 {%- endfor -%}
               </span>
               <span class="hero-title-line hero-title-trust-line">
-                {{- section.settings.trust_line_prefix | default: 'Trusted by' | escape -}}&nbsp;<span class="hero-title-accent hero-title-rotating-word" data-hero-rotator data-words="{{ hero_rotating_words_text | escape }}">{{ hero_first_rotating_word | escape }}</span>.
+                {{- section.settings.trust_line_prefix | default: 'Trusted by' | escape -}}&nbsp;<span class="hero-title-accent hero-title-rotating-word" data-hero-rotator data-words="{{ hero_rotating_words_text | escape }}">{{ hero_first_rotating_word | escape }}</span>
               </span>
             </h1>
             <div class="hero-subtitle">
@@ -467,7 +467,7 @@
     #shopify-section-{{ section.id }} .hero-eyebrow { margin-bottom: 18px; font-size: 9px; letter-spacing: 0.22em; }
     #shopify-section-{{ section.id }} .hero-eyebrow-line { width: 38px; }
     #shopify-section-{{ section.id }} .hero-desc { margin-bottom: 20px; }
-    #shopify-section-{{ section.id }} .hero-btns { flex-direction: column; align-items: stretch; width: 100%; gap: 12px; margin-bottom: 22px; }
+    #shopify-section-{{ section.id }} .hero-btns { flex-direction: column; align-items: stretch; width: 100%; gap: 15px; margin-bottom: 22px; }
     #shopify-section-{{ section.id }} .hero-btn { width: 100%; max-width: none; min-height: 54px; padding: 14px 18px; border-radius: 12px; font-size: 16px; }
     #shopify-section-{{ section.id }} .hero-btn-arrow--mobile { display: block; }
     #shopify-section-{{ section.id }} .hero-badges {
@@ -511,7 +511,7 @@
     }
     #shopify-section-{{ section.id }} .hero-mobile-tile {
       flex: 0 0 auto;
-      width: 7.1rem;
+      width: 150px;
       aspect-ratio: 3 / 4;
       overflow: hidden;
       border-radius: 12px;
