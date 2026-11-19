@@ -441,7 +441,7 @@
         "s1": {
           "type": "step",
           "settings": {
-            "static_image": "dtf upload 2.webp",
+            "static_image": "Upload.png",
             "static_video": "",
             "title": "Upload Your Design & Order Online",
             "text": "From simple graphics to high-detail artwork, upload any design with unlimited colors. We convert it into a high-quality DTF transfer, ready to press."
