@@ -339,7 +339,7 @@
         "b1": {
           "type": "tile",
           "settings": {
-            "static_image": "dtf-1.jpg",
+            "static_image": "any fab img.jpg",
             "static_video": "",
             "caption": "Works on Any Fabric or Color",
             "link": ""
@@ -348,8 +348,8 @@
         "b2": {
           "type": "tile",
           "settings": {
-            "static_image": "",
-            "static_video": "dtf-video-1.mp4",
+            "static_image": "color-spec.jpg",
+            "static_video": "",
             "caption": "Unrivaled Color Spectrum & Brighter Whites",
             "link": ""
           }
