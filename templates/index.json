@@ -43,6 +43,7 @@
         "column_1_image_2": {
           "type": "column_1",
           "settings": {
+            "image": "shopify://shop_images/review_img.png",
             "image_alt": "Printed apparel design"
           }
         },
