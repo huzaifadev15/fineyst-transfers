@@ -28,8 +28,82 @@
         </li>
       {% endfor %}
     </ol>
+
+
+      
+<div class="process-slider-dots" aria-label="Process slider navigation">
+  {% for block in section.blocks %}
+    <button
+      type="button"
+      class="process-slider-dot{% if forloop.first %} is-active{% endif %}"
+      aria-label="Go to step {{ forloop.index }}"
+      aria-current="{% if forloop.first %}step{% else %}false{% endif %}"
+      data-slide="{{ forloop.index0 }}">
+    </button>
+  {% endfor %}
+</div>
+
+
+
+
+
   </div>
 </section>
+
+
+
+
+<script>
+(function () {
+  const section = document.currentScript.closest('.shopify-section')
+    || document.currentScript.parentElement;
+
+  function initProcessSlider() {
+    const slider = section.querySelector('.process-steps');
+    const dots = section.querySelectorAll('.process-slider-dot');
+    const slides = section.querySelectorAll('.process-step');
+
+    if (!slider || !dots.length || !slides.length) return;
+
+    const updateDots = () => {
+      const index = Math.max(0, Math.min(
+        slides.length - 1,
+        Math.round(slider.scrollLeft / (slides[0].getBoundingClientRect().width + 16))
+      ));
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === index);
+        dot.setAttribute('aria-current', i === index ? 'step' : 'false');
+      });
+    };
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        slider.scrollTo({
+          left: slides[index].offsetLeft - slides[0].offsetLeft,
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            ? 'instant' : 'smooth'
+        });
+      });
+    });
+
+    slider.addEventListener('scroll', updateDots, { passive: true });
+    window.addEventListener('resize', updateDots);
+    updateDots();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProcessSlider);
+  } else {
+    initProcessSlider();
+  }
+})();
+</script>
+
+
+
+
+
 
 {% schema %}
 {
