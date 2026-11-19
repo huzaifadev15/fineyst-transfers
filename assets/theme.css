@@ -4625,3 +4625,70 @@ button[class*="button"]:not(:disabled):hover,
 
 
 
+/* FIX MOBILE SIDEBAR */
+@media (max-width: 768px) {
+
+  .mobile-sidebar {
+    width: 320px;
+    max-width: 88vw;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .mobile-sidebar .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    min-height: 85px;
+    padding: 12px 16px;
+  }
+
+  .mobile-sidebar .sidebar-header > a {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    max-width: 210px;
+  }
+
+  .mobile-sidebar .sidebar-header .navbar-logo {
+    width: 190px !important;
+    max-width: 100% !important;
+    height: 65px !important;
+    object-fit: contain !important;
+  }
+
+  .mobile-sidebar .sidebar-close {
+    flex-shrink: 0;
+    margin-left: 10px;
+  }
+
+  .mobile-sidebar .sidebar-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 12px;
+  }
+
+  .mobile-sidebar .sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    padding: 14px 16px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .mobile-sidebar .sidebar-footer {
+    flex-shrink: 0;
+    padding: 12px 16px;
+  }
+}
+

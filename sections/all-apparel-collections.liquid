@@ -1,0 +1,189 @@
+{%- comment -%}
+  Fineyst Blank Apparel collection directory.
+  Independent page section: does not modify collection product templates.
+  Update the collection handles below if a Shopify collection uses a different handle.
+{%- endcomment -%}
+
+{%- capture fineyst_groups -%}
+T-SHIRTS::t-shirts|T-Shirts~short-sleeve|Short Sleeve~long-sleeve|Long Sleeve~3-4-sleeve|3/4 Sleeve~raglan-t-shirts|Raglan T-Shirts~pocket-t-shirts|Pocket T-Shirts~performance-shirts|Performance Shirts~tank-tops|Tank Tops~crop-tops|Crop Tops~tie-dye|Tie-Dye~woven-shirts|Woven Shirts##
+HOODIES::crewnecks|Crewnecks~pullover-hoodies|Pullover Hoodies~full-zip-hoodies|Full-Zip Hoodies~multicolored-hoodies|Multicolored Hoodies~eco-friendly|Eco-Friendly##
+HATS::baseball-caps|Baseball Caps~performance-hats|Performance Hats~beanies|Beanies~trucker-hats|Trucker Hats~snapback-hats|Snapback Hats~5-panel|5-Panel~6-panel|6-Panel~bandanas|Bandanas##
+CATEGORIES::accessories|Accessories~drinkware-hard-goods|Drinkware & Hard Goods~bags|Bags~infant-toddler|Infant & Toddler~kids|Kids~outerwear|Outerwear~pants|Pants~polos|Polos~shorts|Shorts~women|Women~safety-shirts|Safety Shirts##
+BRANDS::bella-canvas|Bella + Canvas~big-accessories|Big Accessories~champion|Champion~comfort-colors|Comfort Colors~gildan|Gildan~hanes|Hanes~jerzees|Jerzees~nautica|Nautica~next-level|Next Level
+{%- endcapture -%}
+{%- assign fineyst_group_rows = fineyst_groups | strip | split: '##' -%}
+
+<section class="fa-directory" id="fineyst-apparel-{{ section.id }}">
+  <div class="fa-container">
+    <div class="fa-hero">
+      <div class="fa-eyebrow">FINEYST BLANK APPAREL</div>
+      <h1>{{ section.settings.heading | escape }}</h1>
+      <p>{{ section.settings.description | escape }}</p>
+      <div class="fa-search-wrap">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7.5"/><path d="m16.5 16.5 5 5"/></svg>
+        <input type="search" class="fa-search" placeholder="Search apparel collections..." aria-label="Search apparel collections" autocomplete="off">
+        <button type="button" class="fa-clear" aria-label="Clear search" hidden>Clear</button>
+      </div>
+      <nav class="fa-tabs" aria-label="Apparel collection categories">
+        <a href="#fa-t-shirts-{{ section.id }}">T-Shirts</a>
+        <a href="#fa-hoodies-{{ section.id }}">Hoodies</a>
+        <a href="#fa-hats-{{ section.id }}">Hats</a>
+        <a href="#fa-categories-{{ section.id }}">Categories</a>
+        <a href="#fa-brands-{{ section.id }}">Brands</a>
+      </nav>
+    </div>
+
+    <div class="fa-groups">
+      {%- for group_row in fineyst_group_rows -%}
+        {%- assign group_data = group_row | strip | split: '::' -%}
+        {%- assign group_label = group_data[0] | strip -%}
+        {%- assign group_items = group_data[1] | strip | split: '~' -%}
+        {%- assign group_anchor = group_label | downcase | handleize -%}
+        <section class="fa-group" id="fa-{{ group_anchor }}-{{ section.id }}" data-fa-group>
+          <div class="fa-group-head">
+            <div>
+              <span class="fa-group-kicker">SHOP BY COLLECTION</span>
+              <h2>{{ group_label | capitalize }}</h2>
+            </div>
+            <span class="fa-group-count">{{ group_items.size }} collections</span>
+          </div>
+          <div class="fa-grid">
+            {%- for row in group_items -%}
+              {%- assign fields = row | strip | split: '|' -%}
+              {%- assign item_handle = fields[0] | strip -%}
+              {%- assign item_label = fields[1] | strip -%}
+              {%- assign apparel_collection = collections[item_handle] -%}
+              {%- assign item_image = blank -%}
+              {%- if apparel_collection != blank -%}
+                {%- if apparel_collection.image != blank -%}
+                  {%- assign item_image = apparel_collection.image -%}
+                {%- elsif apparel_collection.products.first.featured_image != blank -%}
+                  {%- assign item_image = apparel_collection.products.first.featured_image -%}
+                {%- endif -%}
+              {%- endif -%}
+              <a class="fa-card" href="/collections/{{ item_handle }}" data-fa-card data-fa-name="{{ item_label | downcase | escape }}" data-fa-category="{{ group_label | downcase | escape }}">
+                <div class="fa-card-media">
+                  {%- if item_image != blank -%}
+                    <img src="{{ item_image | image_url: width: 600 }}" alt="{{ item_label | escape }}" width="{{ item_image.width }}" height="{{ item_image.height }}" loading="lazy">
+                  {%- else -%}
+                    <div class="fa-placeholder" aria-hidden="true">
+                      <svg width="54" height="54" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="m24 12 8 5 8-5 11 7-6 12-7-3v25H26V28l-7 3-6-12 11-7Z"/><path d="M24 12c2 5 5 7 8 7s6-2 8-7"/></svg>
+                    </div>
+                  {%- endif -%}
+                </div>
+                <div class="fa-card-info">
+                  <span class="fa-card-title">{{ item_label | escape }}</span>
+                  <span class="fa-card-arrow" aria-hidden="true">↗</span>
+                </div>
+                {%- if apparel_collection != blank and apparel_collection.all_products_count > 0 -%}
+                  <span class="fa-card-meta">{{ apparel_collection.all_products_count }} products</span>
+                {%- else -%}
+                  <span class="fa-card-meta">Explore collection</span>
+                {%- endif -%}
+              </a>
+            {%- endfor -%}
+          </div>
+        </section>
+      {%- endfor -%}
+    </div>
+    <p class="fa-empty" hidden>No matching apparel collections found. Try another search.</p>
+  </div>
+</section>
+
+<style>
+  #fineyst-apparel-{{ section.id }}{background:#fff;color:#0B3D2E;padding:58px 0 88px}
+  #fineyst-apparel-{{ section.id }} .fa-container{width:min(1240px,calc(100% - 40px));margin:auto}
+  #fineyst-apparel-{{ section.id }} .fa-hero{text-align:center;max-width:780px;margin:0 auto 44px}
+  #fineyst-apparel-{{ section.id }} .fa-eyebrow{font-size:11px;letter-spacing:2px;font-weight:800;color:#527967;margin-bottom:12px}
+  #fineyst-apparel-{{ section.id }} h1{font-size:clamp(30px,4.4vw,52px);line-height:1.12;letter-spacing:-1.5px;margin:0 0 14px;color:#0B3D2E}
+  #fineyst-apparel-{{ section.id }} .fa-hero p{font-size:15px;line-height:1.7;color:#63736c;margin:0 auto 24px}
+  #fineyst-apparel-{{ section.id }} .fa-search-wrap{height:52px;display:flex;align-items:center;gap:12px;max-width:520px;margin:0 auto;border:1px solid #dce6df;border-radius:12px;padding:0 17px;background:#f9fbfa;color:#6f8177}
+  #fineyst-apparel-{{ section.id }} .fa-search{width:100%;min-width:0;background:transparent;border:0;outline:0;font-size:14px;color:#0B3D2E;box-shadow:none}
+  #fineyst-apparel-{{ section.id }} .fa-clear{border:0;background:transparent;font-size:12px;color:#0B3D2E;font-weight:700;cursor:pointer}
+  #fineyst-apparel-{{ section.id }} .fa-search-wrap:focus-within{border-color:#0B3D2E;box-shadow:0 0 0 3px rgba(11,61,46,.08)}
+  #fineyst-apparel-{{ section.id }} .fa-tabs{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin-top:22px}
+  #fineyst-apparel-{{ section.id }} .fa-tabs a{font-size:12px;font-weight:700;white-space:nowrap;text-decoration:none;padding:10px 17px;border:1px solid #e0e8e3;border-radius:100px;color:#0B3D2E;background:#fff;transition:.2s}
+  #fineyst-apparel-{{ section.id }} .fa-tabs a:hover{background:#0B3D2E;color:white;border-color:#0B3D2E}
+  #fineyst-apparel-{{ section.id }} .fa-groups{display:grid;gap:50px}
+  #fineyst-apparel-{{ section.id }} .fa-group{scroll-margin-top:190px}
+  #fineyst-apparel-{{ section.id }} .fa-group-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:0 0 20px;padding-bottom:14px;border-bottom:1px solid #e5ece7}
+  #fineyst-apparel-{{ section.id }} .fa-group-kicker{font-size:10px;letter-spacing:1.5px;font-weight:800;color:#789082}
+  #fineyst-apparel-{{ section.id }} .fa-group h2{font-size:clamp(22px,2.4vw,30px);line-height:1.2;font-weight:800;letter-spacing:-.7px;color:#0B3D2E;margin:5px 0 0}
+  #fineyst-apparel-{{ section.id }} .fa-group-count{color:#6d7d73;font-size:12px;white-space:nowrap}
+  #fineyst-apparel-{{ section.id }} .fa-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+  #fineyst-apparel-{{ section.id }} .fa-card{min-width:0;display:flex;flex-direction:column;text-decoration:none;background:#fff;border:1px solid #e9eeeb;border-radius:14px;overflow:hidden;transition:border-color .2s,box-shadow .2s,transform .2s}
+  #fineyst-apparel-{{ section.id }} .fa-card:hover{transform:translateY(-3px);border-color:#c8dcd0;box-shadow:0 9px 24px rgba(11,61,46,.08)}
+  #fineyst-apparel-{{ section.id }} .fa-card-media{width:100%;aspect-ratio:5/4;overflow:hidden;background:#f0f5f1}
+  #fineyst-apparel-{{ section.id }} .fa-card-media img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s}
+  #fineyst-apparel-{{ section.id }} .fa-card:hover img{transform:scale(1.04)}
+  #fineyst-apparel-{{ section.id }} .fa-placeholder{width:100%;height:100%;display:grid;place-items:center;color:#9ab8a5;background:linear-gradient(145deg,#f3f8f4,#e4eee7)}
+  #fineyst-apparel-{{ section.id }} .fa-card-info{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 14px 2px}
+  #fineyst-apparel-{{ section.id }} .fa-card-title{font-size:15px;font-weight:800;line-height:1.35;color:#0B3D2E}
+  #fineyst-apparel-{{ section.id }} .fa-card-arrow{width:24px;height:24px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;background:#eef5ef;color:#0B3D2E;font-size:17px}
+  #fineyst-apparel-{{ section.id }} .fa-card-meta{padding:1px 14px 15px;color:#76867b;font-size:12px}
+  #fineyst-apparel-{{ section.id }} [hidden]{display:none!important}
+  #fineyst-apparel-{{ section.id }} .fa-empty{text-align:center;padding:25px;color:#59685f}
+  @media(max-width:900px){#fineyst-apparel-{{ section.id }} .fa-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}}
+  @media(max-width:600px){
+    #fineyst-apparel-{{ section.id }}{padding:35px 0 55px}
+    #fineyst-apparel-{{ section.id }} .fa-container{width:calc(100% - 28px)}
+    #fineyst-apparel-{{ section.id }} .fa-hero{margin-bottom:32px}
+    #fineyst-apparel-{{ section.id }} h1{font-size:32px;letter-spacing:-.8px}
+    #fineyst-apparel-{{ section.id }} .fa-hero p{font-size:13px}
+    #fineyst-apparel-{{ section.id }} .fa-tabs{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding-bottom:5px}
+    #fineyst-apparel-{{ section.id }} .fa-tabs a{padding:9px 13px}
+    #fineyst-apparel-{{ section.id }} .fa-groups{gap:38px}
+    #fineyst-apparel-{{ section.id }} .fa-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    #fineyst-apparel-{{ section.id }} .fa-card{border-radius:11px}
+    #fineyst-apparel-{{ section.id }} .fa-card-info{padding:10px 9px 2px}
+    #fineyst-apparel-{{ section.id }} .fa-card-title{font-size:12px}
+    #fineyst-apparel-{{ section.id }} .fa-card-arrow{width:20px;height:20px;font-size:14px}
+    #fineyst-apparel-{{ section.id }} .fa-card-meta{font-size:10px;padding:2px 9px 10px}
+    #fineyst-apparel-{{ section.id }} .fa-group-count{font-size:10px}
+  }
+</style>
+
+<script>
+(function(){
+  function init(root){
+    if (!root || root.dataset.faInitialized) return;
+    root.dataset.faInitialized = 'true';
+    var input = root.querySelector('.fa-search');
+    var clear = root.querySelector('.fa-clear');
+    var cards = Array.prototype.slice.call(root.querySelectorAll('[data-fa-card]'));
+    var groups = Array.prototype.slice.call(root.querySelectorAll('[data-fa-group]'));
+    var empty = root.querySelector('.fa-empty');
+    if(!input) return;
+    function filter(){
+      var term = input.value.trim().toLowerCase();
+      var found = 0;
+      cards.forEach(function(card){
+        var searchable = (card.getAttribute('data-fa-name') || '') + ' ' + (card.getAttribute('data-fa-category') || '');
+        var show = searchable.indexOf(term) !== -1;
+        card.hidden = !show;
+        if(show) found++;
+      });
+      groups.forEach(function(group){group.hidden = !group.querySelector('[data-fa-card]:not([hidden])');});
+      empty.hidden = found !== 0;
+      clear.hidden = term.length === 0;
+    }
+    input.addEventListener('input',filter);
+    clear.addEventListener('click',function(){input.value='';filter();input.focus();});
+  }
+  function boot(scope){(scope || document).querySelectorAll('.fa-directory').forEach(init);}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){boot(document);});
+  else boot(document);
+  document.addEventListener('shopify:section:load',function(e){boot(e.target);});
+})();
+</script>
+
+{% schema %}
+{
+  "name": "All Apparel Collections",
+  "settings": [
+    {"type":"text","id":"heading","label":"Heading","default":"Explore All Apparel Collections"},
+    {"type":"textarea","id":"description","label":"Description","default":"Shop blank T-shirts, hoodies, hats, apparel categories, and your favorite brands — all in one place."}
+  ],
+  "presets": [{"name":"All Apparel Collections"}]
+}
+{% endschema %}

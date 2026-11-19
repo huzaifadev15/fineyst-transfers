@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "all-apparel-collections",
+      "settings": {
+        "heading": "Explore All Apparel Collections",
+        "description": "Shop blank T-shirts, hoodies, hats, apparel categories, and your favorite brands — all in one place."
+      }
+    }
+  },
+  "order": ["main"]
+}
