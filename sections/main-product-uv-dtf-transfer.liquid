@@ -240,22 +240,73 @@
         </div>
 
         <div class="upload-card-body">
-          <div class="upload-dropzone" data-upload-dropzone>
-            <span class="upload-icon">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.95 5.5 5.5 0 0 1 10.7-1.6A3.75 3.75 0 0 1 17.5 18"/><path d="M12 21v-8M9 15.5l3-3 3 3"/></svg>
-            </span>
-            <p class="upload-title">Upload your files (up to {{ section.settings.max_files }})</p>
-            <p class="upload-sub">Drag and drop files here or click to browse</p>
-            <input type="file" accept="image/*,.pdf,.ai,.eps,.svg,.psd" multiple hidden data-upload-input>
-            <button type="button" class="btn-blue" data-upload-browse>Browse</button>
-            <ul class="upload-file-list" data-upload-file-list></ul>
-          </div>
+  <div class="upload-dropzone" data-upload-dropzone>
+    <div class="upload-dz-main">
+      <div class="upload-dz-art" aria-hidden="true">
+        <svg width="150" height="110" viewBox="0 0 150 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="18" y="20" width="48" height="48" rx="8" transform="rotate(-8 18 20)" stroke="#B6F000" stroke-width="2.2"/>
+          <rect x="42" y="10" width="58" height="58" rx="10" fill="#F7FAF8" stroke="#0B3D2E" stroke-width="4"/>
+          <rect x="50" y="18" width="42" height="34" rx="4" fill="#0B3D2E"/>
+          <path d="M54 47L64 35L72 42L78 36L88 47H54Z" fill="#B6F000"/>
+          <circle cx="61" cy="25" r="4.5" fill="#B6F000"/>
+          <circle cx="108" cy="62" r="17" fill="#0B3D2E"/>
+          <path d="M108 72V54M108 54L101.5 60.5M108 54L114.5 60.5" stroke="#B6F000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M103 8L105 1M111 16L118 13" stroke="#0B3D2E" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
 
-          <a class="upload-phone" href="{{ section.settings.phone_upload_link | default: '#' }}">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M17 20h4M14 20h1"/></svg>
-            Upload from your phone
-          </a>
-        </div>
+      <div class="upload-dz-divider" aria-hidden="true"></div>
+
+      <div class="upload-dz-copy">
+        <p class="upload-title">Upload Your Files (up to {{ section.settings.max_files }})</p>
+        <p class="upload-sub">Drag and drop files here or click to browse</p>
+
+        <input
+          type="file"
+          accept="image/*,.pdf,.ai,.eps,.svg,.psd,.png,.jpg,.jpeg,.tif,.tiff,.webp"
+          multiple
+          hidden
+          data-upload-input
+        >
+
+        <button type="button" class="upload-browse-btn" data-upload-browse>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 16V5"/>
+            <path d="M8 9l4-4 4 4"/>
+            <path d="M5 19h14"/>
+          </svg>
+          Browse Files
+        </button>
+      </div>
+    </div>
+
+    <div class="upload-types">
+      <span class="upload-types-label">Accepted File Types:</span>
+      <span class="upload-type">PNG</span>
+      <span class="upload-type">JPG</span>
+      <span class="upload-type">JPEG</span>
+      <span class="upload-type">SVG</span>
+      <span class="upload-type">PDF</span>
+      <span class="upload-type">AI</span>
+      <span class="upload-type">EPS</span>
+      <span class="upload-type">PSD</span>
+      <span class="upload-type">TIFF</span>
+      <span class="upload-type">WEBP</span>
+    </div>
+
+    <ul class="upload-file-list" data-upload-file-list></ul>
+  </div>
+
+  <a class="upload-phone" href="{{ section.settings.phone_upload_link | default: '#' }}">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <path d="M14 14h3v3h-3zM20 14h1M17 20h4M14 20h1"/>
+    </svg>
+    Upload from your phone
+  </a>
+</div>
 
         {% if section.settings.show_ai_tools %}
         <div class="ai-tools-panel">
