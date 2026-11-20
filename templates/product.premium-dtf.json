@@ -165,9 +165,9 @@
         "film-silver"
       ],
       "settings": {
-        "badge_text": "VIVID AF",
+        "badge_text": "VIVID+ 9-Color Printing",
         "unit_price": "$0.02/sq in",
-        "fulfillment_note": "Ships from us",
+        "fulfillment_note": "Printed by Fineyst · Ships from the USA",
         "rating_value": "4.9",
         "rating_count": "22,861",
         "wash_count": "100",
@@ -189,42 +189,49 @@
           "type": "row",
           "settings": {
             "label": "Sheet Pricing",
-            "body": "<p>Each gang sheet is priced by size, not by design count - fit as many designs as you can on a sheet at no extra cost. Need more than 40 feet? Increase the quantity and we will print multiple rolls.</p>"
+            "body": "<p>Our DTF gang sheets are priced by sheet size, not by the number of designs you place on each sheet.</p><ul><li>Select your gang sheet size and upload your print-ready artwork.</li><li>Add multiple designs to one sheet without per-design charges.</li><li>Automatic volume discounts at 5, 10, 25, and 50 sheets.</li><li>No setup fees or additional charges based on the number of designs.</li></ul>"
           }
         },
         "d2": {
           "type": "row",
           "settings": {
             "label": "Features",
-            "body": "<p>9-color VIVID AF printing, 16.7 million colors, near-perfect Pantone matching, bright opaque whites, 100+ wash durability, and fine detail down to 3 pixels. Works on cotton, polyester, blends, canvas, denim and nylon.</p>"
+            "body": "<ul><li>9-color VIVID+ printing (CMYK + RGBO + White)</li><li>Multiple designs on a single DTF gang sheet</li><li>Vibrant colors, smooth gradients, and sharp details</li><li>Bright white printing for light and dark fabrics</li><li>Flexible, durable transfers designed for repeated washing</li><li>Carefully packaged gang sheets for shipping</li></ul>"
           }
         },
         "d3": {
           "type": "row",
           "settings": {
             "label": "Specialty DTF Film Styles",
-            "body": "<p>Beyond standard VIVID AF we print glitter, glow-in-the-dark, gold foil and silver foil gang sheets. Each specialty style ships press-ready with its own pressing card.</p>"
+            "body": "<p>Explore specialty gang sheet printing options including puff, glitter, glow-in-the-dark, reflective, and metallic foil transfers.</p><p>Each specialty finish has its own production and application requirements. Select the appropriate transfer style when ordering.</p><p>UV DTF gang sheets for compatible hard surfaces are available separately from standard apparel DTF transfers.</p>"
           }
         },
         "d4": {
           "type": "row",
           "settings": {
             "label": "Satisfaction Guarantee",
-            "body": "<p>If a transfer does not press correctly or arrives with a print defect, we reprint it free. No return shipping, no restocking fee, no argument.</p>"
+            "body": "<p>If your DTF gang sheet arrives with a qualifying printing defect, contact Fineyst support with your order details and photos of the issue.</p><p>Eligible printing defects are covered by our reprint guarantee, subject to our satisfaction policy.</p>"
           }
         },
         "d5": {
           "type": "row",
           "settings": {
             "label": "Pressing Instructions",
-            "body": "<p>Press at 300-320°F for 10-15 seconds with medium pressure, then peel. Peel temperature depends on the transfer type and is printed on the card that ships with every order.</p>"
+            "body": "<p>Cut individual designs from your printed DTF gang sheet before applying them to compatible apparel.</p><ol><li>Carefully cut out the design you want to apply.</li><li>Pre-press the garment to remove moisture and wrinkles.</li><li>Place the transfer on the fabric with the carrier film facing up.</li><li>Apply heat and pressure according to the instructions included with your order.</li><li>Peel using the recommended method and complete a finishing press if instructed.</li></ol><p>Always follow the pressing instructions supplied for your specific transfer type and fabric.</p>"
           }
         },
         "d6": {
           "type": "row",
           "settings": {
             "label": "Shipping & Returns",
-            "body": "<p>Most orders are printed and shipped within 24 hours. Free shipping on qualifying US orders. Because every gang sheet is made to order we cannot accept returns, but our reprint guarantee covers any defect.</p>"
+            "body": "<p>Most qualifying DTF gang sheet orders are printed and shipped within 24 hours. Free shipping is available on eligible US orders.</p><p>Since custom DTF gang sheets are made to order, standard returns are not accepted. Qualifying printing defects are covered under our reprint guarantee.</p>"
+          }
+        },
+        "row_3ErD9e": {
+          "type": "row",
+          "settings": {
+            "label": "Art Upload Recommendations",
+            "body": "<p>For the best DTF gang sheet printing results, upload a single print-ready PNG file at 300 DPI, sized to your selected gang sheet dimensions.</p><ul><li>Use a transparent background.</li><li>Maintain at least 0.25 inches between designs for easier cutting.</li><li>Leave a 0.5-inch margin around the sheet edges.</li><li>Export your completed gang sheet as one flattened PNG file.</li><li>Avoid low-resolution artwork and unintended transparent effects.</li></ul><p>Our artwork review process helps identify potential spacing or resolution issues before production.</p>"
           }
         },
         "d7": {
@@ -238,7 +245,7 @@
           "type": "row",
           "settings": {
             "label": "Downloadable Templates",
-            "body": "<p>Not sure how to lay out a sheet? Download a ready-made gang sheet template sized to your chosen length, drop in your designs and upload the finished file here.</p>"
+            "body": "<p>Print custom names and numbers for sports teams, uniforms, and personalized apparel using DTF gang sheets.</p><p>Arrange multiple names, numbers, or logos on one sheet, upload your print-ready layout, and cut individual designs before heat pressing.</p><p>No per-name setup fees.</p>"
           }
         }
       },
@@ -249,14 +256,15 @@
         "d4",
         "d5",
         "d6",
+        "row_3ErD9e",
         "d7",
         "d8"
       ],
       "settings": {
         "heading": "Product Details",
-        "body": "<p>Experience professional-grade DTF printing made effortless with Fineyst Transfers. Every transfer is produced using our VIVID+ DTF process, featuring an expanded CMYK + RGBO + White ink system that delivers dramatically brighter colors, smoother gradients, and sharper detail - at no extra cost. From vibrant colors and clean whites to fine lines and complex gradients, our high-quality DTF transfers give shops, brands, and creators the freedom to print virtually any design on any garment with consistently standout results.</p>",
+        "body": "<p>Order custom DTF gang sheet printing with Fineyst Transfers. Upload your completed, print-ready gang sheet and get vibrant, ready-to-press transfers for t-shirts, hoodies, team apparel, and other compatible fabrics.</p><p>Our VIVID+ DTF printing process uses an expanded CMYK + RGBO + White ink system to produce rich colors, smooth gradients, crisp whites, and sharp details.</p><p>Whether you're printing multiple designs for your clothing brand, business, or team, Fineyst makes DTF gang sheet ordering simple. Choose your sheet size, upload your artwork, and place your order online.</p>",
         "subheading": "Super Vivid Prints. No Upcharge.",
-        "subbody": "<p>Most DTF providers still use 5-color printing as their standard. Accessing 9-color printing typically requires a paid upgrade, often increasing costs by up to 50%.</p><p>Fineyst includes 9-color VIVID+ printing on every DTF order at no additional cost.</p>"
+        "subbody": "<p>Get professional-quality DTF gang sheet printing with Fineyst VIVID+ technology.</p><p>Our 9-color printing system is designed to deliver vibrant colors, detailed artwork, and smooth gradients. VIVID+ printing is included with every qualifying standard DTF gang sheet order at no additional upgrade cost.</p><h3>Price Calculator</h3>"
       }
     },
     "pdp-comparison": {
