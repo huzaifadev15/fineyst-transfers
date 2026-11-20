@@ -174,7 +174,7 @@
         "film-silver"
       ],
       "settings": {
-        "badge_text": "9-COLOR VIVID+ PRINTING",
+        "badge_text": "9-COLOR VIVID+ PRINTING {{ product.metafields.custom.title_badge.value }}",
         "unit_price": "$0.02/sq in",
         "fulfillment_note": "Printed by Fineyst · Ships from the USA",
         "rating_value": "4.9",
