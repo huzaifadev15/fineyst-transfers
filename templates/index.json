@@ -120,7 +120,7 @@
         "rotating_words": "Businesses, Brands, Customers, Creators",
         "subtitle": "No Minimums, Ready to Press, Shipped in 24 Hours",
         "highlight_word": "24 Hours",
-        "description": "Vibrant, durable direct-to-film transfers for shirts, hoodies, hats, and more. No setup fees, no order minimums, full-color detail every time.",
+        "description": "Bring your designs to life with vibrant, durable, ready-to-press DTF transfers for t-shirts, hoodies, and more. Order custom sizes or build your own gang sheet with no minimums or setup fees.",
         "primary_label": "Order Transfers by Size",
         "primary_link": "/products/dtf-transfers",
         "show_secondary_button": true,
@@ -163,7 +163,7 @@
             "icon": "lightning",
             "icon_color": "#0f766e",
             "title": "Fast Turnaround",
-            "text": "Quick processing and shipping options."
+            "text": "Quick production and reliable shipping options."
           }
         },
         "no-minimums": {
@@ -172,7 +172,7 @@
             "icon": "box",
             "icon_color": "#14b8a6",
             "title": "No Minimums",
-            "text": "Order what you actually need."
+            "text": "Order exactly what you need, from one design to bulk orders."
           }
         },
         "premium-quality": {
@@ -181,7 +181,7 @@
             "icon": "award",
             "icon_color": "#22c55e",
             "title": "Premium Quality",
-            "text": "Vibrant colors and sharp details."
+            "text": "Vibrant colors, sharp details, and professional-quality prints."
           }
         },
         "free-shipping": {
@@ -190,7 +190,7 @@
             "icon": "truck",
             "icon_color": "#84cc16",
             "title": "Free Shipping",
-            "text": "On qualifying orders."
+            "text": "Available on qualifying orders."
           }
         },
         "lab-tested-durability": {
@@ -199,7 +199,7 @@
             "icon": "shield",
             "icon_color": "#12a150",
             "title": "Lab-Tested Durability",
-            "text": "Tested to last 100+ washes."
+            "text": "Tested for 100+ washes."
           }
         },
         "free-art-review": {
@@ -208,7 +208,7 @@
             "icon": "star",
             "icon_color": "#16a34a",
             "title": "Free Art Review",
-            "text": "Our team cleans up your files."
+            "text": "Our team reviews your artwork before printing."
           }
         },
         "transfer-by-size": {
@@ -312,7 +312,7 @@
         "show_badge": true,
         "badge_text": "WHY CHOOSE US",
         "heading": "Affordable Custom DTF Transfers",
-        "subheading": "Premium Quality. No Minimums. Fast Turnaround.",
+        "subheading": "High-quality, ready-to-press DTF transfers with no minimum orders, vibrant colors, and fast turnaround.",
         "show_divider": true,
         "columns_desktop": "3",
         "columns_tablet": "2",
@@ -346,7 +346,7 @@
         "open_seo_by_default": false,
         "seo_toggle_label": "More about our custom transfers",
         "seo_content": "<p>Looking for the best place to order custom DTF transfers that are vibrant, durable, and delivered fast? You have found it. At Fineyst Transfers, we are your go-to source for press-ready transfers with no order minimums, expert support, and no setup fees.</p><p><strong>HERE'S WHAT YOU SHOULD KNOW RIGHT AWAY:</strong></p><ul><li><strong>TURNAROUND TIME:</strong> Most orders are printed and shipped within 24 hours, with same-day options available.</li><li><strong>TRANSFER TYPES WE PRINT:</strong> Choose from <a href=\"/products/dtf-transfers\">DTF by size</a>, <a href=\"/products/uv-dtf-gang-sheet-builder\">gang sheets</a>, <a href=\"/products/uv-dtf-perma-stickers\">UV DTF</a>, <a href=\"/collections/puff-transfers\">puff</a>, <a href=\"/collections/glitter-transfers\">glitter</a>, and <a href=\"/collections/reflective-transfers\">reflective transfers</a> - all press-ready.</li><li><strong>COMMON USES:</strong> Perfect for t-shirts, hoodies, hats, tote bags, team merch, uniforms, event apparel, and more.</li><li><strong>WHAT FABRICS WORK?</strong> Cotton, polyester, blends, canvas, denim, nylon, and more - light or dark, no special prep needed.</li><li><strong>DESIGN HELP & FILE PREP:</strong> Send a PNG, PDF, or AI file and we will handle the rest. Not print-ready? Our team will clean it up free.</li><li><strong>ARE DTF TRANSFERS EXPENSIVE? NOT HERE.</strong> You get wholesale pricing, volume discounts, free shipping, and no hidden fees.</li></ul><p><strong>Ready to Get Started?</strong></p><p>Upload your artwork today - it is fast, free to quote, and fully supported by real humans who care about print quality.</p>",
-        "grid_heading": "Shop Transfer Types - DTF, UV DTF, Puff, Glitter & More",
+        "grid_heading": "\"Shop Custom Transfers by Type\"",
         "badge": "No minimum",
         "cta_label": "Get a Quote"
       }
@@ -419,7 +419,7 @@
       "type": "what-is-dtf",
       "settings": {
         "heading": "What is DTF?",
-        "text": "<p>Direct to Film (DTF) Transfers are incredibly vivid, high quality transfers that can be applied to almost any product, material, and color with just a heat press, Cricut, or iron. Millions trust DTF Transfers for their events, team merch, crafts, gifts, and more — DTF saves you money and time, and lets you customize products the way you want.</p>",
+        "text": "<p><br/>DTF (Direct to Film) is a printing method that creates vibrant, durable designs for custom apparel. Ready-to-press DTF transfers can be applied to cotton, polyester, blends, and other compatible fabrics using a heat press. Whether you're creating custom t-shirts, hoodies, business merchandise, or personalized gifts, DTF printing delivers sharp details and full-color designs without the need for minimum orders.<br/><br/></p>",
         "cta_label": "",
         "cta_link": ""
       }
@@ -429,7 +429,7 @@
       "name": "Fineyst instant price",
       "settings": {
         "heading": "Check Your Price Instantly",
-        "subheading": "Enter your size and quantity to see an estimated printing price before you upload anything.",
+        "subheading": "Get an instant price estimate for custom DTF transfers, UV DTF transfers, and gang sheets. Simply enter your size and quantity to see estimated printing costs before uploading your artwork.",
         "disclaimer": "Estimated printing price only. Final checkout pricing may vary. Blank garments, shipping and tax are not included.",
         "primary_color": "#0f3d2e",
         "accent_color": "#b6f500",
@@ -472,7 +472,7 @@
             "static_image": "upload-design.png",
             "static_video": "",
             "title": "Upload Your Design & Order Online",
-            "text": "From simple graphics to high-detail artwork, upload any design with unlimited colors. We convert it into a high-quality DTF transfer, ready to press."
+            "text": "Upload your artwork, choose your transfer size and quantity, and place your order online. We print your custom DTF transfers in vibrant, full color, ready for heat pressing."
           }
         },
         "s2": {
@@ -481,7 +481,7 @@
             "static_image": "spt 1.webp",
             "static_video": "",
             "title": "Printed & Shipped in 24–48 Hours",
-            "text": "We produce your transfer for sharp detail, vibrant color, and consistent, professional-grade results."
+            "text": "Your custom DTF transfers are produced with sharp details, vibrant colors, and consistent print quality. Once ready, your order is carefully packed and shipped to you."
           }
         },
         "s3": {
@@ -501,14 +501,14 @@
       ],
       "settings": {
         "heading": "The Fineyst DTF Process",
-        "tagline": "Faster. Simpler. Satisfaction Guaranteed."
+        "tagline": "Simple Ordering. Vibrant Prints. Easy Application."
       }
     },
     "pressing": {
       "type": "media-split",
       "settings": {
         "heading": "Pressing DTF Transfers Has Never Been Easier",
-        "text": "<p>With our proprietary fast-peel process, our DTF Transfers give you professional results in just 13 seconds. Now you can press on anything!</p>",
+        "text": "<p>Apply your ready-to-press DTF transfers in a few simple steps. Enjoy vibrant colors, sharp details, and durable prints on your favorite apparel. Follow our pressing guide for professional results every time.</p>",
         "cta_label": "See Pressing Instructions",
         "cta_link": "/pages/pressing-instructions",
         "static_image": "",
@@ -527,7 +527,7 @@
             "badge": "Most Popular",
             "title": "DTF Transfers By Size",
             "price_note": "As low as $0.02 per sq. inch",
-            "text": "Print any design on any garment, material, or color with incredible durability. By Size makes ordering simple.",
+            "text": "Order custom DTF transfers by size for t-shirts, hoodies, and other compatible fabrics. Simply upload your artwork, choose your size, and order.",
             "link": "/products/dtf-transfers",
             "cta": "Upload Designs"
           }
@@ -540,7 +540,7 @@
             "badge": "Easily Design & Build Online",
             "title": "Build a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
-            "text": "Create custom DTF gang sheets with our easy-to-use Gang Sheet Builder.",
+            "text": "Create custom DTF gang sheets with our easy-to-use online builder. Arrange multiple designs on one sheet to make the most of your print space.",
             "link": "/products/uv-dtf-gang-sheet-builder",
             "cta": "Build a DTF Gang Sheet"
           }
@@ -553,7 +553,7 @@
             "badge": "For Pros - Print Ready Files",
             "title": "Upload a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
-            "text": "Upload your ready-to-print template (AI, PNG, PDF) to create vibrant and durable DTF Gang Sheets.",
+            "text": "Already have a print-ready gang sheet? Upload your AI, PNG, or PDF file and order high-quality DTF gang sheet printing online.",
             "link": "/pages/upload-gang-sheet",
             "cta": "Upload DTF Gang Sheet"
           }
@@ -565,7 +565,7 @@
         "o3"
       ],
       "settings": {
-        "heading": "Select the DTF Product That Works Best for You"
+        "heading": "Choose How to Order Your DTF Transfers"
       }
     },
     "feature-tiles": {
@@ -656,7 +656,7 @@
       ],
       "settings": {
         "heading": "Features of our DTF Transfers",
-        "subheading": "No more second guessing your artwork, style, or colors. Our premium DTF transfers are brighter, sharper, stretchier, and more durable."
+        "subheading": "Discover vibrant, ready-to-press DTF transfers with sharp details, flexible prints, and lasting color. Perfect for custom t-shirts, hoodies, and other compatible apparel."
       }
     },
     "fleet-banner": {
@@ -682,7 +682,7 @@
           "settings": {
             "label": "Print Process",
             "question": "How do DTF transfers work?",
-            "answer": "Your artwork is printed onto a PET film with pigment ink, backed with a hot-melt adhesive powder, and cured. You lay the film on your garment, press it, and peel. No weeding, no cutting, no screens - the design bonds straight into the fabric with a soft, flexible finish."
+            "answer": "DTF (Direct to Film) transfers are printed onto a special film using DTF inks and adhesive powder. The finished design is applied to compatible fabric using a heat press, creating vibrant, flexible prints without cutting or weeding."
           }
         },
         "k2": {
@@ -690,7 +690,7 @@
           "settings": {
             "label": "Types",
             "question": "What types of transfers can I order?",
-            "answer": "Standard DTF for everyday apparel, gang sheets to fit many designs on one sheet, UV DTF for mugs and hard surfaces, puff for a raised 3D effect, glitter and metallic foil for decorative accents, reflective for high-visibility workwear, and sublimation for a dye-in-the-fabric hand feel on polyester."
+            "answer": "Fineyst offers custom DTF transfers by size, DTF gang sheets, UV DTF transfers, and specialty printing options. Choose ready-to-press designs for apparel, UV DTF for suitable hard surfaces, or specialty finishes for unique effects."
           }
         },
         "k3": {
@@ -698,7 +698,7 @@
           "settings": {
             "label": "Uses",
             "question": "What are DTF transfers used for?",
-            "answer": "Team and event merch, company uniforms and workwear, small-batch clothing brands, school and club apparel, promotional giveaways, and craft or Etsy shops. Because they press onto almost anything, one order can cover tees, hoodies, hats, tote bags, and aprons at once."
+            "answer": "Custom DTF transfers are ideal for personalized t-shirts, hoodies, team uniforms, business apparel, event merchandise, and promotional clothing. They're a flexible option for small orders and bulk apparel printing."
           }
         },
         "k4": {
@@ -706,7 +706,7 @@
           "settings": {
             "label": "Materials",
             "question": "What fabrics do DTF transfers work on?",
-            "answer": "Cotton, polyester, cotton-poly blends, tri-blends, canvas, denim, nylon, leather, and most performance fabrics. Light or dark garments both work because every transfer is printed with a white ink underbase, so colors stay accurate on black just as they do on white."
+            "answer": "DTF transfers work on many compatible fabrics, including cotton, polyester, and cotton-poly blends. They can be applied to light and dark garments, making them a versatile choice for custom apparel."
           }
         },
         "k5": {
@@ -714,7 +714,7 @@
           "settings": {
             "label": "Pressing",
             "question": "What settings should I press at?",
-            "answer": "Most transfers press at 300-320°F for 10-15 seconds with medium pressure, then peel. Whether you peel hot or cold depends on the transfer type - the exact setting ships with every order, and full guidance lives on our pressing instructions page."
+            "answer": "DTF pressing temperature, time, and pressure depend on the transfer and fabric. Use a heat press and follow the instructions provided with your order for accurate application and long-lasting results."
           }
         }
       },
