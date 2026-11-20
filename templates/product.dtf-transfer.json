@@ -218,56 +218,56 @@
           "type": "row",
           "settings": {
             "label": "Price Calculator",
-            "body": "<p>Pricing is calculated per square inch, so you only pay for the space your design uses. Volume discounts apply automatically at 15, 50, 100 and 250 pieces - up to 50% off.</p>"
+            "body": "<p>Order custom DTF transfers with straightforward, square-inch pricing. Enter your design size and quantity to calculate your printing cost.</p><ul><li>Automatic volume discounts at 15, 50, 100, and 250 pieces.</li><li>Save up to 50% with qualifying bulk orders.</li><li>No setup fees, artwork fees, or additional color-count charges.</li></ul>"
           }
         },
         "d2": {
           "type": "row",
           "settings": {
             "label": "Features",
-            "body": "<p>9-color VIVID+ printing, 16.7 million colors, near-perfect Pantone matching, bright opaque whites, 100+ wash durability, and fine detail down to 3 pixels. Works on cotton, polyester, blends, canvas, denim and nylon.</p>"
+            "body": "<ol><li>9-color VIVID+ printing (CMYK + RGBO + White)</li><li>Rich, vibrant colors and smooth gradients</li><li>Bright, opaque whites for light and dark fabrics</li><li>Fine details and sharp, professional-quality prints</li><li>Durable, flexible transfers designed for repeated washing</li><li>Compatible with cotton, polyester, blends, and other supported fabrics</li></ol>"
           }
         },
         "d3": {
           "type": "row",
           "settings": {
             "label": "Specialty DTF Styles",
-            "body": "<p>Beyond standard DTF we print puff, glitter, glow-in-the-dark, reflective, metallic foil and UV DTF. Each specialty style ships press-ready with its own pressing card.</p>"
+            "body": "<p>Explore specialty transfer options including 3D puff, glitter, glow-in-the-dark, reflective, and metallic foil finishes.</p><p>We also offer UV DTF transfers for decorating compatible hard surfaces such as glass, metal, and tumblers. Application methods and instructions vary by product.</p>"
           }
         },
         "d4": {
           "type": "row",
           "settings": {
             "label": "Satisfaction Guarantee",
-            "body": "<p>If a transfer does not press correctly or arrives with a print defect, we reprint it free. No return shipping, no restocking fee, no argument.</p>"
+            "body": "<p>Your satisfaction matters to us. If your DTF transfers arrive with a printing defect or an eligible application issue, contact our support team with photos of the problem.</p><p>Qualifying orders are covered by our reprint guarantee, subject to our satisfaction policy</p>"
           }
         },
         "d5": {
           "type": "row",
           "settings": {
             "label": "Pressing Instructions",
-            "body": "<p>Press at 300-320°F for 10-15 seconds with medium pressure, then peel. Peel temperature depends on the transfer type and is printed on the card that ships with every order.</p>"
+            "body": "<p>Apply your ready-to-press DTF transfers using a heat press for consistent results.</p><ol><li>Pre-press your garment to remove moisture and wrinkles.</li><li>Position your transfer with the printed adhesive side against the fabric and the carrier film facing up.</li><li>Apply heat and even pressure according to the instructions included with your order.</li><li>Peel the carrier film using the specified hot, warm, or cold peel method.</li><li>Complete a finishing press if recommended for your transfer.</li></ol><p>Always follow the pressing instructions supplied with your order, as temperature, pressure, and timing may vary by transfer type and fabric.</p>"
           }
         },
         "d6": {
           "type": "row",
           "settings": {
             "label": "Shipping & Returns",
-            "body": "<p>Most orders are printed and shipped within 24 hours. Free shipping on qualifying US orders. Because every transfer is made to order we cannot accept returns, but our reprint guarantee covers any defect.</p>"
+            "body": "<p>Most qualifying DTF transfer orders are printed and shipped within 24 hours. Free shipping is available on eligible US orders.</p><p>Because custom transfers are made to order, standard returns are not accepted. Eligible printing defects are covered under our reprint guarantee.</p>"
           }
         },
         "d7": {
           "type": "row",
           "settings": {
             "label": "Art Upload Recommendations",
-            "body": "<p>Upload PNG with a transparent background at 300 DPI for best results. We also accept PDF, AI, SVG, TIFF and JPG. Our art team reviews every file free and will flag anything that will not print cleanly.</p>"
+            "body": "<p>For the best print quality, upload high-resolution artwork with a transparent background.</p><ul><li><strong>Recommended format:</strong> PNG at 300 DPI at final print size.</li><li><strong>Accepted formats:</strong> PNG, PDF, AI, SVG, TIFF, and JPG.</li><li><strong>Fine details:</strong> Keep small text and thin lines large enough to reproduce clearly.</li><li><strong>Transparent artwork:</strong> Avoid unwanted backgrounds and poorly rendered transparent effects.</li></ul><p>Our artwork review process helps identify potential print-quality issues before production</p>"
           }
         },
         "d8": {
           "type": "row",
           "settings": {
             "label": "Names & Numbers",
-            "body": "<p>Building team apparel? Use the Gang Sheet Builder to lay out names and numbers on a single sheet, then press them one at a time. No per-name setup fee.</p>"
+            "body": "<p>Create custom names and numbers for team uniforms, sports apparel, and personalized merchandise.</p><p>Use our DTF Gang Sheet Builder to arrange multiple names, numbers, or designs on one sheet. Order the quantities you need without per-name setup fees.</p>"
           }
         }
       },
@@ -283,9 +283,9 @@
       ],
       "settings": {
         "heading": "Product Details",
-        "body": "<p>Experience professional-grade DTF printing made effortless with Fineyst Transfers. Every transfer is produced using our VIVID+ DTF process, featuring an expanded CMYK + RGBO + White ink system that delivers dramatically brighter colors, smoother gradients, and sharper detail - at no extra cost. From vibrant colors and clean whites to fine lines and complex gradients, our high-quality DTF transfers give shops, brands, and creators the freedom to print virtually any design on any garment with consistently standout results.</p>",
+        "body": "<p>Create professional-quality custom DTF transfers with Fineyst Transfers. Our VIVID+ DTF printing process uses an expanded CMYK + RGBO + White ink system to produce vibrant colors, smooth gradients, crisp whites, and sharp details.</p><p>From custom t-shirts and hoodies to team uniforms and branded merchandise, our ready-to-press DTF transfers bring your designs to life on a wide range of compatible fabrics.</p>",
         "subheading": "Super Vivid Prints. No Upcharge.",
-        "subbody": "<p>Most DTF providers still use 5-color printing as their standard. Accessing 9-color printing typically requires a paid upgrade, often increasing costs by up to 50%.</p><p>Fineyst includes 9-color VIVID+ printing on every DTF order at no additional cost.</p>"
+        "subbody": "<p>Experience the benefits of 9-color VIVID+ DTF printing without paying extra for a premium color upgrade.</p><p>Fineyst includes VIVID+ printing with every standard DTF transfer order at no additional charge.</p>"
       }
     },
     "pdp-comparison": {
@@ -328,7 +328,7 @@
       ],
       "settings": {
         "heading": "The Next Generation of DTF Transfers",
-        "intro": "",
+        "intro": "Experience richer colors, smoother gradients, and sharper details with Fineyst VIVID+ DTF printing. Our expanded 9-color CMYK + RGBO + White ink system is designed to bring vibrant, full-color artwork to life—at no additional printing upgrade cost.",
         "image_ours": "comp-img1.jpg",
         "label_ours": "VIVID+ 9-Color DTF",
         "image_theirs": "comp-img2.jpg",

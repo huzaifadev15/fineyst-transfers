@@ -739,70 +739,70 @@
           "type": "faq_item",
           "settings": {
             "question": "What is a DTF transfer?",
-            "answer": "<p>A direct-to-film transfer is your artwork printed onto film and heat-applied to fabric. It gives vivid full-color detail with a soft, flexible finish and strong wash durability.</p>"
+            "answer": "<p>A DTF (Direct to Film) transfer is a full-color design printed onto special film and applied to compatible fabrics using a heat press. It creates vibrant, flexible prints for custom apparel.</p>"
           }
         },
         "q2": {
           "type": "faq_item",
           "settings": {
             "question": "Is there a minimum order?",
-            "answer": "<p>No minimum, ever. Order a single transfer or thousands - the price per square inch stays the same, and volume discounts kick in automatically as your order grows.</p>"
+            "answer": "<p>No minimums! Order a single DTF transfer or buy in bulk. Our pricing adjusts automatically based on size and quantity.</p>"
           }
         },
         "q3": {
           "type": "faq_item",
           "settings": {
             "question": "What equipment do I need?",
-            "answer": "<p>A heat press gives the most consistent results, but a household iron or a Cricut EasyPress works too. You need steady heat, even pressure, and about 15 seconds.</p>"
+            "answer": "<p>A heat press is recommended for consistent DTF transfer application. Follow our pressing instructions for the correct temperature, pressure, and timing.</p>"
           }
         },
         "q4": {
           "type": "faq_item",
           "settings": {
             "question": "How long do transfers last?",
-            "answer": "<p>Our transfers are lab-tested past 100 wash cycles without cracking, peeling, or fading. Wash inside out in cold water to get the most life out of them.</p>"
+            "answer": "<p>Our DTF transfers are designed for durable, long-lasting prints. Proper heat pressing, washing, and garment care help maintain their appearance.</p>"
           }
         },
         "q5": {
           "type": "faq_item",
           "settings": {
             "question": "What file format should I upload?",
-            "answer": "<p>PNG with a transparent background at 300 DPI is ideal. We also accept PDF, AI, SVG, TIFF, and JPG. If a file is not print-ready, our art team cleans it up free of charge.</p>"
+            "answer": "<p>PNG files with transparent backgrounds at 300 DPI are recommended. We also accept PDF, AI, SVG, TIFF, and JPG files. Our team can review your artwork before printing.</p>"
           }
         },
         "q6": {
           "type": "faq_item",
           "settings": {
             "question": "How fast is production?",
-            "answer": "<p>Most orders are printed and shipped within 24 hours. Order before the daily cutoff and your transfers leave the building the next business day.</p>"
+            "answer": "<p>Most orders are printed and shipped within 24 hours when placed before our daily cutoff. Production times may vary depending on order size and artwork requirements.</p>"
           }
         },
         "q7": {
           "type": "faq_item",
           "settings": {
             "question": "What payment methods do you accept?",
-            "answer": "<p>All major credit cards, PayPal, Shop Pay, Apple Pay, and Google Pay. Every transaction is encrypted and processed securely at checkout.</p>"
+            "answer": "<p>We accept major credit cards, PayPal, Shop Pay, Apple Pay, and Google Pay through our secure checkout.</p>"
           }
         },
         "q8": {
           "type": "faq_item",
           "settings": {
             "question": "Do you ship internationally?",
-            "answer": "<p>Yes, we ship worldwide. Shipping is free on qualifying US orders. International rates and delivery windows vary by destination and are calculated at checkout.</p>"
+            "answer": "<p>Yes, we offer international shipping. Rates and estimated delivery times depend on your destination and are calculated at checkout.</p>"
           }
         },
         "q9": {
           "type": "faq_item",
           "settings": {
             "question": "Can I put multiple designs on one sheet?",
-            "answer": "<p>That is exactly what a gang sheet is for. Use the Gang Sheet Builder to arrange as many designs as you can fit, and you only pay for the sheet space you use.</p>"
+            "answer": "<p>Absolutely! Use our DTF Gang Sheet Builder to arrange multiple designs on one sheet and maximize your available print space.</p>"
           }
         },
         "q10": {
           "type": "faq_item",
           "settings": {
             "question": "How do I track my order?",
-            "answer": "<p>You will get a tracking number by email as soon as your order ships, and you can follow it in real time from your account or the carrier's site.</p>"
+            "answer": "<p>Once your order ships, we'll send you a tracking number by email so you can follow its delivery progress.</p>"
           }
         }
       },
@@ -820,7 +820,7 @@
       ],
       "settings": {
         "heading": "DTF Transfers FAQ",
-        "subheading": "Find answers to common questions about our transfers and services"
+        "subheading": "Find answers to common questions about custom DTF transfers, ordering, shipping, and application."
       }
     },
     "scrolling_reviews_PG6qLj": {
@@ -1011,8 +1011,8 @@
       ],
       "name": "Reviews",
       "settings": {
-        "heading": "DTF Transfer Reviews — Verified Feedback from Real   Customers",
-        "subheading": "Verified Feedback from Authentic Customers",
+        "heading": "DTF Transfer Reviews from Our Customers",
+        "subheading": "See what customers are saying about Fineyst DTF transfers, print quality, and their ordering experience.",
         "speed": 120
       }
     }
