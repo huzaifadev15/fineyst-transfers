@@ -294,29 +294,29 @@
         "c1": {
           "type": "row",
           "settings": {
-            "ours": "9-Color Printing (CMYK + RGBO + White)",
-            "theirs": "5-Color Printing (CMYK)"
+            "ours": "9-Color Ink System (CMYK + RGBO + White)",
+            "theirs": "5-Color Ink System (CMYK + White)"
           }
         },
         "c2": {
           "type": "row",
           "settings": {
-            "ours": "16.7 Million Colors",
-            "theirs": "~20,000 Colors"
+            "ours": "Expanded Color Reproduction",
+            "theirs": "Conventional Color Reproduction"
           }
         },
         "c3": {
           "type": "row",
           "settings": {
-            "ours": "Noticeably Brighter & More Saturated Prints",
-            "theirs": "Muted / Dull Prints"
+            "ours": "Designed for Rich, Vibrant Prints",
+            "theirs": "Standard Full-Color Printing"
           }
         },
         "c4": {
           "type": "row",
           "settings": {
-            "ours": "Near Perfect Pantone Matching",
-            "theirs": "Inconsistent / Washed Out"
+            "ours": "Included at No Additional Upgrade Cost",
+            "theirs": "Upgrade Pricing Varies by Provider"
           }
         }
       },
@@ -330,12 +330,12 @@
         "heading": "The Next Generation of DTF Transfers",
         "intro": "Experience richer colors, smoother gradients, and sharper details with Fineyst VIVID+ DTF printing. Our expanded 9-color CMYK + RGBO + White ink system is designed to bring vibrant, full-color artwork to life—at no additional printing upgrade cost.",
         "image_ours": "comp-img1.jpg",
-        "label_ours": "VIVID+ 9-Color DTF",
+        "label_ours": "Fineyst VIVID+ 9-Color DTF",
         "image_theirs": "comp-img2.jpg",
-        "label_theirs": "Industry Standard 5-Color DTF",
+        "label_theirs": "Conventional 5-Color DTF Example",
         "ours_title": "Fineyst Standard DTF",
         "ours_sub": "VIVID+, 9-Color Printing",
-        "theirs_title": "Competitor's Standard DTF",
+        "theirs_title": "Conventional 5-Color DTF",
         "theirs_sub": "Basic, 5-Color Printing"
       }
     },
@@ -394,7 +394,7 @@
       "type": "media-split",
       "settings": {
         "heading": "Easily Applies in Seconds",
-        "text": "<p>Thanks to our proprietary Fineyst Peel Technology, our DTF transfers deliver professional results in just 13 seconds - making it easier than ever to press on anything!</p>",
+        "text": "<p>Our ready-to-press DTF transfers make custom apparel printing simple. Apply your designs with a heat press for vibrant, durable results on t-shirts, hoodies, and more.</p>",
         "cta_label": "View DTF Pressing Guide",
         "cta_link": "/pages/pressing-instructions",
         "static_image": "",
