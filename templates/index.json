@@ -424,8 +424,36 @@
         "cta_link": ""
       }
     },
+    "fineyst_instant_price_3mcDJU": {
+      "type": "fineyst-instant-price",
+      "name": "Fineyst instant price",
+      "settings": {
+        "heading": "Check Your Price Instantly",
+        "subheading": "Enter your size and quantity to see an estimated printing price before you upload anything.",
+        "disclaimer": "Estimated printing price only. Final checkout pricing may vary. Blank garments, shipping and tax are not included.",
+        "primary_color": "#0f3d2e",
+        "accent_color": "#b6f500",
+        "dtf_rate": "0.045",
+        "dtf_min": "0.18",
+        "dtf_url": "",
+        "dtf_presets": "2x2:0.18, 4x2:0.36, 3x3:0.41, 5x3:0.68, 4x4:0.73, 5x5:1.14, 6x6:1.64, 7x7:2.23, 11x5:2.50, 8x8:2.91, 9x9:3.68, 9x11:4.50, 10x10:4.55, 11x11:5.50",
+        "uv_rate": "0.08",
+        "uv_min": "0.30",
+        "uv_url": "",
+        "uv_presets": "",
+        "gang_rate": "0.02",
+        "gang_min": "6.00",
+        "gang_url": "",
+        "uvgang_rate": "0.06",
+        "uvgang_min": "8.00",
+        "uvgang_url": "",
+        "tiers": "10:5, 25:10, 50:15, 100:20",
+        "maxside": 22
+      }
+    },
     "bulk-orders": {
       "type": "bulk-orders",
+      "disabled": true,
       "settings": {
         "heading": "DTF Transfers — Single Prints & Bulk Gang Sheets, Any Quantity",
         "description": "Our production floor runs a fleet of industry-leading DTF printers, so we handle orders of any size with 24-hour turnaround. From a one-off tee to thousands of gang sheets, every transfer comes off the line with the same color accuracy and wash durability.",
@@ -994,6 +1022,7 @@
     "affordable-transfers",
     "features",
     "what-is-dtf",
+    "fineyst_instant_price_3mcDJU",
     "bulk-orders",
     "process",
     "pressing",

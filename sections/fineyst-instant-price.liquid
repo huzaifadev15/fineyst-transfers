@@ -88,8 +88,8 @@
     <div class="fx-tabs" data-tabs></div>
     <div class="fx-lbl">Your size</div>
     <div class="fx-row">
-      <label class="fx-f">Width (in)<input data-w type="number" min="1" step="0.1" value="10"></label>
-      <label class="fx-f">Height (in)<input data-h type="number" min="1" step="0.1" value="10"></label>
+      <label class="fx-f">Width (in)<input data-w type="number" min="1" max="22" step="0.1" value="10"></label>
+      <label class="fx-f">Height (in)<input data-h type="number" min="1" max="22" step="0.1" value="10"></label>
       <div class="fx-f">Quantity
         <div class="fx-q"><button type="button" data-minus aria-label="Decrease quantity">−</button><input data-q type="number" min="1" value="1"><button type="button" data-plus aria-label="Increase quantity">+</button></div>
       </div>
@@ -151,6 +151,15 @@
 
     function render(){
       var c=C[type],W=parseFloat(inW.value),H=parseFloat(inH.value),q=Math.max(1,parseInt(inQ.value)||1);
+      if (W > 22) {
+  W = 22;
+  inW.value = 22;
+}
+
+if (H > 22) {
+  H = 22;
+  inH.value = 22;
+}
       Array.prototype.forEach.call(tabs.children,function(b){b.setAttribute('aria-pressed',b.dataset.k===type)});
       sizes.innerHTML='';
       c.pre.list.forEach(function(s){
@@ -162,7 +171,16 @@
       });
       $('[data-pop]').style.display=c.pre.list.length?'':'none';
       if(!(W>0)||!(H>0)){$('[data-err]').textContent='Enter a width and height.';$('[data-total]').textContent='$0.00';return}
-      if(Math.min(W,H)>maxSide){$('[data-err]').textContent='One side must be '+maxSide+'" or less.';$('[data-total]').textContent='$0.00';return}
+
+if (W > 22) {
+  W = 22;
+  inW.value = 22;
+}
+
+if (H > 22) {
+  H = 22;
+  inH.value = 22;
+}
       $('[data-err]').textContent='';
       var u=unit(c,W,H),dc=disc(q),per=u.p*(1-dc),total=per*q;
       $('[data-what]').textContent=c.label+' · '+W+' × '+H+'"'+(q>1?' · '+q+' pcs':'');
