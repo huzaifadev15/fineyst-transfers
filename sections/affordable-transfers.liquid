@@ -91,9 +91,52 @@
     line-height: 1.15;
   }
 
-  #shopify-section-{{ section.id }} .shop-heading {
-    color: #104241 !important;
+  
+#shopify-section-{{ section.id }} .shop-heading {
+  font-family: var(--font-primary) !important;
+  font-size: var(--at-heading-size-desktop) !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  color: var(--at-heading) !important;
+  text-align: center;
+  
+}
+
+
+
+/* Restore heading spacing */
+
+#shopify-section-{{ section.id }} .benefits-panel {
+  margin-bottom: 48px !important;
+}
+
+#shopify-section-{{ section.id }} .shop-heading {
+  margin-top: 0 !important;
+  margin-bottom: 36px !important;
+}
+
+@media (max-width: 749px) {
+  #shopify-section-{{ section.id }} .benefits-panel {
+    margin-bottom: 32px !important;
   }
+
+  #shopify-section-{{ section.id }} .shop-heading {
+    margin-bottom: 24px !important;
+  }
+}
+
+
+
+
+
+@media screen and (max-width: 749px) {
+  #shopify-section-{{ section.id }} .shop-heading {
+    font-size: var(--at-heading-size-mobile) !important;
+  }
+}
+
 
   #shopify-section-{{ section.id }} .benefits-subheading {
     margin: 0;

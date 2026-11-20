@@ -4692,3 +4692,97 @@ button[class*="button"]:not(:disabled):hover,
   }
 }
 
+
+
+
+/* MOBILE DROPDOWN MENU */
+
+@media (max-width: 768px) {
+
+  .mobile-nav-group {
+    width: 100%;
+  }
+
+  .mobile-submenu-toggle {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #fff;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .mobile-submenu-toggle svg {
+    transition: transform 0.25s ease;
+  }
+
+  .mobile-submenu-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .mobile-submenu[hidden] {
+    display: none !important;
+  }
+
+  .mobile-submenu {
+    padding: 4px 0 10px 15px;
+    border-left: 2px solid #B6F000;
+    margin-left: 16px;
+  }
+
+  .mobile-submenu-link {
+    display: block;
+    padding: 12px 14px;
+    color: #d5d5d5;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .mobile-submenu-link:hover {
+    color: #B6F000;
+  }
+}
+
+
+
+
+/* ========================================
+   FINEYST HOMEPAGE - UNIFIED HEADINGS
+   Match Hero Section Typography
+   ======================================== */
+
+body.template-index {
+  --fineyst-heading-font: var(--font-primary);
+  --fineyst-heading-size: clamp(26px, 3vw, 40px);
+}
+
+/* Homepage section headings */
+body.template-index .benefits-heading,
+body.template-index .shop-heading,
+body.template-index .section-heading,
+body.template-index .fx-head h2,
+body.template-index .process-head h2,
+body.template-index .media-split-copy h2,
+body.template-index .explainer h2,
+body.template-index .tiles-head h2,
+body.template-index .options-heading,
+body.template-index .bulk-heading,
+body.template-index .scroll-reviews-title {
+
+  font-family: var(--fineyst-heading-font) !important;
+  font-size: var(--fineyst-heading-size) !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.02em !important;
+  font-style: normal !important;
+  text-transform: none !important;
+}
+
+/* Mobile headings */
+@media (max-width: 749px) {
+  body.template-index {
+    --fineyst-heading-size: clamp(24px, 6vw, 30px);
+  }
+}
