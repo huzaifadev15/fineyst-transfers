@@ -202,14 +202,14 @@
         thumbnails rather than inside the carousel.
       {%- endcomment -%}
       {%- assign image_count = product.images.size -%}
-      {%- assign custom_gallery_assets = 't2.webp|dtf upload 1.webp|dtf upload 2.webp' | split: '|' -%}
+      {%- assign custom_gallery_assets = 'uv img.jpg|t2.webp|dtf upload 1.webp|dtf upload 2.webp' | split: '|' -%}
       {%- assign use_custom_gallery = false -%}
       {%- if product.handle == 'build-your-own-gang-sheet' -%}
         {%- assign use_custom_gallery = true -%}
         {%- assign gallery_image_count = custom_gallery_assets.size -%}
       {%- elsif product.handle == 'uv-dtf-gang-sheet-builder' -%}
         {%- assign use_custom_gallery = true -%}
-        {%- assign custom_gallery_assets = 'dtf upload 1.webp|dtf image 3.webp|t2.webp' | split: '|' -%}
+        {%- assign custom_gallery_assets = 'uv img.jpg|dtf upload 1.webp|dtf image 3.webp|t2.webp' | split: '|' -%}
         {%- assign gallery_image_count = custom_gallery_assets.size -%}
       {%- else -%}
         {%- assign gallery_image_count = image_count -%}
@@ -328,8 +328,7 @@
         </li>
         <li>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4"/><path d="M8 6.5h2"/></svg>
-          <span>Quality Printing You Can Trust
-          </span>
+          <span>Quality Printing You Can Trust</span>
         </li>
         <li>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>
