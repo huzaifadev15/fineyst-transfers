@@ -165,7 +165,7 @@
         "film-silver"
       ],
       "settings": {
-        "badge_text": "Glitter DTF Transfer",
+        "badge_text": "{{ product.metafields.custom.title_badge.value }}",
         "unit_price": "$0.02/sq in",
         "fulfillment_note": "Printed by Fineyst · Ships from the USA",
         "rating_value": "4.9",
