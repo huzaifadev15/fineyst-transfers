@@ -105,7 +105,7 @@
         "film-vivid": {
           "type": "film_style",
           "settings": {
-            "label": "VIVID AF",
+            "label": "RGB + CMYK",
             "option_value": "vivid-af",
             "swatch_css": "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)",
             "badge": "FREE UPGRADE"
