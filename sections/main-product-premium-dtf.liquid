@@ -680,10 +680,10 @@
 
       {%- comment -%} Cross-sell the blanks these transfers press onto. {%- endcomment -%}
       {% render 'pdp-upsell' %}
-
+       {%- comment -%}
       {% if product.description != blank %}
         <div class="pdp-description rte">{{ product.description }}</div>
-      {% endif %}
+      {% endif %}{%- endcomment -%}
     </div>
 
   </div>
@@ -872,8 +872,8 @@ dropzone.addEventListener('click', function (e) {
       "type": "film_style",
       "name": "Film Style",
       "settings": [
-        { "type": "text", "id": "label", "label": "Film name", "default": "VIVID AF" },
-        { "type": "text", "id": "option_value", "label": "Option value (matches product variant)", "default": "vivid-af" },
+        { "type": "text", "id": "label", "label": "Film name", "default": "RGB + CMYK" },
+        { "type": "text", "id": "option_value", "label": "Option value (matches product variant)", "default": "RGB + CMYK" },
         { "type": "text", "id": "swatch_css", "label": "Swatch CSS (color, gradient, etc.)", "default": "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)" },
         { "type": "text", "id": "badge", "label": "Badge text (optional, e.g. FREE UPGRADE)" }
       ]
