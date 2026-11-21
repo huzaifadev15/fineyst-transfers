@@ -1,17 +1,20 @@
 <style>
-  /* ── Gang Sheet specific overrides ─────────────────────────── */
-  .main-product-dtf-upload .pdp-features--grid {
+  .main-product-premium-dtf .pdp-features--grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px 24px;
   }
 
-  .pdp-meta-sep {
-    color: var(--color-border, #d1d5db);
-    margin: 0 6px;
+  .premium-guarantee {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--brand-text, #82C341);
   }
 
-  /* Size selector */
   .gang-sheet-form { display: flex; flex-direction: column; gap: 20px; margin-top: 18px; }
   .gang-section-title {
     font-size: 14px;
@@ -19,45 +22,167 @@
     color: var(--color-text, #111);
     margin-bottom: 10px;
   }
-  .gang-section-note { font-weight: 400; color: var(--color-text-muted, #6b7280); }
-
-  .gang-sizes {
-    display: grid;
-    grid-template-columns: repeat(9, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .gang-size-btn {
+  .gang-preview { padding: 8px 4px 4px; }
+  .gang-preview-stage {
     position: relative;
+    margin: 30px auto 10px;
+    padding: 0 30px 20px;
+    max-width: 420px;
+  }
+  .gang-preview-delete {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
-    padding: 10px 6px;
-    border: 1.5px solid var(--color-border, #d1d5db);
+    width: 32px;
+    height: 32px;
+    border: none;
     border-radius: 8px;
-    background: var(--color-bg, #fff);
+    background: #6b7280;
+    color: #fff;
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    text-align: center;
+    transition: background 0.15s;
   }
-  .gang-size-btn.is-active {
-    border-color: var(--color-accent, #12A150);
-    background: color-mix(in srgb, var(--color-accent, #12A150) 8%, transparent);
+  .gang-preview-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
   }
-  .gang-size-label { font-size: 13px; font-weight: 600; color: var(--color-text, #111); }
-  .gang-size-price { font-size: 12px; color: var(--color-text, #111); }
-  .gang-size-off {
-    font-size: 10px;
+  .gang-preview-rail {
+    position: absolute;
+    top: 0;
+    bottom: 20px;
+    width: 8px;
+    border-left: 2px dashed #B6F000;
+    border-right: 2px dashed #B6F000;
+  }
+  .gang-preview-rail--left { left: 22px; }
+  .gang-preview-rail--right { right: 22px; }
+  .gang-preview-dim {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    color: var(--color-text-muted, #6b7280);
+    font-size: 12px;
+  }
+  .gang-preview-dim--w {
+    top: -24px;
+    left: 30px;
+    right: 30px;
+    justify-content: center;
+    border-top: 1.5px solid var(--color-accent, #12A150);
+  }
+  .gang-preview-dim--w::before, .gang-preview-dim--w::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    width: 1.5px;
+    height: 10px;
+    background: var(--color-accent, #12A150);
+  }
+  .gang-preview-dim--w::before { left: 0; }
+  .gang-preview-dim--w::after { right: 0; }
+  .gang-preview-dim--w span { background: #fff; padding: 0 6px; margin-top: -8px; }
+  .gang-preview-dim--h {
+    top: 0;
+    bottom: 20px;
+    left: -6px;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1.5px solid var(--color-accent, #12A150);
+  }
+  .gang-preview-dim--h::before, .gang-preview-dim--h::after {
+    content: '';
+    position: absolute;
+    left: -5px;
+    height: 1.5px;
+    width: 10px;
+    background: var(--color-accent, #12A150);
+  }
+  .gang-preview-dim--h::before { top: 0; }
+  .gang-preview-dim--h::after { bottom: 0; }
+  .gang-preview-dim--h span { background: #fff; padding: 6px 0; writing-mode: vertical-rl; transform: rotate(180deg); }
+  .gang-preview-caption { text-align: center; font-size: 13px; color: var(--color-text, #111); margin: 6px 0 4px; }
+  .gang-preview-enlarge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 4px;
+    border: none;
+    background: none;
+    color: var(--brand-text, #82C341);
+    font-family: inherit;
+    font-size: 13px;
     font-weight: 600;
-    color: #16a34a;
-    background: #dcfce7;
-    border-radius: 4px;
-    padding: 1px 5px;
+    cursor: pointer;
   }
 
-  /* Film style */
+  .gang-size-help { font-size: 13px; color: var(--color-text-muted, #6b7280); margin: -4px 0 14px; }
+  .gang-size-help a { color: var(--brand-text, #82C341); font-weight: 600; text-decoration: none; }
+  .gang-size-help a:hover { text-decoration: underline; }
+
+  .gang-size-table { display: flex; flex-direction: column; }
+  .gang-size-row {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr 0.8fr 1fr 0.9fr;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-border, #e5e7eb);
+  }
+  .gang-size-row--head {
+    border-top: 1px solid var(--color-border, #e5e7eb);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text, #111);
+  }
+  .gang-size-cell { display: flex; align-items: center; gap: 6px; }
+  .gang-size-width {
+    justify-content: space-between;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border, #d1d5db);
+    border-radius: 8px;
+    background: #f3f4f6;
+    color: var(--color-text-muted, #6b7280);
+    font-weight: 600;
+  }
+  .gang-size-cell select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border, #d1d5db);
+    border-radius: 8px;
+    background: var(--color-bg, #fff);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--color-text, #111);
+    cursor: pointer;
+  }
+  .gang-size-cell input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border, #d1d5db);
+    border-radius: 8px;
+    background: var(--color-bg, #fff);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--color-text, #111);
+  }
+  .gang-size-price-cell { font-size: 14px; font-weight: 700; color: var(--color-text, #111); }
+  .gang-size-price-cell small { font-weight: 400; color: var(--color-text-muted, #6b7280); }
+  .gang-size-total-cell { font-size: 14px; font-weight: 700; color: var(--color-text, #111); }
+  .gang-size-off-cell { font-size: 13px; font-weight: 600; color: #16a34a; }
+
+  @media (max-width: 749px) {
+    .gang-size-row { grid-template-columns: repeat(2, 1fr); row-gap: 8px; }
+    .gang-size-row--head { display: none; }
+  }
+
   .gang-films {
     display: flex;
     flex-wrap: wrap;
@@ -101,88 +226,11 @@
   }
   .gang-film-check { color: var(--brand-text, #82C341); display: flex; align-items: center; }
 
-  /* Selected size / film / price recap above the builder CTA */
-  .gang-selection-summary {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px 12px;
-    margin: 16px 0 10px;
-    padding: 12px 14px;
-    border: 1px solid #E8EAEE;
-    border-radius: 10px;
-    background: #F8FAFC;
-    font-size: 14px;
-  }
-  .gang-selection-label { color: #667085; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .gang-selection-value { color: #101828; }
-  .gang-selection-sep { color: #98A2B3; margin: 0 4px; }
-  .gang-selection-price { margin-left: auto; display: inline-flex; align-items: baseline; gap: 8px; }
-  .gang-selection-price strong { font-size: 18px; color: #101828; }
-  .gang-selection-price s { color: #98A2B3; }
-  .gang-selection-price em { font-style: normal; color: #067647; font-weight: 600; font-size: 12px; }
-
-  /* CTA button */
-  
-.gang-builder-btn {
-  width: 100%;
-  justify-content: center;
-  padding: 16px;
-  font-size: 15px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-weight: 700;
-  text-decoration: none;
-  border-radius: 8px;
-  background: #0B3D2E !important;
-  color: #FFFFFF !important;
-}
-
-
-  /* Rewards */
-  /* Rewards bar: filled grey strip with the percentage boxed on the left,
-     label and LEARN MORE inline, matching the Ninja layout. */
-  .gang-rewards {
-    margin-top: 14px;
-    border: 1px solid #E8EAEE;
-    border-radius: 10px;
-    background: #F4F6F8;
-    padding: 12px 14px;
-  }
-  .gang-rewards-inner { display: flex; align-items: center; gap: 14px; }
-  .gang-rewards-pct {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    flex-shrink: 0;
-    min-width: 62px;
-    padding: 6px 8px;
-    border-radius: 8px;
-    background: #fff;
-    border: 1px solid #E8EAEE;
-    line-height: 1.1;
-    text-align: center;
-  }
-  .gang-rewards-pct em { font-style: normal; font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #667085; }
-  .gang-rewards-pct strong { font-size: 19px; font-weight: 900; color: #101828; }
-  .gang-rewards-text { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: #475467; }
-  .gang-rewards-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-  .gang-rewards-label { font-size: 12px; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; color: #101828; }
-  .gang-rewards-text p { margin: 0; }
-  .gang-rewards-more {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    color: var(--brand-text, #82C341);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-  .gang-rewards-text p { margin: 0; color: var(--color-text-muted, #6b7280); }
+  .main-product-premium-dtf .btn-checkout { display: block; width: 100%; background: #0B3D2E; color: #fff; border: none; border-radius: 10px; padding: 18px 24px; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; margin-top: 16px; text-align: center; }
+  .main-product-premium-dtf .btn-checkout:disabled { background: #C9D2DE; cursor: not-allowed; }
 
   @media (max-width: 749px) {
-    .main-product-dtf-upload .pdp-features--grid { grid-template-columns: 1fr; }
+    .main-product-premium-dtf .pdp-features--grid { grid-template-columns: 1fr; }
     .gang-sizes { grid-template-columns: repeat(3, 1fr); }
   }
 </style>
@@ -192,27 +240,21 @@
   assign rating_count = product.metafields.reviews.rating_count | default: section.settings.rating_count
 -%}
 
-<section class="main-product main-product-dtf-upload pdp">
+<section class="main-product main-product-premium-dtf pdp" data-sheet-width="{{ section.settings.sheet_width }}">
   <div class="container pdp-inner">
 
     <div class="pdp-media">
-      {%- comment -%}
-        Same gallery as the transfers PDP: images become slides, arrows only
-        appear when there is more than one, and product videos render below the
-        thumbnails rather than inside the carousel.
-      {%- endcomment -%}
       {%- assign image_count = product.images.size -%}
-      {%- assign custom_gallery_assets = 'uv img.jpg|t2.webp|dtf upload 1.webp|dtf upload 2.webp' | split: '|' -%}
+      {%- assign custom_gallery_assets = 'dtf images 1.webp|dtf images 2.webp|dtf image 3.webp|dtf image 4.webp|upload dtf.webp|t3.webp' | split: '|' -%}
       {%- assign use_custom_gallery = false -%}
-      {%- if product.handle == 'build-your-own-gang-sheet' -%}
+      {%- if product.handle == 'premium-dtf-gang-sheets' -%}
         {%- assign use_custom_gallery = true -%}
-        {%- assign gallery_image_count = custom_gallery_assets.size -%}
-      {%- elsif product.handle == 'uv-dtf-gang-sheet-builder' -%}
-        {%- assign use_custom_gallery = true -%}
-        {%- assign custom_gallery_assets = 'uv img.jpg|dtf upload 1.webp|dtf image 3.webp|t2.webp' | split: '|' -%}
         {%- assign gallery_image_count = custom_gallery_assets.size -%}
       {%- else -%}
         {%- assign gallery_image_count = image_count -%}
+        {%- if image_count > 0 -%}
+          {%- assign gallery_image_count = image_count | plus: 2 -%}
+        {%- endif -%}
       {%- endif -%}
 
       <div class="product-gallery" data-gallery>
@@ -227,20 +269,50 @@
             {%- for asset in custom_gallery_assets -%}
               <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
                 <img src="{{ asset | asset_url }}"
-                     alt="Gang sheet image {{ forloop.index }}"
+                     alt="DTF gang sheet image {{ forloop.index }}"
                      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
                      sizes="(min-width: 990px) 45vw, 100vw">
               </div>
             {%- endfor -%}
           {%- elsif image_count > 0 -%}
             {%- for image in product.images -%}
+              {%- assign slide_image_src = image | image_url: width: 1400 -%}
+              {%- if image.src contains '22c9aa73-9f2b-459c-902f-6d6da73398ce' -%}
+                {%- assign slide_image_src = 't1.webp' | asset_url -%}
+              {%- elsif image.src contains 'UV-premium-DTF-gangsheet-V3.avif' -%}
+                {%- assign slide_image_src = 't15.webp' | asset_url -%}
+              {%- elsif image.src contains 'dtf-p-2.jpg' -%}
+                {%- assign slide_image_src = 'dtf images 1.webp' | asset_url -%}
+              {%- elsif image.src contains 'dtf-p-4.jpg' -%}
+                {%- assign slide_image_src = 'dtf images 2.webp' | asset_url -%}
+              {%- elsif image.src contains 'dtf-p-3.jpg' -%}
+                {%- assign slide_image_src = 'dtf image 3.webp' | asset_url -%}
+              {%- elsif image.src contains 'dtf-p-5.jpg' -%}
+                {%- assign slide_image_src = 'dtf image 4.webp' | asset_url -%}
+              {%- elsif image.src contains 'gangsheet-mixmatch.jpg' -%}
+                {%- assign slide_image_src = 'upload dtf.webp' | asset_url -%}
+              {%- endif -%}
               <div class="gallery-slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide>
-                <img src="{{ image | image_url: width: 1400 }}"
+                <img src="{{ slide_image_src }}"
                      alt="{{ image.alt | escape }}"
                      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
                      sizes="(min-width: 990px) 45vw, 100vw">
               </div>
             {%- endfor -%}
+            {%- assign upload_dtf_index = image_count -%}
+            {%- assign t3_index = image_count | plus: 1 -%}
+            <div class="gallery-slide" data-gallery-slide>
+              <img src="{{ 'upload dtf.webp' | asset_url }}"
+                   alt="DTF gang sheet upload"
+                   loading="lazy"
+                   sizes="(min-width: 990px) 45vw, 100vw">
+            </div>
+            <div class="gallery-slide" data-gallery-slide>
+              <img src="{{ 't3.webp' | asset_url }}"
+                   alt="DTF transfer print"
+                   loading="lazy"
+                   sizes="(min-width: 990px) 45vw, 100vw">
+            </div>
           {%- else -%}
             <div class="hero-media-placeholder"></div>
           {%- endif -%}
@@ -264,13 +336,35 @@
               </button>
             {%- endfor -%}
           {%- else -%}
-            {%- for image in product.images -%}
-              <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
-                      data-gallery-thumb data-index="{{ forloop.index0 }}"
-                      aria-label="View image {{ forloop.index }}">
-                <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
-              </button>
-            {%- endfor -%}
+          {%- for image in product.images -%}
+            {%- assign thumb_image_src = image | image_url: width: 200 -%}
+            {%- if image.src contains '22c9aa73-9f2b-459c-902f-6d6da73398ce' -%}
+              {%- assign thumb_image_src = 't1.webp' | asset_url -%}
+            {%- elsif image.src contains 'UV-premium-DTF-gangsheet-V3.avif' -%}
+              {%- assign thumb_image_src = 't15.webp' | asset_url -%}
+            {%- elsif image.src contains 'dtf-p-2.jpg' -%}
+              {%- assign thumb_image_src = 'dtf images 1.webp' | asset_url -%}
+            {%- elsif image.src contains 'dtf-p-4.jpg' -%}
+              {%- assign thumb_image_src = 'dtf images 2.webp' | asset_url -%}
+            {%- elsif image.src contains 'dtf-p-3.jpg' -%}
+              {%- assign thumb_image_src = 'dtf image 3.webp' | asset_url -%}
+            {%- elsif image.src contains 'dtf-p-5.jpg' -%}
+              {%- assign thumb_image_src = 'dtf image 4.webp' | asset_url -%}
+            {%- elsif image.src contains 'gangsheet-mixmatch.jpg' -%}
+              {%- assign thumb_image_src = 'upload dtf.webp' | asset_url -%}
+            {%- endif -%}
+            <button class="gallery-thumb{% if forloop.first %} is-active{% endif %}" type="button"
+                    data-gallery-thumb data-index="{{ forloop.index0 }}"
+                    aria-label="View image {{ forloop.index }}">
+              <img src="{{ thumb_image_src }}" alt="" loading="lazy">
+            </button>
+          {%- endfor -%}
+          <button class="gallery-thumb" type="button" data-gallery-thumb data-index="{{ upload_dtf_index }}" aria-label="View image {{ upload_dtf_index | plus: 1 }}">
+            <img src="{{ 'upload dtf.webp' | asset_url }}" alt="" loading="lazy">
+          </button>
+          <button class="gallery-thumb" type="button" data-gallery-thumb data-index="{{ t3_index }}" aria-label="View image {{ t3_index | plus: 1 }}">
+            <img src="{{ 't3.webp' | asset_url }}" alt="" loading="lazy">
+          </button>
           {%- endif -%}
         </div>
       {%- endif -%}
@@ -285,6 +379,19 @@
           {%- endfor -%}
         </div>
       {%- endif -%}
+
+      {% if section.settings.feature_video != blank or section.settings.feature_image %}
+        <a class="gallery-feature" href="{{ section.settings.feature_link | default: '#' }}">
+          {% if section.settings.feature_video != blank %}
+            <video autoplay muted loop playsinline preload="metadata"
+                   {% if section.settings.feature_image %}poster="{{ section.settings.feature_image | image_url: width: 900 }}"{% endif %}>
+              <source src="{{ section.settings.feature_video | file_url }}" type="video/mp4">
+            </video>
+          {% else %}
+            {{ section.settings.feature_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'See VIVID AF in action' }}
+          {% endif %}
+        </a>
+      {% endif %}
     </div>
 
     <div class="pdp-info">
@@ -305,11 +412,9 @@
           {% endif %}
         </span>
         {% if section.settings.fulfillment_note != blank %}
-          <span class="pdp-meta-sep">|</span>
           <span class="pdp-meta-item">{{ section.settings.fulfillment_note }}</span>
         {% endif %}
         {% if rating_count != blank %}
-          <span class="pdp-meta-sep">|</span>
           <span class="pdp-meta-item pdp-meta-rating">
             <span class="pdp-stars" aria-hidden="true">★★★★★</span>
             <a href="#reviews">{{ rating_count }} Reviews</a>
@@ -338,135 +443,239 @@
 
       <div class="pdp-strip">
         <a class="pdp-strip-link" href="{{ section.settings.volume_link | default: '#size-select' }}">{{ section.settings.volume_text }}</a>
-        <span class="pdp-strip-sep"></span>
         <span class="pdp-strip-item pdp-delivery" data-delivery data-cutoff-hour="{{ section.settings.cutoff_hour }}">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.5L12 12.5l8.7-5M12 21.5v-9"/></svg>
           Fastest Delivery <strong data-delivery-date>—</strong> order in <strong data-delivery-countdown>—</strong>
         </span>
-        <span class="pdp-strip-sep"></span>
         <span class="pdp-strip-item">No Minimums, Setup or Art Fees</span>
       </div>
 
-      <div class="gang-sheet-form" id="size-select" data-gang-form>
-
-        <div class="gang-size-section">
-          <h2 class="gang-section-title">Select size <span class="gang-section-note">(all sizes are {{ section.settings.sheet_width }} inches wide)</span></h2>
-          <div class="gang-sizes" data-gang-sizes>
-            {% for block in section.blocks %}
-              {% if block.type == 'sheet_size' %}
-                <button
-                  type="button"
-                  class="gang-size-btn {% if forloop.first %}is-active{% endif %}"
-                  {{ block.shopify_attributes }}
-                  data-gang-size
-                  data-ft="{{ block.settings.size_ft | default: block.settings.label }}"
-                  data-variant-id="{{ block.settings.variant_id }}"
-                  data-price="{{ block.settings.price }}"
-                  data-compare="{{ block.settings.compare_price }}"
-                  data-discount="{{ block.settings.discount_pct }}"
-                  aria-pressed="{{ forloop.first }}"
-                >
-                  <span class="gang-size-label">{{ block.settings.label }}</span>
-                  <span class="gang-size-price">{{ block.settings.price }}</span>
-                  {% if block.settings.discount_pct != blank and block.settings.discount_pct != '0' %}
-                    <span class="gang-size-off">{{ block.settings.discount_pct }}% off</span>
-                  {% endif %}
-                </button>
-              {% endif %}
-            {% endfor %}
+      <div class="upload-card">
+        <div class="upload-card-head">
+          <h2>Upload Your Artwork</h2>
+          <div class="upload-tabs">
+            <button type="button" class="upload-tab is-active">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+              Upload
+            </button>
+            <a class="upload-tab" href="/pages/design-library">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M4 17l5-5 4 4 3-2 4 4"/></svg>
+              Previous Designs
+            </a>
           </div>
         </div>
 
-        <div class="gang-film-section">
-          <h2 class="gang-section-title">Select film style</h2>
-          <div class="gang-films" data-gang-films>
-            {% for block in section.blocks %}
-              {% if block.type == 'film_style' %}
-                <button
-                  type="button"
-                  class="gang-film-btn {% if forloop.first %}is-active{% endif %}"
-                  {{ block.shopify_attributes }}
-                  data-gang-film
-                  data-film-id="{{ block.settings.option_value }}"
-                  aria-pressed="{{ forloop.first }}"
-                >
-                  {% if block.settings.badge != blank %}
-                    <span class="gang-film-badge">{{ block.settings.badge }}</span>
-                  {% endif %}
-                  <span class="gang-film-swatch" style="background: {{ block.settings.swatch_css }};"></span>
-                  <span class="gang-film-name">{{ block.settings.label }}</span>
-                  {% if forloop.first %}<span class="gang-film-check" aria-hidden="true">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
-                  </span>{% endif %}
-                </button>
-              {% endif %}
-            {% endfor %}
+        <div class="upload-card-body">
+          
+<div class="upload-dropzone" data-upload-dropzone>
+  <div class="upload-dz-main">
+    <div class="upload-dz-art" aria-hidden="true">
+      <svg width="150" height="120"
+           viewBox="0 0 150 120" fill="none">
+        <rect x="8" y="26" width="84" height="76"
+              rx="10" transform="rotate(-10 50 64)"
+              fill="#fff" stroke="#B6F000"
+              stroke-width="2"/>
+        <rect x="38" y="14" width="84" height="76"
+              rx="10" fill="#fff"
+              stroke="#0B3D2E" stroke-width="3"/>
+        <rect x="50" y="26" width="60" height="52"
+              rx="6" fill="#0B3D2E"/>
+        <circle cx="66" cy="40" r="5"
+                fill="#B6F000"/>
+        <path d="M50 78L68 54l12 14 8-8 22 18z"
+              fill="#B6F000"/>
+        <circle cx="108" cy="88" r="20"
+                fill="#0B3D2E"
+                stroke="#fff" stroke-width="4"/>
+        <path d="M108 97V80M101 87l7-7 7 7"
+              stroke="#B6F000"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+        <path d="M126 12l4 9M136 20l-2 8M118 8l1 8"
+              stroke="#0B3D2E"
+              stroke-width="3"
+              stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <span class="upload-dz-divider"
+          aria-hidden="true"></span>
+
+    <div class="upload-dz-copy">
+      <p class="upload-title">
+        Upload Your Gang Sheet
+      </p>
+
+      <p class="upload-sub">
+        Drag and drop your file here or click to browse
+      </p>
+
+      <input
+        type="file"
+        accept="image/*,.pdf,.ai,.eps,.svg,.psd"
+        hidden
+        data-upload-input
+      >
+
+      <button
+        type="button"
+        class="btn-blue upload-browse-btn"
+        data-upload-browse>
+        <svg width="18" height="18"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2.2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="M12 15V4M8 8l4-4 4 4"/>
+          <path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>
+        </svg>
+        Browse Files
+      </button>
+    </div>
+  </div>
+
+  <div class="upload-types">
+    <span class="upload-types-label">
+      Accepted File Types:
+    </span>
+    <span class="upload-type">PNG</span>
+    <span class="upload-type">JPG</span>
+    <span class="upload-type">JPEG</span>
+    <span class="upload-type">SVG</span>
+    <span class="upload-type">PDF</span>
+    <span class="upload-type">AI</span>
+    <span class="upload-type">EPS</span>
+    <span class="upload-type">PSD</span>
+    <span class="upload-type">TIFF</span>
+    <span class="upload-type">WEBP</span>
+  </div>
+
+  <ul class="upload-file-list"
+      data-upload-file-list></ul>
+</div>
+
+          <div class="gang-preview" data-gang-preview hidden>
+            <button type="button" class="gang-preview-delete" data-gang-preview-delete aria-label="Remove artwork">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>
+            </button>
+            <div class="gang-preview-stage">
+              <div class="gang-preview-dim gang-preview-dim--w"><span data-gang-preview-w>—</span></div>
+              <div class="gang-preview-dim gang-preview-dim--h"><span data-gang-preview-h>—</span></div>
+              <span class="gang-preview-rail gang-preview-rail--left"></span>
+              <span class="gang-preview-rail gang-preview-rail--right"></span>
+              <img class="gang-preview-img" data-gang-preview-img alt="Your uploaded artwork">
+            </div>
+            <p class="gang-preview-caption"><strong>Preview:</strong> The image will print as shown above.</p>
+            <button type="button" class="gang-preview-enlarge" data-gang-preview-enlarge>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              Click to enlarge
+            </button>
           </div>
         </div>
+      </div>
 
-        <div class="gang-selection-summary" data-gang-summary>
-          <span class="gang-selection-label">Your selection</span>
-          <span class="gang-selection-value">
-            <strong data-gang-summary-size>—</strong>
-            <span class="gang-selection-sep">·</span>
-            <strong data-gang-summary-film>—</strong>
-          </span>
-          <span class="gang-selection-price">
-            <strong data-gang-summary-price>—</strong>
-            <s data-gang-summary-compare hidden></s>
-            <em data-gang-summary-off hidden></em>
-          </span>
+      {% if section.settings.guarantee_text != blank %}
+        <div class="premium-guarantee">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>{{ section.settings.guarantee_text }}</span>
         </div>
+      {% endif %}
 
-        <a
-          href="{{ section.settings.builder_url | default: '/apps/gang-sheet-builder' }}"
-          class="btn-blue btn-blue--lg gang-builder-btn"
-          data-gang-builder-cta
-          data-builder-base="{{ section.settings.builder_url | default: '/apps/gang-sheet-builder' }}"
-        >
-          {{ section.settings.builder_cta }}
-        </a>
+      <div class="pdp-form" id="size-select">
+        <div class="gang-sheet-form" data-gang-form>
 
-        {% if section.settings.rewards_cashback != blank %}
-          <div class="gang-rewards">
-            <div class="gang-rewards-inner">
-              <span class="gang-rewards-pct"><em>Up to</em><strong>{{ section.settings.rewards_pct }}%</strong><em>Back</em></span>
-              <div class="gang-rewards-text">
-                <span class="gang-rewards-head">
-                  <span class="gang-rewards-label">{{ section.settings.rewards_label }}</span>
-                  {% if section.settings.rewards_link != blank %}
-                    <a class="gang-rewards-more" href="{{ section.settings.rewards_link }}">LEARN MORE</a>
-                  {% endif %}
-                </span>
-                <p>{{ section.settings.rewards_cashback }}</p>
+          <div class="gang-film-section">
+            <h2 class="gang-section-title">Select film style</h2>
+            <div class="gang-films" data-gang-films>
+              {% for block in section.blocks %}
+                {% if block.type == 'film_style' %}
+                  <button
+                    type="button"
+                    class="gang-film-btn {% if forloop.first %}is-active{% endif %}"
+                    {{ block.shopify_attributes }}
+                    data-gang-film
+                    data-film-id="{{ block.settings.option_value }}"
+                    aria-pressed="{{ forloop.first }}"
+                  >
+                    {% if block.settings.badge != blank %}
+                      <span class="gang-film-badge">{{ block.settings.badge }}</span>
+                    {% endif %}
+                    <span class="gang-film-swatch" style="background: {{ block.settings.swatch_css }};"></span>
+                    <span class="gang-film-name">{{ block.settings.label }}</span>
+                    {% if forloop.first %}<span class="gang-film-check" aria-hidden="true">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+                    </span>{% endif %}
+                  </button>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="gang-size-section">
+            <h2 class="gang-section-title">Select your size</h2>
+            <p class="gang-size-help">Don't have a gang sheet ready to go? Use our <a href="{{ section.settings.builder_url | default: '/apps/gang-sheet-builder' }}">Online Builder</a> or <a href="{{ section.settings.template_url | default: '#' }}">Download a Template</a></p>
+
+            <div class="gang-size-table" data-gang-size-table>
+              <div class="gang-size-row gang-size-row--head">
+                <span>Width (inches)</span>
+                <span>Height (Feet)</span>
+                <span>Price</span>
+                <span>Qty</span>
+                <span>Total</span>
+                <span></span>
+              </div>
+              <div class="gang-size-row" data-size-row>
+                <div class="gang-size-cell gang-size-width">
+                  <span>{{ section.settings.sheet_width }}"</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+                </div>
+                <div class="gang-size-cell">
+                  <select data-gang-size-select>
+                    {% for block in section.blocks %}
+                      {% if block.type == 'sheet_size' %}
+                        <option
+                          value="{{ block.id }}"
+                          data-price="{{ block.settings.price }}"
+                          data-discount="{{ block.settings.discount_pct }}"
+                          data-variant-id="{{ block.settings.variant_id }}"
+                          {% if forloop.first %}selected{% endif %}
+                        >{{ block.settings.label }}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="gang-size-cell gang-size-price-cell">
+                  <span data-gang-size-price>—</span><small>ea.</small>
+                </div>
+                <div class="gang-size-cell">
+                  <input type="number" min="1" value="1" inputmode="numeric" data-gang-size-qty>
+                </div>
+                <div class="gang-size-cell gang-size-total-cell">
+                  <span data-gang-size-total>—</span>
+                </div>
+                <div class="gang-size-cell gang-size-off-cell">
+                  <span data-gang-size-off></span>
+                </div>
               </div>
             </div>
           </div>
-        {% endif %}
 
-        {% if section.settings.show_bnpl %}
-          <div class="bnpl">
-            <p class="bnpl-title">{{ section.settings.bnpl_title | default: 'Finance with Buy Now Pay Later options' }}</p>
-            <div class="bnpl-logos">
-              {% if section.settings.bnpl_image != blank %}
-                <img src="{{ section.settings.bnpl_image | image_url: width: 1200 }}" alt="Shop Pay, Afterpay, Klarna, Sezzle and Affirm" loading="lazy">
-              {% else %}
-                {%- comment -%}
-                  Falls back to the card-logo strip if the BNPL file has not been
-                  uploaded yet, so this never renders as a broken image.
-                {%- endcomment -%}
-                <img src="{{ section.settings.bnpl_static_image | default: 'payment.webp' | strip | asset_url }}"
-                     alt="Shop Pay, Afterpay, Klarna, Sezzle and Affirm"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='{{ 'payment-methods.webp' | asset_url }}';">
-              {% endif %}
-            </div>
-            {% if section.settings.bnpl_note != blank %}
-              <p class="bnpl-note">{{ section.settings.bnpl_note }}</p>
-            {% endif %}
-          </div>
-        {% endif %}
+          <input type="hidden" value="{{ product.selected_or_first_available_variant.id }}" data-gang-variant-input>
 
+        </div>
+
+        <span data-artwork-carriers hidden></span>
+        <div class="pdp-buy">
+          <button type="button" class="btn-checkout" data-checkout-btn
+            data-variant-id="gid://shopify/ProductVariant/{{ product.selected_or_first_available_variant.id }}"
+            data-product-title="{{ product.title | escape }}">
+            PROCEED TO CHECKOUT
+          </button>
+        </div>
       </div>
 
       {%- comment -%} Cross-sell the blanks these transfers press onto. {%- endcomment -%}
@@ -483,74 +692,38 @@
 
 <script>
 (function () {
-  const form = document.querySelector('[data-gang-form]');
+  const form = document.querySelector('.main-product-premium-dtf [data-gang-form]');
   if (!form) return;
 
-  const cta = form.querySelector('[data-gang-builder-cta]');
-  const sumSize = form.querySelector('[data-gang-summary-size]');
-  const sumFilm = form.querySelector('[data-gang-summary-film]');
-  const sumPrice = form.querySelector('[data-gang-summary-price]');
-  const sumCompare = form.querySelector('[data-gang-summary-compare]');
-  const sumOff = form.querySelector('[data-gang-summary-off]');
+  const sizeSelect = form.querySelector('[data-gang-size-select]');
+  const qtyInput = form.querySelector('[data-gang-size-qty]');
+  const priceEl = form.querySelector('[data-gang-size-price]');
+  const totalEl = form.querySelector('[data-gang-size-total]');
+  const offEl = form.querySelector('[data-gang-size-off]');
+  const variantInput = form.querySelector('[data-gang-variant-input]');
 
-  /* Label like "10 Feet" → 10. data-ft may already hold a bare number. */
-  function feetOf(btn) {
-    const match = String(btn.dataset.ft || '').match(/[\d.]+/);
-    return match ? match[0] : '';
+  function parsePrice(str) {
+    return parseFloat((str || '').replace(/[^0-9.]/g, '')) || 0;
+  }
+  function money(value) {
+    return '$' + value.toFixed(2);
+  }
+  function updateSize() {
+    if (!sizeSelect) return;
+    const opt = sizeSelect.options[sizeSelect.selectedIndex];
+    if (!opt) return;
+    const price = parsePrice(opt.dataset.price);
+    const qty = parseInt(qtyInput && qtyInput.value, 10) || 1;
+    if (priceEl) priceEl.textContent = money(price);
+    if (totalEl) totalEl.textContent = money(price * qty);
+    if (offEl) offEl.textContent = opt.dataset.discount ? opt.dataset.discount + '% off' : '';
+    if (variantInput && opt.dataset.variantId) variantInput.value = opt.dataset.variantId;
   }
 
-  /* Mirror the current size + film choice into the summary row and onto the
-     builder link, so the app proxy opens the editor pre-set to that sheet. */
-  function syncSelection() {
-    const size = form.querySelector('[data-gang-size].is-active');
-    const film = form.querySelector('[data-gang-film].is-active');
-    if (!size) return;
+  if (sizeSelect) sizeSelect.addEventListener('change', updateSize);
+  if (qtyInput) qtyInput.addEventListener('input', updateSize);
+  updateSize();
 
-    const label = size.querySelector('.gang-size-label');
-    const price = size.dataset.price || '';
-    const compare = size.dataset.compare || '';
-    const off = size.dataset.discount || '';
-    const filmName = film ? (film.querySelector('.gang-film-name') || {}).textContent || '' : '';
-
-    if (sumSize) sumSize.textContent = label ? label.textContent.trim() : '';
-    if (sumFilm) sumFilm.textContent = filmName.trim() || '—';
-    if (sumPrice) sumPrice.textContent = price;
-    if (sumCompare) {
-      sumCompare.textContent = compare;
-      sumCompare.hidden = !compare;
-    }
-    if (sumOff) {
-      sumOff.textContent = off ? off + '% off' : '';
-      sumOff.hidden = !off || off === '0';
-    }
-
-    if (!cta) return;
-    const base = cta.dataset.builderBase || '/apps/gang-sheet-builder';
-    const url = new URL(base, window.location.origin);
-    const ft = feetOf(size);
-    if (ft) url.searchParams.set('ft', ft);
-    if (film && film.dataset.filmId) url.searchParams.set('film', film.dataset.filmId);
-    if (price) url.searchParams.set('price', price);
-    if (size.dataset.variantId) url.searchParams.set('variant', size.dataset.variantId);
-    /* toString keeps an absolute builder_url intact; a relative one was
-       already resolved against the storefront origin above. */
-    cta.href = url.toString();
-  }
-
-  /* ── Size selection ── */
-  form.querySelectorAll('[data-gang-size]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      form.querySelectorAll('[data-gang-size]').forEach(b => {
-        b.classList.remove('is-active');
-        b.setAttribute('aria-pressed', 'false');
-      });
-      btn.classList.add('is-active');
-      btn.setAttribute('aria-pressed', 'true');
-      syncSelection();
-    });
-  });
-
-  /* ── Film style selection ── */
   form.querySelectorAll('[data-gang-film]').forEach(btn => {
     btn.addEventListener('click', () => {
       form.querySelectorAll('[data-gang-film]').forEach(b => {
@@ -568,74 +741,119 @@
         chk.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
         btn.appendChild(chk);
       }
-      syncSelection();
     });
   });
 
-  /* Prime the summary and builder link from the defaults rendered by Liquid. */
-  syncSelection();
+  const pdp = document.querySelector('.main-product-premium-dtf');
+  const dropzone = pdp && pdp.querySelector('[data-upload-dropzone]');
+  const fileInput = dropzone && dropzone.querySelector('[data-upload-input]');
+  const preview = pdp && pdp.querySelector('[data-gang-preview]');
 
-  /* ── Delivery countdown ── */
-  const deliveryEl = form.closest('section').querySelector('[data-delivery]');
-  if (deliveryEl) {
-    const cutoff = parseInt(deliveryEl.dataset.cutoffHour || '17', 10);
-    function updateDelivery() {
-      const now = new Date();
-      const cutoffToday = new Date(now);
-      cutoffToday.setHours(cutoff, 0, 0, 0);
-      const targetDate = now < cutoffToday ? cutoffToday : new Date(cutoffToday.getTime() + 86400000);
-      const diff = targetDate - now;
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const cdEl = deliveryEl.querySelector('[data-delivery-countdown]');
-      const dtEl = deliveryEl.querySelector('[data-delivery-date]');
-      if (cdEl) cdEl.textContent = h + 'h ' + m + 'm';
-      if (dtEl) {
-        const ship = new Date();
-        ship.setDate(ship.getDate() + (now < cutoffToday ? 1 : 2));
-        dtEl.textContent = ship.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      }
+  if (pdp && dropzone && fileInput && preview) {
+    const previewImg = preview.querySelector('[data-gang-preview-img]');
+    const previewW = preview.querySelector('[data-gang-preview-w]');
+    const previewH = preview.querySelector('[data-gang-preview-h]');
+    const deleteBtn = preview.querySelector('[data-gang-preview-delete]');
+    const enlargeBtn = preview.querySelector('[data-gang-preview-enlarge]');
+    const sheetWidth = parseFloat(pdp.getAttribute('data-sheet-width')) || 22;
+    let previewUrl = null;
+
+    function formatInches(value) {
+      return parseFloat(value.toFixed(2)) + '"';
     }
-    updateDelivery();
-    setInterval(updateDelivery, 60000);
+
+    function showPreview(file) {
+      if (!file || file.type.indexOf('image/') !== 0) return;
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      previewUrl = URL.createObjectURL(file);
+      if (previewImg) previewImg.src = previewUrl;
+
+      const probe = new Image();
+      probe.onload = function () {
+        const heightIn = probe.naturalWidth ? sheetWidth * (probe.naturalHeight / probe.naturalWidth) : sheetWidth;
+        if (previewW) previewW.textContent = formatInches(sheetWidth);
+        if (previewH) previewH.textContent = formatInches(heightIn);
+      };
+      probe.src = previewUrl;
+
+      dropzone.hidden = true;
+      preview.hidden = false;
+    }
+
+    function resetPreview() {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      previewUrl = null;
+      if (previewImg) previewImg.removeAttribute('src');
+      fileInput.value = '';
+      const fileList = dropzone.querySelector('[data-upload-file-list]');
+      if (fileList) fileList.innerHTML = '';
+      preview.hidden = true;
+      dropzone.hidden = false;
+    }
+
+    var browseBtn = dropzone.querySelector('[data-upload-browse]');
+    if (browseBtn) browseBtn.addEventListener('click', function () { fileInput.click(); });
+
+    
+dropzone.addEventListener('click', function (e) {
+  if (
+    e.target === dropzone ||
+    e.target.closest(
+      '.upload-dz-art, .upload-title, .upload-sub'
+    )
+  ) {
+    fileInput.click();
+  }
+});
+
+
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files && fileInput.files.length) showPreview(fileInput.files[0]);
+    });
+
+    dropzone.addEventListener('dragover', function (e) { e.preventDefault(); dropzone.classList.add('is-dragover'); });
+    dropzone.addEventListener('dragleave', function () { dropzone.classList.remove('is-dragover'); });
+    dropzone.addEventListener('drop', function (e) {
+      e.preventDefault();
+      dropzone.classList.remove('is-dragover');
+      if (e.dataTransfer && e.dataTransfer.files.length) showPreview(e.dataTransfer.files[0]);
+    });
+    if (deleteBtn) deleteBtn.addEventListener('click', resetPreview);
+    if (enlargeBtn) {
+      enlargeBtn.addEventListener('click', function () {
+        if (previewUrl) window.open(previewUrl, '_blank');
+      });
+    }
   }
 })();
 </script>
 
 {% schema %}
 {
-  "name": "DTF Gang Sheet Builder",
+  "name": "Premium DTF Product",
   "settings": [
-    { "type": "text", "id": "badge_text", "label": "Title badge", "default": "FREE Upgrade to VIVID AF" },
+    { "type": "text", "id": "badge_text", "label": "Title badge", "default": "VIVID AF" },
     { "type": "text", "id": "unit_price", "label": "\"As low as\" price", "default": "$0.02/sq in" },
-    { "type": "text", "id": "fulfillment_note", "label": "Fulfillment note", "default": "Printed by Ninja. Ships from US" },
+    { "type": "text", "id": "fulfillment_note", "label": "Fulfillment note", "default": "Ships from us" },
     { "type": "text", "id": "rating_value", "label": "Fallback rating", "default": "4.9" },
     { "type": "text", "id": "rating_count", "label": "Fallback review count", "default": "22,861" },
     { "type": "text", "id": "wash_count", "label": "Certified wash count", "default": "100" },
-    {"type": "header", "content": "Product feature highlights"},
-    {"type": "text", "id": "feature_1", "label": "Feature 1 text", "default": "Works on Cotton, Polyester & Blends"},
-    {"type": "text", "id": "feature_2", "label": "Feature 2 text", "default": "Vibrant Colors & Ultra-Fine Details"},
-    {"type": "text", "id": "feature_3", "label": "Feature 3 text", "default": "Quality Printing You Can Trust"},
-    {"type": "text", "id": "feature_4", "label": "Feature 4 text", "default": "Durable, Flexible DTF Prints"},
-    {"type": "paragraph", "content": "Per-product text: Products > Metafields > custom.feature_1 through custom.feature_4. Product-specific values override these defaults."},
-    { "type": "text", "id": "volume_text", "label": "Volume discount text", "default": "Buy More & Save Up To 67%" },
+    { "type": "header", "content": "Product feature highlights" },
+    {"type": "text", "id": "feature_1", "label": "Feature 1 default text", "default": "Sticks to Glass, Metal & Smooth Surfaces"},
+    {"type": "text", "id": "feature_2", "label": "Feature 2 default text", "default": "Vibrant Colors & Ultra-Fine Details"},
+    {"type": "text", "id": "feature_3", "label": "Feature 3 default text", "default": "No Heat Press Required"},
+    {"type": "text", "id": "feature_4", "label": "Feature 4 default text", "default": "Quality Printing You Can Trust"},
+    { "type": "text", "id": "volume_text", "label": "Volume discount text", "default": "Buy More & Save Up To 62%" },
     { "type": "url", "id": "volume_link", "label": "Volume discount link" },
     { "type": "range", "id": "cutoff_hour", "label": "Same-day cutoff hour (24h)", "min": 0, "max": 23, "step": 1, "default": 17 },
     { "type": "text", "id": "sheet_width", "label": "Sheet width (inches)", "default": "22" },
-    { "type": "url", "id": "builder_url", "label": "Gang sheet builder URL" },
-    { "type": "text", "id": "builder_cta", "label": "Builder button text", "default": "BUILD YOUR OWN GANG SHEET" },
-    { "type": "header", "content": "Ninja Rewards" },
-    { "type": "text", "id": "rewards_label", "label": "Rewards label", "default": "NINJA REWARDS CASHBACK" },
-    { "type": "text", "id": "rewards_pct", "label": "Max cashback %", "default": "10" },
-    { "type": "text", "id": "rewards_cashback", "label": "Cashback note", "default": "Earn up to $2.00 back on this item" },
-    { "type": "url", "id": "rewards_link", "label": "Rewards learn more link" },
-
-    { "type": "header", "content": "Buy now, pay later" },
-    { "type": "checkbox", "id": "show_bnpl", "label": "Show financing block", "default": true },
-    { "type": "text", "id": "bnpl_title", "label": "Financing title", "default": "Finance with Buy Now Pay Later options" },
-    { "type": "image_picker", "id": "bnpl_image", "label": "Provider logo strip" },
-    { "type": "text", "id": "bnpl_static_image", "label": "Static logo strip file", "info": "Filename in /assets. Defaults to the Shop Pay / Afterpay / Klarna / Sezzle / Affirm strip.", "default": "payment.webp" },
-    { "type": "textarea", "id": "bnpl_note", "label": "Legal note", "info": "Add your own provider and licence wording here." }
+    { "type": "url", "id": "builder_url", "label": "Online Gang Sheet Builder URL" },
+    { "type": "url", "id": "template_url", "label": "Downloadable template URL" },
+    { "type": "text", "id": "guarantee_text", "label": "Guarantee line text", "default": "The Fineyst Guarantee" },
+    { "type": "header", "content": "Gallery feature card" },
+    { "type": "image_picker", "id": "feature_image", "label": "Feature image / video poster" },
+    { "type": "text", "id": "feature_video", "label": "Feature video filename", "info": "MP4 uploaded to Content > Files, e.g. dtf-video-1.mp4" },
+    { "type": "url", "id": "feature_link", "label": "Feature card link" }
   ],
   "blocks": [
     {
@@ -643,7 +861,6 @@
       "name": "Sheet Size",
       "settings": [
         { "type": "text", "id": "label", "label": "Size label", "default": "1 Foot" },
-        { "type": "text", "id": "size_ft", "label": "Length in feet", "info": "Numeric value passed to the gang sheet builder (e.g. 2). Falls back to reading the label." },
         { "type": "text", "id": "price", "label": "Price (display)", "default": "$16.99" },
         { "type": "text", "id": "compare_price", "label": "Compare-at price" },
         { "type": "text", "id": "discount_pct", "label": "Discount % (leave blank for none)" },
@@ -663,7 +880,7 @@
   ],
   "presets": [
     {
-      "name": "DTF Gang Sheet Builder",
+      "name": "Premium DTF Product",
       "blocks": [
         { "type": "sheet_size", "settings": { "label": "1 Foot",  "price": "$16.99", "discount_pct": "" } },
         { "type": "sheet_size", "settings": { "label": "2 Feet",  "price": "$19.99", "discount_pct": "41" } },
