@@ -265,10 +265,10 @@
         "d8"
       ],
       "settings": {
-        "heading": "Product Details",
-        "body": "<p>Create bold, custom 3D puff transfers with Fineyst Transfers. Add a raised, textured finish to t-shirts, hoodies, sweatshirts, and other compatible apparel with premium puff heat transfers.</p><p>Our puff transfers give lettering, logos, and graphic designs a dimensional look that stands out from traditional flat prints. Whether you're creating custom merchandise for your clothing brand, business, team, or personal project, Fineyst makes ordering easy.</p><p>Upload your artwork or completed puff gang sheet, choose your preferred size, and place your order online.</p>",
-        "subheading": "Raised 3D Prints. Premium Finish.",
-        "subbody": "<p>Bring your designs to life with custom puff heat transfers featuring a raised, dimensional texture and bold visual appeal.</p><p>From oversized lettering and statement logos to creative apparel graphics, our puff transfer printing options help you create standout designs with a professional finish.</p><h4><br/>No Heat Press? We Print for You</h4><p><br/>Don't have a heat press machine? No problem! Fineyst offers custom DTF printing on apparel, so you can get your designs professionally printed on t-shirts, hoodies, and more. Simply upload your artwork, choose your apparel, and let us handle the printing.<br/><br/>Get custom printed apparel without buying equipment or pressing transfers yourself.</p>"
+        "heading": "",
+        "body": "<p></p>{{ product.description }}",
+        "subheading": "",
+        "subbody": ""
       }
     },
     "pdp-comparison": {
