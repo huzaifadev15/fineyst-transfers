@@ -425,19 +425,19 @@
       <ul class="pdp-features pdp-features--grid">
         <li>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3l3 2 3-2 5 3-2 4-2-1v12H8V9L6 10 4 6z"/></svg>
-          <span>Works on Cotton, Polyester & Blends</span>
+          <span>{{ product.metafields.custom.feature_1.value | default: section.settings.feature_1 | escape }}</span>
         </li>
         <li>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M18 16l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>
-          <span>Vibrant Colors & Ultra-Fine Details</span>
+          <span>{{ product.metafields.custom.feature_2.value | default: section.settings.feature_2 | escape }}</span>
         </li>
         <li>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4"/><path d="M8 6.5h2"/></svg>
-          <span>Durable, Flexible DTF Prints</span>
+          <span>{{ product.metafields.custom.feature_3.value | default: section.settings.feature_3 | escape }}</span>
         </li>
         <li>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>
-          <span>Quality Printing You Can Trust</span>
+          <span>{{ product.metafields.custom.feature_4.value | default: section.settings.feature_4 | escape }}</span>
         </li>
       </ul>
 
@@ -838,6 +838,11 @@ dropzone.addEventListener('click', function (e) {
     { "type": "text", "id": "rating_value", "label": "Fallback rating", "default": "4.9" },
     { "type": "text", "id": "rating_count", "label": "Fallback review count", "default": "22,861" },
     { "type": "text", "id": "wash_count", "label": "Certified wash count", "default": "100" },
+    { "type": "header", "content": "Product feature highlights" },
+    {"type": "text", "id": "feature_1", "label": "Feature 1 default text", "default": "Works on Cotton, Polyester & Blends"},
+    {"type": "text", "id": "feature_2", "label": "Feature 2 default text", "default": "Vibrant Colors & Ultra-Fine Details"},
+    {"type": "text", "id": "feature_3", "label": "Feature 3 default text", "default": "Durable, Flexible DTF Prints"},
+    {"type": "text", "id": "feature_4", "label": "Feature 4 default text", "default": "Quality Printing You Can Trust"},
     { "type": "text", "id": "volume_text", "label": "Volume discount text", "default": "Buy More & Save Up To 62%" },
     { "type": "url", "id": "volume_link", "label": "Volume discount link" },
     { "type": "range", "id": "cutoff_hour", "label": "Same-day cutoff hour (24h)", "min": 0, "max": 23, "step": 1, "default": 17 },
