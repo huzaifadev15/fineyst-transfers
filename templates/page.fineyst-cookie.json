@@ -1,0 +1,106 @@
+{
+  "sections": {
+    "main": {
+      "type": "fineyst-cookie",
+      "settings": {
+        "show_breadcrumb": true,
+        "show_navigation": true,
+        "eyebrow": "FINEYST TRANSFERS / PRIVACY & COOKIES",
+        "heading": "Cookie Policy",
+        "introduction": "This Cookie Policy explains how Fineyst Transfers uses cookies and similar technologies to operate our online store, remember preferences, support checkout, measure performance, and (where enabled and permitted) personalize marketing.",
+        "contact_heading": "Questions About Cookies?",
+        "contact_text": "If you have questions about how Fineyst Transfers uses cookies or personal information, contact our support team. For information about personal data, please also read our Privacy Policy.",
+        "show_tip": true,
+        "tip_title": "YOUR COOKIE CHOICES",
+        "tip_text": "You can adjust supported cookie preferences using the privacy or cookie settings presented on our store, if available. You can also manage cookies in your browser. Blocking necessary cookies can affect cart or checkout functionality.",
+        "cta_heading": "Need Help With Your Privacy Choices?",
+        "cta_text": "Contact Fineyst Transfers for help understanding this policy or finding relevant privacy information.",
+        "cta_label": "Contact Fineyst Support",
+        "show_cookie_table": true,
+        "inventory_heading": "Cookie Category Reference",
+        "inventory_note": "The following examples show how common e-commerce cookies can be used. This is not a live scan or verified cookie inventory for Fineyst Transfers.",
+        "contact_email": "info@fineysttransfers.com",
+        "cta_url": ""
+      },
+      "blocks": {
+        "cookie_01": {
+          "type": "policy",
+          "settings": {
+            "title": "What Are Cookies?",
+            "content": "<p>Cookies are small files that a website can store on your device. Similar technologies, such as pixels, tags and local storage, may also be used. They can help a store work correctly, remember your selections, understand usage and\u2014where permitted\u2014support advertising.</p><p>The cookies you encounter may vary by device, browser, region, consent settings and which features or third-party apps are enabled on the store.</p>"
+          }
+        },
+        "cookie_02": {
+          "type": "policy",
+          "settings": {
+            "title": "Strictly Necessary Cookies",
+            "content": "<p>Necessary cookies support core storefront functions, including security, shopping carts, checkout, session continuity and saving consent choices. Parts of our store may not work correctly if these are disabled.</p><p>Shopify storefronts can use cookies such as <strong>_tracking_consent</strong>, <strong>cart_currency</strong>, and <strong>secure_customer_sig</strong> depending on the feature used. These are platform examples, not a confirmed inventory of this storefront.</p>"
+          }
+        },
+        "cookie_03": {
+          "type": "policy",
+          "settings": {
+            "title": "Checkout & Payment Cookies",
+            "content": "<p>When you place an order, checkout and payment services may use cookies or similar technologies for secure payment processing, fraud prevention and transaction functionality.</p><p>Which providers are involved depends on the payment methods that are actually offered at checkout. We do not claim that any particular optional payment provider is active solely because it appears on another Fineyst website.</p>"
+          }
+        },
+        "cookie_04": {
+          "type": "policy",
+          "settings": {
+            "title": "Performance & Analytics Cookies",
+            "content": "<p>Analytics cookies can help us understand how visitors reach the store, interact with product pages and navigate checkout so we can improve content and performance.</p><p>Shopify analytics may be used. Other analytics tools, including Google Analytics or Microsoft Clarity, are relevant only if they have been configured and enabled for this store. Nonessential analytics may be subject to consent where required.</p>"
+          }
+        },
+        "cookie_05": {
+          "type": "policy",
+          "settings": {
+            "title": "Marketing & Advertising Cookies",
+            "content": "<p>If advertising integrations are enabled, marketing cookies or pixels may measure conversion performance, help us understand advertising campaigns or show more relevant promotions.</p><p>Examples of services an online store might connect include Meta, Google Ads and Pinterest. Mentioning these examples does not mean they are all currently in use. Where applicable, consent options may limit nonessential tracking.</p>"
+          }
+        },
+        "cookie_06": {
+          "type": "policy",
+          "settings": {
+            "title": "Functional Cookies & Preferences",
+            "content": "<p>Functional technologies may remember nonessential settings, such as display preferences, so the shopping experience is more convenient. Some functionality can be disabled or change when you decline optional cookies.</p>"
+          }
+        },
+        "cookie_07": {
+          "type": "policy",
+          "settings": {
+            "title": "Unclassified Cookies & Third-Party Tools",
+            "content": "<p>Some cookies or local storage entries may not yet be classified. New or updated Shopify apps, embedded services and integrations can change the technologies used over time.</p><p>Third-party providers may have their own privacy and cookie notices. A current cookie scan and your installed-app list should be reviewed before publishing an exact name, domain or retention-duration inventory.</p>"
+          }
+        },
+        "cookie_08": {
+          "type": "policy",
+          "settings": {
+            "title": "How to Manage Your Cookies",
+            "content": "<p>You can remove or block cookies through your browser settings. Your browser may also let you control third-party cookies or clear previously saved data.</p><p>If the Fineyst Transfers store displays a cookie banner or privacy preferences panel, use it to change the categories offered there. We have not included a fictional \u201cmanage preferences\u201d button because the correct link must be connected to your actual Shopify consent app or Shopify Customer Privacy setup.</p><p>Disabling essential cookies may interfere with login, cart or checkout functions. Changing preferences generally does not automatically delete cookies already stored by your browser.</p>"
+          }
+        },
+        "cookie_09": {
+          "type": "policy",
+          "settings": {
+            "title": "Policy Updates & Additional Information",
+            "content": "<p>We may update this policy to reflect changes to our storefront, technology providers, applicable requirements or privacy practices. Please check this page periodically for the current version.</p><p>This page should be read together with the Fineyst Transfers Privacy Policy, where available. If you have questions about your personal information or cookies, contact us using the information below.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "cookie_01",
+        "cookie_02",
+        "cookie_03",
+        "cookie_04",
+        "cookie_05",
+        "cookie_06",
+        "cookie_07",
+        "cookie_08",
+        "cookie_09"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
