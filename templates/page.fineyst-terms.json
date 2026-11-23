@@ -1,0 +1,106 @@
+{
+  "sections": {
+    "main": {
+      "type": "fineyst-terms",
+      "settings": {
+        "show_breadcrumb": true,
+        "show_navigation": true
+      },
+      "blocks": {
+        "term_01": {
+          "type": "policy",
+          "settings": {
+            "title": "Order Acceptance & Production",
+            "content": "<p>When you submit an order, you are responsible for confirming the selected product, dimensions, quantity, uploaded files, delivery details, and any other order specifications. An order confirmation acknowledges receipt of your order; we may contact you if clarification or additional information is needed before fulfillment.</p><p>Orders involving custom printing are prepared using the specifications submitted at checkout or otherwise agreed with our team. We may decline or cancel orders we cannot reasonably fulfill and will communicate the available next steps.</p>"
+          }
+        },
+        "term_02": {
+          "type": "policy",
+          "settings": {
+            "title": "Artwork Uploads & Customer Approval",
+            "content": "<p>You are responsible for reviewing names, spelling, sizing, image placement, resolution, transparency, and colors in artwork submitted to Fineyst Transfers. Please use print-ready files and follow the file requirements shown on the relevant product or design-builder page.</p><p>Unless we explicitly confirm that an artwork proof or separate approval step is included for your order, checkout does not guarantee a manual design review or proof. If our team provides a proof, review it carefully and respond before the stated deadline. Changes may not be possible once printing or fulfillment begins.</p>"
+          }
+        },
+        "term_03": {
+          "type": "policy",
+          "settings": {
+            "title": "DTF Transfers, Gang Sheets & UV DTF Stickers",
+            "content": "<p>DTF transfers are intended for compatible fabric applications using appropriate heat-press equipment and settings. UV DTF stickers are intended for suitable hard surfaces and do not use a heat press. These products are not interchangeable.</p><p>Gang-sheet customers are responsible for their chosen layout, artwork spacing, design sizes, and print-ready uploads. Fineyst Transfers will manufacture custom items based on the submitted specifications, subject to any corrections separately agreed in writing.</p>"
+          }
+        },
+        "term_04": {
+          "type": "policy",
+          "settings": {
+            "title": "Pricing & Payment",
+            "content": "<p>Prices and available options appear on the relevant product page or at checkout. Custom-order totals may vary according to the selected dimensions, quantity, materials, and services. Applicable taxes, shipping charges, and discounts will be displayed as part of the checkout process where required.</p><p>Payment must be successfully processed before an order enters fulfillment unless a separate written arrangement applies. We may correct a clearly erroneous price before accepting an order and will notify you if it affects your purchase.</p>"
+          }
+        },
+        "term_05": {
+          "type": "policy",
+          "settings": {
+            "title": "Production, Shipping & Delivery",
+            "content": "<p>Any production or delivery estimates displayed on our website are estimates rather than guaranteed arrival dates unless explicitly stated otherwise. Processing and transit times may be affected by artwork issues, order volume, holidays, destination, or carrier delays.</p><p>Customers must provide an accurate shipping address. If an address is incorrect or a package encounters a shipping issue, contact us promptly so we can review the available options. Please refer to our published Shipping Policy for the applicable details.</p>"
+          }
+        },
+        "term_06": {
+          "type": "policy",
+          "settings": {
+            "title": "Changes, Cancellations, Returns & Refunds",
+            "content": "<p>Because many Fineyst Transfers products are made to order using customer-selected specifications, requested changes or cancellations may be limited after production starts. Contact us as soon as possible if you need to modify an order.</p><p>Eligibility for returns, refunds, replacements, or remedies depends on the product, the circumstances, applicable law, and our published Refund Policy. Do not assume that all custom orders are automatically refundable or nonrefundable. If you receive an incorrect or potentially defective item, contact our team with your order number and clear photographs so we can review the issue.</p>"
+          }
+        },
+        "term_07": {
+          "type": "policy",
+          "settings": {
+            "title": "Application Instructions & Product Care",
+            "content": "<p>Results can vary by substrate, fabric, equipment, temperature, pressure, application technique, and aftercare. Follow the instructions supplied with your product and test your settings on appropriate materials before applying to a full production run.</p><p>Fineyst Transfers cannot guarantee identical results across all fabrics, hard surfaces, heat presses, or environments. If you are unsure whether a product is suitable for your project, contact us before ordering or applying it.</p>"
+          }
+        },
+        "term_08": {
+          "type": "policy",
+          "settings": {
+            "title": "Artwork Ownership & Intellectual Property",
+            "content": "<p>By submitting artwork, logos, names, or other content, you represent that you own the content or have the permissions needed to reproduce it. You grant Fineyst Transfers a limited right to use the submitted content solely to review, produce, and fulfill your order and provide related customer support.</p><p>We may refuse content that appears unlawful or infringes another party’s rights. We will not assume permission to feature your custom artwork in public marketing solely because you submitted an order.</p>"
+          }
+        },
+        "term_09": {
+          "type": "policy",
+          "settings": {
+            "title": "Website Content & Acceptable Use",
+            "content": "<p>Website descriptions, illustrations, and colors are provided for general guidance; screen settings and printing processes can affect how colors appear. You agree not to misuse the website, interfere with its operation, submit malicious files, or use our services for unlawful activities.</p><p>Except for content you own or are authorized to use, website photographs, design elements, branding, and text may not be copied or commercially reused without permission.</p>"
+          }
+        },
+        "term_10": {
+          "type": "policy",
+          "settings": {
+            "title": "Liability & Consumer Rights",
+            "content": "<p>To the extent permitted by applicable law, Fineyst Transfers is not responsible for indirect or consequential losses arising from misuse of products, unsuitable application materials, or errors in customer-supplied artwork. Nothing in these Terms excludes rights or remedies that cannot legally be excluded.</p><p>Nothing here changes any mandatory protections available to consumers under applicable law. If you believe an order has a problem, please contact us so we can investigate.</p>"
+          }
+        },
+        "term_11": {
+          "type": "policy",
+          "settings": {
+            "title": "Updates to These Terms",
+            "content": "<p>We may update these Terms & Conditions to reflect changes to our services, processes, or legal obligations. The version available on this page applies according to applicable law and the terms presented when an order was placed. Please review this page when making a purchase.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "term_01",
+        "term_02",
+        "term_03",
+        "term_04",
+        "term_05",
+        "term_06",
+        "term_07",
+        "term_08",
+        "term_09",
+        "term_10",
+        "term_11"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
