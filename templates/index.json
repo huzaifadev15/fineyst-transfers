@@ -541,7 +541,7 @@
             "title": "Build a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
             "text": "Create custom DTF gang sheets with our easy-to-use online builder. Arrange multiple designs on one sheet to make the most of your print space.",
-            "link": "/products/uv-dtf-gang-sheet-builder",
+            "link": "shopify://products/build-your-own-gang-sheet",
             "cta": "Build a DTF Gang Sheet"
           }
         },
