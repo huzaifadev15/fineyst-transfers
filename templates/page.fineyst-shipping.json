@@ -1,0 +1,101 @@
+{
+  "sections": {
+    "main": {
+      "type": "fineyst-shipping",
+      "settings": {
+        "show_breadcrumb": true,
+        "show_navigation": true,
+        "heading": "Shipping Policy",
+        "eyebrow": "FINEYST TRANSFERS / ORDER & DELIVERY INFORMATION",
+        "introduction": "Learn how Fineyst Transfers processes and ships orders for custom DTF transfers, UV DTF stickers, gang sheets, and printed apparel. Shipping options and any charges are shown at checkout.",
+        "contact_heading": "Contact Information",
+        "contact_text": "For help with shipping or tracking, please include your order number. You can reach Fineyst Transfers using the contact information below.",
+        "show_tip": true,
+        "tip_title": "SHIPPING TIP",
+        "tip_text": "Double-check your shipping address and print-ready artwork before checkout. Production time and carrier transit time are separate.",
+        "cta_heading": "Need Help With Your Order?",
+        "cta_text": "Our team can help with delivery questions, tracking details, and shipment-related concerns.",
+        "cta_label": "Contact Shipping Support"
+      },
+      "blocks": {
+        "ship_01": {
+          "type": "policy",
+          "settings": {
+            "title": "Processing Time",
+            "content": "<p>We prepare DTF transfers, UV DTF stickers, gang sheets, and print-on-blank orders after the order is received and the submitted artwork and order details are ready for production.</p><p>Production or processing estimates, where displayed on a product page or during checkout, refer to preparation before carrier pickup. Print-ready artwork, order size, inventory availability, order volume, weekends, and holidays may affect the timing. Any statement about printing or shipping within 24 hours is subject to the applicable product and order conditions and should not be understood as a guaranteed delivery date.</p>"
+          }
+        },
+        "ship_02": {
+          "type": "policy",
+          "settings": {
+            "title": "Shipping Methods & Delivery Timeframes",
+            "content": "<p>Available shipping services and delivery estimates are displayed during checkout based on your delivery address and the items in your cart.</p><p><strong>Processing time and transit time are separate.</strong> Shipping transit begins once the carrier accepts the package. Carrier estimates are not guaranteed arrival dates unless a specific guaranteed service is explicitly offered and confirmed.</p>"
+          }
+        },
+        "ship_03": {
+          "type": "policy",
+          "settings": {
+            "title": "Shipping Costs & Promotions",
+            "content": "<p>Shipping fees, if any, are shown at checkout before payment. Charges may vary depending on your location, selected service, package dimensions, and order contents.</p><p>Fineyst Transfers may offer free shipping on eligible transfer orders or other promotions. The eligibility rules and any exclusions are those shown in the current promotion and at checkout. Free shipping does not necessarily mean expedited shipping.</p>"
+          }
+        },
+        "ship_04": {
+          "type": "policy",
+          "settings": {
+            "title": "Tracking Your Order",
+            "content": "<p>When a shipping carrier and tracking service are used, tracking details will generally be included in the shipment confirmation notification or made available in your order-status information.</p><p>Tracking updates may take time to appear after the shipping label is created. If you have questions, contact us with your order number and the tracking information available to you.</p>"
+          }
+        },
+        "ship_05": {
+          "type": "policy",
+          "settings": {
+            "title": "Shipping Destinations & International Orders",
+            "content": "<p>Destinations we can serve will be indicated by the shipping options available at checkout. Availability for international shipments, military addresses, P.O. boxes, and other special destinations depends on the applicable carrier and service.</p><p>For international orders, customs processes may delay delivery. Import duties, taxes, and brokerage fees may apply based on destination rules; the amount and who collects them will depend on the checkout terms and applicable law. Contact us before ordering if you need clarification about your destination.</p>"
+          }
+        },
+        "ship_06": {
+          "type": "policy",
+          "settings": {
+            "title": "Shipping Address Accuracy",
+            "content": "<p>Please provide a complete and accurate shipping address, including apartment, suite, or business details where applicable. Review your information before submitting the order.</p><p>If you discover a mistake, contact Fineyst Transfers as soon as possible. Address changes cannot be guaranteed once an order has entered fulfillment or been handed to a carrier. If a package is returned as undeliverable, we will review re-shipment options and any applicable additional charges with you.</p>"
+          }
+        },
+        "ship_07": {
+          "type": "policy",
+          "settings": {
+            "title": "Potential Shipping Delays",
+            "content": "<p>Weather, holiday demand, carrier interruptions, incorrect addresses, customs examinations, unexpected production issues, or unusually large orders can delay delivery.</p><p>If an order is needed for a specific event or deadline, please contact us before purchasing to discuss available options. A requested date is not a delivery guarantee unless we explicitly confirm it.</p>"
+          }
+        },
+        "ship_08": {
+          "type": "policy",
+          "settings": {
+            "title": "Lost, Missing, or Damaged Packages",
+            "content": "<p>If tracking indicates a delivery problem or your package arrives damaged, contact our support team promptly. Please include your order number, shipping address, tracking details, and clear photos of the packaging and products if they were damaged.</p><p>We will review the circumstances and, when appropriate, assist with carrier inquiries and available remedies in accordance with our Refund Policy and applicable consumer protections. Please retain packaging until the issue is resolved.</p>"
+          }
+        },
+        "ship_09": {
+          "type": "policy",
+          "settings": {
+            "title": "Order Changes & Shipping Questions",
+            "content": "<p>Custom orders may move into production quickly. Contact us promptly if you need to request an address update, order correction, cancellation, or shipment-related change. We cannot guarantee changes after processing begins.</p><p>For shipping questions, you can use the contact details below. For returns, refunds, or replacements, refer to our published Refund Policy.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ship_01",
+        "ship_02",
+        "ship_03",
+        "ship_04",
+        "ship_05",
+        "ship_06",
+        "ship_07",
+        "ship_08",
+        "ship_09"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
