@@ -59,3 +59,16 @@
 .fy-shipping__body.rte th,.fy-shipping__body.rte td{padding:11px 12px;border:1px solid var(--fy-border);text-align:left;overflow-wrap:anywhere;}
 .fy-shipping__body.rte th{background:#f4f8f1;color:var(--fy-deep);font-weight:700;}
 @media(max-width:767px){.fy-shipping__body.rte table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;table-layout:auto}.fy-shipping__body.rte table th,.fy-shipping__body.rte table td{min-width:105px;white-space:normal}.fy-shipping__wrap{width:100%;overflow-wrap:anywhere}.fy-shipping__content{overflow:visible}.fy-shipping__heading,.fy-shipping__body{white-space:normal!important}.fy-shipping__heading>span:last-child{overflow-wrap:break-word!important;min-width:0!important}}
+
+
+
+/* Fineyst Shipping Policy — match Terms page width */
+@media screen and (min-width: 990px) {
+  .fineyst-shipping-page,
+  .fineyst-shipping {
+    max-width: 980px !important;
+    width: calc(100% - 48px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
