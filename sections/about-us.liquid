@@ -108,7 +108,7 @@
       <h1>{{ section.settings.heading }}</h1>
       {%- if section.settings.lead != blank -%}<p class="abt-lead">{{ section.settings.lead }}</p>{%- endif -%}
       <div class="abt-btns">
-        <a class="abt-btn abt-btn--primary" href="{{ section.settings.btn1_link | default: '/collections' }}">{{ section.settings.btn1_label }}</a>
+        <a class="abt-btn abt-btn--primary" href="{{ section.settings.btn1_link | default: '/products/dtf-transfers' }}">{{ section.settings.btn1_label }}</a>
         <a class="abt-btn abt-btn--ghost" href="{{ section.settings.btn2_link | default: '/pages/contact-us' }}">{{ section.settings.btn2_label }}</a>
       </div>
       {%- if section.settings.hero_text != blank -%}<p class="abt-text">{{ section.settings.hero_text }}</p>{%- endif -%}
@@ -139,15 +139,40 @@
       <p class="abt-text">{{ section.settings.focus_text }}</p>
 
       <div class="abt-cards">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'card' -%}
-            <div class="abt-card" {{ block.shopify_attributes }}>
-              <span class="abt-card-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></svg></span>
-              <h3>{{ block.settings.title }}</h3>
-              <p>{{ block.settings.text }}</p>
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'card' -%}
+
+    {% assign card_url = '#' %}
+
+    {% case block.settings.title %}
+      {% when 'DTF Transfers' %}
+        {% assign card_url = '/products/dtf-transfers' %}
+      {% when 'UV DTF Permastickers' %}
+        {% assign card_url = 'products/uv-dtf-perma-stickers' %}
+      {% when 'Gang Sheets' %}
+        {% assign card_url = 'products/premium-dtf-gang-sheets' %}
+      {% when 'Glitter & Foil DTF' %}
+        {% assign card_url = '/products/glitter-transfers' %}
+      {% when 'Puff Transfers' %}
+        {% assign card_url = '/products/puff-transfers' %}
+      {% when 'Glow in the Dark' %}
+        {% assign card_url = '/products/glow-in-the-dark-dtf' %}
+    {% endcase %}
+
+    <a href="{{ card_url }}" class="abt-card" {{ block.shopify_attributes }}>
+      <span class="abt-card-ic">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/>
+          <path d="M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/>
+        </svg>
+      </span>
+      <h3>{{ block.settings.title }}</h3>
+      <p>{{ block.settings.text }}</p>
+    </a>
+
+  {%- endif -%}
+{%- endfor -%}
+
       </div>
     </div>
 
