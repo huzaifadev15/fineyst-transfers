@@ -1,0 +1,175 @@
+{{ 'fineyst-cookie.css' | asset_url | stylesheet_tag }}
+<section class="fy-cookie" id="fineyst-refund-{{ section.id }}">
+ <div class="fy-cookie__wrap">
+  {% if section.settings.show_breadcrumb %}<nav class="fy-cookie__breadcrumbs" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">/</span>Cookie Policy</nav>{% endif %}
+  <header><div class="fy-cookie__eyebrow">{{ section.settings.eyebrow | escape }}</div><h1>{{ section.settings.heading | escape }}</h1><p class="fy-cookie__intro">{{ section.settings.introduction | escape | newline_to_br }}</p></header>
+  <div class="fy-cookie__rule"></div>
+  <div class="fy-cookie__layout">
+   {% if section.settings.show_navigation %}<aside class="fy-cookie__aside" aria-label="On this page"><div class="fy-cookie__aside-label">On this page</div><nav class="fy-cookie__nav" aria-label="Cookie policy sections">{% for block in section.blocks %}{% if block.type == 'policy' %}<a href="#fy-policy-{{ block.id }}">{{ forloop.index | prepend: '0' | slice: -2, 2 }} · {{ block.settings.title | escape }}</a>{% endif %}{% endfor %}{% if section.settings.show_cookie_table %}<a href="#fy-cookie-inventory">Cookie category reference</a>{% endif %}<a href="#fy-cookie-contact">Contact us</a></nav></aside>{% endif %}
+   <div class="fy-cookie__content">
+    {% assign policy_number = 0 %}
+    {% for block in section.blocks %}{% if block.type == 'policy' %}{% assign policy_number = policy_number | plus: 1 %}<article class="fy-cookie__policy" id="fy-policy-{{ block.id }}" {{ block.shopify_attributes }}><h2 class="fy-cookie__heading"><span class="fy-cookie__num">{{ policy_number | prepend: '0' | slice: -2, 2 }}</span><span>{{ block.settings.title | escape }}</span></h2><div class="fy-cookie__body rte">{{ block.settings.content }}</div></article>{% endif %}{% endfor %}
+    {% if section.settings.show_cookie_table %}
+    <article class="fy-cookie__policy" id="fy-cookie-inventory">
+      <h2 class="fy-cookie__heading"><span class="fy-cookie__num">{{ policy_number | plus: 1 | prepend: '0' | slice: -2, 2 }}</span><span>{{ section.settings.inventory_heading | escape }}</span></h2>
+      <div class="fy-cookie__body"><p>{{ section.settings.inventory_note | escape }}</p>
+        <div class="fy-cookie__table-scroll" role="region" tabindex="0" aria-label="Example cookie categories, scroll horizontally if needed">
+          <table class="fy-cookie__table">
+            <thead><tr><th scope="col">Category</th><th scope="col">Examples / providers</th><th scope="col">Typical purpose</th></tr></thead>
+            <tbody>
+              <tr><td>Essential</td><td>Shopify; cart, checkout and consent cookies</td><td>Cart, checkout, security and remembering cookie choices</td></tr>
+              <tr><td>Analytics</td><td>Shopify analytics; optional analytics providers</td><td>Visitor statistics and improving the storefront</td></tr>
+              <tr><td>Marketing</td><td>Optional advertising or social integrations</td><td>Measuring campaigns and relevant advertising</td></tr>
+              <tr><td>Payment and fraud prevention</td><td>Shopify Checkout; enabled payment providers</td><td>Payment security and fraud detection</td></tr>
+            </tbody>
+          </table>
+        </div><p class="fy-cookie__table-note">Examples above are illustrative, not an audited list of cookies active on this store. Exact names and lifetimes depend on your installed apps, provider setup and visitors' consent choices.</p>
+      </div>
+    </article>
+    {% endif %}
+    <div class="fy-cookie__contact" id="fy-cookie-contact"><h2>{{ section.settings.contact_heading | escape }}</h2><p>{{ section.settings.contact_text | escape }}</p>{% if section.settings.contact_email != blank %}<p>Email: <a href="mailto:{{ section.settings.contact_email | escape }}">{{ section.settings.contact_email | escape }}</a></p>{% elsif shop.email != blank %}<p>Email: <a href="mailto:{{ shop.email | escape }}">{{ shop.email | escape }}</a></p>{% endif %}<p>Website: <a href="{{ shop.url }}">{{ shop.name | escape }}</a></p></div>
+    {% if section.settings.show_tip %}<div class="fy-cookie__tip"><strong>{{ section.settings.tip_title | escape }}</strong><p>{{ section.settings.tip_text | escape }}</p></div>{% endif %}
+    <div class="fy-cookie__cta"><div><h2>{{ section.settings.cta_heading | escape }}</h2><p>{{ section.settings.cta_text | escape }}</p></div><a class="fy-cookie__button" href="{{ section.settings.cta_url | default: '/pages/contact' }}">{{ section.settings.cta_label | escape }} →</a></div>
+   </div>
+  </div>
+ </div>
+</section>
+{% schema %}
+{
+  "name": "Fineyst Cookies",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Show sticky section navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "FINEYST TRANSFERS / PRIVACY & COOKIES"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Page title",
+      "default": "Cookie Policy"
+    },
+    {
+      "type": "textarea",
+      "id": "introduction",
+      "label": "Introduction",
+      "default": "This Cookie Policy explains how Fineyst Transfers uses cookies and similar technologies to operate our online store, remember preferences, support checkout, measure performance, and (where enabled and permitted) personalize marketing."
+    },
+    {
+      "type": "text",
+      "id": "contact_heading",
+      "label": "Contact heading",
+      "default": "Questions About Cookies?"
+    },
+    {
+      "type": "textarea",
+      "id": "contact_text",
+      "label": "Contact description",
+      "default": "If you have questions about how Fineyst Transfers uses cookies or personal information, contact our support team. For information about personal data, please also read our Privacy Policy."
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Support email (leave blank to use Shopify store email)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tip",
+      "label": "Show pro tip",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tip_title",
+      "label": "Tip heading",
+      "default": "YOUR COOKIE CHOICES"
+    },
+    {
+      "type": "textarea",
+      "id": "tip_text",
+      "label": "Tip copy",
+      "default": "You can adjust supported cookie preferences using the privacy or cookie settings presented on our store, if available. You can also manage cookies in your browser. Blocking necessary cookies can affect cart or checkout functionality."
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "Support CTA heading",
+      "default": "Need Help With Your Privacy Choices?"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_text",
+      "label": "Support CTA copy",
+      "default": "Contact Fineyst Transfers for help understanding this policy or finding relevant privacy information."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Contact Fineyst Support"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cookie_table",
+      "label": "Show example cookie categories table",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "inventory_heading",
+      "label": "Example cookie categories heading",
+      "default": "Cookie Category Reference"
+    },
+    {
+      "type": "textarea",
+      "id": "inventory_note",
+      "label": "Cookie categories introduction",
+      "default": "The following examples show how common e-commerce cookies can be used. This is not a live scan or verified cookie inventory for Fineyst Transfers."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "policy",
+      "name": "Policy section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Section heading",
+          "default": "Policy heading"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Policy content",
+          "default": "<p>Add policy text here.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [
+    {
+      "name": "Fineyst Cookie Policy"
+    }
+  ]
+}
+{% endschema %}
