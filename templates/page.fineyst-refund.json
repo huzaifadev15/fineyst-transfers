@@ -1,0 +1,118 @@
+{
+  "sections": {
+    "main": {
+      "type": "fineyst-refund",
+      "settings": {
+        "show_breadcrumb": true,
+        "show_navigation": true,
+        "heading": "Refund & Returns Policy",
+        "eyebrow": "FINEYST TRANSFERS / RETURNS & ORDER SUPPORT",
+        "introduction": "We want you to feel confident ordering from Fineyst Transfers. This page explains how we review returns, printing issues, order changes, and refund requests for DTF transfers, UV DTF stickers, custom gang sheets, and apparel.",
+        "contact_heading": "Contact Our Support Team",
+        "contact_text": "For return or refund questions, include your order number and a clear description of the issue. If possible, attach photos of the affected item.",
+        "contact_email": "info@fineysttransfers.com",
+        "show_tip": true,
+        "tip_title": "BEFORE YOU ORDER",
+        "tip_text": "Review your artwork and specifications carefully. For DTF and UV DTF products, follow the correct application instructions before use.",
+        "cta_heading": "Have Questions About Refunds?",
+        "cta_text": "We can help review an order issue and explain available return, replacement or refund options.",
+        "cta_label": "Contact Fineyst Support"
+      },
+      "blocks": {
+        "refund_01": {
+          "type": "policy",
+          "settings": {
+            "title": "Refund Policy: Stock & Non-Custom Items",
+            "content": "<p>For eligible stock or non-custom items, returns may be available when the item is unused, unwashed, in its original condition, and accompanied by order details. The applicable return window and any exclusions must be confirmed by Fineyst Transfers before you send an item back.</p><p>Contact our support team first to request authorization and instructions. Do not ship an item to us without receiving return instructions.</p>"
+          }
+        },
+        "refund_02": {
+          "type": "policy",
+          "settings": {
+            "title": "Custom Orders & Printed Transfers",
+            "content": "<p>DTF transfers, UV DTF stickers, uploaded gang sheets, custom-sized designs, and print-on-blank orders are produced to customer specifications. Because these products are personalized, change-of-mind returns or refunds may be limited once production begins.</p><p>However, if an order is incorrect, damaged, or has a verified manufacturing defect, contact us so we can review the issue. This policy does not limit rights or remedies required under applicable law.</p>"
+          }
+        },
+        "refund_03": {
+          "type": "policy",
+          "settings": {
+            "title": "Return Requests & Eligibility",
+            "content": "<p>If you believe an item is eligible for a return, contact Fineyst Transfers promptly after delivery. Provide your order number, a description of the concern, and photos showing the product and packaging if relevant.</p><p>Our team will confirm whether a return is necessary and provide instructions. Keep any affected items and packaging until the issue is reviewed. The return eligibility window, address, and responsibility for postage will be communicated for the specific request.</p>"
+          }
+        },
+        "refund_04": {
+          "type": "policy",
+          "settings": {
+            "title": "Printing Variations & Artwork Accuracy",
+            "content": "<p>Screen colors and printed colors can differ because of monitor settings, material, artwork and printing processes. Minor production variations may occur, but they do not automatically mean that a product is defective.</p><p>Please verify artwork resolution, transparency, spelling, orientation, gang-sheet layout, dimensions and quantities before placing an order. If a proof is specifically provided, carefully review and approve it before production; not every order includes a separate proof.</p>"
+          }
+        },
+        "refund_05": {
+          "type": "policy",
+          "settings": {
+            "title": "Defective, Damaged, or Incorrect Products",
+            "content": "<p>If your order arrives damaged, appears defective, has missing pieces, or differs from the confirmed order specifications, contact us as soon as possible. Include your order number, clear photos and a description of the issue.</p><p>We may ask for additional evidence, inspection or return of affected products. Following review, we will explain any available remake, replacement, correction, or refund option, subject to applicable law.</p>"
+          }
+        },
+        "refund_06": {
+          "type": "policy",
+          "settings": {
+            "title": "Inspection & Resolution",
+            "content": "<p>Reported defects are reviewed against the approved or submitted design, selected product, order specifications and reasonable printing tolerances. A claim may require a review of the actual transfer or garment and how it was stored or applied.</p><p>Where a manufacturing error is confirmed, we will discuss an appropriate resolution. No specific defect-percentage threshold or fixed remake timeline is promised by this draft policy.</p>"
+          }
+        },
+        "refund_07": {
+          "type": "policy",
+          "settings": {
+            "title": "Order Changes & Cancellations",
+            "content": "<p>Custom printing can enter production soon after an order is accepted. If you need to change or cancel an order, contact our team immediately with the order number.</p><p>Changes or cancellation may not be possible after artwork has been prepared, printing has started, or an order has shipped. Any available refund or adjustment will depend on the stage of fulfillment and applicable law. Contact us for confirmation rather than assuming a cancellation has been accepted.</p>"
+          }
+        },
+        "refund_08": {
+          "type": "policy",
+          "settings": {
+            "title": "Return Shipping & Fees",
+            "content": "<p>Do not return items without instructions from Fineyst Transfers. If an approved return is needed, we will communicate the return address, whether a label is provided, and any shipping costs before you send the package.</p><p>We have not included a standard restocking fee or credit-card cancellation fee in this draft because these charges should only be published if Fineyst Transfers actually applies and discloses them.</p>"
+          }
+        },
+        "refund_09": {
+          "type": "policy",
+          "settings": {
+            "title": "Shipping Errors & Missing Items",
+            "content": "<p>If you receive a different product or quantity from what your confirmed order specifies, contact us promptly with photos of the contents, shipping label and packing materials, if available.</p><p>We will review the order and shipment information and explain the next steps. For transit damage or delivery problems, please also consult our Shipping Policy.</p>"
+          }
+        },
+        "refund_10": {
+          "type": "policy",
+          "settings": {
+            "title": "Refund Approval & Processing",
+            "content": "<p>Once a refund is approved, it is generally issued through the original payment method when supported. Your bank or payment provider may require additional time to display the credit.</p><p>We will communicate the approved amount and any relevant next steps. Processing times are estimates, not guaranteed bank posting times.</p>"
+          }
+        },
+        "refund_11": {
+          "type": "policy",
+          "settings": {
+            "title": "Application, Care & Customer Handling",
+            "content": "<p>DTF heat transfers and UV DTF adhesive stickers use different application methods. Follow the applicable product instructions, including equipment, temperature, pressure, surface preparation, peel technique and care guidance.</p><p>Problems caused by incompatible materials, improper application, storage or washing may not be manufacturing defects. Contact support if you need guidance before applying a transfer.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "refund_01",
+        "refund_02",
+        "refund_03",
+        "refund_04",
+        "refund_05",
+        "refund_06",
+        "refund_07",
+        "refund_08",
+        "refund_09",
+        "refund_10",
+        "refund_11"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
