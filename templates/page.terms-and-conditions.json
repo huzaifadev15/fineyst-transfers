@@ -1,0 +1,95 @@
+{
+  "sections": {
+    "main": {
+      "type": "fineyst-terms-conditions",
+      "settings": {
+        "heading": "Terms & Conditions",
+        "introduction": "<p>Welcome to Fineyst. By accessing our website or placing an order with us, you agree to these Terms and Conditions.</p><p>Please read these terms carefully before submitting your order.</p>",
+        "content_width": 900,
+        "accent_color": "#111111",
+        "show_contact": true,
+        "contact_heading": "Contact Us",
+        "contact_description": "If you have questions or need clarification regarding our Terms & Conditions, please contact our team:",
+        "contact_email": "support@example.com",
+        "contact_phone": "",
+        "website_url": "",
+        "show_cta": true,
+        "cta_heading": "Have Questions About Our Terms?",
+        "cta_text": "Our customer service team is ready to assist you with any questions about our terms and conditions.",
+        "cta_button": "Contact Fineyst Support",
+        "cta_link": "/pages/contact"
+      },
+      "blocks": {
+        "policy_1": {
+          "type": "policy",
+          "settings": {
+            "heading": "1. Direct Checkout Orders & Artwork Approval",
+            "body": "<p>Customers are responsible for reviewing all artwork, text, colors, sizes, quantities, uploaded files, and other order specifications before checkout. Where our product page explicitly states that an order is print-ready or does not require separate proof approval, submitting the order authorizes us to begin production using the supplied files.</p><p>If a proof is offered or required for a particular product, follow the approval instructions communicated with that proof. Contact us immediately if you notice a significant problem. Once production begins, changes or cancellations may not be possible.</p>"
+          }
+        },
+        "policy_2": {
+          "type": "policy",
+          "settings": {
+            "heading": "2. Order Acceptance & Process",
+            "body": "<p>All orders are subject to review and acceptance. We may contact you about unusable artwork, missing information, production limitations, or order details before proceeding.</p><p>It is your responsibility to verify the following:</p><ul><li>Artwork, names, spelling, and layout</li><li>Size, quantity, colors, and placement</li><li>Product type, material, and application method</li><li>Shipping address and contact information</li></ul>"
+          }
+        },
+        "policy_3": {
+          "type": "policy",
+          "settings": {
+            "heading": "3. Pricing, Payment & Currency",
+            "body": "<p>Unless stated otherwise, prices are shown in U.S. dollars. The final price may depend on product type, size, quantity, finishing options, and shipping selections.</p><p>Payment is generally required before production. Any separately negotiated wholesale or business payment terms must be confirmed in writing.</p>"
+          }
+        },
+        "policy_4": {
+          "type": "policy",
+          "settings": {
+            "heading": "4. Artwork Files & Revisions",
+            "body": "<p>Upload clear, correctly sized, print-ready artwork that you are authorized to use. Colors on screens may differ from printed results, and production methods have practical limitations.</p><p>If our team provides a proof, review it carefully. Revisions are subject to the product-specific terms and production status. We cannot guarantee changes once an order enters production.</p>"
+          }
+        },
+        "policy_5": {
+          "type": "policy",
+          "settings": {
+            "heading": "5. Production & Shipping",
+            "body": "<p>Production and delivery estimates displayed at checkout or on product pages are estimates, not guaranteed arrival dates, unless expressly stated otherwise. Processing, carrier transit, weather, and high-volume periods can affect delivery.</p><p>Customers must provide complete and correct shipping details. Please refer to our published Shipping Policy for available shipping methods and applicable procedures.</p>"
+          }
+        },
+        "policy_6": {
+          "type": "policy",
+          "settings": {
+            "heading": "6. Cancellations, Refunds & Order Issues",
+            "body": "<p>Custom and made-to-order products may become non-cancellable once production begins. Returns, replacements, refunds, and claims are handled according to our published Refund Policy and applicable law.</p><p>If your order arrives damaged, defective, or materially different from what you ordered, contact our support team promptly with your order number and clear photographs so we can review the issue.</p>"
+          }
+        },
+        "policy_7": {
+          "type": "policy",
+          "settings": {
+            "heading": "7. Intellectual Property & Usage Rights",
+            "body": "<p>By uploading artwork or placing a custom order, you represent that you own the design or have permission to reproduce it. You remain responsible for securing any necessary trademarks, copyright licenses, or other rights.</p><p>We may decline orders that violate law, third-party rights, or our content standards. We will not publicly showcase customer artwork when a confidentiality agreement or other written restriction applies.</p>"
+          }
+        },
+        "tip": {
+          "type": "tip",
+          "settings": {
+            "heading": "Pro Tip",
+            "body": "<p>For the best results, double-check your artwork, dimensions, colors, and application instructions before placing an order.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "policy_1",
+        "policy_2",
+        "policy_3",
+        "policy_4",
+        "policy_5",
+        "policy_6",
+        "policy_7",
+        "tip"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
