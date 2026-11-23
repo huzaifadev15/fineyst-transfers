@@ -754,10 +754,37 @@ body.template-index main { padding-top: 0; }
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
-.search-overlay-logo { height: 40px; }
-.search-close-btn {
-  background: none; border: none; color: #fff; cursor: pointer;
-  padding: 6px; display: flex; opacity: 0.7; transition: opacity 0.2s;
+/* Search popup logo fix */
+.search-overlay .search-overlay-logo {
+  display: block;
+  width: 180px !important;
+  height: auto !important;
+  max-width: 100%;
+  max-height: 65px;
+  object-fit: contain !important;
+  object-position: left center;
+  flex-shrink: 0;
+}
+
+.search-overlay .search-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 80px;
+  padding: 15px 30px;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .search-overlay .search-overlay-logo {
+    width: 145px !important;
+  }
+
+  .search-overlay .search-overlay-header {
+    min-height: 70px;
+    padding: 12px 16px;
+  }
 }
 .search-overlay-body {
   flex: 1; overflow: hidden; display: flex; flex-direction: column;
