@@ -1,0 +1,139 @@
+{{ 'fineyst-refund.css' | asset_url | stylesheet_tag }}
+<section class="fy-refund" id="fineyst-refund-{{ section.id }}">
+ <div class="fy-refund__wrap">
+  {% if section.settings.show_breadcrumb %}<nav class="fy-refund__breadcrumbs" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">/</span>Refund &amp; Returns Policy</nav>{% endif %}
+  <header><div class="fy-refund__eyebrow">{{ section.settings.eyebrow | escape }}</div><h1>{{ section.settings.heading | escape }}</h1><p class="fy-refund__intro">{{ section.settings.introduction | escape | newline_to_br }}</p></header>
+  <div class="fy-refund__rule"></div>
+  <div class="fy-refund__layout">
+   {% if section.settings.show_navigation %}<aside class="fy-refund__aside" aria-label="On this page"><div class="fy-refund__aside-label">On this page</div><nav class="fy-refund__nav" aria-label="Refund policy sections">{% for block in section.blocks %}{% if block.type == 'policy' %}<a href="#fy-policy-{{ block.id }}">{{ forloop.index | prepend: '0' | slice: -2, 2 }} · {{ block.settings.title | escape }}</a>{% endif %}{% endfor %}<a href="#fy-refund-contact">Contact us</a></nav></aside>{% endif %}
+   <div class="fy-refund__content">
+    {% assign policy_number = 0 %}
+    {% for block in section.blocks %}{% if block.type == 'policy' %}{% assign policy_number = policy_number | plus: 1 %}<article class="fy-refund__policy" id="fy-policy-{{ block.id }}" {{ block.shopify_attributes }}><h2 class="fy-refund__heading"><span class="fy-refund__num">{{ policy_number | prepend: '0' | slice: -2, 2 }}</span><span>{{ block.settings.title | escape }}</span></h2><div class="fy-refund__body rte">{{ block.settings.content }}</div></article>{% endif %}{% endfor %}
+    <div class="fy-refund__contact" id="fy-refund-contact"><h2>{{ section.settings.contact_heading | escape }}</h2><p>{{ section.settings.contact_text | escape }}</p>{% if section.settings.contact_email != blank %}<p>Email: <a href="mailto:{{ section.settings.contact_email | escape }}">{{ section.settings.contact_email | escape }}</a></p>{% elsif shop.email != blank %}<p>Email: <a href="mailto:{{ shop.email | escape }}">{{ shop.email | escape }}</a></p>{% endif %}<p>Website: <a href="{{ shop.url }}">{{ shop.name | escape }}</a></p></div>
+    {% if section.settings.show_tip %}<div class="fy-refund__tip"><strong>{{ section.settings.tip_title | escape }}</strong><p>{{ section.settings.tip_text | escape }}</p></div>{% endif %}
+    <div class="fy-refund__cta"><div><h2>{{ section.settings.cta_heading | escape }}</h2><p>{{ section.settings.cta_text | escape }}</p></div><a class="fy-refund__button" href="{{ section.settings.cta_url | default: '/pages/contact' }}">{{ section.settings.cta_label | escape }} →</a></div>
+   </div>
+  </div>
+ </div>
+</section>
+{% schema %}
+{
+  "name": "Fineyst Refund",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Show sticky section navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "FINEYST TRANSFERS / RETURNS & ORDER SUPPORT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Page title",
+      "default": "Refund & Returns Policy"
+    },
+    {
+      "type": "textarea",
+      "id": "introduction",
+      "label": "Introduction",
+      "default": "Welcome to Fineyst Transfers. These Refund & Returns Policy explain important information about ordering custom DTF transfers, UV DTF stickers, gang sheets, and other products from our store. Please review them carefully before placing an order."
+    },
+    {
+      "type": "text",
+      "id": "contact_heading",
+      "label": "Contact heading",
+      "default": "Contact Us"
+    },
+    {
+      "type": "textarea",
+      "id": "contact_text",
+      "label": "Contact description",
+      "default": "Need help with a refund or an order issue? Include your order number, product details and clear photos when relevant."
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Support email (leave blank to use Shopify store email)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tip",
+      "label": "Show pro tip",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tip_title",
+      "label": "Tip heading",
+      "default": "PRO TIP"
+    },
+    {
+      "type": "textarea",
+      "id": "tip_text",
+      "label": "Tip copy",
+      "default": "Please check the uploaded design, selected sizes, spelling, order quantity and application requirements before submitting a custom-print order."
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "Support CTA heading",
+      "default": "Questions About Returns or Refunds?"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_text",
+      "label": "Support CTA copy",
+      "default": "Our support team can review order issues and help explain the available next steps."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Contact Refund Support"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "policy",
+      "name": "Policy section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Section heading",
+          "default": "Policy heading"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Policy content",
+          "default": "<p>Add policy text here.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [
+    {
+      "name": "Fineyst Refund"
+    }
+  ]
+}
+{% endschema %}
