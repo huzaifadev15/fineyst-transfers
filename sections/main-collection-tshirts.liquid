@@ -174,7 +174,10 @@
     <nav class="coll-catnav">
       <div class="coll-wide coll-catnav-inner">
         {%- for block in nav_blocks -%}
-          <a href="{{ block.settings.link }}" class="coll-cat-card{% if block.settings.link contains collection.handle %} is-active{% endif %}" {{ block.shopify_attributes }}>
+
+{%- assign active_collection_url = collection.url | split: '?' | first | remove: '/' -%}
+{%- assign nav_collection_url = block.settings.link | split: '?' | first | remove: '/' -%}
+<a href="{{ block.settings.link }}" class="coll-cat-card{% if nav_collection_url == active_collection_url %} is-active{% endif %}" {{ block.shopify_attributes }}>
             <span class="coll-cat-icon">
               {%- if block.settings.image -%}
                 {{ block.settings.image | image_url: width: 96 | image_tag: loading: 'lazy', alt: block.settings.label, width: 48, height: 48 }}
