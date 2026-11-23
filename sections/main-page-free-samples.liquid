@@ -12,21 +12,37 @@
     </div>
 
     <div class="fs-hero-content">
-      <span class="fs-badge">FREE</span>
-      <h1>Free DTF Transfers &amp; UV DTF PermaStickers Sample Pack</h1>
-      <div class="fs-hero-meta">
-        <span>Free US shipping</span>
-        <span class="fs-dot">&bull;</span>
-        <span>Delivered in 3&ndash;5 days</span>
-      </div>
+      
+<span class="fs-badge">FREE SAMPLE PACK</span>
 
-      <p>Try our Free Premium DTF Transfer Sample Pack to experience the benefits of DTF transfers firsthand. You'll receive a selection of transfers that demonstrate why DTF beats other decoration methods.</p>
-      <p>Also included is our UV DTF PermaStickers Sample Pack, so you can see for yourself how these stickers apply to almost any hard surface. Once you try them, we know you'll be back for more.</p>
+<h1>Free DTF Transfers &amp; UV DTF Sticker Samples</h1>
 
-      <div class="fs-tabs" role="tablist">
-        <button type="button" class="fs-tab is-active" data-fs-tab="transfers">Transfers &mdash; Press on Anything</button>
-        <button type="button" class="fs-tab" data-fs-tab="uv">UV &mdash; Apply to Any Hard Surface</button>
-      </div>
+<div class="fs-hero-meta">
+  <span>Free US Shipping</span>
+  <span class="fs-dot">&bull;</span>
+  <span>Delivered in 3–5 Days</span>
+</div>
+
+
+      <p>Try Fineyst before placing your first order! Get a free sample pack of ready-to-press DTF transfers and experience vibrant colors, sharp details, and professional print quality on compatible apparel.</p>
+      <p>Explore our UV DTF sticker samples for tumblers, glass, metal, and other compatible hard surfaces. See the print quality and finish for yourself before ordering custom transfers.</p>
+      
+<div class="fs-tabs" role="tablist">
+  <button
+    type="button"
+    class="fs-tab is-active"
+    data-fs-tab="transfers">
+    DTF Transfers — Heat Press Application
+  </button>
+
+  <button
+    type="button"
+    class="fs-tab"
+    data-fs-tab="uv">
+    UV DTF Stickers — No Heat Press Needed
+  </button>
+</div>
+
 
       {% form 'contact', id: 'fsSampleForm', class: 'fs-form' %}
         {%- if form.errors -%}
@@ -41,21 +57,40 @@
           <div class="fs-progress-bar"><div class="fs-progress-fill" id="fsProgressFill"></div></div>
         </div>
 
-        <label class="fs-question" for="fsApplyHeat">What do you use to apply your transfers? <span class="fs-required">(Required)</span></label>
-        <div class="fs-options" role="radiogroup">
-          <label class="fs-option">
-            <input type="radio" name="contact[Application method]" value="Heat Press" id="fsApplyHeat" required>
-            <span>Heat Press</span>
-          </label>
-          <label class="fs-option">
-            <input type="radio" name="contact[Application method]" value="Handheld Press (like Cricut)">
-            <span>Handheld Press (like Cricut)</span>
-          </label>
-          <label class="fs-option">
-            <input type="radio" name="contact[Application method]" value="Household Iron">
-            <span>Household Iron</span>
-          </label>
-        </div>
+        
+<label class="fs-question" for="fsApplyHeat">
+  What equipment will you use to apply your transfers?
+  <span class="fs-required">(Required)</span>
+</label>
+
+<div class="fs-options" role="radiogroup">
+  <label class="fs-option">
+    <input
+      type="radio"
+      name="contact[Application method]"
+      value="Heat Press"
+      id="fsApplyHeat"
+      required>
+    <span>Heat Press</span>
+  </label>
+
+  <label class="fs-option">
+    <input
+      type="radio"
+      name="contact[Application method]"
+      value="Handheld Heat Press">
+    <span>Handheld Heat Press</span>
+  </label>
+
+  <label class="fs-option">
+    <input
+      type="radio"
+      name="contact[Application method]"
+      value="Household Iron">
+    <span>Household Iron</span>
+  </label>
+</div>
+
 
         <div class="fs-ship-fields" id="fsShipFields" hidden>
           <div class="fs-field-row">
@@ -74,7 +109,7 @@
           </div>
         </div>
 
-        <button type="submit" class="fs-submit" id="fsSubmitBtn" disabled>Ship My Free Sample Pack</button>
+        <button type="submit" class="fs-submit" id="fsSubmitBtn" disabled>Get My Free Sample Pack</button>
         <p class="fs-disclaimer">Limit one per household. No credit card. No subscription. 100% free!</p>
       {% endform %}
     </div>
