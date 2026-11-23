@@ -4788,8 +4788,27 @@ body.template-index .scroll-reviews-title {
 }
 
 
-.abt-card {
-  display: block;
-  text-decoration: none;
+.process-step p a {
   color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: #82C341;
+  text-underline-offset: 3px;
+}
+
+.process-step p a:hover {
+  color: #104241;
+}
+
+
+.media-split-text a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: #82C341;
+  text-underline-offset: 3px;
+}
+
+.media-split-text a:hover {
+  color: #104241;
 }

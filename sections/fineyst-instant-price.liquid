@@ -76,11 +76,31 @@
     .fx-size{flex-direction:column;gap:2px;padding:10px;font-size:13px}
     .fx-size span{font-size:12px}
   }
+
+  .fx-wrap .fx-head p a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: #82C341;
+  text-underline-offset: 3px;
+}
+
+.fx-wrap .fx-head p a:hover {
+  color: #104241;
+}
 </style>
 
 <div class="fx-head">
   <h2>{{ section.settings.heading | escape }}</h2>
-  <p>{{ section.settings.subheading | escape }}</p>
+  {%- assign price_seo_text = section.settings.subheading | escape -%}
+
+{%- assign price_seo_text = price_seo_text
+  | replace: 'custom DTF transfers', '<a href="/products/dtf-transfers">custom DTF transfers</a>'
+  | replace: 'UV DTF transfers', '<a href="/products/uv-dtf-perma-stickers">UV DTF transfers</a>'
+  | replace: 'gang sheets', '<a href="/products/premium-dtf-gang-sheets">gang sheets</a>'
+-%}
+
+<p>{{ price_seo_text }}</p>
 </div>
 
 <div class="fx-card">
@@ -197,8 +217,19 @@ if (H > 22) {
     render();
   });
   }
-  init(document);
-  document.addEventListener('shopify:section:load', function(event){ init(event.target); });
+    function startCalculator() {
+    init(document);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startCalculator, { once: true });
+  } else {
+    startCalculator();
+  }
+
+  document.addEventListener('shopify:section:load', function() {
+    init(document);
+  });
 })();
 </script>
 </section>

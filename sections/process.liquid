@@ -23,8 +23,23 @@
               <div class="process-media-placeholder"></div>
             {% endif %}
           </div>
-          <h3>{{ block.settings.title }}</h3>
-          <p>{{ block.settings.text }}</p>
+          <h3>{{ block.settings.title | escape }}</h3>
+
+{%- assign process_text = block.settings.text | escape -%}
+
+{%- if forloop.first -%}
+  {%- assign process_text = process_text
+    | replace: 'custom DTF transfers', '<a href="/products/dtf-transfers">custom DTF transfers</a>'
+  -%}
+{%- endif -%}
+
+{%- if forloop.last -%}
+  {%- assign process_text = process_text
+    | replace: 'Press at 310°F', '<a href="/pages/pressing-instructions">Press at 310°F</a>'
+  -%}
+{%- endif -%}
+
+<p>{{ process_text }}</p>
         </li>
       {% endfor %}
     </ol>
