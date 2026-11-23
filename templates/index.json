@@ -554,7 +554,7 @@
             "title": "Upload a DTF Gang Sheet",
             "price_note": "As low as $0.02 per sq. inch",
             "text": "Already have a print-ready gang sheet? Upload your AI, PNG, or PDF file and order high-quality DTF gang sheet printing online.",
-            "link": "/pages/upload-gang-sheet",
+            "link": "shopify://products/premium-dtf-gang-sheets",
             "cta": "Upload DTF Gang Sheet"
           }
         }
