@@ -44,8 +44,15 @@
           </header>
 
           {%- if section.settings.description != blank -%}
-            <div class="hero-desc">{{ section.settings.description | escape | newline_to_br }}</div>
-          {%- endif -%}
+  {%- assign seo_desc = section.settings.description | escape | newline_to_br -%}
+
+  {%- assign seo_desc = seo_desc
+    | replace: 'DTF transfers', '<a href="/products/dtf-transfers">DTF transfers</a>'
+    | replace: 'gang sheet', '<a href="/products/premium-dtf-gang-sheets">gang sheet</a>'
+  -%}
+
+  <div class="hero-desc">{{ seo_desc }}</div>
+{%- endif -%}
 
           <nav class="hero-btns" aria-label="Hero links">
             {%- if section.settings.primary_label != blank -%}
