@@ -4812,3 +4812,10 @@ body.template-index .scroll-reviews-title {
 .media-split-text a:hover {
   color: #104241;
 }
+
+
+
+.explainer {
+  padding-bottom: 20px !important;
+  margin-bottom: 0 !important;
+}
