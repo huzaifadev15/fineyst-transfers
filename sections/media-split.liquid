@@ -2,9 +2,15 @@
   <div class="container media-split-inner">
     <div class="media-split-copy">
       <h2>{{ section.settings.heading }}</h2>
-      {% if section.settings.text != blank %}
-        <div class="media-split-text">{{ section.settings.text }}</div>
-      {% endif %}
+    {% if section.settings.text != blank %}
+  {%- assign media_seo_text = section.settings.text -%}
+
+  {%- assign media_seo_text = media_seo_text
+    | replace: 'ready-to-press DTF transfers', '<a href="/products/dtf-transfers">ready-to-press DTF transfers</a>'
+  -%}
+
+  <div class="media-split-text">{{ media_seo_text }}</div>
+{% endif %}
       {% if section.settings.cta_label != blank %}
         <a class="btn-blue" href="{{ section.settings.cta_link | default: '#' }}">{{ section.settings.cta_label }}</a>
       {% endif %}
