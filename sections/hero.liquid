@@ -44,8 +44,15 @@
           </header>
 
           {%- if section.settings.description != blank -%}
-            <div class="hero-desc">{{ section.settings.description | escape | newline_to_br }}</div>
-          {%- endif -%}
+  {%- assign seo_desc = section.settings.description | escape | newline_to_br -%}
+
+  {%- assign seo_desc = seo_desc
+    | replace: 'DTF transfers', '<a href="/products/dtf-transfers">DTF transfers</a>'
+    | replace: 'gang sheet', '<a href="/products/premium-dtf-gang-sheets">gang sheet</a>'
+  -%}
+
+  <div class="hero-desc">{{ seo_desc }}</div>
+{%- endif -%}
 
           <nav class="hero-btns" aria-label="Hero links">
             {%- if section.settings.primary_label != blank -%}
@@ -536,6 +543,24 @@
     text-decoration: none !important;
     border-bottom: 0 !important;
   }
+
+
+
+
+#shopify-section-{{ section.id }} .hero-desc a {
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: #82C341;
+  text-underline-offset: 3px;
+}
+
+#shopify-section-{{ section.id }} .hero-desc a:hover {
+  color: #104241;
+  -webkit-text-fill-color: #104241;
+}
+
 </style>
 
 {% schema %}
